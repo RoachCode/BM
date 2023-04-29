@@ -21,6 +21,13 @@
   <ItemGroup>
     <ClCompile Include="Engine\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\filesys.h" />
+    <ClInclude Include="Engine\window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ImageRes\TILE.bmp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
