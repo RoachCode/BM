@@ -407,3 +407,12 @@ ImageRes/
 .vs/slnx.sqlite
 
 Release/*
+.vs/BM/v17/.wsuo
+.vs/BM/v17/Browse.VC.db
+.vs/Broken Mirror v2/v17/Browse.VC.db
+.vs/Broken Mirror v2/v17/ipch/AutoPCH/47f580c9218428af/MAIN.ipch
+.vs/slnx.sqlite
+*.ipch
+.vs/BM/v17/workspaceFileList.bin
+.vs/Broken Mirror v2/v17/.suo
+.vs/VSWorkspaceState.json
