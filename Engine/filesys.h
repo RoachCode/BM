@@ -1,3 +1,2 @@
 #pragma once
-#include <filesystem>
-
+extern const std::string getLocalPath();
