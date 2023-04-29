@@ -112,8 +112,8 @@ C:\Users\Windows\Documents\GitHub\Broken Mirror v2\BM\Engine\main.cpp(45,53): wa
               T=float
           ]
   Generating code
-  7 of 299 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
+  0 of 299 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    60 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Broken Mirror v2.vcxproj -> C:\Users\Windows\Documents\GitHub\Broken Mirror v2\BM\Release\Broken Mirror v2.exe
