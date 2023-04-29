@@ -93,13 +93,13 @@ int main()
     };
 
     sf::Image tileImage;
-    TileMap tileMap;
     tileImage.loadFromFile("C:/TileMaster/TILE.bmp");
     //tileImage.loadFromFile(LOCAL_PATH + "/ImageRes/TILE.bmp");
     tileImage.createMaskFromColor(sf::Color(237, 28, 36, 255), 0);
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
-    
+
+    TileMap tileMap;    
     tileMap.load(tileImage, sf::Vector2u(32, 32), mapArray, 24, 14);
     tileMap.setPosition(0.f, 0.f);
 
