@@ -399,3 +399,9 @@ FodyWeavers.xsd
 
 ImageRes/
 *.ipch
+.vs/BM/v17/.wsuo
+.vs/BM/v17/Browse.VC.db
+.vs/Broken Mirror v2/v17/.suo
+.vs/Broken Mirror v2/v17/Browse.VC.db
+.vs/Broken Mirror v2/v17/ipch/AutoPCH/47f580c9218428af/MAIN.ipch
+.vs/slnx.sqlite
