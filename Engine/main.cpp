@@ -94,8 +94,8 @@ int main()
 
     sf::Image tileImage;
     TileMap tileMap;
-    //tileImage.loadFromFile("C:/TileMaster/TILE.bmp");
-    tileImage.loadFromFile(LOCAL_PATH + "/ImageRes/TILE.bmp");
+    tileImage.loadFromFile("C:/TileMaster/TILE.bmp");
+    //tileImage.loadFromFile(LOCAL_PATH + "/ImageRes/TILE.bmp");
     tileImage.createMaskFromColor(sf::Color(237, 28, 36, 255), 0);
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
