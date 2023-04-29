@@ -23,5 +23,13 @@
     <ClInclude Include="Engine\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\filesys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ImageRes\TILE.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
