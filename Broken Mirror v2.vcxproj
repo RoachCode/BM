@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\constExpressions.h" />
-    <ClInclude Include="Engine\events.h" />
     <ClInclude Include="Engine\filesys.h" />
     <ClInclude Include="Engine\maps.h" />
     <ClInclude Include="Engine\tilemap.h" />

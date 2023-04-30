@@ -1,7 +1,7 @@
 #pragma once
 #include "constExpressions.h"
 
-unsigned short mapArray[MAP_SIZE] =
+unsigned short mapArray[TILES_PER_MAP_COUNT] =
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 87, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0, 0, 0, 25, 25, 13, 13, 13, 0, 0, 0, 0, 0, 28, 20, 20, 20, 20, 20, 20, 20,

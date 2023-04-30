@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "constExpressions.h"
 
 extern class Window : public sf::RenderWindow
 {
@@ -12,4 +13,5 @@ public:
 	sf::View view;
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
 	Window();
+	void pollEvents();
 };
