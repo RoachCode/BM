@@ -1,1 +1,1 @@
-extern unsigned short mapArray[336];
+extern unsigned short westKagar00a[336];

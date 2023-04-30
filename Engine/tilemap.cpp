@@ -55,7 +55,7 @@ TileMap::TileMap()
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
 
     //default load-in
-    this->load(mapArray);
+    this->load(westKagar00a);
     this->setPosition(0.f, 0.f);
 }
 
