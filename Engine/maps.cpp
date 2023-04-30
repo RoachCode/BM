@@ -1,4 +1,5 @@
-constexpr int MAP_SIZE{ 336 };
+#pragma once
+#include "constExpressions.h"
 
 unsigned short mapArray[MAP_SIZE] =
 {

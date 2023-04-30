@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Window : public sf::RenderWindow
+extern class Window : public sf::RenderWindow
 {
 public:
 	// Inherit constructor from sf::RenderWindow

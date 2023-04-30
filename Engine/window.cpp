@@ -9,15 +9,13 @@ Window::Window()
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 
-	// Sets the view to the appropriate zoom level for display
+	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
+	// Sets the view to the appropriate zoom level for display
 	while (Window::view.getSize().x > MAP_WIDTH * 2)
 	{
 		Window::view.setSize(floatify(Window::view.getSize().x / 2), floatify(Window::view.getSize().y / 2));
 		Window::view.setCenter(floatify(Window::view.getSize().x / 2), floatify(Window::view.getSize().y / 2));
 	}
 	this->setView(Window::view);
-
-	//
-
 }

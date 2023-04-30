@@ -22,12 +22,15 @@
     <ClCompile Include="Engine\filesys.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\maps.cpp" />
+    <ClCompile Include="Engine\tilemap.cpp" />
     <ClCompile Include="Engine\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\constExpressions.h" />
+    <ClInclude Include="Engine\events.h" />
     <ClInclude Include="Engine\filesys.h" />
     <ClInclude Include="Engine\maps.h" />
+    <ClInclude Include="Engine\tilemap.h" />
     <ClInclude Include="Engine\window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
