@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\devtools.cpp" />
     <ClCompile Include="Engine\filesys.cpp" />
+    <ClCompile Include="Engine\font.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\maps.cpp" />
     <ClCompile Include="Engine\tilemap.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Engine\constExpressions.h" />
     <ClInclude Include="Engine\devtools.h" />
     <ClInclude Include="Engine\filesys.h" />
+    <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\maps.h" />
     <ClInclude Include="Engine\tilemap.h" />
     <ClInclude Include="Engine\window.h" />

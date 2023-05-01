@@ -2,6 +2,7 @@
 #include "window.h"
 #include "tilemap.h"
 #include "devtools.h"
+#include "font.h"
 #include <iostream>
 
 int main()
@@ -10,6 +11,7 @@ int main()
     //window.setFramerateLimit(30);
     TileMap tileMap;
     DevTools DEV_TOOLS;
+    Font font;
 
     while (window.isOpen())
     {
@@ -18,7 +20,8 @@ int main()
         window.draw(tileMap);
 
         DEV_TOOLS.showFPS();
-            
+        
+        window.draw(font.A);
         window.display();
 
     }
