@@ -29,7 +29,7 @@ std::string DevTools::getFPS()
     return th;//_fps;
 }
 
-void DevTools::log(auto in)
+void DevTools::log(std::string in)
 {
     std::cout << in << '\n';
 }

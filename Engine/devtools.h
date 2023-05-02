@@ -18,5 +18,5 @@ public:
 	// returns FPS as a std::string.
 	std::string getFPS();
 	// Logs to the console adding a line break after, using auto.
-	void log(auto in);
+	void log(std::string in);
 };
