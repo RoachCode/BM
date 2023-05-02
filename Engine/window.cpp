@@ -43,3 +43,23 @@ void Window::pollEvents()
         }
     }
 }
+
+void Window::drawText(std::string string)
+{
+    font.textRect.setPosition(font.startPos);
+    // to do. horizontal bounds implementation
+    const sf::Vector2f moveR(7.f, 0.f);
+    //const sf::Vector2f newLine(font.getPos().x, font.getPos().y + 10);
+	for (int i = 0; i < string.length(); i++)
+	{
+		const char letter = static_cast<char>(string[i]);
+        if (font.attachCharTextureToRect(letter))
+        {
+            if (i != 0)
+            {
+                font.textRect.move(moveR);
+            }
+            this->draw(font.textRect);
+        }
+	}
+}
