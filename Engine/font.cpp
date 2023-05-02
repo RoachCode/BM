@@ -1,5 +1,6 @@
 #pragma once
 #include "font.h"
+#include <iostream>
 
 void Font::createFontTextures()
 {
@@ -150,7 +151,6 @@ bool Font::attachCharTextureToRect(char input)
 		textRect.setTexture(&sp);
 		return true;
 		break;
-	// all the lower case normal chars
 	case '0':
 		textRect.setTexture(&zero);
 		return true;
@@ -192,6 +192,7 @@ bool Font::attachCharTextureToRect(char input)
 		return true;
 		break;
 	default:
+		//std::cout << "fallthrough";
 		return false;
 		break;
 	}

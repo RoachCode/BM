@@ -4,32 +4,29 @@
 DevTools::DevTools()
 {
     counter = 0;
+    fps = 60;
 }
 
-int DevTools::calculateFPS()
+void DevTools::calculateFPS()
 {
     time = clock.getElapsedTime();
     if (time.asMilliseconds() < 1000)
     {
         counter++;
-        return 0;
     }
     else
     {
         clock.restart();
-        int result { counter };
+        fps = counter;
         counter = 0;
-        return result;
     }
 }
 
-int DevTools::getFPS()
+std::string DevTools::getFPS()
 {
-    int fps{ this->calculateFPS() };
-    if (fps > 0)
-    {
-        return fps;
-    }
+    calculateFPS();
+    std::string th{ std::to_string(fps) };
+    return th;//_fps;
 }
 
 void DevTools::log(auto in)

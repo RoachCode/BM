@@ -1,5 +1,6 @@
 #pragma once
 #include "window.h"
+#include <iostream>
 
 // Call constructor, which calls inherited constructor from sf::RenderWindow
 Window::Window()
@@ -44,10 +45,8 @@ void Window::pollEvents()
     }
 }
 
-template <typename T>
-void Window::drawText(T const& value, sf::Vector2f startPosition)
+void Window::drawText(std::string string, sf::Vector2f startPosition)
 {
-    std::string string{ static_cast<std::string>(value) };
     // Sets character kerning
     const sf::Vector2f moveR(7.f, 0.f);
     font.setStartPos(startPosition);
@@ -70,7 +69,7 @@ void Window::drawText(T const& value, sf::Vector2f startPosition)
         // prints characters. runs twice for shadow effect
         for (int j = 0; j < string.length(); j++)
         {
-            const char letter = static_cast<char>(string[j]);
+            const char letter = string[j];
             if (font.attachCharTextureToRect(letter))
             {
                 if (j != 0)

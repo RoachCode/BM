@@ -15,8 +15,7 @@ int main()
         window.clear();
         window.draw(tileMap);
 
-        //DEV_TOOLS.getFPS(); gotta get numbers done before I can print numbers!
-        
+
         window.drawText(DEV_TOOLS.getFPS());
         window.display();
 
