@@ -44,22 +44,43 @@ void Window::pollEvents()
     }
 }
 
-void Window::drawText(std::string string)
+template <typename T>
+void Window::drawText(T const& value, sf::Vector2f startPosition)
 {
-    font.textRect.setPosition(font.startPos);
-    // to do. horizontal bounds implementation
+    std::string string{ static_cast<std::string>(value) };
+    // Sets character kerning
     const sf::Vector2f moveR(7.f, 0.f);
-    //const sf::Vector2f newLine(font.getPos().x, font.getPos().y + 10);
-	for (int i = 0; i < string.length(); i++)
-	{
-		const char letter = static_cast<char>(string[i]);
-        if (font.attachCharTextureToRect(letter))
+    font.setStartPos(startPosition);
+
+    for (int i = 0; i <= 1; i++)
+    {
+        // Sets initial position to startPos value
+        // Creates shadow effect through duplication
+        if (i == 0)
         {
-            if (i != 0)
-            {
-                font.textRect.move(moveR);
-            }
-            this->draw(font.textRect);
+            font.setColor(0, 0, 0);
+            font.setPos(sf::Vector2f(font.getPos().x + 0.5, font.getPos().y + 0.5));
         }
-	}
+        else
+        {
+            font.setColor(255, 255, 255);
+            font.setPos(sf::Vector2f(font.getPos().x - 0.5, font.getPos().y - 0.5));
+        }
+
+        // prints characters. runs twice for shadow effect
+        for (int j = 0; j < string.length(); j++)
+        {
+            const char letter = static_cast<char>(string[j]);
+            if (font.attachCharTextureToRect(letter))
+            {
+                if (j != 0)
+                {
+                    font.move(moveR);
+                }
+
+                this->draw(font.getRect());
+            }
+        }
+        font.setPos(font.getStartPos());
+    }
 }

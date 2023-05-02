@@ -16,5 +16,7 @@ public:
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
 	Window();
 	void pollEvents();
-	void drawText(std::string string);
+	template <typename T>
+	void drawText(T const& value, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
+
 };

@@ -2,12 +2,10 @@
 #include "window.h"
 #include "tilemap.h"
 #include "devtools.h"
-#include <iostream>
 
 int main()
 {
     Window window;
-    //window.setFramerateLimit(30);
     TileMap tileMap;
     DevTools DEV_TOOLS;
 
@@ -17,10 +15,9 @@ int main()
         window.clear();
         window.draw(tileMap);
 
-        //DEV_TOOLS.showFPS();
+        //DEV_TOOLS.getFPS(); gotta get numbers done before I can print numbers!
         
-        window.font.setColor(0, 0, 0);
-        window.drawText("I FEEL SICK");
+        window.drawText(DEV_TOOLS.getFPS());
         window.display();
 
     }

@@ -1,13 +1,12 @@
 #pragma once
 #include "devtools.h"
-#include <iostream>
 
 DevTools::DevTools()
 {
     counter = 0;
 }
 
-int DevTools::getFPS()
+int DevTools::calculateFPS()
 {
     time = clock.getElapsedTime();
     if (time.asMilliseconds() < 1000)
@@ -22,14 +21,18 @@ int DevTools::getFPS()
         counter = 0;
         return result;
     }
-
 }
 
-void DevTools::showFPS()
+int DevTools::getFPS()
 {
-    int fps{ this->getFPS() };
+    int fps{ this->calculateFPS() };
     if (fps > 0)
     {
-        std::cout << fps << '\n';
+        return fps;
     }
+}
+
+void DevTools::log(auto in)
+{
+    std::cout << in << '\n';
 }

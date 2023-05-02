@@ -1,14 +1,21 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 extern class DevTools
 {
 private:
-	int getFPS();
-public:
+	// Returns the FPS or zero
+	int calculateFPS();
+	// Iterates to count FPS
+	int counter;
 	sf::Clock clock;
 	sf::Time time;
-	int counter;
-	void showFPS();
+
+public:
 	DevTools();
+	// returns FPS.
+	int getFPS();
+	// Logs to the console adding a line break after, using auto.
+	void log(auto in);
 };
