@@ -45,9 +45,20 @@ void Window::pollEvents()
     }
 }
 
+int Window::getZoomFactor()
+{
+	return static_cast<int>(size.x / view.getSize().x);
+}
+
 void Window::drawText(std::string string, sf::Vector2f startPosition)
 {
 	font.setStartPos(startPosition);
+	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) };
+
+	if (static_cast<int>(startPosition.x) + pixelWidth > static_cast<int>(size.x))
+	{
+		font.setStartPos(sf::Vector2f(size.x / getZoomFactor() - pixelWidth, startPosition.y));
+	}
 	// Runs twice to set a shadow effect
 	for (int i = 0; i <= 1; i++)
 	{

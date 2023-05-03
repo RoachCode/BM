@@ -17,5 +17,6 @@ public:
 	Window();
 	void pollEvents();
 	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
-
+private:
+	int getZoomFactor();
 };
