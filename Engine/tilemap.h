@@ -8,8 +8,7 @@
 class TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
-    void loadWestKagar();
-    sf::Image tileImage;
+
     void createMasterTile(
         unsigned short* a00, unsigned short* a10, unsigned short* a20, unsigned short* a30,
         unsigned short* a01, unsigned short* a11, unsigned short* a21, unsigned short* a31,

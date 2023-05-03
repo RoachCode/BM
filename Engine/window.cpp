@@ -8,7 +8,7 @@ Window::Window()
 {
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	this->setVerticalSyncEnabled(true);
+	//this->setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	this->setKeyRepeatEnabled(true);
 	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
@@ -37,6 +37,36 @@ void Window::pollEvents()
             case sf::Keyboard::Escape:
                 this->close();
                 break;
+			case sf::Keyboard::Numpad1:
+				DEV_TOOLS.zDepth = 1;
+				break;
+			case sf::Keyboard::Numpad2:
+				DEV_TOOLS.zDepth = 2;
+				break;
+			case sf::Keyboard::Numpad3:
+				DEV_TOOLS.zDepth = 3;
+				break;
+			case sf::Keyboard::Numpad4:
+				DEV_TOOLS.zDepth = 4;
+				break;
+			case sf::Keyboard::Numpad5:
+				DEV_TOOLS.zDepth = 5;
+				break;
+			case sf::Keyboard::Numpad6:
+				DEV_TOOLS.zDepth = 6;
+				break;
+			case sf::Keyboard::Numpad7:
+				DEV_TOOLS.zDepth = 7;
+				break;
+			case sf::Keyboard::Numpad8:
+				DEV_TOOLS.zDepth = 8;
+				break;
+			case sf::Keyboard::Numpad9:
+				DEV_TOOLS.zDepth = 9;
+				break;
+			case sf::Keyboard::Numpad0:
+				DEV_TOOLS.zDepth = 10;
+				break;
             default:
                 break;
             }
