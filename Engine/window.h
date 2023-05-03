@@ -2,10 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
 #include "font.h"
+#include "devtools.h"
 
 extern class Window : public sf::RenderWindow
 {
 public:
+	DevTools DEV_TOOLS;
 	Font2 font;
 	// Inherit constructor from sf::RenderWindow
 	using sf::RenderWindow::RenderWindow;

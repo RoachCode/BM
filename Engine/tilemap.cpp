@@ -45,6 +45,11 @@ bool TileMap::load(const sf::Image& tileset, sf::Vector2u tileSize, unsigned int
     return true;
 }
 
+void TileMap::loadWestKagar()
+{
+   
+
+}
 
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -68,22 +73,15 @@ TileMap::TileMap()
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
 
     //default load-in
-    this->createMasterTile
-    (
-        westKagar00a, westKagar10a, westKagar20a, westKagar30a, 
-        westKagar01a, westKagar11a, westKagar21a, westKagar31a, 
-        westKagar02a, westKagar12a, westKagar22a, westKagar32a, 
-        westKagar03a, westKagar13a, westKagar23a, westKagar33a
-    );
-    this->load(tileImage, sf::Vector2u(32, 32), 96, 56);
-    this->setPosition(0.f, 0.f);
+    this->loadWestKagar();
 }
 
 void TileMap::createMasterTile(
     unsigned short* a00, unsigned short* a10, unsigned short* a20, unsigned short* a30,
     unsigned short* a01, unsigned short* a11, unsigned short* a21, unsigned short* a31,
     unsigned short* a02, unsigned short* a12, unsigned short* a22, unsigned short* a32,
-    unsigned short* a03, unsigned short* a13, unsigned short* a23, unsigned short* a33
+    unsigned short* a03, unsigned short* a13, unsigned short* a23, unsigned short* a33,
+    std::vector<unsigned short*> masterTile
 )
 {
     masterTile.clear();

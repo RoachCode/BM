@@ -8,7 +8,8 @@ Window::Window()
 {
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-
+	this->setVerticalSyncEnabled(true);
+	this->setKeyRepeatEnabled(true);
 	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
 	// Sets the view to the appropriate zoom level for display
@@ -39,6 +40,40 @@ void Window::pollEvents()
             default:
                 break;
             }
+		case sf::Event::KeyPressed:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Down:
+				if (DEV_TOOLS.freeMovementAllowed)
+				{
+					view.move(0, 16);
+					this->setView(view);
+				}
+				break;
+			case sf::Keyboard::Right:
+				if (DEV_TOOLS.freeMovementAllowed)
+				{
+					view.move(16, 0);
+					this->setView(view);
+				}
+				break;
+			case sf::Keyboard::Left:
+				if (DEV_TOOLS.freeMovementAllowed)
+				{
+					view.move(-16, 0);
+					this->setView(view);
+				}
+				break;
+			case sf::Keyboard::Up:
+				if (DEV_TOOLS.freeMovementAllowed)
+				{
+					view.move(0, -16);
+					this->setView(view);
+				}
+				break;
+			default:
+				break;
+			}
         default:
             break;
         }

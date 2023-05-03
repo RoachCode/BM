@@ -33,3 +33,8 @@ void DevTools::log(std::string in)
 {
     std::cout << in << '\n';
 }
+
+void DevTools::allowFreeMovement()
+{
+    freeMovementAllowed = true;
+}

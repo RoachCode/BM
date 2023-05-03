@@ -13,7 +13,10 @@ private:
 	sf::Clock clock;
 	sf::Time time;
 
+
 public:
+	bool freeMovementAllowed{ false };
+	void allowFreeMovement();
 	DevTools();
 	// returns FPS as a std::string.
 	std::string getFPS();
