@@ -8,15 +8,15 @@ int main()
     Window window;
     TileMap tileMap;
     DevTools DEV_TOOLS;
-
+    window.font.setColor(sf::Color(255, 90, 255));
     while (window.isOpen())
     {
         window.pollEvents();
         window.clear();
         window.draw(tileMap);
 
-        window.drawText(DEV_TOOLS.getFPS());
 
+        window.drawText(DEV_TOOLS.getFPS());
         window.display();
 
     }

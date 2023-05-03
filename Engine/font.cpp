@@ -243,11 +243,19 @@ void Font2::createFontImageAndTexture()
 	}
 }
 
-void Font2::setColor(sf::Color colorIn)
+void Font2::setColor(sf::Color colorIn, bool ignoreReassignment)
 {
-	textRed = colorIn.r;
-	textGreen = colorIn.g;
-	textBlue = colorIn.b;
+	if (!ignoreReassignment)
+	{
+		textRed = sf::Uint8(colorIn.r);
+		textGreen = sf::Uint8(colorIn.g);
+		textBlue = sf::Uint8(colorIn.b);
+	}
+	resetImage(colorIn);
+}
+
+void Font2::resetImage(sf::Color colorIn2)
+{
 	const int imagePixelW = fontImage.getSize().x;
 	const int imagePixelH = fontImage.getSize().y;
 	for (int i = 0; i < imagePixelW; i++)
@@ -257,19 +265,13 @@ void Font2::setColor(sf::Color colorIn)
 			sf::Color color = fontImage.getPixel(i, j);
 			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
 			{
-				fontImage.setPixel(i, j, sf::Color(textRed, textGreen, textBlue));
+				fontImage.setPixel(i, j, colorIn2);
 			}
 		}
 	}
 	fontTexture.loadFromImage(fontImage);
 	charSprite.setTexture(fontTexture);
 }
-
-enum CharRects
-{
-	A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-	sp, zero, one, two, three, four, five, six, seven, eight, nine, ten
-};
 
 int Font2::getRectOffset(char input)
 {

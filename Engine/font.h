@@ -460,9 +460,9 @@ extern class Font2
 private:
 
 public:
-	sf::Uint8 textRed{ 0 };
-	sf::Uint8 textGreen{ 155 };
-	sf::Uint8 textBlue{ 33 };
+	sf::Uint8 textRed{ 255 };
+	sf::Uint8 textGreen{ 255 };
+	sf::Uint8 textBlue{ 255 };
 	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
 	std::vector<bool> AthroughTildeData
 	{
@@ -846,7 +846,7 @@ public:
 	sf::Vector2f moveR{ sf::Vector2f(7.f, 0.f) };
 	Font2();
 	void createFontImageAndTexture();
-	void setColor(sf::Color colorIn);
+	void setColor(sf::Color colorIn, bool ignoreReassignment = false);
 	bool attachCharImageSubRectToSprite(char input);
 	sf::Vector2f getPos();
 	void setPos(sf::Vector2f newPos);
@@ -855,6 +855,7 @@ public:
 	void move(sf::Vector2f offset);
 	int getRectOffset(char input);
 	const sf::Color alphaKey{ sf::Color(69,69,69) };
+	void resetImage(sf::Color colorIn2);
 
 	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;)
 };

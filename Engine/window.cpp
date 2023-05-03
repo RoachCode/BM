@@ -54,12 +54,14 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 		// Creates shadow effect through duplication
 		if (i == 0)
 		{
-			font.setColor(sf::Color(0, 0, 0));
+			font.setColor(sf::Color(0, 0, 0), true);
 			font.setPos(sf::Vector2f(font.getPos().x + 0.5, font.getPos().y + 0.5));
 		}
 		else
 		{
-			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
+			// why in the fuck can I only set my text color here?
+			//font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue, 255));
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue), true);
 			font.setPos(sf::Vector2f(font.getPos().x - 0.5, font.getPos().y - 0.5));
 		}
 
