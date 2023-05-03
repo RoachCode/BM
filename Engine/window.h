@@ -6,7 +6,7 @@
 extern class Window : public sf::RenderWindow
 {
 public:
-	Font font;
+	Font2 font;
 	// Inherit constructor from sf::RenderWindow
 	using sf::RenderWindow::RenderWindow;
 	// Get the size of the window

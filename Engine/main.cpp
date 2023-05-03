@@ -15,8 +15,8 @@ int main()
         window.clear();
         window.draw(tileMap);
 
-
         window.drawText(DEV_TOOLS.getFPS());
+
         window.display();
 
     }

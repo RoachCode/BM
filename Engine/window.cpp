@@ -47,39 +47,36 @@ void Window::pollEvents()
 
 void Window::drawText(std::string string, sf::Vector2f startPosition)
 {
-    // Sets character kerning
-    const sf::Vector2f moveR(7.f, 0.f);
-    font.setStartPos(startPosition);
+	font.setStartPos(startPosition);
+	// Runs twice to set a shadow effect
+	for (int i = 0; i <= 1; i++)
+	{
+		// Creates shadow effect through duplication
+		if (i == 0)
+		{
+			font.setColor(sf::Color(0, 0, 0));
+			font.setPos(sf::Vector2f(font.getPos().x + 0.5, font.getPos().y + 0.5));
+		}
+		else
+		{
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
+			font.setPos(sf::Vector2f(font.getPos().x - 0.5, font.getPos().y - 0.5));
+		}
 
-    for (int i = 0; i <= 1; i++)
-    {
-        // Sets initial position to startPos value
-        // Creates shadow effect through duplication
-        if (i == 0)
-        {
-            font.setColor(0, 0, 0);
-            font.setPos(sf::Vector2f(font.getPos().x + 0.5, font.getPos().y + 0.5));
-        }
-        else
-        {
-            font.setColor(255, 255, 255);
-            font.setPos(sf::Vector2f(font.getPos().x - 0.5, font.getPos().y - 0.5));
-        }
+		// prints characters.
+		for (int j = 0; j < string.length(); j++)
+		{
+			const char letter = string[j];
+			if (font.attachCharImageSubRectToSprite(letter))
+			{
+				if (j != 0)
+				{
+					font.move(font.moveR);
+				}
 
-        // prints characters. runs twice for shadow effect
-        for (int j = 0; j < string.length(); j++)
-        {
-            const char letter = string[j];
-            if (font.attachCharTextureToRect(letter))
-            {
-                if (j != 0)
-                {
-                    font.move(moveR);
-                }
-
-                this->draw(font.getRect());
-            }
-        }
-        font.setPos(font.getStartPos());
-    }
+				this->draw(font.charSprite);
+			}
+		}
+		font.setPos(font.getStartPos());
+	}
 }
