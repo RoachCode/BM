@@ -8,7 +8,7 @@ Window::Window()
 {
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	//this->setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
+	this->setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	this->setKeyRepeatEnabled(true);
 	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
