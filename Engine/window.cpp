@@ -9,7 +9,7 @@ Window::Window()
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 	this->setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
-	this->setKeyRepeatEnabled(true);
+	this->setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
 	// Sets the view to the appropriate zoom level for display
@@ -19,10 +19,12 @@ Window::Window()
 		Window::view.setCenter(floatify(Window::view.getSize().x / 2), floatify(Window::view.getSize().y / 2));
 	}
 	this->setView(Window::view);
+	isMovingView = false;
 }
 
 void Window::pollEvents()
 {
+	pollMovement();
     sf::Event event;
     while (this->pollEvent(event))
     {
@@ -31,12 +33,31 @@ void Window::pollEvents()
         case sf::Event::Closed:
             this->close();
             break;
-        case sf::Event::KeyReleased:
-            switch (event.key.code)
-            {
-            case sf::Keyboard::Escape:
-                this->close();
-                break;
+		case sf::Event::KeyPressed:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Down:
+				startViewMovement(sf::Vector2f(0, 4));
+				break;
+			case sf::Keyboard::Right:
+				startViewMovement(sf::Vector2f(4, 0));
+				break;
+			case sf::Keyboard::Left:
+				startViewMovement(sf::Vector2f(-4, 0));
+				break;
+			case sf::Keyboard::Up:
+				startViewMovement(sf::Vector2f(0, -4));
+				break;
+			default:
+				break;
+			}
+			break;
+		case sf::Event::KeyReleased:
+			switch (event.key.code)
+			{
+			case sf::Keyboard::Escape:
+				this->close();
+				break;
 			case sf::Keyboard::Numpad1:
 				DEV_TOOLS.zDepth = 1;
 				break;
@@ -67,43 +88,22 @@ void Window::pollEvents()
 			case sf::Keyboard::Numpad0:
 				DEV_TOOLS.zDepth = 10;
 				break;
-            default:
-                break;
-            }
-		case sf::Event::KeyPressed:
-			switch (event.key.code)
-			{
 			case sf::Keyboard::Down:
-				if (DEV_TOOLS.freeMovementAllowed)
-				{
-					view.move(0, 16);
-					this->setView(view);
-				}
+				if (isMovingView) { endViewMovement(); }
 				break;
 			case sf::Keyboard::Right:
-				if (DEV_TOOLS.freeMovementAllowed)
-				{
-					view.move(16, 0);
-					this->setView(view);
-				}
+				if (isMovingView) { endViewMovement(); }
 				break;
 			case sf::Keyboard::Left:
-				if (DEV_TOOLS.freeMovementAllowed)
-				{
-					view.move(-16, 0);
-					this->setView(view);
-				}
+				if (isMovingView) { endViewMovement(); }
 				break;
 			case sf::Keyboard::Up:
-				if (DEV_TOOLS.freeMovementAllowed)
-				{
-					view.move(0, -16);
-					this->setView(view);
-				}
+				if (isMovingView) { endViewMovement(); }
 				break;
 			default:
 				break;
 			}
+			break;
         default:
             break;
         }
@@ -157,4 +157,41 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 		}
 		font.setPos(font.getStartPos());
 	}
+}
+
+void Window::drawTileMaps()
+{
+	//todo: find a way to draw all the layers consecutively onto a single image, for a single draw.
+	for (int i = 0; i < DEV_TOOLS.zDepth; i++)
+	{
+		this->draw(*imageHandler.tilemapVector[i]);
+	}
+}
+
+void Window::startViewMovement(sf::Vector2f offset)
+{
+	if (DEV_TOOLS.freeMovementAllowed)
+	{
+		isMovingView = true;
+		movementOffset = offset;
+	}
+}
+
+void Window::endViewMovement()
+{
+	isMovingView = false;
+}
+
+void Window::pollMovement()
+{
+	if (isMovingView)
+	{
+		view.move(movementOffset.x, movementOffset.y);
+		this->setView(view);
+	}
+}
+
+void Window::drawSprites()
+{
+	//
 }

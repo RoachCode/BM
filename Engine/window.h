@@ -3,10 +3,13 @@
 #include "constExpressions.h"
 #include "font.h"
 #include "devtools.h"
+#include "imageHandler.h"
 
 extern class Window : public sf::RenderWindow
 {
 public:
+	ImageHandler imageHandler;
+	void drawTileMaps();
 	DevTools DEV_TOOLS;
 	Font2 font;
 	// Inherit constructor from sf::RenderWindow
@@ -19,6 +22,12 @@ public:
 	Window();
 	void pollEvents();
 	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
+	void startViewMovement(sf::Vector2f offset);
+	void endViewMovement();
+	bool isMovingView;
+	sf::Vector2f movementOffset;
+	void pollMovement();
+	void drawSprites();
 private:
 	int getZoomFactor();
 };

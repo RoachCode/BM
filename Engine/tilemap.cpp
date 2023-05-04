@@ -1,9 +1,6 @@
 #pragma once
 #include "tilemap.h"
 #include <iostream>
-// batching with vertex arrays / buffers?
-
-
 
 bool TileMap::load(const sf::Image& tileset, sf::Vector2u tileSize, unsigned int width, unsigned int height)
 {

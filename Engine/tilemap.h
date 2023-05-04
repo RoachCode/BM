@@ -1,9 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "maps.h"
-#include "filesys.h"
-#include "constExpressions.h"
-// batching with vertex arrays / buffers?
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {
