@@ -8,7 +8,7 @@ Window::Window()
 {
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	this->setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
+	this->setVerticalSyncEnabled(false); // must be disabled for DevTools fps counter to work
 	this->setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
 	Window::view = this->getDefaultView();
@@ -37,16 +37,16 @@ void Window::pollEvents()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Down:
-				startViewMovement(sf::Vector2f(0, 4));
+				startViewMovement(sf::Vector2f(0, 1));
 				break;
 			case sf::Keyboard::Right:
-				startViewMovement(sf::Vector2f(4, 0));
+				startViewMovement(sf::Vector2f(1, 0));
 				break;
 			case sf::Keyboard::Left:
-				startViewMovement(sf::Vector2f(-4, 0));
+				startViewMovement(sf::Vector2f(-1, 0));
 				break;
 			case sf::Keyboard::Up:
-				startViewMovement(sf::Vector2f(0, -4));
+				startViewMovement(sf::Vector2f(0, -1));
 				break;
 			default:
 				break;
@@ -162,10 +162,11 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 void Window::drawTileMaps()
 {
 	//todo: find a way to draw all the layers consecutively onto a single image, for a single draw.
-	for (int i = 0; i < DEV_TOOLS.zDepth; i++)
-	{
-		this->draw(*imageHandler.tilemapVector[i]);
-	}
+	//for (int i = 0; i < DEV_TOOLS.zDepth; i++)
+	//{
+	//	this->draw(*imageHandler.tilemapVector[i]);
+	//}
+	this->draw(imageHandler.pseudoWindow);
 }
 
 void Window::startViewMovement(sf::Vector2f offset)

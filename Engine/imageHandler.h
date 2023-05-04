@@ -21,6 +21,9 @@ public:
 
     std::vector<TileMap*> tilemapVector;
 
+    sf::RenderTexture renderWindow;
+    sf::RectangleShape pseudoWindow;
+
     ImageHandler()
     {
         tileImage.loadFromFile(getLocalPath() + "/ImageResources/TILE.bmp");
@@ -39,7 +42,15 @@ public:
         tilemapVector.push_back(&tileMapI);
         tilemapVector.push_back(&tileMapJ);
 
+
+
+        renderWindow.create(32 * 24 * 4, 32 * 14 * 4);
+        renderWindow.clear(sf::Color(255, 0, 0, 255));
+        pseudoWindow.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
+        //renderTexture.create(32 * 24 * 4, 32 * 14 * 4);
+
         this->loadWestKagar();
+
     }
 
     void loadWestKagar()
@@ -143,9 +154,12 @@ public:
                 break;
             }
 
-
             tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
+            renderWindow.draw(*tilemapVector[i]);
         }
+        renderWindow.display();
+        //const sf::Texture& renderTexture = ;
+        pseudoWindow.setTexture(&renderWindow.getTexture());
     }
 
 };
