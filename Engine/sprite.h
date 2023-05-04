@@ -11,9 +11,13 @@ public:
     
     Sprite()
     {
-        shape.setRadius(100.f);
-        shape.setFillColor(sf::Color(0, 0, 255, 125));
-        shapeVector.push_back(shape);
+        shape.setRadius(16.f);
+        shape.setFillColor(sf::Color(0, 0, 255, 25));
+        for (int i = 0; i < 55; i++)
+        {
+            shape.setPosition(sf::Vector2f(i + 50, i * 2 + 50));
+            shapeVector.push_back(shape);
+        }
     }
     /*
     void textureUpdate()

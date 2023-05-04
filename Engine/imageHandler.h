@@ -6,6 +6,7 @@
 class ImageHandler
 {
 public:
+    uint8_t zDepth;
     TileMap tileMapA;
     TileMap tileMapB;
     TileMap tileMapC;

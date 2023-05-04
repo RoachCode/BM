@@ -3,6 +3,8 @@
 
 ImageHandler::ImageHandler()
 {
+    zDepth = 10;
+
     tileImage.loadFromFile(getLocalPath() + "/ImageResources/TILE.bmp");
     tileImage.createMaskFromColor(sf::Color(237, 28, 36, 255), 0);
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
@@ -32,8 +34,9 @@ ImageHandler::ImageHandler()
 
 void ImageHandler::loadWestKagar()
 {
-
-    for (int i = 0; i < tilemapVector.size(); i++)
+    renderWindow.clear(sf::Color(0, 0, 0, 255));
+    renderWindow2.clear(sf::Color(0, 0, 0, 0));
+    for (int i = 0; i < zDepth; i++)
     {
         switch (i)
         {
@@ -134,7 +137,7 @@ void ImageHandler::loadWestKagar()
 
         tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
 
-        if (i < 5)
+        if (i < zDepth / 2)
         {
             renderWindow.draw(*tilemapVector[i]);
         }

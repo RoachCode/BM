@@ -6,7 +6,7 @@ int main()
     ImageHandler imageHandler;
     Window window;
 	window.DEV_TOOLS.allowFreeMovement();
-    window.font.setColor(sf::Color(155, 0, 0));
+    window.font.setColor(sf::Color(80, 0, 144));
 
     ParticleSystem particles(50000); // Just for testing it out.
 
@@ -18,16 +18,17 @@ int main()
         window.drawTileMapsBack();
         window.drawSprites();
         window.drawTileMapsFront();
-        window.drawParticles();
+        //window.drawParticles();
 
 
         //particle system test
+        /*
         sf::Vector2i mouse = sf::Mouse::getPosition(window);
         particles.setEmitter(window.mapPixelToCoords(mouse));
         sf::Time elapsed = particles.clock.restart();
         particles.update(elapsed);
         window.draw(particles);
-
+        */
 
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50));
       

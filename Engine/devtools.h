@@ -15,7 +15,6 @@ private:
 
 
 public:
-	uint8_t zDepth;
 	bool freeMovementAllowed{ false };
 	void allowFreeMovement();
 	DevTools();

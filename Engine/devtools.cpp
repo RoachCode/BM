@@ -3,7 +3,6 @@
 
 DevTools::DevTools()
 {
-    zDepth = 10;
     counter = 0;
     fps = 0;
 }

@@ -62,34 +62,44 @@ void Window::pollEvents()
 				this->close();
 				break;
 			case sf::Keyboard::Numpad1:
-				DEV_TOOLS.zDepth = 1;
+				imageHandler.zDepth = 1;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad2:
-				DEV_TOOLS.zDepth = 2;
+				imageHandler.zDepth = 2;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad3:
-				DEV_TOOLS.zDepth = 3;
+				imageHandler.zDepth = 3;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad4:
-				DEV_TOOLS.zDepth = 4;
+				imageHandler.zDepth = 4;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad5:
-				DEV_TOOLS.zDepth = 5;
+				imageHandler.zDepth = 5;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad6:
-				DEV_TOOLS.zDepth = 6;
+				imageHandler.zDepth = 6;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad7:
-				DEV_TOOLS.zDepth = 7;
+				imageHandler.zDepth = 7;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad8:
-				DEV_TOOLS.zDepth = 8;
+				imageHandler.zDepth = 8;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad9:
-				DEV_TOOLS.zDepth = 9;
+				imageHandler.zDepth = 9;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Numpad0:
-				DEV_TOOLS.zDepth = 10;
+				imageHandler.zDepth = 10;
+				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Down:
 				if (isMovingView) { endViewMovement(); }
