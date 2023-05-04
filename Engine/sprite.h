@@ -4,11 +4,21 @@
 class Sprite 
 {
 public:
-    sf::Sprite sprite;
-    sf::Texture spriteTexture;
+    //sf::Sprite sprite;
+    //sf::Texture spriteTexture;
+    sf::CircleShape shape;
+    std::vector<sf::CircleShape> shapeVector;
+    
+    Sprite()
+    {
+        shape.setRadius(100.f);
+        shape.setFillColor(sf::Color(0, 0, 255, 125));
+        shapeVector.push_back(shape);
+    }
+    /*
     void textureUpdate()
     {
-        spriteTexture.create(spriteW, spriteH);
+        spriteTexture.create(32, 32);
         sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
 
         uint8_t rw{ 255 };
@@ -99,11 +109,12 @@ public:
                 break;
             }
 
-*/
+
         }
         spriteTexture.update(pixels);
         sprite.setTexture(spriteTexture);
         delete[] pixels;
     }
+*/
 private:
 };

@@ -4,10 +4,15 @@
 #include "font.h"
 #include "devtools.h"
 #include "imageHandler.h"
+#include "sprite.h"
 
 extern class Window : public sf::RenderWindow
 {
 public:
+	Sprite sprite;
+	sf::RenderTexture renderWindowSprites;
+	sf::RectangleShape pseudoWindowSprites;
+
 	ImageHandler imageHandler;
 	void drawTileMapsBack();
 	void drawTileMapsFront();

@@ -20,6 +20,9 @@ Window::Window()
 	}
 	this->setView(Window::view);
 	isMovingView = false;
+
+	renderWindowSprites.create(32 * 24 * 4, 32 * 14 * 4);
+	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
 }
 
 void Window::pollEvents()
@@ -194,5 +197,16 @@ void Window::pollMovement()
 
 void Window::drawSprites()
 {
-	//
+	renderWindowSprites.clear(sf::Color(0, 0, 0, 0));
+
+	for (auto i : sprite.shapeVector)
+	{
+		renderWindowSprites.draw(i);
+	}
+
+
+	renderWindowSprites.display();
+	pseudoWindowSprites.setTexture(&renderWindowSprites.getTexture());
+	this->draw(pseudoWindowSprites);
+
 }
