@@ -9,7 +9,8 @@ extern class Window : public sf::RenderWindow
 {
 public:
 	ImageHandler imageHandler;
-	void drawTileMaps();
+	void drawTileMapsBack();
+	void drawTileMapsFront();
 	DevTools DEV_TOOLS;
 	Font2 font;
 	// Inherit constructor from sf::RenderWindow

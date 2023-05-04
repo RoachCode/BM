@@ -12,8 +12,9 @@ int main()
         window.clear();
 
         window.pollEvents();
-        window.drawTileMaps();
+        window.drawTileMapsBack();
         window.drawSprites();
+        window.drawTileMapsFront();
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50));
       
         window.display();

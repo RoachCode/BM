@@ -159,14 +159,14 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 	}
 }
 
-void Window::drawTileMaps()
+void Window::drawTileMapsBack()
 {
-	//todo: find a way to draw all the layers consecutively onto a single image, for a single draw.
-	//for (int i = 0; i < DEV_TOOLS.zDepth; i++)
-	//{
-	//	this->draw(*imageHandler.tilemapVector[i]);
-	//}
 	this->draw(imageHandler.pseudoWindow);
+}
+
+void Window::drawTileMapsFront()
+{
+	this->draw(imageHandler.pseudoWindow2);
 }
 
 void Window::startViewMovement(sf::Vector2f offset)
