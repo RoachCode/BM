@@ -8,7 +8,7 @@ int main()
 	window.DEV_TOOLS.allowFreeMovement();
     window.font.setColor(sf::Color(155, 0, 0));
 
-    ParticleSystem particles(10000); // Just for testing it out.
+    ParticleSystem particles(50000); // Just for testing it out.
 
     while (window.isOpen())
     {
