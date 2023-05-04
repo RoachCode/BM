@@ -35,6 +35,7 @@
     <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\imageHandler.h" />
     <ClInclude Include="Engine\maps.h" />
+    <ClInclude Include="Engine\particles.h" />
     <ClInclude Include="Engine\sprite.h" />
     <ClInclude Include="Engine\tilemap.h" />
     <ClInclude Include="Engine\window.h" />

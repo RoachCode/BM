@@ -34,6 +34,7 @@ public:
 	sf::Vector2f movementOffset;
 	void pollMovement();
 	void drawSprites();
+	void drawParticles();
 private:
 	int getZoomFactor();
 };

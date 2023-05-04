@@ -210,3 +210,8 @@ void Window::drawSprites()
 	this->draw(pseudoWindowSprites);
 
 }
+
+void Window::drawParticles()
+{
+
+}
