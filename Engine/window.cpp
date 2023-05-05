@@ -23,6 +23,9 @@ Window::Window()
 
 	renderWindowSprites.create(32 * 24 * 4, 32 * 14 * 4);
 	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
+
+	this->initPerlin();
+
 }
 
 void Window::pollEvents()
@@ -224,4 +227,76 @@ void Window::drawSprites()
 void Window::drawParticles()
 {
 
+}
+
+void Window::initPerlin()
+{
+	seed = 11;
+	perlin.reseed(seed);
+	const float x{ view.getSize().x };
+	const float y{ view.getSize().y };
+	for (int i = 0; i < y; ++i)
+	{
+		for (int j = 0; j < x; ++j)
+		{
+			const double noise = perlin.octave2D_01((i * 0.01), (j * 0.01), 4) * 254.999;
+			const int noiseInt = static_cast<int>(noise);
+			sf::Uint8 noiseUint = sf::Uint8(noiseInt);
+			perlinData.push_back(noiseUint);
+		}
+	}
+
+	noise.setSize(sf::Vector2f(x, y));
+	noiseTexture.create(x, y);
+	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+	for (int i = 0; i < x * y; i++)
+	{
+
+		sf::Uint8 mutate = perlinData[i];
+
+		pixels[(i * 4) + 0] = mutate;
+		pixels[(i * 4) + 1] = mutate;
+		pixels[(i * 4) + 2] = mutate;
+		pixels[(i * 4) + 3] = 255;
+
+	}
+
+	perlinImage.create(x, y, pixels);
+	delete[] pixels;
+	noiseTexture.loadFromImage(perlinImage);
+	noise.setTexture(&noiseTexture);
+}
+
+void Window::drawPerlin()
+{
+	perlinData.clear();
+	const float x{ view.getSize().x };
+	const float y{ view.getSize().y };
+	for (int i = 0; i < y; ++i)
+	{
+
+		for (int j = 0; j < x; ++j)
+		{
+			const double noise = perlin.octave2D_01((i * 0.01) + mover, (j * 0.01) + mover, 4) * 254.999;
+			const int noiseInt = static_cast<int>(noise);
+			sf::Uint8 noiseUint = sf::Uint8(noiseInt);
+			perlinData.push_back(noiseUint);
+		}
+	}
+	mover += x;
+	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+	for (int i = 0; i < perlinData.size(); i++)
+	{
+		pixels[(i * 4) + 0] = perlinData[i];
+		pixels[(i * 4) + 1] = perlinData[i];
+		pixels[(i * 4) + 2] = perlinData[i];
+		pixels[(i * 4) + 3] = 255;
+	}
+	perlinImage.create(x, y, pixels);
+	delete[] pixels;
+	noiseTexture.loadFromImage(perlinImage);
+	noise.setTexture(&noiseTexture);
+	
+
+	this->draw(noise);
 }

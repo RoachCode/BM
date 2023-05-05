@@ -1,10 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <deque>
 #include "constExpressions.h"
 #include "font.h"
 #include "devtools.h"
 #include "imageHandler.h"
 #include "sprite.h"
+#include "PerlinNoise.hpp"
 
 extern class Window : public sf::RenderWindow
 {
@@ -35,6 +37,16 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
+	void drawPerlin();
+	siv::PerlinNoise::seed_type seed;
+	siv::PerlinNoise perlin{25U};
+	std::vector<sf::Uint8> perlinData;
+	sf::RectangleShape noise;
+	sf::Texture noiseTexture;
+	sf::Image perlinImage;
+	void initPerlin();
+	unsigned int mover;
+
 private:
 	int getZoomFactor();
 };
