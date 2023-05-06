@@ -38,14 +38,12 @@ public:
 	void drawSprites();
 	void drawParticles();
 	void drawPerlin();
-	siv::PerlinNoise::seed_type seed;
-	siv::PerlinNoise perlin{25U};
-	std::vector<sf::Uint8> perlinData;
+	int perlinCounter;
+	std::deque<sf::Uint8> perlinData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
-	sf::Image perlinImage;
+
 	void initPerlin();
-	unsigned int mover;
 
 private:
 	int getZoomFactor();

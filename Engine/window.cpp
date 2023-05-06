@@ -134,8 +134,9 @@ int Window::getZoomFactor()
 void Window::drawText(std::string string, sf::Vector2f startPosition)
 {
 	font.setStartPos(startPosition);
+	font.setPos(font.getStartPos());
 	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) };
-
+	// bounds on the right. so far only right side.
 	if (static_cast<int>(startPosition.x) + pixelWidth > static_cast<int>(size.x))
 	{
 		font.setStartPos(sf::Vector2f(size.x / getZoomFactor() - pixelWidth, startPosition.y));
@@ -168,7 +169,11 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 					font.move(font.moveR);
 				}
 
-				this->draw(font.charSprite);
+				this->draw(font.charSprite); // huge bottleneck
+			}
+			else
+			{
+				std::cout << "couldn't attach char image";
 			}
 		}
 		font.setPos(font.getStartPos());
@@ -231,11 +236,10 @@ void Window::drawParticles()
 
 void Window::initPerlin()
 {
-	seed = 11;
-	perlin.reseed(seed);
+	siv::PerlinNoise perlin{ 25U };
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
-	for (int i = 0; i < y; ++i)
+	for (int i = 0; i < y * 2; ++i)
 	{
 		for (int j = 0; j < x; ++j)
 		{
@@ -246,8 +250,48 @@ void Window::initPerlin()
 		}
 	}
 
+}
+
+void Window::drawPerlin()
+{
+	perlinCounter++;
+	sf::Image perlinImage;
+	const float x{ view.getSize().x };
+	const float y{ view.getSize().y };
+
+	std::vector<sf::Uint8> blendData;
+
+	if (perlinCounter > 0)
+	{
+		perlinCounter = 0;
+		/*
+		for (int i = 0; i < x; i++)
+		{
+			oneLine.push_back(perlinData[0]);
+			perlinData.pop_front();
+		}
+		for (int i = 0; i < x; i++)
+		{
+			perlinData.push_back(oneLine[x - i]);
+		}
+		*/
+		for (int i = 0; i < x; i++)
+		{
+
+			blendData.push_back(perlinData[0]);
+			perlinData.pop_front();
+		}
+
+
+		for (int i = 0; i < blendData.size(); i++)
+		{
+			perlinData.push_back(blendData[i] / 2);
+		}
+		blendData.clear();
+
+	}
+
 	noise.setSize(sf::Vector2f(x, y));
-	noiseTexture.create(x, y);
 	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
 	for (int i = 0; i < x * y; i++)
 	{
@@ -260,43 +304,10 @@ void Window::initPerlin()
 		pixels[(i * 4) + 3] = 255;
 
 	}
-
-	perlinImage.create(x, y, pixels);
-	delete[] pixels;
-	noiseTexture.loadFromImage(perlinImage);
-	noise.setTexture(&noiseTexture);
-}
-
-void Window::drawPerlin()
-{
-	perlinData.clear();
-	const float x{ view.getSize().x };
-	const float y{ view.getSize().y };
-	for (int i = 0; i < y; ++i)
-	{
-
-		for (int j = 0; j < x; ++j)
-		{
-			const double noise = perlin.octave2D_01((i * 0.01) + mover, (j * 0.01) + mover, 4) * 254.999;
-			const int noiseInt = static_cast<int>(noise);
-			sf::Uint8 noiseUint = sf::Uint8(noiseInt);
-			perlinData.push_back(noiseUint);
-		}
-	}
-	mover += x;
-	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
-	for (int i = 0; i < perlinData.size(); i++)
-	{
-		pixels[(i * 4) + 0] = perlinData[i];
-		pixels[(i * 4) + 1] = perlinData[i];
-		pixels[(i * 4) + 2] = perlinData[i];
-		pixels[(i * 4) + 3] = 255;
-	}
 	perlinImage.create(x, y, pixels);
 	delete[] pixels;
 	noiseTexture.loadFromImage(perlinImage);
 	noise.setTexture(&noiseTexture);
 	
-
 	this->draw(noise);
 }

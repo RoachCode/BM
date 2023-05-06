@@ -7,7 +7,7 @@ int main()
     ImageHandler imageHandler;
     Window window;
 	window.DEV_TOOLS.allowFreeMovement();
-    window.font.setColor(sf::Color(80, 0, 144));
+    window.font.setColor(sf::Color(255, 120, 10));
 
     //ParticleSystem particles(50000); // Just for testing it out.
     
@@ -17,12 +17,11 @@ int main()
         window.clear();
 
         window.pollEvents();
-        //window.drawTileMapsBack();
+        window.drawTileMapsBack();
         //window.drawSprites();
-        //window.drawTileMapsFront();
+        window.drawTileMapsFront();
         //window.drawParticles();
         window.drawPerlin();
-
 
         //particle system test
         /*
