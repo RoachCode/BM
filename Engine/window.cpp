@@ -24,7 +24,7 @@ Window::Window()
 	renderWindowSprites.create(32 * 24 * 4, 32 * 14 * 4);
 	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
 
-	this->initPerlin();
+	this->initSimplex();
 
 }
 
@@ -234,67 +234,30 @@ void Window::drawParticles()
 
 }
 
-void Window::createPerlinValues(int x, int y)
+void Window::drawSimplex()
 {
-	for (int i = 0; i < y; ++i)
-	{
-		for (int j = 0; j < x; ++j)
-		{
-			xyValues.push_back(sf::Vector2f(i * 0.01, j * 0.01));
-		}
-	}
-}
-
-void Window::initPerlin()
-{
-	siv::PerlinNoise perlin{ 25U };
-	const float x{ view.getSize().x };
-	const float y{ view.getSize().y };
-	createPerlinValues(x, y);
-	for (int i = 0; i < x * y; i++)
-	{
-		const double noise = perlin.octave2D_01(xyValues[i].x, xyValues[i].y, 4) * 254.999;
-		const int noiseInt = static_cast<int>(noise);
-		sf::Uint8 noiseUint = sf::Uint8(noiseInt);
-		perlinData.push_back(noiseUint);
-	}
-
-}
-
-void Window::drawPerlin()
-{
-	perlinCounter++;
+	simplexCounter++;
 	sf::Image perlinImage;
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
 
 	std::vector<sf::Uint8> blendData;
 
-	if (perlinCounter > 0)
+	if (simplexCounter > 5)
 	{
-		perlinCounter = 0;
-		/*
-		for (int i = 0; i < x; i++)
-		{
-			oneLine.push_back(perlinData[0]);
-			perlinData.pop_front();
-		}
-		for (int i = 0; i < x; i++)
-		{
-			perlinData.push_back(oneLine[x - i]);
-		}
-		*/
+		simplexCounter = 0;
+
 		for (int i = 0; i < x; i++)
 		{
 
-			blendData.push_back(perlinData[0]);
-			perlinData.pop_front();
+			blendData.push_back(simplexData[0]);
+			simplexData.pop_front();
 		}
 
 
 		for (int i = 0; i < blendData.size(); i++)
 		{
-			perlinData.push_back(blendData[i]);
+			simplexData.push_back(blendData[i]);
 		}
 		blendData.clear();
 
@@ -304,9 +267,7 @@ void Window::drawPerlin()
 	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
 	for (int i = 0; i < x * y; i++)
 	{
-
-		sf::Uint8 mutate = perlinData[i];
-
+		sf::Uint8 mutate{ simplexData[i] };
 		pixels[(i * 4) + 0] = mutate;
 		pixels[(i * 4) + 1] = mutate;
 		pixels[(i * 4) + 2] = mutate;
@@ -319,4 +280,55 @@ void Window::drawPerlin()
 	noise.setTexture(&noiseTexture);
 	
 	this->draw(noise);
+}
+
+void Window::createSimplexValues(int x, int y)
+{
+	float octave{0.001f};
+	for (int k = 0; k < simplexOctaves; k++)
+	{
+		octave *= 2;
+		for (int i = 0; i < y; ++i)
+		{
+			for (int j = 0; j < x; ++j)
+			{
+				xyValues.push_back(sf::Vector2f(j * octave, i * octave));			
+			}
+		}
+	}
+	octave = 0.001f;
+}
+
+void Window::initSimplex()
+{
+	OpenSimplexNoise::Noise simplex(9118);
+	simplexOctaves = 10;
+	const float x{ view.getSize().x };
+	const float y{ view.getSize().y };
+	createSimplexValues(x, y);
+	for (int i = 0; i < x * y; i++)
+	{
+		double noise{ 0.0 };
+		for (int j = 1; j < simplexOctaves; j++)
+		{
+			//std::cout << simplex.eval(static_cast<double>(xyValues[i + x * y * j].x), static_cast<double>(xyValues[i + x * y * j].y)) << '\n';+
+			const double modX{ static_cast<double>(xyValues[i + x * y * j].x) };
+			const double modY{ static_cast<double>(xyValues[i + x * y * j].y) };
+			noise += simplex.eval(modX, modY) / j;
+		}
+		noise *= 255.999;
+		int noiseInt = static_cast<int>(noise);
+
+		int lowest{ 0 };
+		if (noiseInt < lowest) { noiseInt = lowest; }
+		noiseInt += lowest;
+		if (noiseInt > 255) { noiseInt = 255; }
+
+		//std::cout << noiseInt << '\n';
+		sf::Uint8 noiseUint = sf::Uint8(noiseInt);
+		simplexData.push_back(noiseUint);
+
+	}
+
+
 }

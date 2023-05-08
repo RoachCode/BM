@@ -21,7 +21,7 @@ int main()
         //window.drawSprites();
         window.drawTileMapsFront();
         //window.drawParticles();
-        window.drawPerlin();
+        window.drawSimplex();
 
         //particle system test
         /*

@@ -6,7 +6,7 @@
 #include "devtools.h"
 #include "imageHandler.h"
 #include "sprite.h"
-#include "PerlinNoise.hpp"
+#include "OpenSimplexNoise.h"
 
 extern class Window : public sf::RenderWindow
 {
@@ -37,15 +37,17 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
-	void drawPerlin();
-	int perlinCounter;
-	std::deque<sf::Uint8> perlinData;
+	void drawSimplex();
+	int simplexCounter;
+	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
 
-	void initPerlin();
+	void initSimplex();
 	std::vector<sf::Vector2f> xyValues;
-	void createPerlinValues(int x, int y);
+	int simplexOctaves{};
+	void createSimplexValues(int x, int y);
 private:
 	int getZoomFactor();
+
 };

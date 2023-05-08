@@ -25,6 +25,7 @@
     <ClCompile Include="Engine\imageHandler.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\maps.cpp" />
+    <ClCompile Include="Engine\OpenSimplexNoise.cpp" />
     <ClCompile Include="Engine\tilemap.cpp" />
     <ClCompile Include="Engine\window.cpp" />
   </ItemGroup>
@@ -35,6 +36,7 @@
     <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\imageHandler.h" />
     <ClInclude Include="Engine\maps.h" />
+    <ClInclude Include="Engine\OpenSimplexNoise.h" />
     <ClInclude Include="Engine\particles.h" />
     <ClInclude Include="Engine\PerlinNoise.hpp" />
     <ClInclude Include="Engine\sprite.h" />
