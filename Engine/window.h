@@ -47,6 +47,8 @@ public:
 	std::vector<sf::Vector2f> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
+	void normalizeRGB();
+	std::vector<int> tempContainer;
 private:
 	int getZoomFactor();
 

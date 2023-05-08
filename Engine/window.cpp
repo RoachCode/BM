@@ -284,7 +284,7 @@ void Window::drawSimplex()
 
 void Window::createSimplexValues(int x, int y)
 {
-	float octave{0.001f};
+	float octave{ 0.001f };
 	for (int k = 0; k < simplexOctaves; k++)
 	{
 		octave *= 2;
@@ -299,10 +299,30 @@ void Window::createSimplexValues(int x, int y)
 	octave = 0.001f;
 }
 
+void Window::normalizeRGB()
+{
+	int lowest{ 0 };
+	for (int i = 0; i < tempContainer.size(); i++)
+	{
+
+		if (tempContainer[i] < lowest) { lowest = tempContainer[i]; }
+
+	}
+	for (int i = 0; i < tempContainer.size(); i++)
+	{
+		tempContainer[i] += abs(lowest);
+		if (tempContainer[i] > 255) { tempContainer[i] = 255; }
+
+		//std::cout << noiseInt << '\n';
+		sf::Uint8 noiseUint = sf::Uint8(tempContainer[i]);
+		simplexData.push_back(noiseUint);
+	}
+}
+
 void Window::initSimplex()
 {
-	OpenSimplexNoise::Noise simplex(9118);
-	simplexOctaves = 10;
+	OpenSimplexNoise::Noise simplex(9113453458);
+	simplexOctaves = 7;
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
 	createSimplexValues(x, y);
@@ -314,21 +334,16 @@ void Window::initSimplex()
 			//std::cout << simplex.eval(static_cast<double>(xyValues[i + x * y * j].x), static_cast<double>(xyValues[i + x * y * j].y)) << '\n';+
 			const double modX{ static_cast<double>(xyValues[i + x * y * j].x) };
 			const double modY{ static_cast<double>(xyValues[i + x * y * j].y) };
+
 			noise += simplex.eval(modX, modY) / j;
+
 		}
-		noise *= 255.999;
+		noise *= 255.999 / simplexOctaves; //
 		int noiseInt = static_cast<int>(noise);
 
-		int lowest{ 0 };
-		if (noiseInt < lowest) { noiseInt = lowest; }
-		noiseInt += lowest;
-		if (noiseInt > 255) { noiseInt = 255; }
-
-		//std::cout << noiseInt << '\n';
-		sf::Uint8 noiseUint = sf::Uint8(noiseInt);
-		simplexData.push_back(noiseUint);
+		tempContainer.push_back(noiseInt);
 
 	}
-
+	normalizeRGB();
 
 }
