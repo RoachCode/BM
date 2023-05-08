@@ -234,20 +234,29 @@ void Window::drawParticles()
 
 }
 
+void Window::createPerlinValues(int x, int y)
+{
+	for (int i = 0; i < y; ++i)
+	{
+		for (int j = 0; j < x; ++j)
+		{
+			xyValues.push_back(sf::Vector2f(i * 0.01, j * 0.01));
+		}
+	}
+}
+
 void Window::initPerlin()
 {
 	siv::PerlinNoise perlin{ 25U };
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
-	for (int i = 0; i < y * 2; ++i)
+	createPerlinValues(x, y);
+	for (int i = 0; i < x * y; i++)
 	{
-		for (int j = 0; j < x; ++j)
-		{
-			const double noise = perlin.octave2D_01((i * 0.01), (j * 0.01), 4) * 254.999;
-			const int noiseInt = static_cast<int>(noise);
-			sf::Uint8 noiseUint = sf::Uint8(noiseInt);
-			perlinData.push_back(noiseUint);
-		}
+		const double noise = perlin.octave2D_01(xyValues[i].x, xyValues[i].y, 4) * 254.999;
+		const int noiseInt = static_cast<int>(noise);
+		sf::Uint8 noiseUint = sf::Uint8(noiseInt);
+		perlinData.push_back(noiseUint);
 	}
 
 }
@@ -285,7 +294,7 @@ void Window::drawPerlin()
 
 		for (int i = 0; i < blendData.size(); i++)
 		{
-			perlinData.push_back(blendData[i] / 2);
+			perlinData.push_back(blendData[i]);
 		}
 		blendData.clear();
 

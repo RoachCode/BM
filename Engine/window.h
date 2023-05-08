@@ -44,7 +44,8 @@ public:
 	sf::Texture noiseTexture;
 
 	void initPerlin();
-
+	std::vector<sf::Vector2f> xyValues;
+	void createPerlinValues(int x, int y);
 private:
 	int getZoomFactor();
 };
