@@ -7,10 +7,14 @@
 #include "imageHandler.h"
 #include "sprite.h"
 #include "OpenSimplexNoise.h"
+#include "particles.h"
 
 extern class Window : public sf::RenderWindow
 {
 public:
+
+	ParticleSystem particles{50000}; // Just for testing it out.
+
 	Sprite sprite;
 	sf::RenderTexture renderWindowSprites;
 	sf::RectangleShape pseudoWindowSprites;

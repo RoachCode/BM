@@ -231,6 +231,13 @@ void Window::drawSprites()
 
 void Window::drawParticles()
 {
+	//particle system test
+
+	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
+	particles.setEmitter(mapPixelToCoords(mouse));
+	sf::Time elapsed = particles.clock.restart();
+	particles.update(elapsed);
+	draw(particles);
 
 }
 

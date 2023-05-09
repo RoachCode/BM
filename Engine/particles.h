@@ -9,7 +9,7 @@ public:
     ParticleSystem(unsigned int count) :
         m_particles(count),
         m_vertices(sf::Quads, count * 4),
-        m_lifetime(sf::seconds(8.f)),
+        m_lifetime(sf::seconds(3.f)),
         m_emitter(0.f, 0.f)
     {
     }
@@ -83,7 +83,7 @@ private:
         sf::Time life{ sf::milliseconds((std::rand() % 2000) + 1000) };
         sf::Vector2f groupVel(sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed));
         m_particles[index].velocity = groupVel;
-        //m_particles[index].lifetime = life;
+        m_particles[index].lifetime = life;
 
         // reset the position of the corresponding vertex
         m_vertices[index * 4].position = m_emitter;
