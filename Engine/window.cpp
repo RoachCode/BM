@@ -271,7 +271,7 @@ void Window::drawSimplex()
 		pixels[(i * 4) + 0] = mutate;
 		pixels[(i * 4) + 1] = mutate;
 		pixels[(i * 4) + 2] = mutate;
-		pixels[(i * 4) + 3] = 255;
+		pixels[(i * 4) + 3] = 255 - mutate;
 
 	}
 	perlinImage.create(x, y, pixels);
@@ -284,7 +284,7 @@ void Window::drawSimplex()
 
 void Window::createSimplexValues(int x, int y)
 {
-	int octave{ 1 };
+	int octave{ 8 };
 	float x1 = 0;
 	float x2 = 1;
 	float y1 = 0;
@@ -296,34 +296,28 @@ void Window::createSimplexValues(int x, int y)
 		{
 			for (int ix = 0; ix < x; ++ix)
 			{
+				// these offsets define the circles
 				float s = static_cast<float>(ix) / static_cast<float>(x);
 				float t = static_cast<float>(iy) / static_cast<float>(y);
 
+				// clamping to [0, 1]
 				float dx = x2 - x1;
 				float dy = y2 - y1;
 
+				// 4d noise. two orthogonal 3d cylinders. Loops continuously along x and y dimensions.
 				float modX = x1 + cos(s * 2 * PI) * dx / (2 * PI / octave);
 				float modY = y1 + cos(t * 2 * PI) * dy / (2 * PI / octave);
 				float modZ = x1 + sin(s * 2 * PI) * dx / (2 * PI / octave);
 				float modW = y1 + sin(t * 2 * PI) * dy / (2 * PI / octave);
 
-				//float modX = cos(s * 2 * PI);
-				//float modY = sin(t * 2 * PI);
-				
-
-				//float modX = ix * octave;
-				//float modY = iy * octave;
-
-
 				xyValues.push_back(modX);
 				xyValues.push_back(modY);
 				xyValues.push_back(modZ);
 				xyValues.push_back(modW);
-
 			}
 		}
 	}
-	octave = 1;
+	octave = 8;
 }
 
 void Window::normalizeRGB()
@@ -348,8 +342,8 @@ void Window::normalizeRGB()
 
 void Window::initSimplex()
 {
-	OpenSimplexNoise::Noise simplex(9113453458);
-	simplexOctaves = 7;
+	OpenSimplexNoise::Noise simplex(494358);
+	simplexOctaves = 4;
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
 	createSimplexValues(x, y);
