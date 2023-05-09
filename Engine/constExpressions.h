@@ -2,7 +2,7 @@
 template <typename T>
 // Static casts any value to a float
 constexpr float floatify(T const& value) { return static_cast<float>(value); }
-
+constexpr double PI{ 3.14159265358979323846264338 };
 // The width of each map in pixels
 const unsigned int MAP_WIDTH_PIXELS{ 768 };
 // The height of each map in pixels

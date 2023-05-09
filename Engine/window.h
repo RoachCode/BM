@@ -44,7 +44,7 @@ public:
 	sf::Texture noiseTexture;
 
 	void initSimplex();
-	std::vector<sf::Vector2f> xyValues;
+	std::vector<float> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();

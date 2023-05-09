@@ -285,14 +285,40 @@ void Window::drawSimplex()
 void Window::createSimplexValues(int x, int y)
 {
 	float octave{ 0.001f };
+	float x1 = 0;
+	float x2 = 1;
+	float y1 = 0;
+	float y2 = 1;
 	for (int k = 0; k < simplexOctaves; k++)
 	{
 		octave *= 2;
-		for (int i = 0; i < y; ++i)
+		for (int iy = 0; iy < y; ++iy)
 		{
-			for (int j = 0; j < x; ++j)
+			for (int ix = 0; ix < x; ++ix)
 			{
-				xyValues.push_back(sf::Vector2f(j * octave, i * octave));			
+				float s = static_cast<float>(ix) / static_cast<float>(x);
+				float t = static_cast<float>(iy) / static_cast<float>(y);
+
+				float dx = x2 - x1;
+				float dy = y2 - y1;
+
+				float modX = x1 + cos(s * 2 * PI) * dx / (2 * PI * octave);
+				float modY = y1 + cos(t * 2 * PI) * dy / (2 * PI * octave);
+				float modZ = x1 + sin(s * 2 * PI) * dx / (2 * PI * octave);
+				float modW = y1 + sin(t * 2 * PI) * dy / (2 * PI * octave);
+
+				//float modX = cos(s * 2 * PI);
+				//float modY = sin(t * 2 * PI);
+				
+				//float modX = ix * octave;
+				//float modY = iy * octave;
+
+
+				xyValues.push_back(modX);
+				xyValues.push_back(modY);
+				xyValues.push_back(modZ);
+				xyValues.push_back(modW);
+
 			}
 		}
 	}
@@ -332,10 +358,12 @@ void Window::initSimplex()
 		for (int j = 1; j < simplexOctaves; j++)
 		{
 			//std::cout << simplex.eval(static_cast<double>(xyValues[i + x * y * j].x), static_cast<double>(xyValues[i + x * y * j].y)) << '\n';+
-			const double modX{ static_cast<double>(xyValues[i + x * y * j].x) };
-			const double modY{ static_cast<double>(xyValues[i + x * y * j].y) };
+			const double modX{ static_cast<double>(xyValues[(i * 4 + 0) + 4 * x * y * j]) };
+			const double modY{ static_cast<double>(xyValues[(i * 4 + 1) + 4 * x * y * j]) };
+			const double modZ{ static_cast<double>(xyValues[(i * 4 + 2) + 4 * x * y * j]) };
+			const double modW{ static_cast<double>(xyValues[(i * 4 + 3) + 4 * x * y * j]) };
 
-			noise += simplex.eval(modX, modY) / j;
+			noise += simplex.eval(modX, modY, modZ, modW) / j;
 
 		}
 		noise *= 255.999 / simplexOctaves; //
