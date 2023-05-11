@@ -25,7 +25,6 @@ Window::Window()
 	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
 
 	this->initSimplex();
-
 }
 
 void Window::pollEvents()
@@ -232,7 +231,13 @@ void Window::drawSprites()
 void Window::drawParticles()
 {
 	//particle system test
-
+	particles.setColor
+	(
+		sf::Color::Red,
+		sf::Color::Black,
+		sf::Color::Red,
+		sf::Color::Black
+	);
 	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
 	particles.setEmitter(mapPixelToCoords(mouse));
 	sf::Time elapsed = particles.clock.restart();
@@ -241,33 +246,50 @@ void Window::drawParticles()
 
 }
 
-void Window::drawSimplex()
+void Window::drawSimplex(int direction)
 {
-	simplexCounter++;
+	simplexSpeed++;
 	sf::Image perlinImage;
 	const float x{ view.getSize().x };
 	const float y{ view.getSize().y };
 
-	std::vector<sf::Uint8> blendData;
 
-	if (simplexCounter > 5)
+
+	if (simplexSpeed > 5)
 	{
-		simplexCounter = 0;
-
-		for (int i = 0; i < x; i++)
+		simplexSpeed = 0;
+		std::vector<sf::Uint8> blendData;
+		switch (direction)
 		{
+		case UP:
+			// Transform - Up
+			for (int i = 0; i < x; i++)
+			{
 
-			blendData.push_back(simplexData[0]);
-			simplexData.pop_front();
+				blendData.push_back(simplexData[0]);
+				simplexData.pop_front();
+			}
+			for (int i = 0; i < blendData.size(); i++)
+			{
+				simplexData.push_back(blendData[i]);
+			}
+			break;
+		case DOWN:
+			// Transform - Down
+			for (int i = 0; i < x; i++)
+			{
+				blendData.push_back(simplexData.back());
+				simplexData.pop_back();
+			}
+			for (int i = 0; i < blendData.size(); i++)
+			{
+				simplexData.push_front(blendData[i]);
+			}
+			break;
+		default:
+			blendData.clear();
+			break;
 		}
-
-
-		for (int i = 0; i < blendData.size(); i++)
-		{
-			simplexData.push_back(blendData[i]);
-		}
-		blendData.clear();
-
 	}
 
 	noise.setSize(sf::Vector2f(x, y));
@@ -376,4 +398,63 @@ void Window::initSimplex()
 	}
 	normalizeRGB();
 
+}
+
+
+
+
+
+void Window::initFlow() {}
+
+void Window::drawFlow()
+{
+	const int width = view.getSize().x;
+	const int height = view.getSize().y;
+
+	sf::VertexArray m_vertices;
+	m_vertices.setPrimitiveType(sf::Quads);
+	m_vertices.resize(width * height * 4);
+	const sf::Vector2u tileSize(width / 50, height / 50);
+
+	sf::RectangleShape line(sf::Vector2f(height / 50 / 2, 0.5));
+	//sf::Vertex line[] =
+	//{
+	//	sf::Vertex(sf::Vector2f(tileSize.x / 2, tileSize.y / 2), sf::Color::White),
+	//	sf::Vertex(sf::Vector2f(tileSize.x / 2 + 5, tileSize.y / 2), sf::Color::Red)
+	//};
+
+	for (unsigned int i = 0; i < width / tileSize.x; i++)
+	{
+		for (unsigned int j = 0; j < height / tileSize.y; j++)
+		{
+			// get a pointer to the current tile's quad
+			sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
+
+			// define its 4 corners
+			quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+			quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+			quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+			quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+			
+			quad[0].color = sf::Color(0, 0, 255, 25);
+			quad[1].color = sf::Color(0, 255, 0, 25);
+			quad[2].color = sf::Color(0, 0, 255, 25);
+			quad[3].color = sf::Color(0, 255, 0, 25);
+
+			float angle = j * PI;
+
+			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (tileSize.x / 2), quad[2].position.y - (tileSize.y / 2));
+			line.setPosition(quadCenter);
+			line.setRotation(angle);
+
+			//sf::Transform t;
+			//t.translate(i * tileSize.x, j * tileSize.y);
+			//draw(line, 2, sf::Lines, t);
+			draw(line);
+		}
+
+	}
+
+
+	draw(m_vertices);
 }

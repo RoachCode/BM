@@ -9,25 +9,28 @@ int main()
 	window.DEV_TOOLS.allowFreeMovement();
     window.font.setColor(sf::Color(255, 120, 10));
 
-    
-    
+    window.initFlow();
     while (window.isOpen())
     {
         //window.close();
         window.clear();
 
         window.pollEvents();
-        window.drawTileMapsBack();
+        //window.drawTileMapsBack();
         //window.drawSprites();
-        window.drawTileMapsFront();
+        //window.drawTileMapsFront();
+        //window.drawSimplex(DOWN);
 
-        window.drawSimplex();
-        window.drawParticles();
+        window.drawFlow();
+        
 
 
-        //window.draw(noise);
-        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50));
-      
+        //pathing.setPosition(0, 0);?
+        //window.drawParticles(); // can get expensive depending on particlecount
+
+
+        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
+
         window.display();
 
     }

@@ -14,6 +14,7 @@ bool TileMap::load(const sf::Image& tileset, sf::Vector2u tileSize, unsigned int
 
     // populate the vertex array, with one quad per tile
     for (unsigned int i = 0; i < width; ++i)
+    {
         for (unsigned int j = 0; j < height; ++j)
         {
             // get the current tile number
@@ -38,7 +39,7 @@ bool TileMap::load(const sf::Image& tileset, sf::Vector2u tileSize, unsigned int
             quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
             quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
         }
-
+    }
     return true;
 }
 

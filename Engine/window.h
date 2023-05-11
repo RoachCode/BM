@@ -41,18 +41,20 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
-	void drawSimplex();
-	int simplexCounter;
+	void drawSimplex(int direction = -1);
+	int simplexSpeed;
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
-
+	std::vector<float> angleVector;
 	void initSimplex();
 	std::vector<float> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 	std::vector<int> tempContainer;
+	void initFlow();
+	void drawFlow();
 private:
 	int getZoomFactor();
 
