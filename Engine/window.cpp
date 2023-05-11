@@ -406,22 +406,37 @@ void Window::initSimplex()
 
 void Window::initFlow() {}
 
+
+
+
+
+
 void Window::drawFlow()
 {
 	const int width = view.getSize().x;
 	const int height = view.getSize().y;
-
 	sf::VertexArray m_vertices;
+	sf::Uint8* pixels = new sf::Uint8[400];
+	sf::Image image;
+	sf::Texture gradient;
+
 	m_vertices.setPrimitiveType(sf::Quads);
 	m_vertices.resize(width * height * 4);
 	const sf::Vector2u tileSize(width / 50, height / 50);
-
 	sf::RectangleShape line(sf::Vector2f(height / 50 / 2, 0.5));
-	//sf::Vertex line[] =
-	//{
-	//	sf::Vertex(sf::Vector2f(tileSize.x / 2, tileSize.y / 2), sf::Color::White),
-	//	sf::Vertex(sf::Vector2f(tileSize.x / 2 + 5, tileSize.y / 2), sf::Color::Red)
-	//};
+
+	for (int i = 0; i < 100; i++)
+	{
+		pixels[i * 4 + 0] = 255;
+		pixels[i * 4 + 1] = 255 - (i * 2);
+		pixels[i * 4 + 2] = 255 - (i * 2);
+		pixels[i * 4 + 3] = 255;
+	}
+
+	image.create(100, 1, pixels);
+	gradient.loadFromImage(image);
+	line.setTexture(&gradient);
+	delete[] pixels;
 
 	for (unsigned int i = 0; i < width / tileSize.x; i++)
 	{
@@ -442,14 +457,12 @@ void Window::drawFlow()
 			quad[3].color = sf::Color(0, 255, 0, 25);
 
 			float angle = j * PI;
+			//float angle = simplexData[(j * tileSize.y) * (i * tileSize.x) + (i * tileSize.x)]; // no way this works.
 
 			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (tileSize.x / 2), quad[2].position.y - (tileSize.y / 2));
 			line.setPosition(quadCenter);
 			line.setRotation(angle);
 
-			//sf::Transform t;
-			//t.translate(i * tileSize.x, j * tileSize.y);
-			//draw(line, 2, sf::Lines, t);
 			draw(line);
 		}
 
