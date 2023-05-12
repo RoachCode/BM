@@ -402,7 +402,7 @@ void Window::initSimplex()
 
 void Window::drawFlow()
 {
-
+	/*
 
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
@@ -413,6 +413,8 @@ void Window::drawFlow()
 	const int rdmY = distr(gen);
 
 	flow.tracer.setPosition(rdmX, rdmY);
+
+	*/
 
 	const sf::Vector2f returnPos = flow.tracer.getPosition();
 	float angle;
