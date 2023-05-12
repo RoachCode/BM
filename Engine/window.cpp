@@ -433,27 +433,36 @@ void Window::drawFlow(int xFlow, int yFlow)
 	const int xPaths{yFlow};
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
+
 	for (int ii = 0; ii < xPaths; ii++)
 	{
 		for (int iii = 0; iii < yPaths; iii++)
 		{
-			//std::uniform_int_distribution<> distr(0, view.getSize().x); // define the range
-			//int rdmX = distr(gen); // generate numbers
-			//std::uniform_int_distribution<> distr2(0, view.getSize().y); // define the range
-			//int rdmY = distr(gen);
+			//random distribution
 
-			flow.tracer.setPosition(ii * (flow.width / xPaths) + (flow.width / xPaths) - 5, iii * (flow.height / yPaths));
+			std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
+			int rdmX = distr(gen); // generate numbers
+			std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
+			int rdmY = distr(gen);
+			
+
+
+			//even distribution
+			const int startPosX{ ii * (static_cast<int>(flow.gridSize.x) / xPaths) + (static_cast<int>(flow.gridSize.x) / xPaths) / 2 };
+			const int startPosY{ iii * (static_cast<int>(flow.gridSize.y) / yPaths) + (static_cast<int>(flow.gridSize.y) / yPaths) / 2 };
+
+			flow.tracer.setPosition(startPosX, startPosY);
 
 			//*/
 
 			const sf::Vector2f returnPos = flow.tracer.getPosition();
 			float angle;
-			for (unsigned int i = 0; i < flow.width / flow.tileSize.x; i++)
+			for (unsigned int i = 0; i < flow.gridSize.x / flow.tileSize.x; i++)
 			{
-				for (unsigned int j = 0; j < flow.height / flow.tileSize.y; j++)
+				for (unsigned int j = 0; j < flow.gridSize.y / flow.tileSize.y; j++)
 				{
 					// get a pointer to the current tile's quad
-					sf::Vertex* quad = &flow.m_vertices[(i + j * flow.width) * 4];
+					sf::Vertex* quad = &flow.m_vertices[(i + j * (flow.gridSize.y / flow.tileSize.y)) * 4];
 
 					// define its 4 corners
 					quad[0].position = sf::Vector2f(i * flow.tileSize.x, j * flow.tileSize.y);
@@ -461,41 +470,54 @@ void Window::drawFlow(int xFlow, int yFlow)
 					quad[2].position = sf::Vector2f((i + 1) * flow.tileSize.x, (j + 1) * flow.tileSize.y);
 					quad[3].position = sf::Vector2f(i * flow.tileSize.x, (j + 1) * flow.tileSize.y);
 
-					quad[0].color = sf::Color(0, 255, 0, 1);
-					quad[1].color = sf::Color(0, 0, 0, 1);
-					quad[2].color = sf::Color(0, 155, 0, 1);
-					quad[3].color = sf::Color(0, 0, 0, 1);
+					quad[0].color = sf::Color(0, 255, 0, 35);
+					quad[1].color = sf::Color(50, 0, 0, 35);
+					quad[2].color = sf::Color(222, 155, 0, 35);
+					quad[3].color = sf::Color(0, 0, 0, 35);
 
-					angle = flow.angleVector[j + i * (flow.height / flow.tileSize.y)];
+					angle = flow.angleVector[i + j * (flow.gridSize.x / flow.tileSize.x)];
 					//float angle = j * PI;
 
 					const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
 					flow.line.setPosition(quadCenter);
 					flow.line.setRotation(angle);
 
-					draw(flow.line);
+					//draw(flow.line);
 				}
 			}
 
-			for (unsigned int i = 0; i < flow.width * flow.height; i++)
+			const int stepCount = flow.gridSize.x * flow.gridSize.y;
+			for (unsigned int i = 0; i < stepCount; i++)
 			{
-
+				/*
+				const int smoothAlphaMod = stepCount / 255;
+				flow.tracer.setFillColor(
+					sf::Color(
+						flow.tracer.getFillColor().r,
+						flow.tracer.getFillColor().g,
+						flow.tracer.getFillColor().b,
+						sf::Uint8(25)
+					)
+				);
+				*/
 				const sf::Vector2f pos(flow.tracer.getPosition());
 				const int gridX = pos.x / flow.tileSize.x;
 				const int gridY = pos.y / flow.tileSize.y;
 
-				angle = flow.angleVector[gridY + gridX * (flow.height / flow.tileSize.y)];
+				angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
 
 				const float newX = cos(angle * (PI / 180));
 				const float newY = sin(angle * (PI / 180));
 
 				flow.tracer.move(newX, newY);
-				draw(flow.tracer);
-
+				if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
+				{
+					draw(flow.tracer);
+				}
 			}
 			flow.tracer.setPosition(returnPos);
 		}
 	}
-	draw(flow.m_vertices);
+	//draw(flow.m_vertices);
 
 }

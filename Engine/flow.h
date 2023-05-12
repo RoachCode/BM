@@ -12,6 +12,7 @@ public:
 	sf::Image image;
 	sf::Texture gradient;
 	sf::Vector2u tileSize;
+	sf::Vector2u gridSize;
 	sf::RectangleShape line;
 	std::vector<float> angleVector;
 	sf::CircleShape tracer;
@@ -28,14 +29,16 @@ public:
 		width = sf::VideoMode::getDesktopMode().width / 2; // because we're zoomed in right now...
 		height = sf::VideoMode::getDesktopMode().height / 2;
 		m_vertices.setPrimitiveType(sf::Quads);
-		m_vertices.resize(width * height * 4);
-		tileSize = sf::Vector2u(width / 100, height / 100); // defines the density of the grid
+		const int gridFactor{ 100 };
+		tileSize = sf::Vector2u(width / gridFactor, height / gridFactor); // defines the density of the grid
+		gridSize = sf::Vector2u(static_cast<unsigned int>(tileSize.x) * gridFactor, static_cast<unsigned int>(tileSize.y) * gridFactor);
+		m_vertices.resize(gridSize.x * gridSize.y * 4);
 		line.setSize(sf::Vector2f(height / 50 / 2, 0.5));
 
-		initSimplex(width / tileSize.x, height / tileSize.y, 4);
+		initSimplex(gridSize.x / tileSize.x, gridSize.y / tileSize.y, 4);
 
 		tracer.setRadius(0.5f);
-		tracer.setFillColor(sf::Color::Cyan);
+		tracer.setFillColor(sf::Color(0, 100, 100, 25));
 		tracer.setPosition(605, 444);
 
 		sf::Uint8* pixels = new sf::Uint8[400];
@@ -53,12 +56,12 @@ public:
 		delete[] pixels;
 		float lowest{ 1.f };
 		float highest{ -1.f };
-		for (unsigned int i = 0; i < width / tileSize.x; i++)
+		for (unsigned int i = 0; i < gridSize.x / tileSize.x; i++)
 		{
-			for (unsigned int j = 0; j < height / tileSize.y; j++)
+			for (unsigned int j = 0; j < gridSize.y / tileSize.y; j++)
 			{
 
-				float angle = simplexData[i + j * (width / tileSize.x)] * PI;
+				float angle = simplexData[i + j * (gridSize.x / tileSize.x)] * PI;
 
 				if (angle < lowest) { lowest = angle; }
 				if (angle > highest) { highest = angle; }
