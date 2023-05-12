@@ -16,6 +16,7 @@ public:
 	std::vector<float> angleVector;
 	Flow flow;
 	ParticleSystem particles{ 10000, flow }; // Just for testing it out.
+	ParticleSystem2 particles2{ 10000, flow }; // Just for testing it out.
 
 	Sprite sprite;
 	sf::RenderTexture renderWindowSprites;
@@ -43,19 +44,22 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
+	void drawParticles2();
+	float simplexSizeX;
+	float simplexSizeY;
 	void drawSimplex(int direction = -1);
 	int simplexSpeed;
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
 
-	void initSimplex();
+	void initSimplex(float sizeX, float sizeY, int octaves);
 	std::vector<float> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 	std::vector<int> tempContainer;
-	void drawFlow();
+	void drawFlow(int xFlow, int yFlow);
 private:
 	int getZoomFactor();
 

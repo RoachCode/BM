@@ -18,9 +18,9 @@ int main()
         //window.drawTileMapsBack();
         //window.drawSprites();
         //window.drawTileMapsFront();
-        //window.drawSimplex(DOWN);
+        //window.drawSimplex();
 
-        window.drawFlow();
+        window.drawFlow(31, 31);
         //window.drawParticles();
 
 
@@ -31,7 +31,8 @@ int main()
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
 
         window.display();
-
+        
+        //sf::sleep(sf::milliseconds(20000));
     }
 
     return 0;

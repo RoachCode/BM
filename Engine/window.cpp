@@ -24,8 +24,7 @@ Window::Window()
 
 	renderWindowSprites.create(32 * 24 * 4, 32 * 14 * 4);
 	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
-
-	this->initSimplex();
+	this->initSimplex(flow.width / flow.tileSize.x, flow.height / flow.tileSize.y, 4);
 }
 
 void Window::pollEvents()
@@ -246,12 +245,29 @@ void Window::drawParticles()
 
 }
 
+void Window::drawParticles2()
+{
+	//particle system test
+	particles2.setColor
+	(
+		sf::Color::Red,
+		sf::Color::Black,
+		sf::Color::Red,
+		sf::Color::Black
+	);
+
+	sf::Time elapsed = particles2.clock.restart();
+	particles2.update(elapsed);
+	draw(particles2);
+
+}
+
 void Window::drawSimplex(int direction)
 {
 	simplexSpeed++;
 	sf::Image perlinImage;
-	const float x{ view.getSize().x };
-	const float y{ view.getSize().y };
+	const float x{ simplexSizeX };
+	const float y{ simplexSizeY };
 
 
 
@@ -300,7 +316,7 @@ void Window::drawSimplex(int direction)
 		pixels[(i * 4) + 0] = mutate;
 		pixels[(i * 4) + 1] = mutate;
 		pixels[(i * 4) + 2] = mutate;
-		pixels[(i * 4) + 3] = 255 - mutate;
+		pixels[(i * 4) + 3] = 255;
 
 	}
 	perlinImage.create(x, y, pixels);
@@ -352,12 +368,14 @@ void Window::createSimplexValues(int x, int y)
 void Window::normalizeRGB()
 {
 	int lowest{ 0 };
+	int highest{ 0 };
 	for (int i = 0; i < tempContainer.size(); i++)
 	{
 
 		if (tempContainer[i] < lowest) { lowest = tempContainer[i]; }
-
+		if (tempContainer[i] > highest) { highest = tempContainer[i]; }
 	}
+	//std::cout << "lowest: " << lowest << "     Highest: " << highest << '\n';
 	for (int i = 0; i < tempContainer.size(); i++)
 	{
 		tempContainer[i] += abs(lowest);
@@ -369,13 +387,18 @@ void Window::normalizeRGB()
 	}
 }
 
-void Window::initSimplex()
+void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
-	simplexOctaves = 4;
-	const float x{ view.getSize().x };
-	const float y{ view.getSize().y };
+	simplexOctaves = octaves;
+	simplexSizeX = sizeX;
+	simplexSizeY = sizeY;
+
+	const float x{ sizeX };
+	const float y{ sizeY };
 	createSimplexValues(x, y);
+	tempContainer.clear();
+
 	for (int i = 0; i < x * y; i++)
 	{
 		double noise{ 0.0 };
@@ -390,9 +413,12 @@ void Window::initSimplex()
 			noise += simplex.eval(modX, modY, modZ, modW) / (j + 1);
 
 		}
-		noise *= 255.999 / simplexOctaves; //
-		int noiseInt = static_cast<int>(noise);
 
+
+		noise *= (255.999 / simplexOctaves);
+		// need to correct for the noise having 1.5x the value it should, for some reason.
+		noise = (noise * 2) / 3;
+		int noiseInt = static_cast<int>(noise);	
 		tempContainer.push_back(noiseInt);
 
 	}
@@ -400,70 +426,76 @@ void Window::initSimplex()
 
 }
 
-void Window::drawFlow()
+void Window::drawFlow(int xFlow, int yFlow)
 {
-	/*
-
+	///*
+	const int yPaths{xFlow};
+	const int xPaths{yFlow};
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
-	std::uniform_int_distribution<> distr(0, view.getSize().x); // define the range
-
-	const int rdmX = distr(gen); // generate numbers
-	std::uniform_int_distribution<> distr2(0, view.getSize().y); // define the range
-	const int rdmY = distr(gen);
-
-	flow.tracer.setPosition(rdmX, rdmY);
-
-	*/
-
-	const sf::Vector2f returnPos = flow.tracer.getPosition();
-	float angle;
-	for (unsigned int i = 0; i < flow.width / flow.tileSize.x; i++)
+	for (int ii = 0; ii < xPaths; ii++)
 	{
-		for (unsigned int j = 0; j < flow.height / flow.tileSize.y; j++)
+		for (int iii = 0; iii < yPaths; iii++)
 		{
-			// get a pointer to the current tile's quad
-			sf::Vertex* quad = &flow.m_vertices[(i + j * flow.width) * 4];
+			//std::uniform_int_distribution<> distr(0, view.getSize().x); // define the range
+			//int rdmX = distr(gen); // generate numbers
+			//std::uniform_int_distribution<> distr2(0, view.getSize().y); // define the range
+			//int rdmY = distr(gen);
 
-			// define its 4 corners
-			quad[0].position = sf::Vector2f(i * flow.tileSize.x, j * flow.tileSize.y);
-			quad[1].position = sf::Vector2f((i + 1) * flow.tileSize.x, j * flow.tileSize.y);
-			quad[2].position = sf::Vector2f((i + 1) * flow.tileSize.x, (j + 1) * flow.tileSize.y);
-			quad[3].position = sf::Vector2f(i * flow.tileSize.x, (j + 1) * flow.tileSize.y);
+			flow.tracer.setPosition(ii * (flow.width / xPaths) + (flow.width / xPaths) - 5, iii * (flow.height / yPaths));
 
-			quad[0].color = sf::Color(0, 255, 0, 35);
-			quad[1].color = sf::Color(0, 0, 0, 35);
-			quad[2].color = sf::Color(0, 155, 0, 35);
-			quad[3].color = sf::Color(0, 0, 0, 35);
+			//*/
 
-			angle = flow.angleVector[j + i * (flow.height / flow.tileSize.y)];
-			//float angle = j * PI;
+			const sf::Vector2f returnPos = flow.tracer.getPosition();
+			float angle;
+			for (unsigned int i = 0; i < flow.width / flow.tileSize.x; i++)
+			{
+				for (unsigned int j = 0; j < flow.height / flow.tileSize.y; j++)
+				{
+					// get a pointer to the current tile's quad
+					sf::Vertex* quad = &flow.m_vertices[(i + j * flow.width) * 4];
 
-			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
-			flow.line.setPosition(quadCenter);
-			flow.line.setRotation(angle);
+					// define its 4 corners
+					quad[0].position = sf::Vector2f(i * flow.tileSize.x, j * flow.tileSize.y);
+					quad[1].position = sf::Vector2f((i + 1) * flow.tileSize.x, j * flow.tileSize.y);
+					quad[2].position = sf::Vector2f((i + 1) * flow.tileSize.x, (j + 1) * flow.tileSize.y);
+					quad[3].position = sf::Vector2f(i * flow.tileSize.x, (j + 1) * flow.tileSize.y);
 
-			draw(flow.line);
+					quad[0].color = sf::Color(0, 255, 0, 1);
+					quad[1].color = sf::Color(0, 0, 0, 1);
+					quad[2].color = sf::Color(0, 155, 0, 1);
+					quad[3].color = sf::Color(0, 0, 0, 1);
+
+					angle = flow.angleVector[j + i * (flow.height / flow.tileSize.y)];
+					//float angle = j * PI;
+
+					const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
+					flow.line.setPosition(quadCenter);
+					flow.line.setRotation(angle);
+
+					draw(flow.line);
+				}
+			}
+
+			for (unsigned int i = 0; i < flow.width * flow.height; i++)
+			{
+
+				const sf::Vector2f pos(flow.tracer.getPosition());
+				const int gridX = pos.x / flow.tileSize.x;
+				const int gridY = pos.y / flow.tileSize.y;
+
+				angle = flow.angleVector[gridY + gridX * (flow.height / flow.tileSize.y)];
+
+				const float newX = cos(angle * (PI / 180));
+				const float newY = sin(angle * (PI / 180));
+
+				flow.tracer.move(newX, newY);
+				draw(flow.tracer);
+
+			}
+			flow.tracer.setPosition(returnPos);
 		}
 	}
-
-	for (unsigned int i = 0; i < flow.width * flow.height; i++)
-	{
-
-		const sf::Vector2f pos(flow.tracer.getPosition());
-		const int gridX = pos.x / flow.tileSize.x;
-		const int gridY = pos.y / flow.tileSize.y;
-
-		angle = flow.angleVector[gridY + gridX * (flow.height / flow.tileSize.y)];
-
-		const float newX = cos(angle * (PI / 180));
-		const float newY = sin(angle * (PI / 180));
-
-		flow.tracer.move(newX, newY);
-		draw(flow.tracer);
-		
-	}
-	flow.tracer.setPosition(returnPos);
 	draw(flow.m_vertices);
 
 }
