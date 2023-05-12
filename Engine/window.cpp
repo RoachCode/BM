@@ -1,6 +1,7 @@
 #pragma once
 #include "window.h"
 #include <iostream>
+#include <random> // for drawing because I dont have the freakin particles calibrated yet.
 
 // Call constructor, which calls inherited constructor from sf::RenderWindow
 Window::Window()
@@ -401,6 +402,18 @@ void Window::initSimplex()
 
 void Window::drawFlow()
 {
+
+
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(0, view.getSize().x); // define the range
+
+	const int rdmX = distr(gen); // generate numbers
+	std::uniform_int_distribution<> distr2(0, view.getSize().y); // define the range
+	const int rdmY = distr(gen);
+
+	flow.tracer.setPosition(rdmX, rdmY);
+
 	const sf::Vector2f returnPos = flow.tracer.getPosition();
 	float angle;
 	for (unsigned int i = 0; i < flow.width / flow.tileSize.x; i++)
@@ -435,8 +448,6 @@ void Window::drawFlow()
 	for (unsigned int i = 0; i < flow.width * flow.height; i++)
 	{
 
-		draw(flow.tracer);
-
 		const sf::Vector2f pos(flow.tracer.getPosition());
 		const int gridX = pos.x / flow.tileSize.x;
 		const int gridY = pos.y / flow.tileSize.y;
@@ -446,10 +457,11 @@ void Window::drawFlow()
 		const float newX = cos(angle * (PI / 180));
 		const float newY = sin(angle * (PI / 180));
 
-		//std::cout << cos(angle * (PI / 180)) << '\n';
 		flow.tracer.move(newX, newY);
+		draw(flow.tracer);
 		
 	}
 	flow.tracer.setPosition(returnPos);
 	draw(flow.m_vertices);
+
 }

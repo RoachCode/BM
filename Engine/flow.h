@@ -17,14 +17,14 @@ public:
 
 	Flow()
 	{
-		width = sf::VideoMode::getDesktopMode().width / 2;
+		width = sf::VideoMode::getDesktopMode().width / 2; // because we're zoomed in right now...
 		height = sf::VideoMode::getDesktopMode().height / 2;
 		m_vertices.setPrimitiveType(sf::Quads);
 		m_vertices.resize(width * height * 4);
-		tileSize = sf::Vector2u(width / 50, height / 50);
+		tileSize = sf::Vector2u(width / 50, height / 50); // defines the density of the grid
 		line.setSize(sf::Vector2f(height / 50 / 2, 0.5));
 
-		tracer.setRadius(2.f);
+		tracer.setRadius(0.5f);
 		tracer.setFillColor(sf::Color::Cyan);
 		tracer.setPosition(400, 21);
 

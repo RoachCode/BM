@@ -18,7 +18,7 @@ public:
         topRight = sf::Color::White;
         bottomLeft = sf::Color::White;
         bottomRight = sf::Color::White;
-        m_flow = flow;
+        //m_flow = flow;
     }
 
     void setColor(sf::Color tL, sf::Color tR, sf::Color bR, sf::Color bL)
