@@ -238,8 +238,7 @@ void Window::drawParticles()
 		sf::Color::Red,
 		sf::Color::Black
 	);
-	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
-	particles.setEmitter(mapPixelToCoords(mouse));
+
 	sf::Time elapsed = particles.clock.restart();
 	particles.update(elapsed);
 	draw(particles);
@@ -400,74 +399,57 @@ void Window::initSimplex()
 
 }
 
-
-
-
-
-void Window::initFlow() {}
-
-
-
-
-
-
 void Window::drawFlow()
 {
-	const int width = view.getSize().x;
-	const int height = view.getSize().y;
-	sf::VertexArray m_vertices;
-	sf::Uint8* pixels = new sf::Uint8[400];
-	sf::Image image;
-	sf::Texture gradient;
-
-	m_vertices.setPrimitiveType(sf::Quads);
-	m_vertices.resize(width * height * 4);
-	const sf::Vector2u tileSize(width / 50, height / 50);
-	sf::RectangleShape line(sf::Vector2f(height / 50 / 2, 0.5));
-
-	for (int i = 0; i < 100; i++)
+	const sf::Vector2f returnPos = flow.tracer.getPosition();
+	float angle;
+	for (unsigned int i = 0; i < flow.width / flow.tileSize.x; i++)
 	{
-		pixels[i * 4 + 0] = 255;
-		pixels[i * 4 + 1] = 255 - (i * 2);
-		pixels[i * 4 + 2] = 255 - (i * 2);
-		pixels[i * 4 + 3] = 255;
-	}
-
-	image.create(100, 1, pixels);
-	gradient.loadFromImage(image);
-	line.setTexture(&gradient);
-	delete[] pixels;
-
-	for (unsigned int i = 0; i < width / tileSize.x; i++)
-	{
-		for (unsigned int j = 0; j < height / tileSize.y; j++)
+		for (unsigned int j = 0; j < flow.height / flow.tileSize.y; j++)
 		{
 			// get a pointer to the current tile's quad
-			sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
+			sf::Vertex* quad = &flow.m_vertices[(i + j * flow.width) * 4];
 
 			// define its 4 corners
-			quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-			quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-			quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-			quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
-			
-			quad[0].color = sf::Color(0, 0, 255, 25);
-			quad[1].color = sf::Color(0, 255, 0, 25);
-			quad[2].color = sf::Color(0, 0, 255, 25);
-			quad[3].color = sf::Color(0, 255, 0, 25);
+			quad[0].position = sf::Vector2f(i * flow.tileSize.x, j * flow.tileSize.y);
+			quad[1].position = sf::Vector2f((i + 1) * flow.tileSize.x, j * flow.tileSize.y);
+			quad[2].position = sf::Vector2f((i + 1) * flow.tileSize.x, (j + 1) * flow.tileSize.y);
+			quad[3].position = sf::Vector2f(i * flow.tileSize.x, (j + 1) * flow.tileSize.y);
 
-			float angle = j * PI;
-			//float angle = simplexData[(j * tileSize.y) * (i * tileSize.x) + (i * tileSize.x)]; // no way this works.
+			quad[0].color = sf::Color(0, 255, 0, 35);
+			quad[1].color = sf::Color(0, 0, 0, 35);
+			quad[2].color = sf::Color(0, 155, 0, 35);
+			quad[3].color = sf::Color(0, 0, 0, 35);
 
-			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (tileSize.x / 2), quad[2].position.y - (tileSize.y / 2));
-			line.setPosition(quadCenter);
-			line.setRotation(angle);
+			angle = flow.angleVector[j + i * (flow.height / flow.tileSize.y)];
+			//float angle = j * PI;
 
-			draw(line);
+			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
+			flow.line.setPosition(quadCenter);
+			flow.line.setRotation(angle);
+
+			draw(flow.line);
 		}
-
 	}
 
+	for (unsigned int i = 0; i < flow.width * flow.height; i++)
+	{
 
-	draw(m_vertices);
+		draw(flow.tracer);
+
+		const sf::Vector2f pos(flow.tracer.getPosition());
+		const int gridX = pos.x / flow.tileSize.x;
+		const int gridY = pos.y / flow.tileSize.y;
+
+		angle = flow.angleVector[gridY + gridX * (flow.height / flow.tileSize.y)];
+
+		const float newX = cos(angle * (PI / 180));
+		const float newY = sin(angle * (PI / 180));
+
+		//std::cout << cos(angle * (PI / 180)) << '\n';
+		flow.tracer.move(newX, newY);
+		
+	}
+	flow.tracer.setPosition(returnPos);
+	draw(flow.m_vertices);
 }

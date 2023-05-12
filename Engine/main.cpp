@@ -9,7 +9,6 @@ int main()
 	window.DEV_TOOLS.allowFreeMovement();
     window.font.setColor(sf::Color(255, 120, 10));
 
-    window.initFlow();
     while (window.isOpen())
     {
         //window.close();
@@ -22,7 +21,7 @@ int main()
         //window.drawSimplex(DOWN);
 
         window.drawFlow();
-        
+        //window.drawParticles();
 
 
         //pathing.setPosition(0, 0);?

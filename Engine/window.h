@@ -8,12 +8,14 @@
 #include "sprite.h"
 #include "OpenSimplexNoise.h"
 #include "particles.h"
+#include "flow.h"
 
 extern class Window : public sf::RenderWindow
 {
 public:
-
-	ParticleSystem particles{50000}; // Just for testing it out.
+	std::vector<float> angleVector;
+	Flow flow;
+	ParticleSystem particles{ 10000, flow }; // Just for testing it out.
 
 	Sprite sprite;
 	sf::RenderTexture renderWindowSprites;
@@ -46,14 +48,13 @@ public:
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
-	std::vector<float> angleVector;
+
 	void initSimplex();
 	std::vector<float> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 	std::vector<int> tempContainer;
-	void initFlow();
 	void drawFlow();
 private:
 	int getZoomFactor();
