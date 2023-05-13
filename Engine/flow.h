@@ -29,7 +29,7 @@ public:
 		width = sf::VideoMode::getDesktopMode().width / 2; // because we're zoomed in right now...
 		height = sf::VideoMode::getDesktopMode().height / 2;
 		m_vertices.setPrimitiveType(sf::Quads);
-		const int gridFactor{ 100 };
+		const int gridFactor{ 200 };
 		tileSize = sf::Vector2u(width / gridFactor, height / gridFactor); // defines the density of the grid
 		gridSize = sf::Vector2u(static_cast<unsigned int>(tileSize.x) * gridFactor, static_cast<unsigned int>(tileSize.y) * gridFactor);
 		m_vertices.resize(gridSize.x * gridSize.y * 4);

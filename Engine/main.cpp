@@ -9,7 +9,7 @@ int main()
 	window.DEV_TOOLS.allowFreeMovement();
     window.font.setColor(sf::Color(255, 120, 10));
 
-    static bool onlyOnceHack{ true };
+    bool onlyOnceHack{ true };
 
     while (window.isOpen())
     {
@@ -31,32 +31,24 @@ int main()
 
 
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
-        window.display();
 
-
-        sf::Texture texture;
-        texture.create(window.flow.gridSize.x, window.flow.gridSize.y);
 
         if (onlyOnceHack)
         {
-            for (int i = 0; i < 10; i++)
+            sf::Texture texture;
+            texture.create(window.getSize().x, window.getSize().y);
+            texture.update(window);
+
+            if (!texture.copyToImage().saveToFile("abadaba.png"))
             {
-                const int idx = i;
-                std::string filename = "abadaba" + std::to_string(idx) + ".png";
-                texture.update(window, window.flow.gridSize.x, window.flow.gridSize.y);
-                if (texture.copyToImage().saveToFile(filename))
-                {
-                    std::cout << "screenshot saved to " << "abadaba" << std::endl;
-                }
+                std::cout << "screenshot failed";
             }
-
-
             onlyOnceHack = false;
         }
-
+        window.display();
 
         //window.close();
-        sf::sleep(sf::milliseconds(2000));
+        //sf::sleep(sf::milliseconds(2000));
        
         
     }
