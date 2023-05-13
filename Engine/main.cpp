@@ -35,11 +35,22 @@ int main()
         70,
         70
     };
-
+    FlowPreset inProgress
+    {
+        InProgress,
+        0,      // red   ----------- [0, 255]
+        200,    // green ----------- [0, 255]
+        0,      // blue  ----------- [0, 255]
+        55,     // alpha ----------- [0, 255]
+        1000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
+        1,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
+        5,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
+        5       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+    };
     while (window.isOpen())
     {
         //window.close();
-        window.clear(sf::Color::White);
+        window.clear();
 
         window.pollEvents();
         //window.drawTileMapsBack();
@@ -48,7 +59,7 @@ int main()
         //window.drawSimplex();
 
 
-        window.drawFlow(dragonFlame);
+        window.drawFlow(inProgress);
         //window.drawParticles();
 
 

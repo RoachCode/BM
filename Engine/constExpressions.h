@@ -35,6 +35,7 @@ enum Direction
 
 enum FlowPresetNames
 {
+	InProgress,
 	DragonFlame,
 	CyanRivers
 };

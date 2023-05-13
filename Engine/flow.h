@@ -239,6 +239,10 @@ public:
 		int id = name;
 		switch (id)
 		{
+		case InProgress:
+			fl.currentName = "InProgress";
+			fl.tracer.setRadius(1.0f); // default 0.5
+			break;
 		case DragonFlame:
 			fl.currentName = "DragonFlame";
 			// Colour changes
