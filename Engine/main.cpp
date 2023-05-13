@@ -22,7 +22,8 @@ int main()
         //window.drawTileMapsFront();
         //window.drawSimplex();
 
-        window.drawFlow(100, 100);
+
+        window.drawFlow(70, 70);
         //window.drawParticles();
 
 
@@ -39,7 +40,7 @@ int main()
             texture.create(window.getSize().x, window.getSize().y);
             texture.update(window);
 
-            if (!texture.copyToImage().saveToFile("abadaba.png"))
+            if (!texture.copyToImage().saveToFile("abadaba.bmp"))
             {
                 std::cout << "screenshot failed";
             }

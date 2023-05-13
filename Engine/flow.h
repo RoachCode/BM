@@ -38,7 +38,7 @@ public:
 		initSimplex(gridSize.x / tileSize.x, gridSize.y / tileSize.y, 4);
 
 		tracer.setRadius(0.5f);
-		tracer.setFillColor(sf::Color(0, 100, 100, 25));
+		tracer.setFillColor(sf::Color(0, 100, 20, 15));
 		tracer.setPosition(605, 444);
 
 		sf::Uint8* pixels = new sf::Uint8[400];
@@ -69,10 +69,31 @@ public:
 			}
 		}
 		//std::cout << "Lowest: " << lowest << "     Highest: " << highest << '\n';
+
+		for (unsigned int i = 0; i < gridSize.x / tileSize.x; i++)
+		{
+			for (unsigned int j = 0; j < gridSize.y / tileSize.y; j++)
+			{
+				// get a pointer to the current tile's quad
+				sf::Vertex* quad = &m_vertices[(i + j * (gridSize.y / tileSize.y)) * 4];
+
+				// define its 4 corners
+				quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+				quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+				quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+				quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+
+				quad[0].color = sf::Color(0, 255, 0, 35);
+				quad[1].color = sf::Color(50, 0, 0, 35);
+				quad[2].color = sf::Color(222, 155, 0, 35);
+				quad[3].color = sf::Color(0, 0, 0, 35);
+			}
+		}
 	}
 
 	void createSimplexValues(int x, int y)
 	{
+		xyValues.clear();
 		int octave{ 8 };
 		float x1 = 0;
 		float x2 = 1;
@@ -158,6 +179,7 @@ public:
 			if (tempContainer[i] > highest) { highest = tempContainer[i]; }
 		}
 		//std::cout << "lowest: " << lowest << "     Highest: " << highest << '\n';
+		simplexData.clear();
 		for (int i = 0; i < tempContainer.size(); i++)
 		{
 			tempContainer[i] += abs(lowest);

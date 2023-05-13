@@ -434,6 +434,11 @@ void Window::drawFlow(int xFlow, int yFlow)
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
 
+	float red;
+	float green;
+	float blue;
+	float alpha;
+
 	for (int ii = 0; ii < xPaths; ii++)
 	{
 		for (int iii = 0; iii < yPaths; iii++)
@@ -448,8 +453,9 @@ void Window::drawFlow(int xFlow, int yFlow)
 
 
 			//even distribution
-			const int startPosX{ ii * (static_cast<int>(flow.gridSize.x) / xPaths) + (static_cast<int>(flow.gridSize.x) / xPaths) / 2 };
-			const int startPosY{ iii * (static_cast<int>(flow.gridSize.y) / yPaths) + (static_cast<int>(flow.gridSize.y) / yPaths) / 2 };
+			// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
+			const int startPosX{ static_cast<int>(ii * (static_cast<int>(flow.gridSize.x) / xPaths) + (static_cast<int>(flow.gridSize.x) / xPaths) / 2) };
+			const int startPosY{ static_cast<int>(iii * (static_cast<int>(flow.gridSize.y) / yPaths) + (static_cast<int>(flow.gridSize.y) / yPaths) / 2) };
 
 			flow.tracer.setPosition(startPosX, startPosY);
 
@@ -464,60 +470,74 @@ void Window::drawFlow(int xFlow, int yFlow)
 					// get a pointer to the current tile's quad
 					sf::Vertex* quad = &flow.m_vertices[(i + j * (flow.gridSize.y / flow.tileSize.y)) * 4];
 
-					// define its 4 corners
-					quad[0].position = sf::Vector2f(i * flow.tileSize.x, j * flow.tileSize.y);
-					quad[1].position = sf::Vector2f((i + 1) * flow.tileSize.x, j * flow.tileSize.y);
-					quad[2].position = sf::Vector2f((i + 1) * flow.tileSize.x, (j + 1) * flow.tileSize.y);
-					quad[3].position = sf::Vector2f(i * flow.tileSize.x, (j + 1) * flow.tileSize.y);
-
-					quad[0].color = sf::Color(0, 255, 0, 35);
-					quad[1].color = sf::Color(50, 0, 0, 35);
-					quad[2].color = sf::Color(222, 155, 0, 35);
-					quad[3].color = sf::Color(0, 0, 0, 35);
-
 					angle = flow.angleVector[i + j * (flow.gridSize.x / flow.tileSize.x)];
-					//float angle = j * PI;
 
 					const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
 					flow.line.setPosition(quadCenter);
 					flow.line.setRotation(angle);
 
+					quad = nullptr;
 					//draw(flow.line);
 				}
 			}
 
-			const int stepCount = flow.gridSize.x * flow.gridSize.y;
-			for (unsigned int i = 0; i < stepCount; i++)
+			//const int lineLength = flow.gridSize.x * flow.gridSize.y;
+			const float initialRadius = flow.tracer.getRadius();
+			const int plottedPoints = 290;
+			float stepSize = 0.5;
+			red = 250;
+			green = 155;
+			blue = 0;
+			alpha = 100;
+			const sf::Color newColor = sf::Color(
+				static_cast<int>(red),
+				static_cast<int>(green),
+				static_cast<int>(blue),
+				static_cast<int>(alpha)
+			);
+			flow.tracer.setFillColor(newColor);
+
+			for (unsigned int i = 0; i < plottedPoints; i++)
 			{
-				/*
-				const int smoothAlphaMod = stepCount / 255;
-				flow.tracer.setFillColor(
-					sf::Color(
-						flow.tracer.getFillColor().r,
-						flow.tracer.getFillColor().g,
-						flow.tracer.getFillColor().b,
-						sf::Uint8(25)
-					)
+				
+				const float smoothMod = (255 / plottedPoints) * i;
+
+				red = flow.tracer.getFillColor().r - 0.25;
+				green = flow.tracer.getFillColor().g - 0.25;
+				blue += 1;
+				alpha = flow.tracer.getFillColor().a * 0.98;
+
+				const sf::Color newColor = sf::Color(
+					static_cast<int>(red),
+					static_cast<int>(green),
+					static_cast<int>(blue),
+					static_cast<int>(alpha)
 				);
-				*/
+				flow.tracer.setFillColor(newColor);
+				
+
+				flow.tracer.setRadius(flow.tracer.getRadius() + 0.075f);
+
+				// Gets the angle from the current position's underlying grid
 				const sf::Vector2f pos(flow.tracer.getPosition());
 				const int gridX = pos.x / flow.tileSize.x;
 				const int gridY = pos.y / flow.tileSize.y;
-
 				angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
 
+				// Converts the angle to x,y coordinates and moves the tracer
 				const float newX = cos(angle * (PI / 180));
 				const float newY = sin(angle * (PI / 180));
+				flow.tracer.move(newX * stepSize, newY * stepSize);
 
-				flow.tracer.move(newX, newY);
+				// Bounds the tracer to the drawing area
 				if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
 				{
 					draw(flow.tracer);
 				}
 			}
 			flow.tracer.setPosition(returnPos);
+			flow.tracer.setRadius(initialRadius);
 		}
 	}
 	//draw(flow.m_vertices);
-
 }
