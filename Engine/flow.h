@@ -6,6 +6,7 @@
 class Flow
 {
 public:
+	std::string currentName;
 	unsigned int width;
 	unsigned int height;
 	sf::VertexArray m_vertices;
@@ -191,3 +192,81 @@ public:
 		}
 	}
 };
+
+
+
+//float red;
+//float green;
+//float blue;
+//float alpha - transparency;
+//int plottedPoints - how many points to plot before moving to the next xCount; ie, how long the "line" that gets drawn is
+//float stepSize - how far to move between calls to draw; (fineness of line - big numbers lead to dotted lines)
+//int xCount - number of start points to create, wide
+//int yCount - number of start points to create, high
+class FlowPreset
+{
+public:
+	int name;
+	float red;
+	float green;
+	float blue;
+	float alpha;
+
+	int plottedPoints;
+	float stepSize;
+
+	int xCount;
+	int yCount;
+
+	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2) {};
+
+	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount) :
+		name(n),
+		red(r),
+		green(g),
+		blue(b),
+		alpha(a),
+		plottedPoints(pp),
+		stepSize(ss),
+		xCount(xcount),
+		yCount(ycount)
+	{
+		//
+	};
+
+	void applyChanges(Flow& fl)
+	{
+		int id = name;
+		switch (id)
+		{
+		case DragonFlame:
+			fl.currentName = "DragonFlame";
+			// Colour changes
+			red = fl.tracer.getFillColor().r - 0.25;
+			green = fl.tracer.getFillColor().g - 0.25;
+			blue = fl.tracer.getFillColor().b + 1;
+			alpha = fl.tracer.getFillColor().a * 0.98;
+
+			// Radius changes
+			fl.tracer.setRadius(fl.tracer.getRadius() + 0.075f);
+			break;
+		case CyanRivers:
+			fl.currentName = "CyanRivers";
+			break;
+		default:
+			fl.currentName = "untitled";
+			break;
+		}
+
+
+		// Common actions
+		const sf::Color newColor = sf::Color(
+			static_cast<int>(red),
+			static_cast<int>(green),
+			static_cast<int>(blue),
+			static_cast<int>(alpha)
+		);
+		fl.tracer.setFillColor(newColor);
+	}
+};
+

@@ -426,31 +426,24 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 
 }
 
-void Window::drawFlow(int xFlow, int yFlow)
+void Window::drawFlow(FlowPreset &fp)
 {
-	///*
-	const int yPaths{xFlow};
-	const int xPaths{yFlow};
+
+	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
+	const int yPaths{fp.xCount};
+	const int xPaths{fp.yCount};
 	std::random_device rd; // obtain a random number from hardware
 	std::mt19937 gen(rd()); // seed the generator
-
-	float red;
-	float green;
-	float blue;
-	float alpha;
 
 	for (int ii = 0; ii < xPaths; ii++)
 	{
 		for (int iii = 0; iii < yPaths; iii++)
 		{
 			//random distribution
-
 			std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
 			int rdmX = distr(gen); // generate numbers
 			std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
 			int rdmY = distr(gen);
-			
-
 
 			//even distribution
 			// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
@@ -458,11 +451,9 @@ void Window::drawFlow(int xFlow, int yFlow)
 			const int startPosY{ static_cast<int>(iii * (static_cast<int>(flow.gridSize.y) / yPaths) + (static_cast<int>(flow.gridSize.y) / yPaths) / 2) };
 
 			flow.tracer.setPosition(startPosX, startPosY);
-
-			//*/
-
 			const sf::Vector2f returnPos = flow.tracer.getPosition();
 			float angle;
+
 			for (unsigned int i = 0; i < flow.gridSize.x / flow.tileSize.x; i++)
 			{
 				for (unsigned int j = 0; j < flow.gridSize.y / flow.tileSize.y; j++)
@@ -481,53 +472,24 @@ void Window::drawFlow(int xFlow, int yFlow)
 				}
 			}
 
+
 			//const int lineLength = flow.gridSize.x * flow.gridSize.y;
 			const float initialRadius = flow.tracer.getRadius();
-			const int plottedPoints = 290;
-			float stepSize = 0.5;
-			red = 250;
-			green = 155;
-			blue = 0;
-			alpha = 100;
-			const sf::Color newColor = sf::Color(
-				static_cast<int>(red),
-				static_cast<int>(green),
-				static_cast<int>(blue),
-				static_cast<int>(alpha)
-			);
-			flow.tracer.setFillColor(newColor);
 
-			for (unsigned int i = 0; i < plottedPoints; i++)
+			for (unsigned int i = 0; i < fp.plottedPoints; i++)
 			{
-				
-				const float smoothMod = (255 / plottedPoints) * i;
-
-				red = flow.tracer.getFillColor().r - 0.25;
-				green = flow.tracer.getFillColor().g - 0.25;
-				blue += 1;
-				alpha = flow.tracer.getFillColor().a * 0.98;
-
-				const sf::Color newColor = sf::Color(
-					static_cast<int>(red),
-					static_cast<int>(green),
-					static_cast<int>(blue),
-					static_cast<int>(alpha)
-				);
-				flow.tracer.setFillColor(newColor);
-				
-
-				flow.tracer.setRadius(flow.tracer.getRadius() + 0.075f);
+				fp.applyChanges(flow);
 
 				// Gets the angle from the current position's underlying grid
 				const sf::Vector2f pos(flow.tracer.getPosition());
-				const int gridX = pos.x / flow.tileSize.x;
-				const int gridY = pos.y / flow.tileSize.y;
+				const int gridX{ static_cast<int>(floatify(pos.x) / floatify(flow.tileSize.x)) };
+				const int gridY{ static_cast<int>(floatify(pos.y) / floatify(flow.tileSize.y)) };
 				angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
 
 				// Converts the angle to x,y coordinates and moves the tracer
 				const float newX = cos(angle * (PI / 180));
 				const float newY = sin(angle * (PI / 180));
-				flow.tracer.move(newX * stepSize, newY * stepSize);
+				flow.tracer.move(newX * fp.stepSize, newY * fp.stepSize);
 
 				// Bounds the tracer to the drawing area
 				if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
@@ -537,6 +499,7 @@ void Window::drawFlow(int xFlow, int yFlow)
 			}
 			flow.tracer.setPosition(returnPos);
 			flow.tracer.setRadius(initialRadius);
+			flow.tracer.setFillColor(initialColor);
 		}
 	}
 	//draw(flow.m_vertices);

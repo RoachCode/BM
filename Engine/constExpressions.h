@@ -33,3 +33,8 @@ enum Direction
 	DR
 };
 
+enum FlowPresetNames
+{
+	DragonFlame,
+	CyanRivers
+};

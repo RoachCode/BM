@@ -59,7 +59,8 @@ public:
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 	std::vector<int> tempContainer;
-	void drawFlow(int xFlow, int yFlow);
+	void drawFlow(FlowPreset &fp);
+
 private:
 	int getZoomFactor();
 

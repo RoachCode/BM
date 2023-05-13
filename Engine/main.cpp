@@ -11,10 +11,35 @@ int main()
 
     bool onlyOnceHack{ true };
 
+    FlowPreset dragonFlame
+    {
+        DragonFlame,
+        250,
+        155,
+        0,
+        100,
+        290,
+        0.5,
+        70,
+        70
+    };
+    FlowPreset cyanRivers
+    {
+        CyanRivers,
+        0,
+        100,
+        100,
+        15,
+        10000,
+        1,
+        70,
+        70
+    };
+
     while (window.isOpen())
     {
         //window.close();
-        window.clear();
+        window.clear(sf::Color::White);
 
         window.pollEvents();
         //window.drawTileMapsBack();
@@ -23,7 +48,7 @@ int main()
         //window.drawSimplex();
 
 
-        window.drawFlow(70, 70);
+        window.drawFlow(dragonFlame);
         //window.drawParticles();
 
 
@@ -40,7 +65,8 @@ int main()
             texture.create(window.getSize().x, window.getSize().y);
             texture.update(window);
 
-            if (!texture.copyToImage().saveToFile("abadaba.bmp"))
+            std::string filename = window.flow.currentName + ".bmp";
+            if (!texture.copyToImage().saveToFile(filename))
             {
                 std::cout << "screenshot failed";
             }
