@@ -471,10 +471,6 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 
 void Window::drawFlow(FlowPreset& fp)
 {
-	bool drawGrid{ false };
-	bool drawNeedles{ false };
-	bool drawLines{ true };
-
 	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
 	const int yPaths{ fp.xCount };
 	const int xPaths{ fp.yCount };
@@ -556,6 +552,7 @@ void Window::drawFlow(FlowPreset& fp)
 					if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
 					{
 						flowWindowTexture.draw(flow.tracer);
+						dotCounter++;
 					}
 				}
 				else
@@ -565,16 +562,28 @@ void Window::drawFlow(FlowPreset& fp)
 					flow.tracer.setFillColor(initialColor);
 					pathCounter = 0;
 				}
-				// If we are on the last iteration...
-
-					//drawGrid = false;
-					//drawNeedles = false;
-					//drawLines = false;
 
 			}
 		}
 	}
+	if (dotCounter > static_cast<int>(fp.plottedPoints * (xPaths - 1) * (yPaths - 1)))
+	{
+		drawGrid = false;
+		drawNeedles = false;
+		drawLines = false;
+		this->draw(flowWindow);
 
+		if (onlyOnceHack)
+		{
+
+			std::string filename = flow.currentName + ".bmp";
+			if (!flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
+			{
+				std::cout << "screenshot failed";
+			}
+			onlyOnceHack = false;
+		}
+	}
 	if (drawGrid || drawNeedles || drawLines)
 	{
 		flowWindowTexture.display();

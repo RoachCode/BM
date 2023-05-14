@@ -62,10 +62,14 @@ public:
 
 	std::vector<int> tempContainer;
 	int pathCounter{ 0 };
-
+	int dotCounter{ 0 };
+	bool drawGrid{ false };
+	bool drawNeedles{ false };
+	bool drawLines{ true };
 	void drawFlow(FlowPreset &fp);
 	sf::RenderTexture flowWindowTexture;
 	sf::RectangleShape flowWindow;
+	bool onlyOnceHack{ true };
 private:
 
 

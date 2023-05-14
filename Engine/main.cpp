@@ -9,8 +9,6 @@ int main()
 	window.DEV_TOOLS.allowFreeMovement();
     window.font.setColor(sf::Color(255, 120, 10));
 
-    bool onlyOnceHack{ true };
-
     FlowPreset dragonFlame
     {
         DragonFlame,
@@ -42,11 +40,11 @@ int main()
         0,      // red   ----------- [125, 255]
         200,    // green ----------- [025, 255]
         0,      // blue  ----------- [125, 255]
-        55,     // alpha ----------- [0, 255]
+        5,     // alpha ----------- [0, 255]
         1000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
-        1,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
-        5,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
-        5       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+        10,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
+        50,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
+        50       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
         /////////////////////////////////////////////////////////////////////////////////////////////////
     };
 
@@ -72,16 +70,7 @@ int main()
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
         
 
-        if (onlyOnceHack)
-        {
 
-            std::string filename = window.flow.currentName + ".bmp";
-            if (!window.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
-            {
-                std::cout << "screenshot failed";
-            }
-            onlyOnceHack = false;
-        }
 
         window.display();
     }
