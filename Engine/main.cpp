@@ -38,15 +38,18 @@ int main()
     FlowPreset inProgress
     {
         InProgress,
-        0,      // red   ----------- [0, 255]
-        200,    // green ----------- [0, 255]
-        0,      // blue  ----------- [0, 255]
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+        0,      // red   ----------- [125, 255]
+        200,    // green ----------- [025, 255]
+        0,      // blue  ----------- [125, 255]
         55,     // alpha ----------- [0, 255]
         1000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
         1,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
         5,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
         5       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+        /////////////////////////////////////////////////////////////////////////////////////////////////
     };
+
     while (window.isOpen())
     {
         //window.close();
@@ -56,8 +59,7 @@ int main()
         //window.drawTileMapsBack();
         //window.drawSprites();
         //window.drawTileMapsFront();
-        //window.drawSimplex();
-
+        //window.drawSimplex(RIGHT);
 
         window.drawFlow(inProgress);
         //window.drawParticles();
@@ -68,27 +70,20 @@ int main()
 
 
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
-
+        
 
         if (onlyOnceHack)
         {
-            sf::Texture texture;
-            texture.create(window.getSize().x, window.getSize().y);
-            texture.update(window);
 
             std::string filename = window.flow.currentName + ".bmp";
-            if (!texture.copyToImage().saveToFile(filename))
+            if (!window.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
             {
                 std::cout << "screenshot failed";
             }
             onlyOnceHack = false;
         }
-        window.display();
 
-        //window.close();
-        //sf::sleep(sf::milliseconds(2000));
-       
-        
+        window.display();
     }
 
     return 0;

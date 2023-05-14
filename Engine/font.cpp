@@ -69,6 +69,7 @@ void Font2::resetImage(sf::Color colorIn2)
 		}
 	}
 	fontTexture.loadFromImage(fontImage);
+	charSprite.setScale(sf::Vector2f(1, 1)); // ? not sure if needed.
 	charSprite.setTexture(fontTexture);
 }
 
@@ -123,6 +124,7 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 {
 	int offset{ getRectOffset(input) };
 	if (offset == -1) { return false; }
+	charSprite.setScale(sf::Vector2f(1, 1));
 	charSprite.setTextureRect(sf::IntRect(offset * 6, 0, 6, 8));
 	return true;
 }

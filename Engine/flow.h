@@ -27,14 +27,14 @@ public:
 	Flow()
 	{
 
-		width = sf::VideoMode::getDesktopMode().width / 2; // because we're zoomed in right now...
-		height = sf::VideoMode::getDesktopMode().height / 2;
+		width = sf::VideoMode::getDesktopMode().width;
+		height = sf::VideoMode::getDesktopMode().height;
 		m_vertices.setPrimitiveType(sf::Quads);
-		const int gridFactor{ 200 };
+		const int gridFactor{ 50 };
 		tileSize = sf::Vector2u(width / gridFactor, height / gridFactor); // defines the density of the grid
 		gridSize = sf::Vector2u(static_cast<unsigned int>(tileSize.x) * gridFactor, static_cast<unsigned int>(tileSize.y) * gridFactor);
 		m_vertices.resize(gridSize.x * gridSize.y * 4);
-		line.setSize(sf::Vector2f(height / 50 / 2, 0.5));
+		line.setSize(sf::Vector2f(height / 50 / 2, 1));
 
 		initSimplex(gridSize.x / tileSize.x, gridSize.y / tileSize.y, 4);
 
@@ -241,7 +241,9 @@ public:
 		{
 		case InProgress:
 			fl.currentName = "InProgress";
-			fl.tracer.setRadius(1.0f); // default 0.5
+			//////////////////////////////////////////////////////////////////////////////
+			fl.tracer.setRadius(1.0f); // default 1.0
+			//////////////////////////////////////////////////////////////////////////////
 			break;
 		case DragonFlame:
 			fl.currentName = "DragonFlame";

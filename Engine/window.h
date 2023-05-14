@@ -13,6 +13,7 @@
 extern class Window : public sf::RenderWindow
 {
 public:
+	int windowScale{ 1 };
 	std::vector<float> angleVector;
 	Flow flow;
 	ParticleSystem particles{ 10000, flow }; // Just for testing it out.
@@ -58,10 +59,14 @@ public:
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
-	std::vector<int> tempContainer;
-	void drawFlow(FlowPreset &fp);
 
+	std::vector<int> tempContainer;
+	int pathCounter{ 0 };
+
+	void drawFlow(FlowPreset &fp);
+	sf::RenderTexture flowWindowTexture;
+	sf::RectangleShape flowWindow;
 private:
-	int getZoomFactor();
+
 
 };
