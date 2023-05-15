@@ -30,7 +30,7 @@ public:
 		width = sf::VideoMode::getDesktopMode().width;
 		height = sf::VideoMode::getDesktopMode().height;
 		m_vertices.setPrimitiveType(sf::Quads);
-		const int gridFactor{ 200 };
+		const int gridFactor{ 100 };
 		tileSize = sf::Vector2u(width / gridFactor, height / gridFactor); // defines the density of the grid
 		gridSize = sf::Vector2u(static_cast<unsigned int>(tileSize.x) * gridFactor, static_cast<unsigned int>(tileSize.y) * gridFactor);
 		m_vertices.resize(gridSize.x * gridSize.y * 4);
@@ -38,7 +38,7 @@ public:
 
 		initSimplex(gridSize.x / tileSize.x, gridSize.y / tileSize.y, 4);
 
-		tracer.setRadius(0.5f);
+		tracer.setRadius(1.0f);
 		tracer.setFillColor(sf::Color(0, 100, 20, 15));
 		tracer.setPosition(605, 444);
 
@@ -61,7 +61,7 @@ public:
 		{
 			for (unsigned int j = 0; j < gridSize.y / tileSize.y; j++)
 			{
-
+				// this looks wrong.
 				float angle = simplexData[i + j * (gridSize.x / tileSize.x)] * PI;
 
 				if (angle < lowest) { lowest = angle; }
@@ -159,9 +159,7 @@ public:
 			}
 
 
-			noise *= (255.999 / simplexOctaves);
-			// need to correct for the noise having 1.5x the value it should, for some reason.
-			noise = (noise * 2) / 3;
+			noise *= (255.999 / simplexOctaves); // overflow???
 			int noiseInt = static_cast<int>(noise);
 			tempContainer.push_back(noiseInt);
 
@@ -203,6 +201,7 @@ public:
 //float stepSize - how far to move between calls to draw; (fineness of line - big numbers lead to dotted lines)
 //int xCount - number of start points to create, wide
 //int yCount - number of start points to create, high
+//bool granularDisplay - slow display but shows more frames
 class FlowPreset
 {
 public:
@@ -217,10 +216,11 @@ public:
 
 	int xCount;
 	int yCount;
+	bool granularDisplay;
 
-	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2) {};
+	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2), granularDisplay(false) {};
 
-	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount) :
+	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount, bool gDisp) :
 		name(n),
 		red(r),
 		green(g),
@@ -229,7 +229,8 @@ public:
 		plottedPoints(pp),
 		stepSize(ss),
 		xCount(xcount),
-		yCount(ycount)
+		yCount(ycount),
+		granularDisplay(gDisp)
 	{
 		//
 	};
@@ -248,13 +249,13 @@ public:
 		case DragonFlame:
 			fl.currentName = "DragonFlame";
 			// Colour changes
-			red = fl.tracer.getFillColor().r - 0.25;
-			green = fl.tracer.getFillColor().g - 0.25;
-			blue = fl.tracer.getFillColor().b + 1;
-			alpha = fl.tracer.getFillColor().a * 0.98;
+			red = fl.tracer.getFillColor().r - 0.12;
+			green = fl.tracer.getFillColor().g - 0.12;
+			blue = fl.tracer.getFillColor().b + 0.5;
+			alpha = fl.tracer.getFillColor().a * 0.7;
 
 			// Radius changes
-			fl.tracer.setRadius(fl.tracer.getRadius() + 0.075f);
+			fl.tracer.setRadius(fl.tracer.getRadius() + 2.5f);
 			break;
 		case CyanRivers:
 			fl.currentName = "CyanRivers";

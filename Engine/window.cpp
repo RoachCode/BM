@@ -25,11 +25,11 @@ Window::Window()
 	renderWindowSprites.create(32 * 24 * 4, 32 * 14 * 4);
 	pseudoWindowSprites.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
 
-	this->initSimplex(size.x / 2, size.y / 2, 4);
+	this->initSimplex(size.x, size.y, 4);
 
 	flowWindowTexture.create(flow.gridSize.x, flow.gridSize.y);
 	flowWindow.setSize(sf::Vector2f(flow.gridSize.x, flow.gridSize.y));
-	flowWindowTexture.clear(sf::Color(0, 0, 0, 255));
+	flowWindowTexture.clear(sf::Color(0, 0, 0, 0));
 }
 
 void Window::pollEvents()
@@ -248,12 +248,17 @@ void Window::drawParticles()
 
 void Window::drawSimplex(int direction)
 {
+	sf::RectangleShape r;
+	r.setSize(sf::Vector2f(size.x, size.y));
+	r.setFillColor(sf::Color(135, 206, 235, 255));
+	draw(r);
+
 	simplexSpeed++;
 	sf::Image perlinImage;
 	const float x{ simplexSizeX };
 	const float y{ simplexSizeY };
 
-	if (simplexSpeed > 3)
+	if (simplexSpeed > 5)
 	{
 		simplexSpeed = 0;
 		std::vector<sf::Uint8> blendData;
@@ -301,6 +306,7 @@ void Window::drawSimplex(int direction)
 				blendData.clear();
 			}
 			blendData.clear();
+			break;
 		case RIGHT:
 			// Transform - Right
 			for (int j = 0; j < y; j++)
@@ -317,6 +323,7 @@ void Window::drawSimplex(int direction)
 				blendData.clear();
 			}
 			blendData.clear();
+			break;
 		default:
 			blendData.clear();
 			break;
@@ -331,7 +338,7 @@ void Window::drawSimplex(int direction)
 		pixels[(i * 4) + 0] = mutate;
 		pixels[(i * 4) + 1] = mutate;
 		pixels[(i * 4) + 2] = mutate;
-		pixels[(i * 4) + 3] = 255;
+		pixels[(i * 4) + 3] = mutate;
 
 	}
 	perlinImage.create(x, y, pixels);
@@ -389,7 +396,7 @@ void Window::normalizeRGB()
 	int highest{ 0 };
 	for (int i = 0; i < tempContainer.size(); i++)
 	{
-
+		tempContainer[i] += 50; // makes the whole thing brighter
 		if (tempContainer[i] < lowest) { lowest = tempContainer[i]; }
 		if (tempContainer[i] > highest) { highest = tempContainer[i]; }
 	}
@@ -409,11 +416,11 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
 	simplexOctaves = octaves;
-	simplexSizeX = sizeX;
-	simplexSizeY = sizeY;
+	simplexSizeX = sizeX / 2;
+	simplexSizeY = sizeY / 2;
 
-	const float x{ sizeX };
-	const float y{ sizeY };
+	const float x{ simplexSizeX };
+	const float y{ simplexSizeY };
 	createSimplexValues(x, y);
 	tempContainer.clear();
 
@@ -433,7 +440,7 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 		}
 
 
-		noise *= (255.999 / simplexOctaves);
+		noise *= (255.999 / simplexOctaves); // overflow???
 		//std::cout << noise << '\n';
 		// need to correct for the noise having 1.5x the value it should, for some reason.
 		//noise = (noise * 2) / 3;
@@ -448,12 +455,12 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 void Window::drawFlow(FlowPreset& fp)
 {
 	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
-	const int yPaths{ fp.xCount };
-	const int xPaths{ fp.yCount };
+	const int xPaths{ fp.xCount };
+	const int yPaths{ fp.yCount };
 
 	sf::Vector2f returnPos;
 	float angle;
-	float initialRadius;
+	float initialRadius{ 1.0f };
 	//std::random_device rd; // obtain a random number from hardware
 	//std::mt19937 gen(rd()); // seed the generator
 
@@ -486,10 +493,11 @@ void Window::drawFlow(FlowPreset& fp)
 	// Draw paths
 	if (drawLines)
 	{
-		for (int ii = 0; ii < xPaths; ii++)
+		for (int iii = 0; iii < yPaths; iii++)
 		{
-			for (int iii = 0; iii < yPaths; iii++)
+			for (int ii = 0; ii < xPaths; ii++)
 			{
+				this->clear();
 				//random distribution
 				//std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
 				//int rdmX = distr(gen); // generate numbers
@@ -498,23 +506,22 @@ void Window::drawFlow(FlowPreset& fp)
 
 				//even distribution
 				// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
-				const int startPosX{ static_cast<int>(flow.tileSize.x / 2) + static_cast<int>(ii * (static_cast<int>(flow.gridSize.x) / xPaths) + (static_cast<int>(flow.gridSize.x) / xPaths) / 2) };
-				const int startPosY{ static_cast<int>(flow.tileSize.y / 2) + static_cast<int>(iii * (static_cast<int>(flow.gridSize.y) / yPaths) + (static_cast<int>(flow.gridSize.y) / yPaths) / 2) };
+				const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths)) };
+				const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths)) };
+				flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
+				flow.tracer.setFillColor(initialColor);
+				flow.tracer.setRadius(initialRadius);
 
-				if (pathCounter == 0)
+				for (int i = 0; i < fp.plottedPoints; i++)
 				{
-					flow.tracer.setPosition(startPosX, startPosY);
-					returnPos = flow.tracer.getPosition();
-					initialRadius = flow.tracer.getRadius();
-				}
-
-				if (pathCounter < fp.plottedPoints)
-				{
-					pathCounter++;
 					fp.applyChanges(flow);
 
-					// Gets the angle from the current position's underlying grid
-					const sf::Vector2f pos(flow.tracer.getPosition());
+					sf::Vector2f pos(flow.tracer.getPosition());
+					if (pos.x > flow.gridSize.x || pos.y > flow.gridSize.y)
+					{
+						pos.x = flow.gridSize.x;
+						pos.y = flow.gridSize.y;
+					}
 					const int gridX{ static_cast<int>(floatify(pos.x) / floatify(flow.tileSize.x)) };
 					const int gridY{ static_cast<int>(floatify(pos.y) / floatify(flow.tileSize.y)) };
 					angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
@@ -528,28 +535,27 @@ void Window::drawFlow(FlowPreset& fp)
 					if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
 					{
 						flowWindowTexture.draw(flow.tracer);
-						dotCounter++;
+						if (fp.granularDisplay)
+						{
+							flowWindowTexture.display();
+							flowWindow.setTexture(&flowWindowTexture.getTexture());
+							this->draw(flowWindow);
+							this->display();
+						}
 					}
 				}
-				else
+				if (!fp.granularDisplay)
 				{
-					flow.tracer.setPosition(returnPos);
-					flow.tracer.setRadius(initialRadius);
-					flow.tracer.setFillColor(initialColor);
-					pathCounter = 0;
+					flowWindowTexture.display();
+					flowWindow.setTexture(&flowWindowTexture.getTexture());
+					this->draw(flowWindow);
+					this->display();
 				}
-
 			}
 		}
 	}
-	if (dotCounter > static_cast<int>(fp.plottedPoints * (xPaths - 1) * (yPaths - 1)))
-	{
-		drawGrid = false;
-		drawNeedles = false;
-		drawLines = false;
-		this->draw(flowWindow);
-
-		if (onlyOnceHack)
+	drawLines = false;
+	if (onlyOnceHack)
 		{
 
 			std::string filename = flow.currentName + ".bmp";
@@ -559,12 +565,5 @@ void Window::drawFlow(FlowPreset& fp)
 			}
 			onlyOnceHack = false;
 		}
-	}
-	if (drawGrid || drawNeedles || drawLines)
-	{
-		flowWindowTexture.display();
-		flowWindow.setTexture(&flowWindowTexture.getTexture());
-		this->draw(flowWindow);
-		//flowWindowTexture.clear();
-	}
+	this->draw(flowWindow);
 }

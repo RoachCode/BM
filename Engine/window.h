@@ -35,6 +35,7 @@ public:
 	sf::View view;
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
 	Window();
+	std::vector<int> tempContainer;
 	void pollEvents();
 	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
 	void startViewMovement(sf::Vector2f offset);
@@ -52,21 +53,21 @@ public:
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
-
+	void drawFlow(FlowPreset &fp);
 	void initSimplex(float sizeX, float sizeY, int octaves);
 	std::vector<float> xyValues;
 	int simplexOctaves{};
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 
-	std::vector<int> tempContainer;
+
 
 	int pathCounter{ 0 };
-	int dotCounter{ 0 };
+	unsigned int dotCounter{ 0 };
 	bool drawGrid{ false };
 	bool drawNeedles{ false };
 	bool drawLines{ true };
-	void drawFlow(FlowPreset &fp);
+
 	sf::RenderTexture flowWindowTexture;
 	sf::RectangleShape flowWindow;
 	bool onlyOnceHack{ true };
