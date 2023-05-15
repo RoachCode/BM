@@ -237,7 +237,16 @@ void Window::drawSprites()
 
 void Window::drawParticles()
 {
+	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
+	particles.setEmitter(this->mapPixelToCoords(mouse));
+	sf::Time elapsed = particles.clock.restart();
+	particles.update(elapsed);
+	draw(particles);
 
+}
+void Window::drawParticles(sf::Color color)
+{
+	particles.setColor(color);
 	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
 	particles.setEmitter(this->mapPixelToCoords(mouse));
 	sf::Time elapsed = particles.clock.restart();
@@ -250,8 +259,8 @@ void Window::drawSimplex(int direction)
 {
 	sf::RectangleShape r;
 	r.setSize(sf::Vector2f(size.x, size.y));
-	r.setFillColor(sf::Color(135, 206, 235, 255));
-	draw(r);
+	r.setFillColor(sf::Color(125, 196, 225, 255));
+	//draw(r);
 
 	simplexSpeed++;
 	sf::Image perlinImage;

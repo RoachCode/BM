@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "window.h"
 
 
@@ -15,14 +15,14 @@ int main()
         // rgba
         250,
         155,
-        0,
+        5,
         255,
         // line length and step size
-        1000,
-        3,
+        400,
+        10,
         // seed point counts for x, y
-        50,
-        50,
+        20,
+        20,
         false
     };
     FlowPreset cyanRivers
@@ -32,11 +32,11 @@ int main()
         100,
         100,
         10,
-        10000,
+        1000,
         1,
         70,
         70,
-        true
+        false
     };
     FlowPreset inProgress
     {
@@ -60,14 +60,37 @@ int main()
         //window.clear(sf::Color::White);
         window.pollEvents();
 
-        //window.drawTileMapsBack();
+
+
+
+
+
+
+
+
+        // PRESS THE HOLLOW PLAY BUTTON ABOVE TO RUN   ▷   ESC to exit, or CTRL-ALT-DEL sometimes...
+        // ALTERNATIVELY, PRESS CTRL-F5
+
+        window.drawTileMapsBack();
         //window.drawSprites();
-        //window.drawTileMapsFront();
-        window.drawSimplex();
+        window.drawTileMapsFront();
+        //window.drawSimplex();
+        //window.drawSimplex(UP);
+        //window.drawSimplex(DOWN);
+        //window.drawSimplex(LEFT);
+        window.drawSimplex(RIGHT);
         //window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);
-        //window.drawParticles();
+        window.drawParticles(sf::Color(255, 255, 255, 30));
+
+
+
+
+
+
+
+
 
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
         window.display();

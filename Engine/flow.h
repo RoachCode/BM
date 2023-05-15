@@ -252,7 +252,7 @@ public:
 			red = fl.tracer.getFillColor().r - 0.12;
 			green = fl.tracer.getFillColor().g - 0.12;
 			blue = fl.tracer.getFillColor().b + 0.5;
-			alpha = fl.tracer.getFillColor().a * 0.7;
+			alpha = fl.tracer.getFillColor().a * 0.85;
 
 			// Radius changes
 			fl.tracer.setRadius(fl.tracer.getRadius() + 2.5f);

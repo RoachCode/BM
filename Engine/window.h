@@ -45,6 +45,7 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
+	void drawParticles(sf::Color color);
 
 	float simplexSizeX;
 	float simplexSizeY;
