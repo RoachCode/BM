@@ -12,14 +12,18 @@ int main()
     FlowPreset dragonFlame
     {
         DragonFlame,
+        // rgba
         250,
         155,
         0,
-        100,
-        290,
-        0.5,
-        70,
-        70
+        255,
+        // line length and step size
+        1000,
+        3,
+        // seed point counts for x, y
+        50,
+        50,
+        false
     };
     FlowPreset cyanRivers
     {
@@ -27,11 +31,12 @@ int main()
         0,
         100,
         100,
-        15,
+        10,
         10000,
         1,
         70,
-        70
+        70,
+        true
     };
     FlowPreset inProgress
     {
@@ -44,36 +49,28 @@ int main()
         1000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
         10,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
         50,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
-        50       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+        50,       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+        false
         /////////////////////////////////////////////////////////////////////////////////////////////////
     };
 
     while (window.isOpen())
     {
-        //window.close();
         window.clear();
-
+        //window.clear(sf::Color::White);
         window.pollEvents();
+
         //window.drawTileMapsBack();
         //window.drawSprites();
         //window.drawTileMapsFront();
-        //window.drawSimplex(RIGHT);
-
-        window.drawFlow(inProgress);
+        window.drawSimplex();
+        //window.drawFlow(inProgress);
+        //window.drawFlow(cyanRivers);
+        //window.drawFlow(dragonFlame);
         //window.drawParticles();
 
-
-        //pathing.setPosition(0, 0);?
-        //window.drawParticles(); // can get expensive depending on particlecount
-
-
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
-        
-
-
-
         window.display();
     }
-
     return 0;
 }
