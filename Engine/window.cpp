@@ -237,35 +237,12 @@ void Window::drawSprites()
 
 void Window::drawParticles()
 {
-	//particle system test
-	particles.setColor
-	(
-		sf::Color::Red,
-		sf::Color::Black,
-		sf::Color::Red,
-		sf::Color::Black
-	);
 
+	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
+	particles.setEmitter(this->mapPixelToCoords(mouse));
 	sf::Time elapsed = particles.clock.restart();
 	particles.update(elapsed);
 	draw(particles);
-
-}
-
-void Window::drawParticles2()
-{
-	//particle system test
-	particles2.setColor
-	(
-		sf::Color::Red,
-		sf::Color::Black,
-		sf::Color::Red,
-		sf::Color::Black
-	);
-
-	sf::Time elapsed = particles2.clock.restart();
-	particles2.update(elapsed);
-	draw(particles2);
 
 }
 
@@ -467,7 +444,6 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 	normalizeRGB();
 
 }
-
 
 void Window::drawFlow(FlowPreset& fp)
 {

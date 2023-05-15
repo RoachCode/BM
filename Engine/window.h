@@ -16,8 +16,7 @@ public:
 	int windowScale{ 1 };
 	std::vector<float> angleVector;
 	Flow flow;
-	ParticleSystem particles{ 10000, flow }; // Just for testing it out.
-	ParticleSystem2 particles2{ 10000, flow }; // Just for testing it out.
+	ParticleSystem particles{ 30000, flow }; // Just for testing it out.
 
 	Sprite sprite;
 	sf::RenderTexture renderWindowSprites;
@@ -45,7 +44,7 @@ public:
 	void pollMovement();
 	void drawSprites();
 	void drawParticles();
-	void drawParticles2();
+
 	float simplexSizeX;
 	float simplexSizeY;
 	void drawSimplex(int direction = -1);
@@ -61,6 +60,7 @@ public:
 	void normalizeRGB();
 
 	std::vector<int> tempContainer;
+
 	int pathCounter{ 0 };
 	int dotCounter{ 0 };
 	bool drawGrid{ false };
