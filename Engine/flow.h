@@ -30,7 +30,7 @@ public:
 		width = sf::VideoMode::getDesktopMode().width;
 		height = sf::VideoMode::getDesktopMode().height;
 		m_vertices.setPrimitiveType(sf::Quads);
-		const int gridFactor{ 50 };
+		const int gridFactor{ 200 };
 		tileSize = sf::Vector2u(width / gridFactor, height / gridFactor); // defines the density of the grid
 		gridSize = sf::Vector2u(static_cast<unsigned int>(tileSize.x) * gridFactor, static_cast<unsigned int>(tileSize.y) * gridFactor);
 		m_vertices.resize(gridSize.x * gridSize.y * 4);
@@ -242,7 +242,7 @@ public:
 		case InProgress:
 			fl.currentName = "InProgress";
 			//////////////////////////////////////////////////////////////////////////////
-			fl.tracer.setRadius(1.0f); // default 1.0
+			//fl.tracer.setRadius(1.0f); // default 1.0
 			//////////////////////////////////////////////////////////////////////////////
 			break;
 		case DragonFlame:
