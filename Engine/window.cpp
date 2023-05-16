@@ -249,19 +249,24 @@ void Window::drawParticles(sf::Color color)
 
 }
 
-void Window::drawSimplex(int direction)
+void Window::drawFullSimplex(int direction, int speed)
 {
-	sf::RectangleShape r;
-	r.setSize(sf::Vector2f(size.x, size.y));
-	r.setFillColor(sf::Color(125, 196, 225, 255));
+	// Sky color for testing
+	//sf::RectangleShape r;
+	//r.setSize(sf::Vector2f(size.x, size.y));
+	//r.setFillColor(sf::Color(125, 196, 225, 255));
 	//draw(r);
 
 	simplexSpeed++;
 	sf::Image perlinImage;
-	const float x{ simplexSizeX };
-	const float y{ simplexSizeY };
+	const int x{ simplexSizeX };
+	const int y{ simplexSizeY };
 
-	if (simplexSpeed > 5)
+	noise.setSize(sf::Vector2f(x, y));
+	noise.setScale(sf::Vector2f(windowScale, windowScale));
+	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+
+	if (simplexSpeed > speed)
 	{
 		simplexSpeed = 0;
 		std::vector<sf::Uint8> blendData;
@@ -333,8 +338,6 @@ void Window::drawSimplex(int direction)
 		}
 	}
 
-	noise.setSize(sf::Vector2f(x, y));
-	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
 	for (int i = 0; i < x * y; i++)
 	{
 		sf::Uint8 mutate{ simplexData[i] };
@@ -349,7 +352,6 @@ void Window::drawSimplex(int direction)
 	noiseTexture.loadFromImage(perlinImage);
 	noise.setTexture(&noiseTexture);
 	
-	noise.setScale(sf::Vector2f(windowScale, windowScale));
 	this->draw(noise);
 }
 
@@ -422,8 +424,8 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 	simplexSizeX = sizeX / 2;
 	simplexSizeY = sizeY / 2;
 
-	const float x{ simplexSizeX };
-	const float y{ simplexSizeY };
+	const int x{ simplexSizeX };
+	const int y{ simplexSizeY };
 	createSimplexValues(x, y);
 	tempContainer.clear();
 

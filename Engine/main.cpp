@@ -74,7 +74,7 @@ int main()
         //window.drawTileMapsBack(); // 620
         //window.drawSprites(); // 1050
         //window.drawTileMapsFront(); // 620
-        window.drawSimplex(); // 160
+        window.drawFullSimplex(); // 160
         //window.drawSimplex(UP);
         //window.drawSimplex(DOWN);
         //window.drawSimplex(LEFT);

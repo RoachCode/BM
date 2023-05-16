@@ -46,9 +46,9 @@ public:
 	void drawParticles();
 	void drawParticles(sf::Color color);
 
-	float simplexSizeX;
-	float simplexSizeY;
-	void drawSimplex(int direction = -1);
+	int simplexSizeX;
+	int simplexSizeY;
+	void drawFullSimplex(int direction = -1, int speed = 5);
 	int simplexSpeed;
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
