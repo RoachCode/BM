@@ -36,7 +36,7 @@ int main()
         600,
         1,
 
-        20,
+        200,
         30
     };
     FlowPreset inProgress
@@ -74,9 +74,8 @@ int main()
         //window.drawTileMapsBack(); // 620
         //window.drawSprites(); // 1050
         //window.drawTileMapsFront(); // 620
-        //window.drawFullSimplex(LEFT, 1); // 160. if speed is needed we can jump frames
-        //window.drawFlow(dragonFlame);
-        window.drawFlow(cyanRivers);
+        window.drawFullSimplex(sf::Vector2f(1, 0), 5); // 160. if speed is needed we can jump frames
+        //window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);
         //window.drawParticles(sf::Color(255, 255, 255, 30));

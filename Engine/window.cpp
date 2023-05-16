@@ -19,6 +19,7 @@ Window::Window()
 	{
 		windowScale *= 2;
 	}
+	windowScale = 2;
 	this->setView(Window::view);
 	isMovingView = false;
 
@@ -129,7 +130,6 @@ void Window::pollEvents()
 
 void Window::drawText(std::string string, sf::Vector2f startPosition)
 {
-
 	font.setStartPos(startPosition);
 	font.setPos(font.getStartPos());
 	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) * windowScale };
@@ -249,22 +249,24 @@ void Window::drawParticles(sf::Color color)
 
 }
 
-void Window::drawFullSimplex(int direction, int delay)
+void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
 	// Sky color for testing
 	//sf::RectangleShape r;
 	//r.setSize(sf::Vector2f(size.x, size.y));
 	//r.setFillColor(sf::Color(125, 196, 225, 255));
 	//draw(r);
+	sf::Vector2f noiseOrigin = noise.getPosition();
 
-	if (direction == -1)
+	if (direction == sf::Vector2f(0, 0))
 	{
 		this->draw(noise);
 		return;
 	}
 
 	simplexSpeed++;
-
+	// the below is a huge bottleneck due to reassigning textures.
+	/*
 	if (simplexSpeed > delay)
 	{
 		simplexSpeed = 0;
@@ -357,8 +359,25 @@ void Window::drawFullSimplex(int direction, int delay)
 		noiseTexture.loadFromImage(perlinImage);
 		noise.setTexture(&noiseTexture);
 	}
+*/
 
-	this->draw(noise);
+	if (simplexSpeed > delay)
+	{
+		simplexSpeed = 0;
+		//moving left
+		noise.move(direction);
+
+		if (noise.getPosition().x > size.x)
+		{
+			noise.setPosition(0, 0);
+		}
+
+		noiseOrigin = noise.getPosition();
+	}
+		this->draw(noise);
+		noise.setPosition(noise.getPosition().x - noise.getSize().x * windowScale, noise.getPosition().y);
+		this->draw(noise);
+		noise.setPosition(noiseOrigin);
 	
 }
 
@@ -452,7 +471,7 @@ void Window::createSimplexTexture()
 void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
-	simplexOctaves = octaves;
+	simplexOctaves = 4;
 	simplexSizeX = sizeX / 2;
 	simplexSizeY = sizeY / 2;
 
@@ -599,7 +618,7 @@ void Window::drawFlow(FlowPreset& fp)
 	if (onlyOnceHack)
 	{
 
-		std::string filename = flow.currentName + ".bmp";
+		std::string filename = flow.currentName + ".png";
 		if (!flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
 		{
 			std::cout << "screenshot failed";

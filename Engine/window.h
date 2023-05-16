@@ -49,7 +49,7 @@ public:
 	int simplexSizeX;
 	int simplexSizeY;
 	void createSimplexTexture();
-	void drawFullSimplex(int direction = -1, int speed = 0);
+	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
 	int simplexSpeed;
 	int simplexStepper;
 	std::deque<sf::Uint8> simplexData;
