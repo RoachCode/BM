@@ -74,7 +74,7 @@ int main()
         //window.drawTileMapsBack(); // 620
         //window.drawSprites(); // 1050
         //window.drawTileMapsFront(); // 620
-        window.drawFullSimplex(sf::Vector2f(1, 0), 5); // 160. if speed is needed we can jump frames
+        window.drawFullSimplex(sf::Vector2f(-1, 0), 3); // 160. if speed is needed we can jump frames
         //window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);

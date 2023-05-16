@@ -249,6 +249,42 @@ void Window::drawParticles(sf::Color color)
 
 }
 
+void Window::m_groupDraw(sf::Vector2f direction)
+{
+	if (static_cast<int>(direction.x == 0) && static_cast<int>(direction.y) == 0)
+	{
+		//this->draw(noise);
+		//return;
+	}
+	// -1, 0
+
+	noise.move(direction);
+	sf::Vector2f noiseOrigin = noise.getPosition();
+
+	if (noise.getPosition().x < noise.getSize().x * -2)
+	{
+		noise.setPosition(direction);
+		noiseOrigin = noise.getPosition();
+	}
+	this->draw(noise);
+
+	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * 2, noiseOrigin.y));
+	this->draw(noise);
+
+	noise.setPosition(noiseOrigin);
+}
+void Window::m_groupDraw(int dirX, int dirY)
+{
+	const sf::Vector2f direction = sf::Vector2f(dirX, dirY);
+	m_groupDraw(direction);
+}
+void Window::m_groupDraw()
+{
+	const sf::Vector2f direction = sf::Vector2f(0, 0);
+	m_groupDraw(direction);
+}
+
+
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
 	// Sky color for testing
@@ -256,13 +292,9 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 	//r.setSize(sf::Vector2f(size.x, size.y));
 	//r.setFillColor(sf::Color(125, 196, 225, 255));
 	//draw(r);
-	sf::Vector2f noiseOrigin = noise.getPosition();
 
-	if (direction == sf::Vector2f(0, 0))
-	{
-		this->draw(noise);
-		return;
-	}
+
+
 
 	simplexSpeed++;
 	// the below is a huge bottleneck due to reassigning textures.
@@ -364,21 +396,12 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 	if (simplexSpeed > delay)
 	{
 		simplexSpeed = 0;
-		//moving left
-		noise.move(direction);
-
-		if (noise.getPosition().x > size.x)
-		{
-			noise.setPosition(0, 0);
-		}
-
-		noiseOrigin = noise.getPosition();
+		m_groupDraw(direction);
 	}
-		this->draw(noise);
-		noise.setPosition(noise.getPosition().x - noise.getSize().x * windowScale, noise.getPosition().y);
-		this->draw(noise);
-		noise.setPosition(noiseOrigin);
-	
+	else if (simplexSpeed != 0)
+	{
+		m_groupDraw();
+	}
 }
 
 void Window::createSimplexValues(int x, int y)

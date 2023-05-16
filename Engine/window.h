@@ -50,6 +50,9 @@ public:
 	int simplexSizeY;
 	void createSimplexTexture();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
+	void m_groupDraw();
+	void m_groupDraw(sf::Vector2f direction);
+	void m_groupDraw(int dirX, int dirY);
 	int simplexSpeed;
 	int simplexStepper;
 	std::deque<sf::Uint8> simplexData;
