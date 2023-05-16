@@ -71,18 +71,18 @@ int main()
         // PRESS THE HOLLOW PLAY BUTTON ABOVE TO RUN   ▷   ESC to exit, or CTRL-ALT-DEL sometimes...
         // ALTERNATIVELY, PRESS CTRL-F5
 
-        window.drawTileMapsBack();
-        //window.drawSprites();
-        window.drawTileMapsFront();
-        //window.drawSimplex();
+        //window.drawTileMapsBack(); // 620
+        //window.drawSprites(); // 1050
+        //window.drawTileMapsFront(); // 620
+        window.drawSimplex(); // 160
         //window.drawSimplex(UP);
         //window.drawSimplex(DOWN);
         //window.drawSimplex(LEFT);
-        window.drawSimplex(RIGHT);
+        //window.drawSimplex(RIGHT);
         //window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);
-        window.drawParticles(sf::Color(255, 255, 255, 30));
+        //window.drawParticles(sf::Color(255, 255, 255, 30));
 
 
 
@@ -91,8 +91,8 @@ int main()
 
 
 
+        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1100 - 1200 fps
 
-        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1160 fps
         window.display();
     }
     return 0;

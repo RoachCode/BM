@@ -19,8 +19,7 @@ public:
 	ParticleSystem particles{ 30000, flow }; // Just for testing it out.
 
 	Sprite sprite;
-	sf::RenderTexture renderWindowSprites;
-	sf::RectangleShape pseudoWindowSprites;
+
 
 	ImageHandler imageHandler;
 	void drawTileMapsBack();

@@ -17,16 +17,15 @@ public:
     TileMap tileMapH;
     TileMap tileMapI;
     TileMap tileMapJ;
-
     sf::Image tileImage;
-
     std::vector<TileMap*> tilemapVector;
+    sf::Vector2u sceneSize;
 
-    sf::RenderTexture renderWindow;
-    sf::RenderTexture renderWindow2;
-    sf::RectangleShape pseudoWindow;
-    sf::RectangleShape pseudoWindow2;
+    sf::RenderTexture tilemapRenderBack;
+    sf::RectangleShape tilemapWindowBack;
 
+    sf::RenderTexture tilemapRenderFront;
+    sf::RectangleShape tilemapWindowFront;
     ImageHandler();
 
     void loadWestKagar();

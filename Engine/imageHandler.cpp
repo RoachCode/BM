@@ -21,12 +21,16 @@ ImageHandler::ImageHandler()
     tilemapVector.push_back(&tileMapI);
     tilemapVector.push_back(&tileMapJ);
 
-    renderWindow.create(32 * 24 * 4, 32 * 14 * 4);
-    renderWindow2.create(32 * 24 * 4, 32 * 14 * 4);
-    renderWindow.clear(sf::Color(0, 0, 0, 255));
-    renderWindow2.clear(sf::Color(0, 0, 0, 0));
-    pseudoWindow.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
-    pseudoWindow2.setSize(sf::Vector2f(32 * 24 * 4, 32 * 14 * 4));
+    sceneSize = sf::Vector2u(32 * 24 * 4, 32 * 14 * 4);
+
+    tilemapRenderBack.create(sceneSize.x, sceneSize.y);
+    tilemapRenderBack.clear(sf::Color::Black);
+    tilemapWindowBack.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
+
+    tilemapRenderFront.create(sceneSize.x, sceneSize.y);
+    tilemapRenderFront.clear(sf::Color::Transparent);
+    tilemapWindowFront.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
+
 
     this->loadWestKagar();
 
@@ -34,8 +38,8 @@ ImageHandler::ImageHandler()
 
 void ImageHandler::loadWestKagar()
 {
-    renderWindow.clear(sf::Color(0, 0, 0, 255));
-    renderWindow2.clear(sf::Color(0, 0, 0, 0));
+    tilemapRenderBack.clear(sf::Color(0, 0, 0, 255));
+    tilemapRenderFront.clear(sf::Color(0, 0, 0, 0));
     for (int i = 0; i < zDepth; i++)
     {
         switch (i)
@@ -139,15 +143,16 @@ void ImageHandler::loadWestKagar()
 
         if (i < zDepth / 2)
         {
-            renderWindow.draw(*tilemapVector[i]);
+            tilemapRenderBack.draw(*tilemapVector[i]);
         }
         else
         {
-            renderWindow2.draw(*tilemapVector[i]);
+            tilemapRenderFront.draw(*tilemapVector[i]);
         }
     }
-    renderWindow.display();
-    renderWindow2.display();
-    pseudoWindow.setTexture(&renderWindow.getTexture());
-    pseudoWindow2.setTexture(&renderWindow2.getTexture());
+    tilemapRenderBack.display();
+    tilemapRenderFront.display();
+    tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
+    tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
+
 }
