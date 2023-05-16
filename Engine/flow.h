@@ -216,11 +216,10 @@ public:
 
 	int xCount;
 	int yCount;
-	bool granularDisplay;
 
-	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2), granularDisplay(false) {};
+	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2) {};
 
-	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount, bool gDisp) :
+	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount) :
 		name(n),
 		red(r),
 		green(g),
@@ -229,8 +228,7 @@ public:
 		plottedPoints(pp),
 		stepSize(ss),
 		xCount(xcount),
-		yCount(ycount),
-		granularDisplay(gDisp)
+		yCount(ycount)
 	{
 		//
 	};

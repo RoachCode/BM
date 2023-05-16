@@ -249,7 +249,7 @@ void Window::drawParticles(sf::Color color)
 
 }
 
-void Window::drawFullSimplex(int direction, int speed)
+void Window::drawFullSimplex(int direction, int delay)
 {
 	// Sky color for testing
 	//sf::RectangleShape r;
@@ -257,20 +257,26 @@ void Window::drawFullSimplex(int direction, int speed)
 	//r.setFillColor(sf::Color(125, 196, 225, 255));
 	//draw(r);
 
+	if (direction == -1)
+	{
+		this->draw(noise);
+		return;
+	}
+
 	simplexSpeed++;
-	sf::Image perlinImage;
-	const int x{ simplexSizeX };
-	const int y{ simplexSizeY };
 
-	noise.setSize(sf::Vector2f(x, y));
-	noise.setScale(sf::Vector2f(windowScale, windowScale));
-	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
-
-	if (simplexSpeed > speed)
+	if (simplexSpeed > delay)
 	{
 		simplexSpeed = 0;
+		const int x{ simplexSizeX };
+		const int y{ simplexSizeY };
+
+		sf::Image perlinImage;
+		sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+		
 		std::vector<sf::Uint8> blendData;
 		std::vector<sf::Uint8> vertLineStart;
+
 		switch (direction)
 		{
 		case UP:
@@ -336,23 +342,24 @@ void Window::drawFullSimplex(int direction, int speed)
 			blendData.clear();
 			break;
 		}
+
+		for (int i = 0; i < x * y; i++)
+		{
+			sf::Uint8 mutate{ simplexData[i] };
+			pixels[(i * 4) + 0] = mutate;
+			pixels[(i * 4) + 1] = mutate;
+			pixels[(i * 4) + 2] = mutate;
+			pixels[(i * 4) + 3] = mutate;
+
+		}
+		perlinImage.create(x, y, pixels);
+		delete[] pixels;
+		noiseTexture.loadFromImage(perlinImage);
+		noise.setTexture(&noiseTexture);
 	}
 
-	for (int i = 0; i < x * y; i++)
-	{
-		sf::Uint8 mutate{ simplexData[i] };
-		pixels[(i * 4) + 0] = mutate;
-		pixels[(i * 4) + 1] = mutate;
-		pixels[(i * 4) + 2] = mutate;
-		pixels[(i * 4) + 3] = mutate;
-
-	}
-	perlinImage.create(x, y, pixels);
-	delete[] pixels;
-	noiseTexture.loadFromImage(perlinImage);
-	noise.setTexture(&noiseTexture);
-	
 	this->draw(noise);
+	
 }
 
 void Window::createSimplexValues(int x, int y)
@@ -417,6 +424,31 @@ void Window::normalizeRGB()
 	}
 }
 
+void Window::createSimplexTexture()
+{
+	sf::Image perlinImage;
+	const int x{ simplexSizeX };
+	const int y{ simplexSizeY };
+	noise.setSize(sf::Vector2f(x, y));
+	noise.setScale(sf::Vector2f(windowScale, windowScale));
+
+	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+	for (int i = 0; i < x * y; i++)
+	{
+		sf::Uint8 mutate{ simplexData[i] };
+		pixels[(i * 4) + 0] = mutate;
+		pixels[(i * 4) + 1] = mutate;
+		pixels[(i * 4) + 2] = mutate;
+		pixels[(i * 4) + 3] = mutate;
+
+	}
+	perlinImage.create(x, y, pixels);
+	delete[] pixels;
+	noiseTexture.loadFromImage(perlinImage);
+	noise.setTexture(&noiseTexture);
+
+}
+
 void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
@@ -454,7 +486,51 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 
 	}
 	normalizeRGB();
+	createSimplexTexture();
+}
 
+void Window::m_drawLines(FlowPreset &fp)
+{
+	//random distribution
+//std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
+//int rdmX = distr(gen); // generate numbers
+//std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
+//int rdmY = distr(gen);
+
+//even distribution
+// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
+
+	for (int i = 0; i < fp.plottedPoints; i++)
+	{
+
+		fp.applyChanges(flow);
+
+		sf::Vector2f pos(flow.tracer.getPosition());
+		if (pos.x > flow.gridSize.x || pos.y > flow.gridSize.y)
+		{
+			pos.x = flow.gridSize.x;
+			pos.y = flow.gridSize.y;
+		}
+		const int gridX{ static_cast<int>(floatify(pos.x) / floatify(flow.tileSize.x)) };
+		const int gridY{ static_cast<int>(floatify(pos.y) / floatify(flow.tileSize.y)) };
+		const float angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
+
+		// Converts the angle to x,y coordinates and moves the tracer
+		const float newX = cos(angle * (PI / 180));
+		const float newY = sin(angle * (PI / 180));
+		flow.tracer.move(newX * fp.stepSize, newY * fp.stepSize);
+
+		// Bounds the tracer to the drawing area
+		if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
+		{
+			flowWindowTexture.draw(flow.tracer);
+		}
+	}
+	flowWindowTexture.display();
+	flowWindow.setTexture(&flowWindowTexture.getTexture());
+	this->draw(flowWindow);
+	this->display();
+	this->clear();
 }
 
 void Window::drawFlow(FlowPreset& fp)
@@ -468,6 +544,8 @@ void Window::drawFlow(FlowPreset& fp)
 	float initialRadius{ 1.0f };
 	//std::random_device rd; // obtain a random number from hardware
 	//std::mt19937 gen(rd()); // seed the generator
+
+
 
 	// Draw Grid
 	if (drawGrid)
@@ -502,73 +580,27 @@ void Window::drawFlow(FlowPreset& fp)
 		{
 			for (int ii = 0; ii < xPaths; ii++)
 			{
-				this->clear();
-				//random distribution
-				//std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
-				//int rdmX = distr(gen); // generate numbers
-				//std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
-				//int rdmY = distr(gen);
-
-				//even distribution
-				// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
 				const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths)) };
 				const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths)) };
 				flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
 				flow.tracer.setFillColor(initialColor);
 				flow.tracer.setRadius(initialRadius);
 
-				for (int i = 0; i < fp.plottedPoints; i++)
-				{
-					fp.applyChanges(flow);
-
-					sf::Vector2f pos(flow.tracer.getPosition());
-					if (pos.x > flow.gridSize.x || pos.y > flow.gridSize.y)
-					{
-						pos.x = flow.gridSize.x;
-						pos.y = flow.gridSize.y;
-					}
-					const int gridX{ static_cast<int>(floatify(pos.x) / floatify(flow.tileSize.x)) };
-					const int gridY{ static_cast<int>(floatify(pos.y) / floatify(flow.tileSize.y)) };
-					angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
-
-					// Converts the angle to x,y coordinates and moves the tracer
-					const float newX = cos(angle * (PI / 180));
-					const float newY = sin(angle * (PI / 180));
-					flow.tracer.move(newX * fp.stepSize, newY * fp.stepSize);
-
-					// Bounds the tracer to the drawing area
-					if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
-					{
-						flowWindowTexture.draw(flow.tracer);
-						if (fp.granularDisplay)
-						{
-							flowWindowTexture.display();
-							flowWindow.setTexture(&flowWindowTexture.getTexture());
-							this->draw(flowWindow);
-							this->display();
-						}
-					}
-				}
-				if (!fp.granularDisplay)
-				{
-					flowWindowTexture.display();
-					flowWindow.setTexture(&flowWindowTexture.getTexture());
-					this->draw(flowWindow);
-					this->display();
-				}
+				this->m_drawLines(fp);
 			}
 		}
+		drawLines = false;
 	}
-	drawLines = false;
+	
 	if (onlyOnceHack)
-		{
+	{
 
-			std::string filename = flow.currentName + ".bmp";
-			if (!flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
-			{
-				std::cout << "screenshot failed";
-			}
-			onlyOnceHack = false;
+		std::string filename = flow.currentName + ".bmp";
+		if (!flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
+		{
+			std::cout << "screenshot failed";
 		}
+		onlyOnceHack = false;
+	}
 	this->draw(flowWindow);
 }

@@ -48,8 +48,10 @@ public:
 
 	int simplexSizeX;
 	int simplexSizeY;
-	void drawFullSimplex(int direction = -1, int speed = 5);
+	void createSimplexTexture();
+	void drawFullSimplex(int direction = -1, int speed = 0);
 	int simplexSpeed;
+	int simplexStepper;
 	std::deque<sf::Uint8> simplexData;
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;
@@ -71,6 +73,8 @@ public:
 	sf::RenderTexture flowWindowTexture;
 	sf::RectangleShape flowWindow;
 	bool onlyOnceHack{ true };
+	void m_drawLines(FlowPreset& fp);
+	int lineCounter{ 0 };
 private:
 
 

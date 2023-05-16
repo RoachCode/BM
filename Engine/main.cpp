@@ -23,7 +23,6 @@ int main()
         // seed point counts for x, y
         20,
         20,
-        false
     };
     FlowPreset cyanRivers
     {
@@ -35,8 +34,7 @@ int main()
         1000,
         1,
         70,
-        70,
-        false
+        70
     };
     FlowPreset inProgress
     {
@@ -49,8 +47,7 @@ int main()
         1000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
         10,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
         50,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
-        50,       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
-        false
+        50       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
         /////////////////////////////////////////////////////////////////////////////////////////////////
     };
 
@@ -74,12 +71,8 @@ int main()
         //window.drawTileMapsBack(); // 620
         //window.drawSprites(); // 1050
         //window.drawTileMapsFront(); // 620
-        window.drawFullSimplex(); // 160
-        //window.drawSimplex(UP);
-        //window.drawSimplex(DOWN);
-        //window.drawSimplex(LEFT);
-        //window.drawSimplex(RIGHT);
-        //window.drawFlow(inProgress);
+        //window.drawFullSimplex(LEFT, 1); // 160. if speed is needed we can jump frames
+        window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);
         //window.drawParticles(sf::Color(255, 255, 255, 30));
