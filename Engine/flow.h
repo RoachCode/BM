@@ -250,10 +250,10 @@ public:
 			red = fl.tracer.getFillColor().r - 0.12;
 			green = fl.tracer.getFillColor().g - 0.12;
 			blue = fl.tracer.getFillColor().b + 0.5;
-			alpha = fl.tracer.getFillColor().a * 0.85;
+			alpha = fl.tracer.getFillColor().a * 0.98;
 
 			// Radius changes
-			fl.tracer.setRadius(fl.tracer.getRadius() + 2.5f);
+			fl.tracer.setRadius(fl.tracer.getRadius() + 0.5f);
 			break;
 		case CyanRivers:
 			fl.currentName = "CyanRivers";

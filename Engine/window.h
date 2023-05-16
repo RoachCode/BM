@@ -62,8 +62,6 @@ public:
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 
-
-
 	int pathCounter{ 0 };
 	unsigned int dotCounter{ 0 };
 	bool drawGrid{ false };

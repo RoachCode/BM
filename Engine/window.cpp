@@ -551,6 +551,8 @@ void Window::drawFlow(FlowPreset& fp)
 	if (drawGrid)
 	{
 		flowWindowTexture.draw(flow.m_vertices);
+		flowWindowTexture.display();
+		flowWindow.setTexture(&flowWindowTexture.getTexture());
 	}
 	// Draw Compass Needles
 	if (drawNeedles)
@@ -572,6 +574,8 @@ void Window::drawFlow(FlowPreset& fp)
 				flowWindowTexture.draw(flow.line);
 			}
 		}
+		flowWindowTexture.display();
+		flowWindow.setTexture(&flowWindowTexture.getTexture());
 	}
 	// Draw paths
 	if (drawLines)
@@ -580,8 +584,8 @@ void Window::drawFlow(FlowPreset& fp)
 		{
 			for (int ii = 0; ii < xPaths; ii++)
 			{
-				const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths)) };
-				const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths)) };
+				const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths) + ((flow.gridSize.x / xPaths) / 2)) };
+				const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths) + ((flow.gridSize.y / yPaths) / 2)) };
 				flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
 				flow.tracer.setFillColor(initialColor);
 				flow.tracer.setRadius(initialRadius);
@@ -602,5 +606,7 @@ void Window::drawFlow(FlowPreset& fp)
 		}
 		onlyOnceHack = false;
 	}
+
 	this->draw(flowWindow);
+	
 }
