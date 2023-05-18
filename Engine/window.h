@@ -67,9 +67,7 @@ public:
 
 	int pathCounter{ 0 };
 	unsigned int dotCounter{ 0 };
-	bool drawGrid{ false };
-	bool drawNeedles{ false };
-	bool drawLines{ true };
+
 
 	sf::RenderTexture flowWindowTexture;
 	sf::RectangleShape flowWindow;

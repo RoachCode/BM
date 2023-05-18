@@ -6,6 +6,10 @@
 class Flow
 {
 public:
+	bool drawGrid{ false };
+	bool drawNeedles{ false };
+	bool drawLines{ true };
+
 	std::string currentName;
 	unsigned int width;
 	unsigned int height;
@@ -48,7 +52,7 @@ public:
 			pixels[i * 4 + 0] = 255;
 			pixels[i * 4 + 1] = 255 - (i * 2);
 			pixels[i * 4 + 2] = 255 - (i * 2);
-			pixels[i * 4 + 3] = 255;
+			pixels[i * 4 + 3] = 55 + i * 2;
 		}
 
 		image.create(100, 1, pixels);
@@ -84,10 +88,10 @@ public:
 				quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
 				quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
 
-				quad[0].color = sf::Color(0, 255, 0, 35);
-				quad[1].color = sf::Color(50, 0, 0, 35);
-				quad[2].color = sf::Color(222, 155, 0, 35);
-				quad[3].color = sf::Color(0, 0, 0, 35);
+				quad[0].color = sf::Color(0, 0, 0, 185);
+				quad[1].color = sf::Color(0, 60, 0, 185);
+				quad[2].color = sf::Color(0, 12, 0, 185);
+				quad[3].color = sf::Color(0, 33, 0, 185);
 			}
 		}
 	}
@@ -212,6 +216,7 @@ public:
 	float alpha;
 
 	int plottedPoints;
+	int ppCounter{ 0 };
 	float stepSize;
 
 	int xCount;
@@ -230,7 +235,7 @@ public:
 		xCount(xcount),
 		yCount(ycount)
 	{
-		//
+		ppCounter = 0;
 	};
 
 	void applyChanges(Flow& fl)
@@ -241,19 +246,19 @@ public:
 		case InProgress:
 			fl.currentName = "InProgress";
 			//////////////////////////////////////////////////////////////////////////////
-			//fl.tracer.setRadius(1.0f); // default 1.0
+			red = fl.tracer.getFillColor().r + 1.5;
 			//////////////////////////////////////////////////////////////////////////////
 			break;
 		case DragonFlame:
 			fl.currentName = "DragonFlame";
 			// Colour changes
-			red = fl.tracer.getFillColor().r - 0.12;
-			green = fl.tracer.getFillColor().g - 0.12;
-			blue = fl.tracer.getFillColor().b + 0.5;
-			alpha = fl.tracer.getFillColor().a * 0.98;
+			red = fl.tracer.getFillColor().r * 0.999;
+			green = fl.tracer.getFillColor().g * 0.999;
+			blue = fl.tracer.getFillColor().b * 1.005;
+			alpha = fl.tracer.getFillColor().a * 0.999;
 
 			// Radius changes
-			fl.tracer.setRadius(fl.tracer.getRadius() + 0.5f);
+			fl.tracer.setRadius(fl.tracer.getRadius() + 0.15f);
 			break;
 		case CyanRivers:
 			fl.currentName = "CyanRivers";

@@ -251,13 +251,6 @@ void Window::drawParticles(sf::Color color)
 
 void Window::m_groupDraw(sf::Vector2f direction)
 {
-	if (static_cast<int>(direction.x == 0) && static_cast<int>(direction.y) == 0)
-	{
-		//this->draw(noise);
-		//return;
-	}
-	// -1, 0
-
 	noise.move(direction);
 	sf::Vector2f noiseOrigin = noise.getPosition();
 
@@ -288,111 +281,14 @@ void Window::m_groupDraw()
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
 	// Sky color for testing
-	//sf::RectangleShape r;
-	//r.setSize(sf::Vector2f(size.x, size.y));
-	//r.setFillColor(sf::Color(125, 196, 225, 255));
-	//draw(r);
-
-
-
-
-	simplexSpeed++;
-	// the below is a huge bottleneck due to reassigning textures.
 	/*
-	if (simplexSpeed > delay)
-	{
-		simplexSpeed = 0;
-		const int x{ simplexSizeX };
-		const int y{ simplexSizeY };
-
-		sf::Image perlinImage;
-		sf::Uint8* pixels = new sf::Uint8[x * y * 4];
-		
-		std::vector<sf::Uint8> blendData;
-		std::vector<sf::Uint8> vertLineStart;
-
-		switch (direction)
-		{
-		case UP:
-			// Transform - Up
-			for (int i = 0; i < x; i++)
-			{
-
-				blendData.push_back(simplexData[0]);
-				simplexData.pop_front();
-			}
-			for (int i = 0; i < blendData.size(); i++)
-			{
-				simplexData.push_back(blendData[i]);
-			}
-			break;
-		case DOWN:
-			// Transform - Down
-			for (int i = 0; i < x; i++)
-			{
-				blendData.push_back(simplexData.back());
-				simplexData.pop_back();
-			}
-			for (int i = 0; i < blendData.size(); i++)
-			{
-				simplexData.push_front(blendData[i]);
-			}
-			break;
-		case LEFT:
-			// Transform - Left
-			for (int j = 0; j < y; j++)
-			{
-				for (int i = 0; i < x; i++)
-				{
-					blendData.push_back(simplexData[i + j * x]);
-				}
-				std::rotate(blendData.begin(), blendData.begin() + 1, blendData.end());
-				for (int i = 0; i < x; i++)
-				{
-					simplexData[i + j * x] = blendData[i];
-				}
-				blendData.clear();
-			}
-			blendData.clear();
-			break;
-		case RIGHT:
-			// Transform - Right
-			for (int j = 0; j < y; j++)
-			{
-				for (int i = 0; i < x; i++)
-				{
-					blendData.push_back(simplexData[i + j * x]);
-				}
-				std::rotate(blendData.begin(), blendData.end() - 1, blendData.end());
-				for (int i = 0; i < x; i++)
-				{
-					simplexData[i + j * x] = blendData[i];
-				}
-				blendData.clear();
-			}
-			blendData.clear();
-			break;
-		default:
-			blendData.clear();
-			break;
-		}
-
-		for (int i = 0; i < x * y; i++)
-		{
-			sf::Uint8 mutate{ simplexData[i] };
-			pixels[(i * 4) + 0] = mutate;
-			pixels[(i * 4) + 1] = mutate;
-			pixels[(i * 4) + 2] = mutate;
-			pixels[(i * 4) + 3] = mutate;
-
-		}
-		perlinImage.create(x, y, pixels);
-		delete[] pixels;
-		noiseTexture.loadFromImage(perlinImage);
-		noise.setTexture(&noiseTexture);
-	}
+	sf::RectangleShape r;
+	r.setSize(sf::Vector2f(size.x, size.y));
+	r.setFillColor(sf::Color(125, 196, 225, 255));
+	draw(r);
 */
 
+	simplexSpeed++;
 	if (simplexSpeed > delay)
 	{
 		simplexSpeed = 0;
@@ -539,12 +435,8 @@ void Window::m_drawLines(FlowPreset &fp)
 //std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
 //int rdmY = distr(gen);
 
-//even distribution
-// I think I can offset these values in a loop. draw an imaginary circle. loop the noise
-
-	for (int i = 0; i < fp.plottedPoints; i++)
+	for (int i = 0; i < fp.ppCounter; i++)
 	{
-
 		fp.applyChanges(flow);
 
 		sf::Vector2f pos(flow.tracer.getPosition());
@@ -561,18 +453,14 @@ void Window::m_drawLines(FlowPreset &fp)
 		const float newX = cos(angle * (PI / 180));
 		const float newY = sin(angle * (PI / 180));
 		flow.tracer.move(newX * fp.stepSize, newY * fp.stepSize);
-
-		// Bounds the tracer to the drawing area
-		if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
-		{
-			flowWindowTexture.draw(flow.tracer);
-		}
 	}
-	flowWindowTexture.display();
-	flowWindow.setTexture(&flowWindowTexture.getTexture());
-	this->draw(flowWindow);
-	this->display();
-	this->clear();
+	// Bounds the tracer to the drawing area
+	if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
+	{
+		flowWindowTexture.draw(flow.tracer);
+	}
+	
+
 }
 
 void Window::drawFlow(FlowPreset& fp)
@@ -590,14 +478,13 @@ void Window::drawFlow(FlowPreset& fp)
 
 
 	// Draw Grid
-	if (drawGrid)
+	if (flow.drawGrid)
 	{
 		flowWindowTexture.draw(flow.m_vertices);
-		flowWindowTexture.display();
-		flowWindow.setTexture(&flowWindowTexture.getTexture());
+		flow.drawGrid = false;
 	}
 	// Draw Compass Needles
-	if (drawNeedles)
+	if (flow.drawNeedles)
 	{
 		for (unsigned int j = 0; j < flow.gridSize.y / flow.tileSize.y; j++)
 		{
@@ -616,28 +503,43 @@ void Window::drawFlow(FlowPreset& fp)
 				flowWindowTexture.draw(flow.line);
 			}
 		}
+		flow.drawNeedles = false;
+	}
+	// Draw paths
+	if (flow.drawLines)
+	{
+		if (fp.ppCounter < fp.plottedPoints)
+		{
+			for (int iii = 0; iii < yPaths; iii++)
+			{
+				for (int ii = 0; ii < xPaths; ii++)
+				{
+
+					const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths) + ((flow.gridSize.x / xPaths) / 2)) };
+					const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths) + ((flow.gridSize.y / yPaths) / 2)) };
+					flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
+					flow.tracer.setFillColor(initialColor);
+					flow.tracer.setRadius(initialRadius);
+
+					this->m_drawLines(fp);
+				}
+			}
+			fp.ppCounter++;
+		}
+		else
+		{
+			fp.ppCounter = 0;
+			flow.drawLines = false;
+		}
+	}
+
+	if (flow.drawGrid || flow.drawNeedles || flow.drawLines)
+	{
 		flowWindowTexture.display();
 		flowWindow.setTexture(&flowWindowTexture.getTexture());
 	}
-	// Draw paths
-	if (drawLines)
-	{
-		for (int iii = 0; iii < yPaths; iii++)
-		{
-			for (int ii = 0; ii < xPaths; ii++)
-			{
-				const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths) + ((flow.gridSize.x / xPaths) / 2)) };
-				const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths) + ((flow.gridSize.y / yPaths) / 2)) };
-				flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
-				flow.tracer.setFillColor(initialColor);
-				flow.tracer.setRadius(initialRadius);
 
-				this->m_drawLines(fp);
-			}
-		}
-		drawLines = false;
-	}
-	
+	// screenshot
 	if (onlyOnceHack)
 	{
 
