@@ -118,6 +118,36 @@ void Window::pollEvents()
 			case sf::Keyboard::Up:
 				if (isMovingView) { endViewMovement(); }
 				break;
+			case sf::Keyboard::Q:
+				water.waterTile.setTexture(&water.waterTexture1);
+				break;
+			case sf::Keyboard::W:
+				water.waterTile.setTexture(&water.waterTexture2);
+				break;
+			case sf::Keyboard::E:
+				water.waterTile.setTexture(&water.waterTexture3);
+				break;
+			case sf::Keyboard::R:
+				water.waterTile.setTexture(&water.waterTexture4);
+				break;
+			case sf::Keyboard::T:
+				water.waterTile.setTexture(&water.waterTexture5);
+				break;
+			case sf::Keyboard::Y:
+				water.waterTile.setTexture(&water.waterTexture6);
+				break;
+			case sf::Keyboard::U:
+				water.waterTile.setTexture(&water.waterTexture7);
+				break;
+			case sf::Keyboard::I:
+				water.waterTile.setTexture(&water.waterTexture8);
+				break;
+			case sf::Keyboard::O:
+				water.waterTile.setTexture(&water.waterTexture9);
+				break;
+			case sf::Keyboard::P:
+				water.waterTile.setTexture(&water.waterTexture10);
+				break;
 			default:
 				break;
 			}
@@ -391,8 +421,8 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
 	simplexOctaves = 4;
-	simplexSizeX = sizeX / 2;
-	simplexSizeY = sizeY / 2;
+	simplexSizeX = sizeX / windowScale;
+	simplexSizeY = sizeY / windowScale;
 
 	const int x{ simplexSizeX };
 	const int y{ simplexSizeY };
@@ -553,4 +583,23 @@ void Window::drawFlow(FlowPreset& fp)
 
 	this->draw(flowWindow);
 	
+}
+
+void Window::drawWaterTile()
+{
+	windowScale = 4;
+	water.waterTile.setScale(windowScale, windowScale);
+	int x = 10;
+	int y = 10;
+
+	for (int i = 0; i < x; i++)
+	{
+		for (int j = 0; j < y; j++)
+		{
+			water.waterTile.setPosition(water.width * windowScale * i, water.height * windowScale * j);
+			draw(water.waterTile);
+		}
+	}
+	//reset
+	water.waterTile.setPosition(0, 0);
 }

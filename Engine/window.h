@@ -9,6 +9,7 @@
 #include "OpenSimplexNoise.h"
 #include "particles.h"
 #include "flow.h"
+#include "water.h"
 
 extern class Window : public sf::RenderWindow
 {
@@ -17,10 +18,10 @@ public:
 	std::vector<float> angleVector;
 	Flow flow;
 	ParticleSystem particles{ 30000, flow }; // Just for testing it out.
-
+	Water water;
 	Sprite sprite;
 
-
+	void drawWaterTile();
 	ImageHandler imageHandler;
 	void drawTileMapsBack();
 	void drawTileMapsFront();

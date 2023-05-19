@@ -41,6 +41,7 @@
     <ClInclude Include="Engine\particles.h" />
     <ClInclude Include="Engine\sprite.h" />
     <ClInclude Include="Engine\tilemap.h" />
+    <ClInclude Include="engine\water.h" />
     <ClInclude Include="Engine\window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
