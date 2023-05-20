@@ -4,9 +4,29 @@
 #include <deque>
 #include "constExpressions.h"
 
+
+
 extern class Water
 {
 public:
+	std::vector<bool> westKagarWater = {
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+	0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+	};
+	sf::Clock clock;
 	std::vector<float>xyValues;
 	std::vector<float> angleVector;
 	std::vector<int> tempContainer;
@@ -27,6 +47,9 @@ public:
 	sf::Texture waterTexture8;
 	sf::Texture waterTexture9;
 	sf::Texture waterTexture10;
+	bool reverse{ false };
+	int animationDepth{};
+	float stepSize{};
 
 	void createSimplexValues(int x, int y, float bullshitModifier)
 	{
@@ -45,9 +68,11 @@ public:
 				{
 					for (int ix = 0; ix < x; ++ix)
 					{
+
 						// these offsets define the circles
 						float s = static_cast<float>(ix) / static_cast<float>(x);
 						float t = static_cast<float>(iy) / static_cast<float>(y);
+						float bs = bullshitModifier;
 
 						// clamping to [0, 1]
 						float dx = x2 - x1;
@@ -59,12 +84,12 @@ public:
 						//float modY = y1 + cos(t * 2 * PI) * dy / (2 * PI / octave);
 						//float modZ = x1 + sin(s * 2 * PI) * dx / (2 * PI / octave);
 						//float modW = y1 + sin(t * 2 * PI) * dy / (2 * PI / octave);
-						float bs = bullshitModifier;
+
 
 						float modX = x1 + bs + cos(s * 2 * PI) * dx / (2 * PI / octave);
-						float modY = y1 + bs + cos(t * 2 * PI) * dy / (2 * PI / octave);
+						float modY = y1 - bs + cos(t * 2 * PI) * dy / (2 * PI / octave);
 						float modZ = x1 + bs + sin(s * 2 * PI) * dx / (2 * PI / octave);
-						float modW = y1 + bs + sin(t * 2 * PI) * dy / (2 * PI / octave); // the 1 - bs thing doesn't work...
+						float modW = y1 - bs + sin(t * 2 * PI) * dy / (2 * PI / octave);
 
 						xyValues.push_back(modX);
 						xyValues.push_back(modY);
@@ -147,71 +172,60 @@ public:
 		// use keys t and y to cycle through the current 2 textures for water.
 		width = 32;
 		height = 32;
-
-		for (int j = 0; j < 10; j++)
-		{
-
-			initSimplex(width, height, 2, 0.1 * j);
-			sf::Uint8* pixels = new sf::Uint8[width * height * 4];
-			for (int i = 0; i < width * height; i++)
-			{
-				pixels[i * 4 + 0] = simplexData[i] / 2;
-				pixels[i * 4 + 1] = simplexData[i] / 1.2;
-				pixels[i * 4 + 2] = 205;
-				pixels[i * 4 + 3] = 255;
-			}
-
-			sf::Image image;
-			image.create(width, height, pixels);
-			delete[] pixels;
-			switch (j)
-			{
-			case 0:
-				waterTexture1.create(width, height);
-				waterTexture1.loadFromImage(image);
-				break;
-			case 1:
-				waterTexture2.create(width, height);
-				waterTexture2.loadFromImage(image);
-				break;
-			case 2:
-				waterTexture3.create(width, height);
-				waterTexture3.loadFromImage(image);
-				break;
-			case 3:
-				waterTexture4.create(width, height);
-				waterTexture4.loadFromImage(image);
-				break;
-			case 4:
-				waterTexture5.create(width, height);
-				waterTexture5.loadFromImage(image);
-				break;
-			case 5:
-				waterTexture6.create(width, height);
-				waterTexture6.loadFromImage(image);
-				break;
-			case 6:
-				waterTexture7.create(width, height);
-				waterTexture7.loadFromImage(image);
-				break;
-			case 7:
-				waterTexture8.create(width, height);
-				waterTexture8.loadFromImage(image);
-				break;
-			case 8:
-				waterTexture9.create(width, height);
-				waterTexture9.loadFromImage(image);
-				break;
-			case 9:
-				waterTexture10.create(width, height);
-				waterTexture10.loadFromImage(image);
-				break;
-			default:
-				break;
-			}
-
-		}
 		waterTile.setSize(sf::Vector2f(width, height));
+
+		animationDepth = 300;
+		stepSize = 0.05f;
+
+		initSimplex(width, height, 2, 0);
+		createImage();
+	}
+
+	void update(sf::Time elapsed)
+	{
+		int animTime = elapsed.asMilliseconds() / 100;
+
+		if (animTime >= animationDepth)
+		{
+			reverse = true;
+			clock.restart();
+			animTime = 0;
+		}
+		if (reverse)
+		{
+			initSimplex(width, height, 2, stepSize * (animationDepth - animTime));
+			if (animTime >= animationDepth - 1)
+			{
+				reverse = false;
+				clock.restart();
+				animTime = 0;
+			}
+		}
+		else
+		{
+			initSimplex(width, height, 2, stepSize * animTime);
+		}
+
+		createImage();
+
+	}
+
+	void createImage()
+	{
+		sf::Uint8* pixels = new sf::Uint8[width * height * 4];
+		for (int i = 0; i < width * height; i++)
+		{
+			pixels[i * 4 + 0] = simplexData[i] / 12;
+			pixels[i * 4 + 1] = simplexData[i] / 5;
+			pixels[i * 4 + 2] = 125;
+			pixels[i * 4 + 3] = 200;
+		}
+		sf::Image image;
+		image.create(width, height, pixels);
+		delete[] pixels;
+		waterTexture1.create(width, height);
+		waterTexture1.loadFromImage(image);
 		waterTile.setTexture(&waterTexture1);
 	}
+
 };
