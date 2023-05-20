@@ -175,7 +175,7 @@ public:
 		waterTile.setSize(sf::Vector2f(width, height));
 
 		animationDepth = 300;
-		stepSize = 0.05f;
+		stepSize = 0.03f;
 
 		initSimplex(width, height, 2, 0);
 		createImage();
@@ -193,7 +193,7 @@ public:
 		}
 		if (reverse)
 		{
-			initSimplex(width, height, 2, stepSize * (animationDepth - animTime));
+			initSimplex(width, height, 4, stepSize * (animationDepth - animTime));
 			if (animTime >= animationDepth - 1)
 			{
 				reverse = false;
@@ -203,7 +203,7 @@ public:
 		}
 		else
 		{
-			initSimplex(width, height, 2, stepSize * animTime);
+			initSimplex(width, height, 4, stepSize * animTime);
 		}
 
 		createImage();
@@ -215,10 +215,15 @@ public:
 		sf::Uint8* pixels = new sf::Uint8[width * height * 4];
 		for (int i = 0; i < width * height; i++)
 		{
-			pixels[i * 4 + 0] = simplexData[i] / 12;
-			pixels[i * 4 + 1] = simplexData[i] / 5;
-			pixels[i * 4 + 2] = 125;
-			pixels[i * 4 + 3] = 200;
+			pixels[i * 4 + 0] = simplexData[i] / 10 + 3;
+			pixels[i * 4 + 1] = simplexData[i] / 2 + 30;
+			pixels[i * 4 + 2] = 150;
+			pixels[i * 4 + 3] = 255 - pixels[i * 4 + 1];
+
+			if (i < width * 8)
+			{
+				pixels[i * 4 + 3] = 0;
+			}
 		}
 		sf::Image image;
 		image.create(width, height, pixels);

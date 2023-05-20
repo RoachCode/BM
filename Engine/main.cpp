@@ -55,7 +55,7 @@ int main()
 
     while (window.isOpen())
     {
-        window.clear();
+        window.clear(sf::Color(0, 0, 0, 255));
         //window.clear(sf::Color::White);
         window.pollEvents();
 
@@ -72,8 +72,8 @@ int main()
         //window.drawFlow(dragonFlame);
         //window.drawParticles(sf::Color(255, 255, 255, 30));
         //window.drawSprites(); // 1050
-        //window.drawWaterTile();
-        //window.drawTileMapsFront(); // 620
+        window.drawWaterTile();
+        window.drawTileMapsFront(); // 620
 
 
 
