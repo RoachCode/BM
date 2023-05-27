@@ -7,10 +7,21 @@
 
 extern class Flow
 {
+private:
+	bool drawGrid;
+	bool drawNeedles;
+	bool drawLines;
 public:
-	bool drawGrid{ false };
-	bool drawNeedles{ false };
-	bool drawLines{ true };
+	bool queryDrawGrid();
+	bool queryDrawNeedles();
+	bool queryDrawLines();
+
+	void toggleDrawGrid();
+	void toggleDrawNeedles();
+	void toggleDrawLines();
+	void toggleDrawGrid(bool update);
+	void toggleDrawNeedles(bool update);
+	void toggleDrawLines(bool update);
 
 	std::string currentName;
 	unsigned int width;
@@ -30,6 +41,7 @@ public:
 	int simplexOctaves;
 	std::vector<float> xyValues;
 	std::vector<int> tempContainer;
+
 	Flow();
 
 	void createSimplexValues(int x, int y);

@@ -3,6 +3,9 @@
 
 Flow::Flow()
 {
+	drawGrid = false;
+	drawNeedles = false;
+	drawLines = true;
 
 	width = sf::VideoMode::getDesktopMode().width;
 	height = sf::VideoMode::getDesktopMode().height;
@@ -67,7 +70,7 @@ Flow::Flow()
 			quad[3].color = sf::Color(0, 33, 0, 185);
 		}
 	}
-}
+};
 
 void Flow::createSimplexValues(int x, int y)
 {
@@ -107,7 +110,6 @@ void Flow::createSimplexValues(int x, int y)
 	}
 	octave = 8;
 }
-
 void Flow::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
@@ -165,6 +167,44 @@ void Flow::normalizeRGB()
 		sf::Uint8 noiseUint = sf::Uint8(tempContainer[i]);
 		simplexData.push_back(noiseUint);
 	}
+}
+
+bool Flow::queryDrawGrid()
+{
+	return drawGrid;
+}
+bool Flow::queryDrawNeedles()
+{
+	return drawNeedles;
+}
+bool Flow::queryDrawLines()
+{
+	return drawLines;
+}
+
+void Flow::toggleDrawGrid()
+{
+	drawGrid = !drawGrid;
+}
+void Flow::toggleDrawNeedles()
+{
+	drawNeedles = !drawNeedles;
+}
+void Flow::toggleDrawLines()
+{
+	drawLines = !drawLines;
+}
+void Flow::toggleDrawGrid(bool update)
+{
+	drawGrid = update;
+}
+void Flow::toggleDrawNeedles(bool update)
+{
+	drawNeedles = update;
+}
+void Flow::toggleDrawLines(bool update)
+{
+	drawLines = update;
 }
 
 

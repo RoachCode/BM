@@ -474,13 +474,13 @@ void Window::drawFlow(FlowPreset& fp)
 
 
 	// Draw Grid
-	if (flow.drawGrid)
+	if (flow.queryDrawGrid())
 	{
 		flowWindowTexture.draw(flow.m_vertices);
-		flow.drawGrid = false;
+		flow.toggleDrawGrid(false);
 	}
 	// Draw Compass Needles
-	if (flow.drawNeedles)
+	if (flow.queryDrawNeedles())
 	{
 		for (unsigned int j = 0; j < flow.gridSize.y / flow.tileSize.y; j++)
 		{
@@ -499,10 +499,10 @@ void Window::drawFlow(FlowPreset& fp)
 				flowWindowTexture.draw(flow.line);
 			}
 		}
-		flow.drawNeedles = false;
+		flow.toggleDrawNeedles(false);
 	}
 	// Draw paths
-	if (flow.drawLines)
+	if (flow.queryDrawLines())
 	{
 		if (fp.ppCounter < fp.plottedPoints)
 		{
@@ -525,11 +525,11 @@ void Window::drawFlow(FlowPreset& fp)
 		else
 		{
 			fp.ppCounter = 0;
-			flow.drawLines = false;
+			flow.toggleDrawLines(false);
 		}
 	}
 
-	if (flow.drawGrid || flow.drawNeedles || flow.drawLines)
+	if (flow.queryDrawGrid() || flow.queryDrawNeedles() || flow.queryDrawLines())
 	{
 		flowWindowTexture.display();
 		flowWindow.setTexture(&flowWindowTexture.getTexture());
