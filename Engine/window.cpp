@@ -556,9 +556,9 @@ void Window::drawWaterTile()
 
 	if (!water.westKagarWater.size())
 	{
-		for (int i = 0; i < imageHandler.tileMapD.masterTile.size(); i++)
+		for (int i = 0; i < imageHandler.tileMapE.masterTile.size(); i++)
 		{
-			if (imageHandler.tileMapD.masterTile[i] == 89 || imageHandler.tileMapD.masterTile[i] == 90)
+			if (imageHandler.tileMapE.masterTile[i] == 89 || imageHandler.tileMapE.masterTile[i] == 90)
 			{
 				water.westKagarWater.push_back(1);
 			}
