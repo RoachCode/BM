@@ -64,17 +64,17 @@ int main()
         // PRESS THE HOLLOW PLAY BUTTON ABOVE TO RUN   ▷   ESC to exit, or CTRL-ALT-DEL sometimes...
         // ALTERNATIVELY, PRESS CTRL-F5
 
-        //window.drawTileMapsBack(); // 620
+        window.drawTileMapsBack(); // 620
 
-        //window.drawFullSimplex(sf::Vector2f(-1, 0), 3); // 160. if speed is needed we can jump frames
-        window.drawFlow(inProgress);
+        window.drawFullSimplex(sf::Vector2f(-1, 0), 3); // 160. if speed is needed we can jump frames
+        //window.drawFlow(inProgress);
         //window.drawFlow(cyanRivers);
         //window.drawFlow(dragonFlame);
         //window.drawParticles(sf::Color(255, 255, 255, 30));
         //window.drawSprites(); // 1050
         
-        //window.drawWaterTile();
-        //window.drawTileMapsFront(); // 620
+        window.drawWaterTile();
+        window.drawTileMapsFront(); // 620
 
 
 
