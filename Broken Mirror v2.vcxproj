@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\devtools.cpp" />
     <ClCompile Include="Engine\filesys.cpp" />
+    <ClCompile Include="Engine\flow.cpp" />
     <ClCompile Include="Engine\font.cpp" />
     <ClCompile Include="Engine\imageHandler.cpp" />
     <ClCompile Include="Engine\main.cpp" />

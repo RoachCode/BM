@@ -7,8 +7,8 @@
 #include "imageHandler.h"
 #include "sprite.h"
 #include "OpenSimplexNoise.h"
-#include "particles.h"
 #include "flow.h"
+#include "particles.h"
 #include "water.h"
 #include "maps.h"
 

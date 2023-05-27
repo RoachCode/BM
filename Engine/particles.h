@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "constExpressions.h"
 #include "flow.h"
 
 class ParticleSystem : public sf::Drawable, public sf::Transformable
