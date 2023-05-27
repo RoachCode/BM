@@ -15,7 +15,7 @@ Window::Window()
 	Window::view = this->getDefaultView();
 	// Sets the view to the appropriate zoom level for display
 	windowScale = 1;
-	while (size.x > (MAP_WIDTH_PIXELS * windowScale * 2))
+	while (size.x > (CHUNK_WIDTH_PIXELS * windowScale * 2))
 	{
 		windowScale *= 2;
 	}
@@ -33,6 +33,7 @@ Window::Window()
 void Window::pollEvents()
 {
 	pollMovement();
+	const int movementStepSize = 1;
     sf::Event event;
     while (this->pollEvent(event))
     {
@@ -45,16 +46,16 @@ void Window::pollEvents()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Down:
-				startViewMovement(sf::Vector2f(0, 1));
+				startViewMovement(sf::Vector2f(0, movementStepSize));
 				break;
 			case sf::Keyboard::Right:
-				startViewMovement(sf::Vector2f(1, 0));
+				startViewMovement(sf::Vector2f(movementStepSize, 0));
 				break;
 			case sf::Keyboard::Left:
-				startViewMovement(sf::Vector2f(-1, 0));
+				startViewMovement(sf::Vector2f(-1 * movementStepSize, 0));
 				break;
 			case sf::Keyboard::Up:
-				startViewMovement(sf::Vector2f(0, -1));
+				startViewMovement(sf::Vector2f(0, -1 * movementStepSize));
 				break;
 			default:
 				break;
@@ -194,7 +195,7 @@ void Window::drawTileMapsFront()
 
 void Window::startViewMovement(sf::Vector2f offset)
 {
-	if (DEV_TOOLS.freeMovementAllowed)
+	if (DEV_TOOLS.queryFreeMovement())
 	{
 		isMovingView = true;
 		movementOffset = offset;

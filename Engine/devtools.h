@@ -4,22 +4,31 @@
 
 extern class DevTools
 {
-private:
-	// Returns the FPS or zero
-	void calculateFPS();
-	// Iterates to count FPS
-	int counter;
-	int fps;
-	sf::Clock clock;
-	sf::Time time;
-
-
 public:
-	bool freeMovementAllowed{ false };
-	void allowFreeMovement();
+	// Constructor
 	DevTools();
+
+	// Query the m_freeMovementAllowed bool
+	const bool queryFreeMovement();
+
+	// Toggle the m_freeMovementAllowed bool
+	void toggleFreeMovement();
+
 	// returns FPS as a std::string.
-	std::string getFPS();
-	// Logs to the console adding a line break after, using auto.
-	void log(std::string in);
+	const std::string getFPS();
+
+	// Logs to the console adding a line break after, using std::string.
+	const void log(std::string in);
+
+private:
+	// Runs the m_counter and m_clock and sets the m_fps value
+	void m_calculateFPS();
+
+	// FPS calculation variables
+	sf::Clock m_clock;
+	int m_counter;
+	int m_fps;
+
+	// Free camera movement bool
+	bool m_freeMovementAllowed;
 };

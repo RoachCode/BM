@@ -5,7 +5,10 @@ ImageHandler::ImageHandler()
 {
     zDepth = 10;
 
-    tileImage.loadFromFile(getLocalPath() + "/ImageResources/TILE.bmp");
+    if (!tileImage.loadFromFile(getLocalPath() + "/ImageResources/TILE.bmp"))
+    {
+        tileImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE.bmp");
+    }
     tileImage.createMaskFromColor(sf::Color(237, 28, 36, 255), 0);
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);

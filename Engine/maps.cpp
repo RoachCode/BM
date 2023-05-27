@@ -1,7 +1,8 @@
 #pragma once
 #include "constExpressions.h"
+#include "maps.h"
 
-unsigned short westKagar00a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -20,7 +21,7 @@ unsigned short westKagar00a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00b[TILES_PER_CHUNK_COUNT] = 
 {
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
@@ -39,7 +40,7 @@ unsigned short westKagar00b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -58,7 +59,7 @@ unsigned short westKagar00c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -77,14 +78,14 @@ unsigned short westKagar00d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 
-0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 90, 90, 90, 90, 90, 90, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 89, 89, 89, 89, 89, 89, 89, 
+0, 0, 0, 0, 90, 90, 90, 90, 90, 90, 0, 90, 90, 90, 90, 90, 89, 89, 89, 89, 89, 89, 89, 89, 
+90, 90, 90, 90, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 89, 89, 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -96,9 +97,9 @@ unsigned short westKagar00e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00f[TILES_PER_CHUNK_COUNT] = 
 {
-125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 2, 2, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 9, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 6, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 9, 0, 0, 0, 0, 0, 0, 0, 
@@ -115,7 +116,7 @@ unsigned short westKagar00f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -134,9 +135,9 @@ unsigned short westKagar00g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00h[TILES_PER_CHUNK_COUNT] = 
 {
-101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -153,9 +154,9 @@ unsigned short westKagar00h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00i[TILES_PER_CHUNK_COUNT] = 
 {
-251, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -172,7 +173,7 @@ unsigned short westKagar00i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar00j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar00j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -191,7 +192,7 @@ unsigned short westKagar00j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -210,7 +211,7 @@ unsigned short westKagar01a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01b[TILES_PER_CHUNK_COUNT] = 
 {
 100, 32, 32, 32, 41, 116, 32, 32, 32, 32, 177, 178, 179, 179, 177, 178, 179, 179, 177, 178, 179, 179, 177, 178, 
 32, 32, 32, 116, 41, 41, 32, 32, 32, 32, 169, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 
@@ -229,7 +230,7 @@ unsigned short westKagar01b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 41, 0, 0, 0, 280, 176, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 41, 41, 0, 0, 280, 168, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -248,7 +249,7 @@ unsigned short westKagar01c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01d[TILES_PER_CHUNK_COUNT] = 
 {
 175, 0, 0, 0, 0, 0, 0, 0, 0, 209, 0, 0, 0, 209, 0, 0, 0, 0, 0, 0, 213, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 209, 0, 0, 0, 209, 0, 0, 0, 0, 0, 0, 213, 0, 0, 0, 
@@ -267,9 +268,9 @@ unsigned short westKagar01d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01e[TILES_PER_CHUNK_COUNT] = 
 {
-0, 0, 0, 0, 89, 90, 0, 0, 0, 0, 180, 180, 0, 0, 172, 172, 172, 172, 172, 172, 0, 0, 172, 172, 
+32, 0, 0, 0, 89, 90, 0, 0, 0, 0, 180, 180, 0, 0, 172, 172, 172, 172, 172, 172, 0, 0, 172, 172, 
 0, 0, 0, 90, 89, 89, 0, 0, 0, 187, 188, 172, 172, 0, 180, 180, 180, 180, 180, 180, 0, 281, 180, 180, 
 0, 0, 0, 0, 89, 0, 0, 0, 0, 0, 174, 175, 180, 187, 188, 188, 188, 188, 188, 188, 189, 187, 188, 188, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 181, 182, 183, 188, 0, 172, 0, 172, 0, 0, 0, 0, 282, 0, 0, 
@@ -286,7 +287,7 @@ unsigned short westKagar01e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 6, 2, 9, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 213, 0, 0, 0, 
 0, 0, 16, 2, 6, 2, 9, 0, 0, 187, 0, 188, 189, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -305,7 +306,7 @@ unsigned short westKagar01f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 208, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -324,9 +325,9 @@ unsigned short westKagar01g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01h[TILES_PER_CHUNK_COUNT] = 
 {
-101, 0, 0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 218, 201, 0, 0, 0, 0, 0, 0, 205, 201, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 218, 201, 0, 0, 0, 0, 0, 0, 205, 201, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 201, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 218, 218, 218, 218, 218, 218, 218, 218, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 201, 0, 0, 0, 0, 0, 0, 205, 0, 0, 0, 
@@ -343,7 +344,7 @@ unsigned short westKagar01h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 268, 257, 0, 260, 260, 268, 257, 0, 0, 0, 0, 264, 267, 259, 259, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 260, 268, 257, 0, 0, 0, 0, 0, 0, 264, 267, 259, 0, 
@@ -362,7 +363,7 @@ unsigned short westKagar01i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar01j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar01j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 256, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 248, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 248, 0, 0, 
@@ -381,7 +382,7 @@ unsigned short westKagar01j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -400,7 +401,7 @@ unsigned short westKagar02a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02b[TILES_PER_CHUNK_COUNT] = 
 {
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
@@ -419,7 +420,7 @@ unsigned short westKagar02b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -438,7 +439,7 @@ unsigned short westKagar02c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -457,7 +458,7 @@ unsigned short westKagar02d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -476,7 +477,7 @@ unsigned short westKagar02e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -495,7 +496,7 @@ unsigned short westKagar02f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -514,7 +515,7 @@ unsigned short westKagar02g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -533,7 +534,7 @@ unsigned short westKagar02h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -552,7 +553,7 @@ unsigned short westKagar02i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar02j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar02j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -571,7 +572,7 @@ unsigned short westKagar02j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -590,7 +591,7 @@ unsigned short westKagar03a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -609,7 +610,7 @@ unsigned short westKagar03b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -628,7 +629,7 @@ unsigned short westKagar03c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -647,7 +648,7 @@ unsigned short westKagar03d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -666,7 +667,7 @@ unsigned short westKagar03e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -685,7 +686,7 @@ unsigned short westKagar03f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -704,7 +705,7 @@ unsigned short westKagar03g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -723,7 +724,7 @@ unsigned short westKagar03h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -742,7 +743,7 @@ unsigned short westKagar03i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar03j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar03j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -761,7 +762,7 @@ unsigned short westKagar03j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
@@ -780,7 +781,7 @@ unsigned short westKagar10a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10b[TILES_PER_CHUNK_COUNT] = 
 {
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 116, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
@@ -799,7 +800,7 @@ unsigned short westKagar10b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 41, 41, 0, 0, 41, 41, 41, 41, 0, 0, 
@@ -818,7 +819,7 @@ unsigned short westKagar10c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -837,16 +838,16 @@ unsigned short westKagar10d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 89, 
-89, 89, 89, 89, 89, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
-89, 89, 89, 89, 89, 89, 89, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 90, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
+90, 90, 90, 90, 90, 0, 0, 0, 0, 0, 0, 90, 89, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 89, 
+89, 89, 89, 89, 89, 90, 90, 0, 0, 0, 90, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
+89, 89, 89, 89, 89, 89, 89, 90, 90, 90, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
-89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 89, 89, 89, 
-0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 89, 89, 89, 
+89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 90, 0, 89, 89, 89, 
+0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 90, 89, 89, 89, 
 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
@@ -856,7 +857,7 @@ unsigned short westKagar10e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 6, 2, 9, 0, 0, 0, 0, 0, 6, 2, 0, 0, 0, 0, 
@@ -875,7 +876,7 @@ unsigned short westKagar10f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -894,7 +895,7 @@ unsigned short westKagar10g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -913,7 +914,7 @@ unsigned short westKagar10h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -932,7 +933,7 @@ unsigned short westKagar10i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar10j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar10j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -951,7 +952,7 @@ unsigned short westKagar10j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11a[TILES_PER_CHUNK_COUNT] = 
 {
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -970,7 +971,7 @@ unsigned short westKagar11a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11b[TILES_PER_CHUNK_COUNT] = 
 {
 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 100, 41, 41, 41, 41, 
 32, 32, 32, 32, 32, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 
@@ -989,7 +990,7 @@ unsigned short westKagar11b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11c[TILES_PER_CHUNK_COUNT] = 
 {
 177, 282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 41, 41, 41, 
 171, 282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1008,7 +1009,7 @@ unsigned short westKagar11c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11d[TILES_PER_CHUNK_COUNT] = 
 {
 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1027,7 +1028,7 @@ unsigned short westKagar11d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 89, 89, 89, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 
@@ -1046,7 +1047,7 @@ unsigned short westKagar11e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 104, 104, 104, 
@@ -1065,7 +1066,7 @@ unsigned short westKagar11f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 
 0, 214, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1084,9 +1085,9 @@ unsigned short westKagar11g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11h[TILES_PER_CHUNK_COUNT] = 
 {
-205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1103,7 +1104,7 @@ unsigned short westKagar11h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1122,7 +1123,7 @@ unsigned short westKagar11i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar11j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar11j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1141,7 +1142,7 @@ unsigned short westKagar11j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
@@ -1160,7 +1161,7 @@ unsigned short westKagar12a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12b[TILES_PER_CHUNK_COUNT] = 
 {
 32, 97, 100, 100, 123, 123, 123, 114, 114, 116, 116, 123, 116, 123, 116, 100, 100, 100, 100, 100, 100, 100, 100, 114, 
 32, 97, 100, 100, 123, 123, 123, 114, 114, 116, 116, 123, 116, 123, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 
@@ -1179,7 +1180,7 @@ unsigned short westKagar12b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 
@@ -1198,7 +1199,7 @@ unsigned short westKagar12c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 
@@ -1217,7 +1218,7 @@ unsigned short westKagar12d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 104, 104, 104, 104, 104, 104, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1236,7 +1237,7 @@ unsigned short westKagar12e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1255,7 +1256,7 @@ unsigned short westKagar12f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 114, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 114, 
@@ -1274,7 +1275,7 @@ unsigned short westKagar12g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12h[TILES_PER_CHUNK_COUNT] = 
 {
 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1293,7 +1294,7 @@ unsigned short westKagar12h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1312,7 +1313,7 @@ unsigned short westKagar12i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar12j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar12j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1331,7 +1332,7 @@ unsigned short westKagar12j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1350,7 +1351,7 @@ unsigned short westKagar13a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1369,7 +1370,7 @@ unsigned short westKagar13b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1388,7 +1389,7 @@ unsigned short westKagar13c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1407,7 +1408,7 @@ unsigned short westKagar13d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1426,7 +1427,7 @@ unsigned short westKagar13e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1445,7 +1446,7 @@ unsigned short westKagar13f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1464,7 +1465,7 @@ unsigned short westKagar13g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1483,7 +1484,7 @@ unsigned short westKagar13h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1502,7 +1503,7 @@ unsigned short westKagar13i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar13j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar13j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1521,7 +1522,7 @@ unsigned short westKagar13j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1540,7 +1541,7 @@ unsigned short westKagar20a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20b[TILES_PER_CHUNK_COUNT] = 
 {
 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
@@ -1559,7 +1560,7 @@ unsigned short westKagar20b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20c[TILES_PER_CHUNK_COUNT] = 
 {
 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 
@@ -1578,7 +1579,7 @@ unsigned short westKagar20c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20d[TILES_PER_CHUNK_COUNT] = 
 {
 11, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 11, 11, 0, 11, 11, 0, 0, 0, 11, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 11, 0, 0, 0, 
@@ -1597,7 +1598,7 @@ unsigned short westKagar20d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20e[TILES_PER_CHUNK_COUNT] = 
 {
 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 
@@ -1616,7 +1617,7 @@ unsigned short westKagar20e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1635,7 +1636,7 @@ unsigned short westKagar20f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1654,7 +1655,7 @@ unsigned short westKagar20g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1673,7 +1674,7 @@ unsigned short westKagar20h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1692,7 +1693,7 @@ unsigned short westKagar20i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar20j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar20j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1711,7 +1712,7 @@ unsigned short westKagar20j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 
@@ -1730,7 +1731,7 @@ unsigned short westKagar21a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21b[TILES_PER_CHUNK_COUNT] = 
 {
 100, 100, 100, 100, 100, 100, 100, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 41, 114, 114, 116, 116, 
 100, 100, 100, 100, 116, 116, 100, 100, 100, 100, 100, 100, 100, 100, 100, 41, 41, 41, 41, 41, 114, 114, 116, 116, 
@@ -1749,7 +1750,7 @@ unsigned short westKagar21b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 41, 41, 41, 41, 41, 41, 41, 41, 41, 0, 0, 0, 41, 0, 0, 0, 0, 
 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 41, 41, 41, 41, 0, 0, 0, 0, 
@@ -1768,7 +1769,7 @@ unsigned short westKagar21c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 
 125, 125, 112, 125, 0, 0, 112, 0, 0, 0, 125, 112, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1787,7 +1788,7 @@ unsigned short westKagar21d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 93, 93, 0, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 89, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 93, 93, 0, 89, 89, 89, 89, 89, 0, 0, 0, 0, 
@@ -1806,7 +1807,7 @@ unsigned short westKagar21e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21f[TILES_PER_CHUNK_COUNT] = 
 {
 127, 104, 104, 104, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 114, 114, 116, 116, 116, 123, 123, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 104, 104, 104, 104, 104, 104, 104, 104, 114, 116, 116, 116, 123, 123, 0, 0, 0, 
@@ -1825,7 +1826,7 @@ unsigned short westKagar21f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 108, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 108, 0, 0, 
@@ -1844,7 +1845,7 @@ unsigned short westKagar21g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1863,7 +1864,7 @@ unsigned short westKagar21h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1882,7 +1883,7 @@ unsigned short westKagar21i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar21j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar21j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1901,7 +1902,7 @@ unsigned short westKagar21j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22a[TILES_PER_CHUNK_COUNT] = 
 {
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 
@@ -1920,7 +1921,7 @@ unsigned short westKagar22a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22b[TILES_PER_CHUNK_COUNT] = 
 {
 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 
 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 116, 116, 116, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 123, 
@@ -1939,7 +1940,7 @@ unsigned short westKagar22b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22c[TILES_PER_CHUNK_COUNT] = 
 {
 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0, 
@@ -1958,7 +1959,7 @@ unsigned short westKagar22c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22d[TILES_PER_CHUNK_COUNT] = 
 {
 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 125, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 125, 0, 0, 0, 112, 0, 0, 0, 0, 0, 0, 0, 0, 112, 125, 
@@ -1977,7 +1978,7 @@ unsigned short westKagar22d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 93, 93, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -1996,7 +1997,7 @@ unsigned short westKagar22e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2015,7 +2016,7 @@ unsigned short westKagar22f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22g[TILES_PER_CHUNK_COUNT] = 
 {
 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2034,7 +2035,7 @@ unsigned short westKagar22g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2053,7 +2054,7 @@ unsigned short westKagar22h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2072,7 +2073,7 @@ unsigned short westKagar22i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar22j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar22j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2091,7 +2092,7 @@ unsigned short westKagar22j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2110,7 +2111,7 @@ unsigned short westKagar23a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2129,7 +2130,7 @@ unsigned short westKagar23b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2148,7 +2149,7 @@ unsigned short westKagar23c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2167,7 +2168,7 @@ unsigned short westKagar23d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2186,7 +2187,7 @@ unsigned short westKagar23e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2205,7 +2206,7 @@ unsigned short westKagar23f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2224,7 +2225,7 @@ unsigned short westKagar23g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2243,7 +2244,7 @@ unsigned short westKagar23h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2262,7 +2263,7 @@ unsigned short westKagar23i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar23j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar23j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2281,7 +2282,7 @@ unsigned short westKagar23j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2300,7 +2301,7 @@ unsigned short westKagar30a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2319,7 +2320,7 @@ unsigned short westKagar30b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2338,7 +2339,7 @@ unsigned short westKagar30c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2357,7 +2358,7 @@ unsigned short westKagar30d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2376,7 +2377,7 @@ unsigned short westKagar30e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2395,7 +2396,7 @@ unsigned short westKagar30f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2414,7 +2415,7 @@ unsigned short westKagar30g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2433,7 +2434,7 @@ unsigned short westKagar30h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2452,7 +2453,7 @@ unsigned short westKagar30i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar30j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar30j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2471,7 +2472,7 @@ unsigned short westKagar30j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2490,7 +2491,7 @@ unsigned short westKagar31a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2509,7 +2510,7 @@ unsigned short westKagar31b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2528,7 +2529,7 @@ unsigned short westKagar31c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2547,7 +2548,7 @@ unsigned short westKagar31d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2566,7 +2567,7 @@ unsigned short westKagar31e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2585,7 +2586,7 @@ unsigned short westKagar31f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2604,7 +2605,7 @@ unsigned short westKagar31g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2623,7 +2624,7 @@ unsigned short westKagar31h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2642,7 +2643,7 @@ unsigned short westKagar31i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar31j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar31j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2661,7 +2662,7 @@ unsigned short westKagar31j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2680,7 +2681,7 @@ unsigned short westKagar32a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2699,7 +2700,7 @@ unsigned short westKagar32b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2718,7 +2719,7 @@ unsigned short westKagar32c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2737,7 +2738,7 @@ unsigned short westKagar32d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2756,7 +2757,7 @@ unsigned short westKagar32e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2775,7 +2776,7 @@ unsigned short westKagar32f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2794,7 +2795,7 @@ unsigned short westKagar32g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2813,7 +2814,7 @@ unsigned short westKagar32h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2832,7 +2833,7 @@ unsigned short westKagar32i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar32j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar32j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2851,7 +2852,7 @@ unsigned short westKagar32j[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33a[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33a[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2870,7 +2871,7 @@ unsigned short westKagar33a[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33b[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33b[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2889,7 +2890,7 @@ unsigned short westKagar33b[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33c[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33c[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2908,7 +2909,7 @@ unsigned short westKagar33c[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33d[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33d[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2927,7 +2928,7 @@ unsigned short westKagar33d[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33e[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33e[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2946,7 +2947,7 @@ unsigned short westKagar33e[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33f[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33f[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2965,7 +2966,7 @@ unsigned short westKagar33f[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33g[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33g[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -2984,7 +2985,7 @@ unsigned short westKagar33g[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33h[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33h[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -3003,7 +3004,7 @@ unsigned short westKagar33h[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33i[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33i[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -3022,7 +3023,7 @@ unsigned short westKagar33i[TILES_PER_SCENE_COUNT] =
 
 };
 
-unsigned short westKagar33j[TILES_PER_SCENE_COUNT] = 
+unsigned short westKagar33j[TILES_PER_CHUNK_COUNT] = 
 {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 

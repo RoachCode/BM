@@ -5,7 +5,7 @@
 int main()
 {
     Window window;
-	window.DEV_TOOLS.allowFreeMovement();
+	window.DEV_TOOLS.toggleFreeMovement();
     window.font.setColor(sf::Color(255, 120, 10));
 
     FlowPreset dragonFlame

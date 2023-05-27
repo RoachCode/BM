@@ -1,40 +1,47 @@
 #pragma once
 #include "devtools.h"
 
+// Public
 DevTools::DevTools()
 {
-    counter = 0;
-    fps = 0;
+    m_freeMovementAllowed = false;
+    m_counter = 0;
+    m_fps = 0;
 }
 
-void DevTools::calculateFPS()
+const bool DevTools::queryFreeMovement()
 {
-    time = clock.getElapsedTime();
-    if (time.asMilliseconds() < 1000)
-    {
-        counter++;
-    }
-    else
-    {
-        clock.restart();
-        fps = counter;
-        counter = 0;
-    }
+    return m_freeMovementAllowed;
 }
 
-std::string DevTools::getFPS()
+void DevTools::toggleFreeMovement()
 {
-    calculateFPS();
-    std::string th{ std::to_string(fps) };
-    return th;//_fps;
+    m_freeMovementAllowed = !m_freeMovementAllowed;
 }
 
-void DevTools::log(std::string in)
+const std::string DevTools::getFPS()
+{
+    m_calculateFPS();
+    return std::to_string(m_fps);
+}
+
+const void DevTools::log(std::string in)
 {
     std::cout << in << '\n';
 }
 
-void DevTools::allowFreeMovement()
+// Private
+void DevTools::m_calculateFPS()
 {
-    freeMovementAllowed = true;
+    sf::Time time = m_clock.getElapsedTime();
+    if (time.asMilliseconds() < 1000)
+    {
+        m_counter++;
+    }
+    else
+    {
+        m_clock.restart();
+        m_fps = m_counter;
+        m_counter = 0;
+    }
 }
