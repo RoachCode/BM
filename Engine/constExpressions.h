@@ -16,7 +16,7 @@ const unsigned int TILES_PER_SCENE_COUNT{ 336 };
 // The length in pixels of each side of a tile
 const unsigned int TILE_SIZE{ 32 };
 
-enum Scene
+enum Location
 {
 	WestKagar
 };

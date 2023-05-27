@@ -3,29 +3,12 @@
 #include "OpenSimplexNoise.h"
 #include <deque>
 #include "constExpressions.h"
-
-
+#include "maps.h"
 
 extern class Water
 {
 public:
-	std::vector<bool> westKagarWater = {
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-	0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-	};
+	std::vector<bool> westKagarWater;
 	sf::Clock clock;
 	std::vector<float>xyValues;
 	std::vector<float> angleVector;
@@ -167,7 +150,6 @@ public:
 
 	Water()
 	{
-		// use keys t and y to cycle through the current 2 textures for water.
 		width = 32;
 		height = 32;
 		waterTile.setSize(sf::Vector2f(width, height));
@@ -219,7 +201,7 @@ public:
 			pixels[i * 4 + 0] = simplexData[i] / 5;
 			pixels[i * 4 + 1] = simplexData[i] / 3;
 			pixels[i * 4 + 2] = simplexData[i] / 2;
-			pixels[i * 4 + 3] = simplexData[i] / 2;
+			pixels[i * 4 + 3] = simplexData[i] / 1.75;
 
 		}
 		sf::Image image;
@@ -230,5 +212,4 @@ public:
 		waterTile.setTexture(&waterTexture1);
 
 	}
-
 };

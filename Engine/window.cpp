@@ -554,11 +554,31 @@ void Window::drawWaterTile()
 {
 	water.update(water.clock.getElapsedTime());
 
-	for (int i = 0; i < 24; i++)
+	if (!water.westKagarWater.size())
 	{
-		for (int j = 0; j < 14; j++)
+		for (int i = 0; i < imageHandler.tileMapD.masterTile.size(); i++)
 		{
-			if (water.westKagarWater[i + j * 24])
+			if (imageHandler.tileMapD.masterTile[i] == 89 || imageHandler.tileMapD.masterTile[i] == 90)
+			{
+				water.westKagarWater.push_back(1);
+			}
+			else
+			{
+				water.westKagarWater.push_back(0);
+			}
+		}
+	}
+
+
+
+
+
+
+	for (int i = 0; i < 24 * 4; i++)
+	{
+		for (int j = 0; j < 14 * 4; j++)
+		{
+			if (water.westKagarWater[i + j * (24 * 4)])
 			{
 				water.waterTile.setScale(windowScale, windowScale);
 				water.waterTile.setPosition(water.width * windowScale * i, water.height * windowScale * j);
@@ -566,6 +586,7 @@ void Window::drawWaterTile()
 			}
 		}
 	}
+	 
 	//reset
 	water.waterTile.setPosition(0, 0);
 }

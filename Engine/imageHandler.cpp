@@ -40,6 +40,7 @@ void ImageHandler::loadWestKagar()
 {
     tilemapRenderBack.clear(sf::Color(0, 0, 0, 255));
     tilemapRenderFront.clear(sf::Color(0, 0, 0, 0));
+
     for (int i = 0; i < zDepth; i++)
     {
         switch (i)
@@ -78,7 +79,7 @@ void ImageHandler::loadWestKagar()
                 westKagar01d, westKagar11d, westKagar21d, westKagar31d,
                 westKagar02d, westKagar12d, westKagar22d, westKagar32d,
                 westKagar03d, westKagar13d, westKagar23d, westKagar33d
-            );
+            ); 
             break;
         case 4:
             tilemapVector[i]->createMasterTile
@@ -141,7 +142,7 @@ void ImageHandler::loadWestKagar()
 
         tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
 
-        if (i < zDepth / 2)
+        if (i < zDepth / 2 - 1)
         {
             tilemapRenderBack.draw(*tilemapVector[i]);
         }

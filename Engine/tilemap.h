@@ -13,10 +13,11 @@ public:
     );
     TileMap();
     bool load(const sf::Image& tileset, sf::Vector2u tileSize, unsigned int width, unsigned int height);
+    std::vector<unsigned short> masterTile;
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     sf::VertexArray m_vertices;
     sf::Texture m_tileset;
-    std::vector<unsigned short> masterTile;
+
 };

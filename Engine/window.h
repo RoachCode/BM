@@ -10,6 +10,7 @@
 #include "particles.h"
 #include "flow.h"
 #include "water.h"
+#include "maps.h"
 
 extern class Window : public sf::RenderWindow
 {
