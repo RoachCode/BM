@@ -552,10 +552,6 @@ void Window::drawFlow(FlowPreset& fp)
 
 void Window::drawWaterTile()
 {
-
-	water.waterTile.setScale(windowScale, windowScale);
-
-
 	water.update(water.clock.getElapsedTime());
 
 	for (int i = 0; i < 24; i++)
@@ -564,6 +560,7 @@ void Window::drawWaterTile()
 		{
 			if (water.westKagarWater[i + j * 24])
 			{
+				water.waterTile.setScale(windowScale, windowScale);
 				water.waterTile.setPosition(water.width * windowScale * i, water.height * windowScale * j);
 				draw(water.waterTile);
 			}

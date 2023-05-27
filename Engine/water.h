@@ -38,15 +38,6 @@ public:
 	int height{ 32 };
 	sf::RectangleShape waterTile;
 	sf::Texture waterTexture1;
-	sf::Texture waterTexture2;
-	sf::Texture waterTexture3;
-	sf::Texture waterTexture4;
-	sf::Texture waterTexture5;
-	sf::Texture waterTexture6;
-	sf::Texture waterTexture7;
-	sf::Texture waterTexture8;
-	sf::Texture waterTexture9;
-	sf::Texture waterTexture10;
 	bool reverse{ false };
 	int animationDepth{};
 	float stepSize{};
@@ -160,7 +151,14 @@ public:
 			//optional clamping for water
 			tempContainer[i] = tempContainer[i] / 25;
 			tempContainer[i] = tempContainer[i] * 25;
-
+			if (tempContainer[i] > 150)
+			{
+				tempContainer[i] /= 5;
+			}
+			if (tempContainer[i] < 120)
+			{
+				tempContainer[i] *= 5;
+			}
 			//std::cout << noiseInt << '\n';
 			sf::Uint8 noiseUint = sf::Uint8(tempContainer[i]);
 			simplexData.push_back(noiseUint);
@@ -215,15 +213,14 @@ public:
 		sf::Uint8* pixels = new sf::Uint8[width * height * 4];
 		for (int i = 0; i < width * height; i++)
 		{
-			pixels[i * 4 + 0] = simplexData[i] / 10 + 3;
-			pixels[i * 4 + 1] = simplexData[i] / 2 + 30;
-			pixels[i * 4 + 2] = 150;
-			pixels[i * 4 + 3] = 255 - pixels[i * 4 + 1];
+			// clamp
+			simplexData[i] = 255 - simplexData[i];
 
-			if (i < width * 8)
-			{
-				pixels[i * 4 + 3] = 0;
-			}
+			pixels[i * 4 + 0] = simplexData[i] / 5;
+			pixels[i * 4 + 1] = simplexData[i] / 3;
+			pixels[i * 4 + 2] = simplexData[i] / 2;
+			pixels[i * 4 + 3] = simplexData[i] / 2;
+
 		}
 		sf::Image image;
 		image.create(width, height, pixels);
@@ -231,6 +228,7 @@ public:
 		waterTexture1.create(width, height);
 		waterTexture1.loadFromImage(image);
 		waterTile.setTexture(&waterTexture1);
+
 	}
 
 };
