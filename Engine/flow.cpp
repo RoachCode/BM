@@ -207,6 +207,23 @@ void Flow::toggleDrawLines(bool update)
 	drawLines = update;
 }
 
+void Flow::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	// apply the transform
+	states.transform *= getTransform();
+
+	// apply the tileset texture
+	states.texture = NULL;
+
+	// draw the vertex array
+	target.draw(m_vertices, states);
+}
+
+
+
+
+
+
 
 
 FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount) :

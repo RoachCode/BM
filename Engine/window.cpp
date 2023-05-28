@@ -28,6 +28,8 @@ Window::Window()
 	flowWindowTexture.create(flow.gridSize.x, flow.gridSize.y);
 	flowWindow.setSize(sf::Vector2f(flow.gridSize.x, flow.gridSize.y));
 	flowWindowTexture.clear(sf::Color(0, 0, 0, 0));
+
+	font.setColor(sf::Color(255, 120, 10));
 }
 
 void Window::pollEvents()

@@ -5,17 +5,29 @@
 #include "constExpressions.h"
 #include <deque>
 
-extern class Flow
+extern class Flow : public sf::Drawable, public sf::Transformable
 {
 private:
 	bool drawGrid;
 	bool drawNeedles;
 	bool drawLines;
+
+	sf::Image image;
+	sf::Texture gradient;
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 public:
+	sf::CircleShape tracer;
+	sf::Vector2u tileSize;
+	sf::RectangleShape line;
+	sf::Vector2u gridSize;
+	std::vector<float> angleVector;
+
+	// boolean access
 	bool queryDrawGrid();
 	bool queryDrawNeedles();
 	bool queryDrawLines();
-
 	void toggleDrawGrid();
 	void toggleDrawNeedles();
 	void toggleDrawLines();
@@ -27,13 +39,7 @@ public:
 	unsigned int width;
 	unsigned int height;
 	sf::VertexArray m_vertices;
-	sf::Image image;
-	sf::Texture gradient;
-	sf::Vector2u tileSize;
-	sf::Vector2u gridSize;
-	sf::RectangleShape line;
-	std::vector<float> angleVector;
-	sf::CircleShape tracer;
+
 
 	float simplexSizeX;
 	float simplexSizeY;
