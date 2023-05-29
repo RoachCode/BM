@@ -18,7 +18,7 @@ public:
 	int windowScale{ 1 };
 	std::vector<float> angleVector;
 	Flow flow;
-	ParticleSystem particles{ 30000, flow }; // Just for testing it out.
+	ParticleSystem particles{ 30000 }; // Just for testing it out.
 	Water water;
 	Sprite sprite;
 
@@ -67,15 +67,14 @@ public:
 	void createSimplexValues(int x, int y);
 	void normalizeRGB();
 
-	int pathCounter{ 0 };
-	unsigned int dotCounter{ 0 };
+	int pathCounter{ 0 }; //?
+	unsigned int dotCounter{ 0 }; //?
+	int lineCounter{ 0 }; // ?
 
 
-	sf::RenderTexture flowWindowTexture;
-	sf::RectangleShape flowWindow;
 	bool onlyOnceHack{ true };
-	void m_drawLines(FlowPreset& fp);
-	int lineCounter{ 0 };
+
+
 private:
 
 

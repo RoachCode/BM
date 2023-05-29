@@ -25,10 +25,6 @@ Window::Window()
 
 	this->initSimplex(size.x, size.y, 4);
 
-	flowWindowTexture.create(flow.gridSize.x, flow.gridSize.y);
-	flowWindow.setSize(sf::Vector2f(flow.gridSize.x, flow.gridSize.y));
-	flowWindowTexture.clear(sf::Color(0, 0, 0, 0));
-
 	font.setColor(sf::Color(255, 120, 10));
 }
 
@@ -274,8 +270,6 @@ void Window::m_groupDraw()
 	const sf::Vector2f direction = sf::Vector2f(0, 0);
 	m_groupDraw(direction);
 }
-
-
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
 	// Sky color for testing
@@ -297,7 +291,6 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 		m_groupDraw();
 	}
 }
-
 void Window::createSimplexValues(int x, int y)
 {
 	xyValues.clear();
@@ -337,7 +330,6 @@ void Window::createSimplexValues(int x, int y)
 	}
 	octave = 8;
 }
-
 void Window::normalizeRGB()
 {
 	int lowest{ 0 };
@@ -359,7 +351,6 @@ void Window::normalizeRGB()
 		simplexData.push_back(noiseUint);
 	}
 }
-
 void Window::createSimplexTexture()
 {
 	sf::Image perlinImage;
@@ -384,7 +375,6 @@ void Window::createSimplexTexture()
 	noise.setTexture(&noiseTexture);
 
 }
-
 void Window::initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
@@ -425,131 +415,23 @@ void Window::initSimplex(float sizeX, float sizeY, int octaves)
 	createSimplexTexture();
 }
 
-void Window::m_drawLines(FlowPreset &fp)
-{
-	//random distribution
-//std::uniform_int_distribution<> distr(0, flow.gridSize.x); // define the range
-//int rdmX = distr(gen); // generate numbers
-//std::uniform_int_distribution<> distr2(0, flow.gridSize.y); // define the range
-//int rdmY = distr(gen);
-
-	for (int i = 0; i < fp.ppCounter; i++)
-	{
-		fp.applyChanges(flow);
-
-		sf::Vector2f pos(flow.tracer.getPosition());
-		if (pos.x > flow.gridSize.x || pos.y > flow.gridSize.y)
-		{
-			pos.x = flow.gridSize.x;
-			pos.y = flow.gridSize.y;
-		}
-		const int gridX{ static_cast<int>(floatify(pos.x) / floatify(flow.tileSize.x)) };
-		const int gridY{ static_cast<int>(floatify(pos.y) / floatify(flow.tileSize.y)) };
-		const float angle = flow.angleVector[gridX + gridY * (flow.gridSize.x / flow.tileSize.x)];
-
-		// Converts the angle to x,y coordinates and moves the tracer
-		const float newX = cos(angle * (PI / 180));
-		const float newY = sin(angle * (PI / 180));
-		flow.tracer.move(newX * fp.stepSize, newY * fp.stepSize);
-	}
-	// Bounds the tracer to the drawing area
-	if (flow.tracer.getPosition().x < flow.gridSize.x - 1 && flow.tracer.getPosition().y < flow.gridSize.y - 1)
-	{
-		flowWindowTexture.draw(flow.tracer);
-	}
-	
-
-}
-
 void Window::drawFlow(FlowPreset& fp)
 {
-	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
-	const int xPaths{ fp.xCount };
-	const int yPaths{ fp.yCount };
-
-	sf::Vector2f returnPos;
-	float angle;
-	float initialRadius{ 1.0f };
-	//std::random_device rd; // obtain a random number from hardware
-	//std::mt19937 gen(rd()); // seed the generator
-
-
-
-	// Draw Grid
-	if (flow.queryDrawGrid())
-	{
-		flowWindowTexture.draw(flow.m_vertices);
-		flow.toggleDrawGrid(false);
-	}
-	// Draw Compass Needles
-	if (flow.queryDrawNeedles())
-	{
-		for (unsigned int j = 0; j < flow.gridSize.y / flow.tileSize.y; j++)
-		{
-			for (unsigned int i = 0; i < flow.gridSize.x / flow.tileSize.x; i++)
-			{
-				// get a pointer to the current tile's quad
-				sf::Vertex* quad = &flow.m_vertices[(i + j * (flow.gridSize.y / flow.tileSize.y)) * 4];
-
-				angle = flow.angleVector[i + j * (flow.gridSize.x / flow.tileSize.x)];
-
-				const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (flow.tileSize.x / 2), quad[2].position.y - (flow.tileSize.y / 2));
-				flow.line.setPosition(quadCenter);
-				flow.line.setRotation(angle);
-
-				quad = nullptr; // ?
-				flowWindowTexture.draw(flow.line);
-			}
-		}
-		flow.toggleDrawNeedles(false);
-	}
-	// Draw paths
-	if (flow.queryDrawLines())
-	{
-		if (fp.ppCounter < fp.plottedPoints)
-		{
-			for (int iii = 0; iii < yPaths; iii++)
-			{
-				for (int ii = 0; ii < xPaths; ii++)
-				{
-
-					const int startPosX{ static_cast<int>(ii * (flow.gridSize.x / xPaths) + ((flow.gridSize.x / xPaths) / 2)) };
-					const int startPosY{ static_cast<int>(iii * (flow.gridSize.y / yPaths) + ((flow.gridSize.y / yPaths) / 2)) };
-					flow.tracer.setPosition(sf::Vector2f(startPosX, startPosY));
-					flow.tracer.setFillColor(initialColor);
-					flow.tracer.setRadius(initialRadius);
-
-					this->m_drawLines(fp);
-				}
-			}
-			fp.ppCounter++;
-		}
-		else
-		{
-			fp.ppCounter = 0;
-			flow.toggleDrawLines(false);
-		}
-	}
-
-	if (flow.queryDrawGrid() || flow.queryDrawNeedles() || flow.queryDrawLines())
-	{
-		flowWindowTexture.display();
-		flowWindow.setTexture(&flowWindowTexture.getTexture());
-	}
+	flow.drawFlow(fp);
 
 	// screenshot
 	if (onlyOnceHack)
 	{
 
 		std::string filename = flow.currentName + ".png";
-		if (!flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
+		if (!flow.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
 		{
 			std::cout << "screenshot failed";
 		}
 		onlyOnceHack = false;
 	}
 
-	this->draw(flowWindow);
+	this->draw(flow.flowWindow);
 	
 }
 

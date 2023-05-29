@@ -6,14 +6,14 @@
 class ParticleSystem : public sf::Drawable, public sf::Transformable
 {
 public:
+    Flow m_flow;
     sf::Clock clock;
     // Construct the particle system with the number of particles per given lifetime
-    ParticleSystem(unsigned int count, Flow &flow) :
+    ParticleSystem(unsigned int count) :
         m_particles(count),
         m_vertices(sf::Quads, count * 4),
         m_lifetime(sf::seconds(10.f)),
-        m_emitter(0.f, 0.f),
-        m_flow(flow)
+        m_emitter(0.f, 0.f)
     {
         particleSize = 1;
         particleSpeed = 110;
@@ -125,5 +125,5 @@ private:
     sf::VertexArray m_vertices;
     sf::Time m_lifetime;
     sf::Vector2f m_emitter;
-    Flow m_flow;
+    //Flow m_flow;
 };
