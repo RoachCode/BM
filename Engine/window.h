@@ -6,13 +6,13 @@
 #include "devtools.h"
 #include "imageHandler.h"
 #include "sprite.h"
-#include "OpenSimplexNoise.h"
+#include "noise.h"
 #include "flow.h"
 #include "particles.h"
 #include "water.h"
 #include "maps.h"
 
-extern class Window : public sf::RenderWindow
+extern class Window : public sf::RenderWindow, public Noise
 {
 public:
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
@@ -28,12 +28,6 @@ public:
 	sf::Vector2f movementOffset;
 	bool isMovingView;
 
-	// Data containers
-	std::vector<float> angleVector;
-	std::vector<int> tempContainer;
-	std::deque<sf::Uint8> simplexData;
-	std::vector<float> xyValues;
-
 	// Create class instances
 	Flow flow;
 		int pathCounter{ 0 }; //?
@@ -45,15 +39,6 @@ public:
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	Font2 font;
-
-	// Other Simplex Noise variables
-	int simplexSizeX;
-	int simplexSizeY;
-	int simplexSpeed;
-	int simplexStepper;
-	int simplexOctaves{};
-	sf::RectangleShape noise;
-	sf::Texture noiseTexture;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -72,15 +57,12 @@ public:
 	void drawWaterTile();
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
-		void initSimplex(float sizeX, float sizeY, int octaves);
-		void createSimplexValues(int x, int y);
-		void normalizeRGB();
-		void createSimplexTexture();
-		void m_groupDraw();
-		void m_groupDraw(sf::Vector2f direction);
-		void m_groupDraw(int dirX, int dirY);
+
 	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
 
+	void m_groupDraw(sf::Vector2f direction);
+	void m_groupDraw(int dirX, int dirY);
+	void m_groupDraw();
 private:
 
 };

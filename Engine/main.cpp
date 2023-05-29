@@ -52,21 +52,14 @@ int main()
     {
         window.clear(sf::Color(0, 0, 0, 255));
         window.pollEvents();
-/*
-      window.drawTileMapsBack(); // 620
-        window.drawFlow(inProgress);
 
-        window.drawFlow(dragonFlame);
-        window.drawParticles(sf::Color(255, 255, 255, 30));
-        window.drawSprites(); // 1050
-        window.drawFlow(cyanRivers);
-
+        window.drawTileMapsBack(); // 620
+        //window.drawParticles(sf::Color(255, 255, 255, 30));
+        //window.drawSprites(); // 1050
+        //window.drawFlow(cyanRivers);
+        window.drawWaterTile();
         window.drawTileMapsFront(); // 620
         window.drawFullSimplex(sf::Vector2f(-1, 0), 3); // 160. if speed is needed we can jump frames       
-*/
-  
-        window.drawWaterTile();
-
 
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1100 - 1200 fps
         window.display();

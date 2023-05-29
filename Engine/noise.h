@@ -1,5 +1,6 @@
 #pragma once
 #include "OpenSimplexNoise.h"
+#include "constExpressions.h"
 
 extern class Noise
 {
@@ -8,6 +9,10 @@ public:
 	{
 		startOctave = 8;
 		m_simplexOctaves = 4;
+		m_simplexSizeX = 0;
+		m_simplexSizeY = 0;
+		m_simplexSizeX = 0;
+		m_simplexSizeY = 0;
 	}
 	// Data
 	// Vector array of angles, one per cell
@@ -18,11 +23,15 @@ public:
 
 	float m_simplexSizeX;
 	float m_simplexSizeY;
-
 	int m_simplexOctaves;
 	int startOctave;
 
+	// For fullscreen cloud noise
+	int simplexSpeed;
+	int simplexStepper;
 
+	sf::RectangleShape noise;
+	sf::Texture noiseTexture;
 	// For animated noise
 	float qdMod{ 0.f };
 	bool isWater{ false };
@@ -102,7 +111,7 @@ public:
 
 		}
 		m_normalizeRGB();
-
+		createSimplexTexture();
 	}
 	void m_normalizeRGB()
 	{
@@ -140,4 +149,31 @@ public:
 			m_simplexData.push_back(noiseUint);
 		}
 	}
+
+	void createSimplexTexture()
+
+	{
+		sf::Image perlinImage;
+		const int x{ intify(m_simplexSizeX) };
+		const int y{ intify(m_simplexSizeY) };
+		noise.setSize(sf::Vector2f(x, y));
+
+
+		sf::Uint8* pixels = new sf::Uint8[x * y * 4];
+		for (int i = 0; i < x * y; i++)
+		{
+			sf::Uint8 mutate{ m_simplexData[i] };
+			pixels[(i * 4) + 0] = mutate;
+			pixels[(i * 4) + 1] = mutate;
+			pixels[(i * 4) + 2] = mutate;
+			pixels[(i * 4) + 3] = mutate;
+
+		}
+		perlinImage.create(x, y, pixels);
+		delete[] pixels;
+		noiseTexture.loadFromImage(perlinImage);
+		noise.setTexture(&noiseTexture);
+
+	}
+	
 };

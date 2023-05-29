@@ -12,25 +12,24 @@ public:
 	std::vector<bool> westKagarWater;
 	sf::Clock clock;
 
-	int width{ 32 };
-	int height{ 32 };
-	sf::RectangleShape waterTile;
-	sf::Texture waterTexture1;
-
+	int width;
+	int height;
 
 	Water()
 	{
+		Noise::m_simplexSizeX = 32;
+		Noise::m_simplexSizeY = 32;
+		width = Noise::m_simplexSizeX;
+		height = Noise::m_simplexSizeY;
+
+		Noise::noise.setSize(pairF(width, height));
 		Noise::isWater = true;
-		width = 32;
-		height = 32;
-		waterTile.setSize(sf::Vector2f(width, height));
-
-		animationDepth = 300;
-		stepSize = 0.03f;
-
+		Noise::animationDepth = 300;
+		Noise::stepSize = 0.03f;
 		Noise::startOctave = 1;
 		Noise::m_initSimplex(width, height, 2);
-		createImage();
+
+		createSimplexTexture();
 	}
 
 	void update(sf::Time elapsed)
@@ -60,12 +59,18 @@ public:
 			m_initSimplex(width, height, 4);
 		}
 
-		createImage();
+		createSimplexTexture();
 
 	}
 
-	void createImage()
+	// override base class Noise
+	virtual void createSimplexTexture()
 	{
+		sf::Image perlinImage;
+		const int x{ intify(m_simplexSizeX) };
+		const int y{ intify(m_simplexSizeY) };
+		noise.setSize(pairF(x, y));
+
 		sf::Uint8* pixels = new sf::Uint8[width * height * 4];
 		for (int i = 0; i < width * height; i++)
 		{
@@ -81,9 +86,9 @@ public:
 		sf::Image image;
 		image.create(width, height, pixels);
 		delete[] pixels;
-		waterTexture1.create(width, height);
-		waterTexture1.loadFromImage(image);
-		waterTile.setTexture(&waterTexture1);
+		noiseTexture.create(width, height);
+		noiseTexture.loadFromImage(image);
+		noise.setTexture(&noiseTexture);
 
 	}
 };

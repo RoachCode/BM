@@ -22,7 +22,7 @@ Window::Window()
 	this->setView(Window::view);
 	isMovingView = false;
 
-	this->initSimplex(size.x, size.y, 4);
+	this->Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
 	font.setColor(sf::Color(255, 120, 10));
 }
@@ -271,14 +271,8 @@ void Window::m_groupDraw()
 }
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
-	// Sky color for testing
-	/*
-	sf::RectangleShape r;
-	r.setSize(sf::Vector2f(size.x, size.y));
-	r.setFillColor(sf::Color(125, 196, 225, 255));
-	draw(r);
-*/
 
+	noise.setScale(sf::Vector2f(windowScale, windowScale));
 	simplexSpeed++;
 	if (simplexSpeed > delay)
 	{
@@ -290,129 +284,9 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 		m_groupDraw();
 	}
 }
-void Window::createSimplexValues(int x, int y)
-{
-	xyValues.clear();
-	int octave{ 8 };
-	float x1 = 0;
-	float x2 = 1;
-	float y1 = 0;
-	float y2 = 1;
-	for (int k = 0; k < simplexOctaves; k++)
-	{
-		octave *= 2;
-		for (int iy = 0; iy < y; ++iy)
-		{
-			for (int ix = 0; ix < x; ++ix)
-			{
-				// these offsets define the circles
-				float s = static_cast<float>(ix) / static_cast<float>(x);
-				float t = static_cast<float>(iy) / static_cast<float>(y);
-
-				// clamping to [0, 1]
-				float dx = x2 - x1;
-				float dy = y2 - y1;
-
-				// 4d noise. two orthogonal 3d cylinders. Loops continuously along x and y dimensions.
-				float modX = x1 + cos(s * 2 * PI) * dx / (2 * PI / octave);
-				float modY = y1 + cos(t * 2 * PI) * dy / (2 * PI / octave);
-				float modZ = x1 + sin(s * 2 * PI) * dx / (2 * PI / octave);
-				float modW = y1 + sin(t * 2 * PI) * dy / (2 * PI / octave);
-				// todo: make one dimension alterable to be for time. or, add values from a circle of noise to make a time loop.
-
-				xyValues.push_back(modX);
-				xyValues.push_back(modY);
-				xyValues.push_back(modZ);
-				xyValues.push_back(modW);
-			}
-		}
-	}
-	octave = 8;
-}
-void Window::normalizeRGB()
-{
-	int lowest{ 0 };
-	int highest{ 0 };
-	for (int i = 0; i < tempContainer.size(); i++)
-	{
-		tempContainer[i] += 50; // makes the whole thing brighter
-		if (tempContainer[i] < lowest) { lowest = tempContainer[i]; }
-		if (tempContainer[i] > highest) { highest = tempContainer[i]; }
-	}
-	//std::cout << "lowest: " << lowest << "     Highest: " << highest << '\n';
-	for (int i = 0; i < tempContainer.size(); i++)
-	{
-		tempContainer[i] += abs(lowest);
-		if (tempContainer[i] > 255) { tempContainer[i] = 255; }
-
-		//std::cout << noiseInt << '\n';
-		sf::Uint8 noiseUint = sf::Uint8(tempContainer[i]);
-		simplexData.push_back(noiseUint);
-	}
-}
-void Window::createSimplexTexture()
-{
-	sf::Image perlinImage;
-	const int x{ simplexSizeX };
-	const int y{ simplexSizeY };
-	noise.setSize(sf::Vector2f(x, y));
-	noise.setScale(sf::Vector2f(windowScale, windowScale));
-
-	sf::Uint8* pixels = new sf::Uint8[x * y * 4];
-	for (int i = 0; i < x * y; i++)
-	{
-		sf::Uint8 mutate{ simplexData[i] };
-		pixels[(i * 4) + 0] = mutate;
-		pixels[(i * 4) + 1] = mutate;
-		pixels[(i * 4) + 2] = mutate;
-		pixels[(i * 4) + 3] = mutate;
-
-	}
-	perlinImage.create(x, y, pixels);
-	delete[] pixels;
-	noiseTexture.loadFromImage(perlinImage);
-	noise.setTexture(&noiseTexture);
-
-}
-void Window::initSimplex(float sizeX, float sizeY, int octaves)
-{
-	OpenSimplexNoise::Noise simplex(494358);
-	simplexOctaves = 4;
-	simplexSizeX = sizeX / windowScale;
-	simplexSizeY = sizeY / windowScale;
-
-	const int x{ simplexSizeX };
-	const int y{ simplexSizeY };
-	createSimplexValues(x, y);
-	tempContainer.clear();
-
-	for (int i = 0; i < x * y; i++)
-	{
-		double noise{ 0.0 };
-		for (int j = 0; j < simplexOctaves; j++)
-		{
-			//std::cout << simplex.eval(static_cast<double>(xyValues[i + x * y * j].x), static_cast<double>(xyValues[i + x * y * j].y)) << '\n';+
-			const double modX{ static_cast<double>(xyValues[(i * 4 + 0) + 4 * x * y * j]) };
-			const double modY{ static_cast<double>(xyValues[(i * 4 + 1) + 4 * x * y * j]) };
-			const double modZ{ static_cast<double>(xyValues[(i * 4 + 2) + 4 * x * y * j]) };
-			const double modW{ static_cast<double>(xyValues[(i * 4 + 3) + 4 * x * y * j]) };
-
-			noise += simplex.eval(modX, modY, modZ, modW) / (j + 1);
-
-		}
 
 
-		noise *= (255.999 / simplexOctaves); // overflow???
-		//std::cout << noise << '\n';
-		// need to correct for the noise having 1.5x the value it should, for some reason.
-		//noise = (noise * 2) / 3;
-		int noiseInt = static_cast<int>(noise);	
-		tempContainer.push_back(noiseInt);
 
-	}
-	normalizeRGB();
-	createSimplexTexture();
-}
 
 void Window::drawFlow(FlowPreset& fp)
 {
@@ -453,24 +327,19 @@ void Window::drawWaterTile()
 		}
 	}
 
-
-
-
-
-
 	for (int i = 0; i < 24 * 4; i++)
 	{
 		for (int j = 0; j < 14 * 4; j++)
 		{
 			if (water.westKagarWater[i + j * (24 * 4)])
 			{
-				water.waterTile.setScale(windowScale, windowScale);
-				water.waterTile.setPosition(water.width * windowScale * i, water.height * windowScale * j);
-				draw(water.waterTile);
+				water.noise.setScale(windowScale, windowScale);
+				water.noise.setPosition(water.width * windowScale * i, water.height * windowScale * j);
+				draw(water.noise);
 			}
 		}
 	}
 	 
 	//reset
-	water.waterTile.setPosition(0, 0);
+	water.noise.setPosition(0, 0);
 }
