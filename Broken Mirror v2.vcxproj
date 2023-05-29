@@ -38,6 +38,7 @@
     <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\imageHandler.h" />
     <ClInclude Include="Engine\maps.h" />
+    <ClInclude Include="Engine\noise.h" />
     <ClInclude Include="Engine\OpenSimplexNoise.h" />
     <ClInclude Include="Engine\particles.h" />
     <ClInclude Include="Engine\sprite.h" />
