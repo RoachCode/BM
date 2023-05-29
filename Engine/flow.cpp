@@ -15,7 +15,52 @@ FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float 
 {
 	ppCounter = 0;
 };
+FlowPreset dragonFlame
+{
+	DragonFlame,
+	// rgba
+	250,
+	155,
+	5,
+	160,
+	// line length and step size
+	100,
+	1,
+	// seed point counts for x, y
+	40,
+	30,
+};
+FlowPreset cyanRivers
+{
+	CyanRivers,
 
+	0,
+	100,
+	100,
+	10,
+
+	600,
+	1,
+
+	200,
+	30
+};
+FlowPreset inProgress
+{
+	InProgress,
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	0,      // red   ----------- [125, 255]
+	200,    // green ----------- [025, 255]
+	200,      // blue  ----------- [125, 255]
+	40,     // alpha ----------- [0, 255]
+	2000,   // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
+	0.25,      // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
+	8,      // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
+	1       // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+};
+
+// Public
 Flow::Flow()
 {
 	// Set defaults
@@ -93,7 +138,6 @@ Flow::Flow()
 		}
 	}
 };
-
 void Flow::drawFlow(FlowPreset& fp)
 {
 	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
@@ -209,7 +253,6 @@ void Flow::m_applyChanges(FlowPreset& fp)
 	);
 	m_tracer.setFillColor(newColor);
 }
-
 void Flow::m_createSimplexValues(int x, int y)
 {
 	m_xyValues.clear();
@@ -248,7 +291,6 @@ void Flow::m_createSimplexValues(int x, int y)
 	}
 	octave = 8;
 }
-
 void Flow::m_initSimplex(float sizeX, float sizeY, int octaves)
 {
 	OpenSimplexNoise::Noise simplex(494358);
@@ -285,7 +327,6 @@ void Flow::m_initSimplex(float sizeX, float sizeY, int octaves)
 	m_normalizeRGB();
 
 }
-
 void Flow::m_normalizeRGB()
 {
 	int lowest{ 0 };
@@ -308,7 +349,6 @@ void Flow::m_normalizeRGB()
 		m_simplexData.push_back(noiseUint);
 	}
 }
-
 void Flow::m_drawAllLines(FlowPreset& fp)
 {
 	//random distribution
