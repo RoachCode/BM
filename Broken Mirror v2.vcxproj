@@ -45,6 +45,7 @@
     <ClInclude Include="Engine\tilemap.h" />
     <ClInclude Include="engine\water.h" />
     <ClInclude Include="Engine\window.h" />
+    <ClInclude Include="ImageResources\arsonImages.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />

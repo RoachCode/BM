@@ -89,6 +89,9 @@
     <ClInclude Include="Engine\noise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageResources\arsonImages.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />

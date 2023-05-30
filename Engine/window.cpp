@@ -5,7 +5,7 @@
 Window::Window()
 	: sf::RenderWindow(sf::VideoMode(0, 0, 32U), "Lockestone Chronicles", sf::Style::Fullscreen)
 {
-	DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
+	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
 	this->setVerticalSyncEnabled(false); // must be disabled for DevTools fps counter to work
