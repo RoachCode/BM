@@ -1,17 +1,16 @@
 #pragma once
 #include "window.h"
 
-// Call constructor, which calls inherited constructor from sf::RenderWindow
 Window::Window()
 	: sf::RenderWindow(sf::VideoMode(0, 0, 32U), "Lockestone Chronicles", sf::Style::Fullscreen)
 {
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
-	Window::size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	this->setVerticalSyncEnabled(false); // must be disabled for DevTools fps counter to work
-	this->setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
+	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
+	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
+	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
-	Window::view = this->getDefaultView();
+	view = getDefaultView();
 	// Sets the view to the appropriate zoom level for display
 	windowScale = 1;
 	while (size.x > (CHUNK_WIDTH_PIXELS * windowScale * 2))
@@ -19,12 +18,12 @@ Window::Window()
 		windowScale *= 2;
 	}
 	windowScale = 2;
-	this->setView(Window::view);
+	setView(view);
 	isMovingView = false;
 
-	this->Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
+	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
-	font.setColor(sf::Color(255, 120, 10));
+
 }
 
 void Window::pollEvents()
@@ -234,11 +233,12 @@ void Window::drawParticles()
 void Window::drawParticles(sf::Color color)
 {
 	particles.setColor(color);
-	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
-	particles.setEmitter(this->mapPixelToCoords(mouse));
-	sf::Time elapsed = particles.clock.restart();
-	particles.update(elapsed);
-	draw(particles);
+	//sf::Vector2i mouse = sf::Mouse::getPosition(*this);
+	//particles.setEmitter(this->mapPixelToCoords(mouse));
+	//sf::Time elapsed = particles.clock.restart();
+	//particles.update(elapsed);
+	//draw(particles);
+	drawParticles();
 
 }
 
@@ -247,14 +247,25 @@ void Window::m_groupDraw(sf::Vector2f direction)
 	noise.move(direction);
 	sf::Vector2f noiseOrigin = noise.getPosition();
 
-	if (noise.getPosition().x < noise.getSize().x * -2)
+	if (noise.getPosition().x < noise.getSize().x * -windowScale)
 	{
-		noise.setPosition(direction);
+		noise.setPosition(direction.x, noise.getPosition().y);
+		noiseOrigin = noise.getPosition();
+	}
+	if (noise.getPosition().y < noise.getSize().y * -windowScale)
+	{
+		noise.setPosition(noise.getPosition().x, direction.y);
 		noiseOrigin = noise.getPosition();
 	}
 	this->draw(noise);
 
-	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * 2, noiseOrigin.y));
+	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * windowScale, noiseOrigin.y));
+	this->draw(noise);
+
+	noise.setPosition(sf::Vector2f(noiseOrigin.x, noise.getPosition().y + noise.getSize().y * windowScale));
+	this->draw(noise);
+
+	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * windowScale, noiseOrigin.y + noise.getSize().y * windowScale));
 	this->draw(noise);
 
 	noise.setPosition(noiseOrigin);
@@ -287,7 +298,7 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 
 
 
-
+bool justOnce{ true };
 void Window::drawFlow(FlowPreset& fp)
 {
 	flow.drawFlow(fp);
@@ -306,6 +317,15 @@ void Window::drawFlow(FlowPreset& fp)
 
 	this->draw(flow.flowWindow);
 	
+}
+void Window::drawFlow()
+{
+	if (justOnce)
+	{
+		flow.drawFlow();
+		justOnce = false;
+	}
+	this->draw(flow.flowWindow);
 }
 
 void Window::drawWaterTile()

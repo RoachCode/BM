@@ -37,8 +37,12 @@ Flow::Flow()
 	m_tracer.setRadius(1.0f);
 	m_tracer.setFillColor(sf::Color(0, 100, 20, 15));
 	m_tracer.setPosition(605, 444);
-	
-	flowWindowTexture.create(gridSize.x, gridSize.y);
+
+	if (!flowWindowTexture.create(gridSize.x, gridSize.y))
+	{
+		std::cout << "failed - flowWindowTexture.create()";
+	}
+
 	flowWindow.setSize(sf::Vector2f(gridSize.x, gridSize.y));
 	flowWindowTexture.clear(sf::Color(0, 0, 0, 0));
 
@@ -100,7 +104,7 @@ void Flow::drawFlow(FlowPreset& fp)
 	const int xPaths{ fp.xCount };
 	const int yPaths{ fp.yCount };
 
-	sf::Vector2f returnPos;
+	//sf::Vector2f returnPos;
 	float angle;
 	float initialRadius{ 1.0f };
 	//std::random_device rd; // obtain a random number from hardware
@@ -167,6 +171,38 @@ void Flow::drawFlow(FlowPreset& fp)
 		flowWindowTexture.display();
 		flowWindow.setTexture(&flowWindowTexture.getTexture());
 	}
+
+}
+void Flow::drawFlow()
+{
+
+	//sf::Vector2f returnPos;
+	float angle;
+
+	// Draw Grid
+	flowWindowTexture.draw(m_vertices);
+
+	// Draw Compass Needles
+	for (unsigned int j = 0; j < gridSize.y / tileSize.y; j++)
+	{
+		for (unsigned int i = 0; i < gridSize.x / tileSize.x; i++)
+		{
+			// get a pointer to the current tile's quad
+			sf::Vertex* quad = &m_vertices[(i + j * (gridSize.y / tileSize.y)) * 4];
+
+			angle = angleVector[i + j * (gridSize.x / tileSize.x)];
+
+			const sf::Vector2f quadCenter = sf::Vector2f(quad[2].position.x - (tileSize.x / 2), quad[2].position.y - (tileSize.y / 2));
+			m_line.setPosition(quadCenter);
+			m_line.setRotation(angle);
+
+			quad = nullptr; // ?
+			flowWindowTexture.draw(m_line);
+		}
+	}
+
+	flowWindowTexture.display();
+	flowWindow.setTexture(&flowWindowTexture.getTexture());
 
 }
 

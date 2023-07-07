@@ -37,6 +37,7 @@ public:
 	Flow();
 	// Logic that draws to flowWindowTexture then flowWindow
 	void drawFlow(FlowPreset& fp);
+	void drawFlow();
 
 	// Width and height of flow cells in pixels
 	sf::Vector2u tileSize;

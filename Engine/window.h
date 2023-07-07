@@ -51,6 +51,7 @@ public:
 
 	void drawTileMapsBack();
 	void drawFlow(FlowPreset& fp);
+	void drawFlow();
 	void drawParticles();
 	void drawParticles(sf::Color color);
 	void drawSprites();

@@ -13,6 +13,8 @@ public:
 		m_simplexSizeY = 0;
 		m_simplexSizeX = 0;
 		m_simplexSizeY = 0;
+		simplexSpeed = 0;
+		simplexStepper = 0;
 	}
 	// Data
 	// Vector array of angles, one per cell
@@ -171,6 +173,7 @@ public:
 		}
 		perlinImage.create(x, y, pixels);
 		delete[] pixels;
+		noiseTexture.create(x, y);
 		noiseTexture.loadFromImage(perlinImage);
 		noise.setTexture(&noiseTexture);
 

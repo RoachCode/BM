@@ -6,6 +6,8 @@
 class ParticleSystem : public sf::Drawable, public sf::Transformable
 {
 public:
+    int particleSpeed;
+    int particleSize;
     Flow m_flow;
     sf::Clock clock;
     // Construct the particle system with the number of particles per given lifetime
@@ -15,7 +17,7 @@ public:
         m_lifetime(sf::seconds(10.f)),
         m_emitter(0.f, 0.f)
     {
-        particleSize = 1;
+        particleSize = 2;
         particleSpeed = 110;
         setColor(sf::Color::Red);
     }
@@ -115,8 +117,7 @@ private:
         m_vertices[index * 4 + 2].position = m_emitter + sf::Vector2f(particleSize, particleSize);
         m_vertices[index * 4 + 3].position = m_emitter + sf::Vector2f(particleSize, 0);
     }
-    int particleSpeed;
-    int particleSize;
+
     sf::Color topLeft;
     sf::Color topRight;
     sf::Color bottomLeft;

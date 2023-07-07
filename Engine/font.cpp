@@ -4,13 +4,17 @@
 
 Font2::Font2()
 {
+	setColor(sf::Color(255, 120, 10));
 	createFontImageAndTexture();
 }
 
 void Font2::createFontImageAndTexture()
 {
 	const int pixPerChar{ 48 };	
-	fontTexture.create((AthroughTildeData.size() / pixPerChar) * 6, 8);
+	if (!fontTexture.create((AthroughTildeData.size() / pixPerChar) * 6, 8))
+	{
+		std::cout << "failed - fontTexture.create()";
+	}
 	fontImage.create((AthroughTildeData.size() / pixPerChar) * 6, 8);
 	for (int i = 0; i < AthroughTildeData.size() / pixPerChar; i++)
 	{
