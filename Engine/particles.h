@@ -8,6 +8,7 @@ class ParticleSystem : public sf::Drawable, public sf::Transformable
 public:
     int particleSpeed;
     int particleSize;
+    bool particleBool;
     Flow m_flow;
     sf::Clock clock;
     // Construct the particle system with the number of particles per given lifetime
@@ -19,6 +20,7 @@ public:
     {
         particleSize = 2;
         particleSpeed = 110;
+        particleBool = false;
         setColor(sf::Color::Red);
     }
 
@@ -45,7 +47,7 @@ public:
             p.lifetime -= elapsed;
 
             // if the particle is dead, respawn it
-            if (p.lifetime <= sf::Time::Zero)
+            if (p.lifetime <= sf::Time::Zero && particleBool)
             {
                 resetParticle(i);
             }

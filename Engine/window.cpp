@@ -33,11 +33,11 @@ void Window::pollEvents()
     sf::Event event;
     while (this->pollEvent(event))
     {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            this->close();
-            break;
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			this->close();
+			break;
 		case sf::Event::KeyPressed:
 			switch (event.key.code)
 			{
@@ -118,6 +118,19 @@ void Window::pollEvents()
 			default:
 				break;
 			}
+			break;
+		case sf::Event::MouseButtonPressed:
+			switch (event.key.code)
+			{
+			case sf::Mouse::Left:
+				particles.particleBool = true;
+				break;
+			default:
+				break;
+			}
+			break;
+		case sf::Event::MouseButtonReleased:
+			particles.particleBool = false;
 			break;
         default:
             break;
