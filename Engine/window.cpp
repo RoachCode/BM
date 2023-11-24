@@ -20,6 +20,14 @@ Window::Window()
 	windowScale = 2;
 	setView(view);
 	isMovingView = false;
+	up = false;
+	down = false;
+	left = false;
+	right = false;
+	viewCenterX = intify(view.getCenter().x);
+	viewCenterY = intify(view.getCenter().y);
+	viewCenterOriginX = viewCenterX;
+	viewCenterOriginY = viewCenterY;
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
@@ -28,9 +36,58 @@ Window::Window()
 
 void Window::pollEvents()
 {
-	pollMovement();
-	const int movementStepSize = 1;
-    sf::Event event;
+	//pollMovement();
+	const int movementStepSize = 4;
+	const int xDiff{ (intify(view.getCenter().x) - viewCenterX) };
+	const int yDiff{ (intify(view.getCenter().y) - viewCenterY) };
+
+	// If we are standing still on the grid
+	if (xDiff % 64 == 0 && yDiff % 64 == 0)
+	{
+		viewCenterX = view.getCenter().x;
+		viewCenterY = view.getCenter().y;
+		if (up && viewCenterY > viewCenterOriginY)
+		{
+			view.move(0, -1 * movementStepSize);
+		}
+		else if (down && viewCenterY < (viewCenterOriginY - 1) * 4)
+		{
+			view.move(0, movementStepSize);
+		}
+		else if (left && viewCenterX > viewCenterOriginX)
+		{
+			view.move(-1 * movementStepSize, 0);
+		}
+		else if (right && viewCenterX < viewCenterOriginX * 4)
+		{
+			view.move(movementStepSize, 0);
+		}
+	}
+	else
+	{
+		if (yDiff < 0)
+		{
+			view.move(0, -1 * movementStepSize);
+		}
+		else if (yDiff > 0)
+		{
+			view.move(0, movementStepSize);
+		}
+		else if (xDiff < 0)
+		{
+			view.move(-1 * movementStepSize, 0);
+		}
+		else if (xDiff > 0)
+		{
+			view.move(movementStepSize, 0);
+		}
+	}
+	this->setView(view);
+	
+
+
+    
+	sf::Event event;
     while (this->pollEvent(event))
     {
 		switch (event.type)
@@ -42,16 +99,16 @@ void Window::pollEvents()
 			switch (event.key.code)
 			{
 			case sf::Keyboard::Down:
-				startViewMovement(sf::Vector2f(0, movementStepSize));
+				down = true;
 				break;
 			case sf::Keyboard::Right:
-				startViewMovement(sf::Vector2f(movementStepSize, 0));
+				right = true;
 				break;
 			case sf::Keyboard::Left:
-				startViewMovement(sf::Vector2f(-1 * movementStepSize, 0));
+				left = true;
 				break;
 			case sf::Keyboard::Up:
-				startViewMovement(sf::Vector2f(0, -1 * movementStepSize));
+				up = true;
 				break;
 			default:
 				break;
@@ -104,16 +161,16 @@ void Window::pollEvents()
 				imageHandler.loadWestKagar();
 				break;
 			case sf::Keyboard::Down:
-				if (isMovingView) { endViewMovement(); }
+				down = false;
 				break;
 			case sf::Keyboard::Right:
-				if (isMovingView) { endViewMovement(); }
+				right = false;
 				break;
 			case sf::Keyboard::Left:
-				if (isMovingView) { endViewMovement(); }
+				left = false;
 				break;
 			case sf::Keyboard::Up:
-				if (isMovingView) { endViewMovement(); }
+				up = false;
 				break;
 			default:
 				break;
@@ -214,15 +271,12 @@ void Window::startViewMovement(sf::Vector2f offset)
 void Window::endViewMovement()
 {
 	isMovingView = false;
+	movementOffset = sf::Vector2f(0.f, 0.f);
 }
 
 void Window::pollMovement()
 {
-	if (isMovingView)
-	{
-		view.move(movementOffset.x, movementOffset.y);
-		this->setView(view);
-	}
+
 }
 
 void Window::drawSprites()

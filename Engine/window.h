@@ -27,7 +27,15 @@ public:
 	sf::View view;
 	sf::Vector2f movementOffset;
 	bool isMovingView;
-
+	bool autoMove;
+	bool up;
+	bool down;
+	bool left;
+	bool right;
+	int viewCenterX;
+	int viewCenterY;
+	int viewCenterOriginX;
+	int viewCenterOriginY;
 	// Create class instances
 	Flow flow;
 		int pathCounter{ 0 }; //?
