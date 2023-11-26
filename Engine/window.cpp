@@ -257,6 +257,9 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 void Window::pollMovement()
 {
 	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
+	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
+
+	// If the character is centered on a grid, accept movement input.
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
 		if (up && pos.y > 0)
@@ -280,7 +283,7 @@ void Window::pollMovement()
 			changeFalseLastKeyState(lastKeyRight);
 		}
 	}
-	else
+	else // auto complete movement until centered on a grid.
 	{
 		if (pos.x % tileSize != 0)
 		{
@@ -306,7 +309,8 @@ void Window::pollMovement()
 		}
 	}
 
-	if (pos.x > view.getCenter().x && pos.x - view.getCenter().x > 8 * 32)
+	// Move view when character is offset from the center by one sixth of the displayed grid size
+	if (pos.x > view.getCenter().x + tileSize * oneSixthOfVisibleGrid.x)
 	{
 		if (getTopLeftViewCoordinates().x + size.x < imageHandler.sceneSize.x * windowScale) //
 		{
@@ -314,7 +318,7 @@ void Window::pollMovement()
 			this->setView(view);
 		}
 	}
-	else if (pos.x < view.getCenter().x && view.getCenter().x - pos.x > 8 * 32)
+	else if (pos.x + tileSize * oneSixthOfVisibleGrid.x < view.getCenter().x)
 	{
 		if (getTopLeftViewCoordinates().x > 0)
 		{
@@ -322,7 +326,7 @@ void Window::pollMovement()
 			this->setView(view);
 		}
 	}
-	else if (pos.y > view.getCenter().y && pos.y - view.getCenter().y > 6 * 32)
+	if (pos.y > view.getCenter().y + tileSize * oneSixthOfVisibleGrid.y)
 	{
 		if (getTopLeftViewCoordinates().y + size.y < imageHandler.sceneSize.y * windowScale)
 		{
@@ -330,7 +334,7 @@ void Window::pollMovement()
 			this->setView(view);
 		}
 	}
-	else if (pos.y < view.getCenter().y && view.getCenter().y - pos.y > 6 * 32)
+	else if (pos.y + tileSize * oneSixthOfVisibleGrid.y < view.getCenter().y)
 	{
 		if (getTopLeftViewCoordinates().y > 0)
 		{
@@ -342,12 +346,12 @@ void Window::pollMovement()
 
 void Window::drawSprites()
 {
-	sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
+	//sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
 	for (auto i : sprite.spriteVector)
 	{
 		this->draw(i);
 	}
-	sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
+	//sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
 }
 
 void Window::drawParticles()
