@@ -17,17 +17,23 @@ Window::Window()
 	{
 		windowScale *= 2;
 	}
-	windowScale = 2;
+	windowScale = 2; //temp
 	setView(view);
-	isMovingView = false;
+	movementAllowed = false;
+	lastKeyUp = false;
+	lastKeyDown = false;
+	lastKeyLeft = false;
+	lastKeyRight = false;
 	up = false;
 	down = false;
 	left = false;
 	right = false;
-	viewCenterX = intify(view.getCenter().x);
-	viewCenterY = intify(view.getCenter().y);
-	viewCenterOriginX = viewCenterX;
-	viewCenterOriginY = viewCenterY;
+	//viewX = intify(view.getCenter().x);
+	//viewY = intify(view.getCenter().y);
+	//viewOriginX = viewX;
+	//viewOriginY = viewY;
+	movementStepSize = 4 * windowScale;
+	tileSize = 32 * windowScale;
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
@@ -36,57 +42,72 @@ Window::Window()
 
 void Window::pollEvents()
 {
-	//pollMovement();
-	const int movementStepSize = 4;
-	const int xDiff{ (intify(view.getCenter().x) - viewCenterX) };
-	const int yDiff{ (intify(view.getCenter().y) - viewCenterY) };
 
-	// If we are standing still on the grid
-	if (xDiff % 64 == 0 && yDiff % 64 == 0)
+	/*
+	if (pos.x % 64 == 0 && pos.y % 64 == 0)
 	{
-		viewCenterX = view.getCenter().x;
-		viewCenterY = view.getCenter().y;
-		if (up && viewCenterY > viewCenterOriginY)
+		if (up && pos.y > 0)
 		{
-			view.move(0, -1 * movementStepSize);
+			//view.move(0, -movementStepSize);
+			sprite.spriteVector[0].setPosition(pos.x, pos.y - movementStepSize);
+			mostRecentDirection = UP;
 		}
-		else if (down && viewCenterY < (viewCenterOriginY - 1) * 4)
+		else if (down && pos.y < 14 * 4 * 64)
 		{
-			view.move(0, movementStepSize);
+			//view.move(0, movementStepSize);
+			sprite.spriteVector[0].setPosition(pos.x, pos.y + movementStepSize);
+			mostRecentDirection = DOWN;
 		}
-		else if (left && viewCenterX > viewCenterOriginX)
+		else if (left && pos.x > 0)
 		{
-			view.move(-1 * movementStepSize, 0);
+			//view.move(-movementStepSize, 0);
+			sprite.spriteVector[0].setPosition(pos.x - movementStepSize, pos.y);
+			mostRecentDirection = LEFT;
 		}
-		else if (right && viewCenterX < viewCenterOriginX * 4)
+		else if (right && pos.x < 24 * 4 * 64)
 		{
-			view.move(movementStepSize, 0);
+			//view.move(movementStepSize, 0);
+			sprite.spriteVector[0].setPosition(pos.x + movementStepSize, pos.y);
+			mostRecentDirection = RIGHT;
 		}
+
 	}
 	else
 	{
-		if (yDiff < 0)
+		if (pos.y % 64 != 0)
 		{
-			view.move(0, -1 * movementStepSize);
+			if (mostRecentDirection == UP)
+			{
+				//view.move(0, -movementStepSize);
+				sprite.spriteVector[0].setPosition(pos.x, pos.y - movementStepSize);
+				if (pos.y % 64 == 0) { up = false; }
+			}
+			else if (mostRecentDirection == DOWN)
+			{
+				//view.move(0, movementStepSize);
+				sprite.spriteVector[0].setPosition(pos.x, pos.y + movementStepSize);
+				if (pos.y % 64 == 0) { down = false; }
+			}
 		}
-		else if (yDiff > 0)
+		else if (pos.x % 64 != 0)
 		{
-			view.move(0, movementStepSize);
-		}
-		else if (xDiff < 0)
-		{
-			view.move(-1 * movementStepSize, 0);
-		}
-		else if (xDiff > 0)
-		{
-			view.move(movementStepSize, 0);
+			if (mostRecentDirection == LEFT)
+			{
+				//view.move(-movementStepSize, 0);
+				sprite.spriteVector[0].setPosition(pos.x - movementStepSize, pos.y);
+				if (pos.x % 64 == 0) { left = false; }
+			}
+			else if (mostRecentDirection == RIGHT)
+			{
+				//view.move(movementStepSize, 0);
+				sprite.spriteVector[0].setPosition(pos.x + movementStepSize, pos.y);
+				if (pos.x % 64 == 0) { right = false; }
+			}
 		}
 	}
-	this->setView(view);
+	*/
+	//this->setView(view);
 	
-
-
-    
 	sf::Event event;
     while (this->pollEvent(event))
     {
@@ -160,17 +181,17 @@ void Window::pollEvents()
 				imageHandler.zDepth = 10;
 				imageHandler.loadWestKagar();
 				break;
+			case sf::Keyboard::Up:
+				up = false;
+				break;
 			case sf::Keyboard::Down:
 				down = false;
-				break;
-			case sf::Keyboard::Right:
-				right = false;
 				break;
 			case sf::Keyboard::Left:
 				left = false;
 				break;
-			case sf::Keyboard::Up:
-				up = false;
+			case sf::Keyboard::Right:
+				right = false;
 				break;
 			default:
 				break;
@@ -193,6 +214,8 @@ void Window::pollEvents()
             break;
         }
     }
+
+	pollMovement();
 }
 
 void Window::drawText(std::string string, sf::Vector2f startPosition)
@@ -263,29 +286,95 @@ void Window::startViewMovement(sf::Vector2f offset)
 {
 	if (DEV_TOOLS.queryFreeMovement())
 	{
-		isMovingView = true;
+		movementAllowed = true;
 		movementOffset = offset;
 	}
 }
 
 void Window::endViewMovement()
 {
-	isMovingView = false;
+	movementAllowed = false;
 	movementOffset = sf::Vector2f(0.f, 0.f);
 }
 
+void Window::refreshMovementBools()
+{
+	lastKeyUp = false;
+	lastKeyDown = false;
+	lastKeyLeft = false;
+	lastKeyRight = false;
+}
+void Window::changeFalseLastKeyState(bool& lastKeyInput)
+{
+	if (!lastKeyInput)
+	{
+		refreshMovementBools();
+		lastKeyInput = true;
+	}
+}
 void Window::pollMovement()
 {
+	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
+	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
+	{
+		if (up)
+		{
+			sprite.spriteVector[0].move(0, -movementStepSize);
+			changeFalseLastKeyState(lastKeyUp);
+		}
+		else if (down)
+		{
+			sprite.spriteVector[0].move(0, movementStepSize);
+			changeFalseLastKeyState(lastKeyDown);
+		}
+		else if (left)
+		{
+			sprite.spriteVector[0].move(-movementStepSize, 0);
+			changeFalseLastKeyState(lastKeyLeft);
+		}
+		else if (right)
+		{
+			sprite.spriteVector[0].move(movementStepSize, 0);
+			changeFalseLastKeyState(lastKeyRight);
+		}
+	}
+	else
+	{
+		if (pos.x % tileSize != 0)
+		{
+			if (lastKeyRight)
+			{
+				sprite.spriteVector[0].move(movementStepSize, 0);
+			}
+			else if (lastKeyLeft)
+			{
+				sprite.spriteVector[0].move(-movementStepSize, 0);
+			}
+		}
+		else if (pos.y % tileSize != 0)
+		{
+			if (lastKeyUp)
+			{
+				sprite.spriteVector[0].move(0, -movementStepSize);
+			}
+			else if (lastKeyDown)
+			{
+				sprite.spriteVector[0].move(0, movementStepSize);
+			}
+		}
+	}
+
 
 }
 
 void Window::drawSprites()
 {
-	for (auto i : sprite.shapeVector)
+	sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
+	for (auto i : sprite.spriteVector)
 	{
-
 		this->draw(i);
 	}
+	sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
 }
 
 void Window::drawParticles()

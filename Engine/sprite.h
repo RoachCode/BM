@@ -1,28 +1,41 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../ImageResources/arsonImages.h"
+
+enum SpriteColor
+{
+    Default,
+    Inverted,
+    Black,
+    Transparent,
+    Blue,
+    Dark
+};
 
 class Sprite 
 {
 public:
-    //sf::Sprite sprite;
-    //sf::Texture spriteTexture;
-    sf::CircleShape shape;
-    std::vector<sf::CircleShape> shapeVector;
+    sf::Sprite sprite;
+    sf::Texture spriteTexture;
+    int spriteW;
+    int spriteH;
+    //std::vector<sf::Uint8> currentTexture;
+    std::vector<sf::Sprite> spriteVector;
+    int spriteColour;
     
     Sprite()
     {
-        shape.setRadius(16.f);
-        shape.setFillColor(sf::Color(0, 0, 255, 25));
-        for (int i = 0; i < 55; i++)
-        {
-            shape.setPosition(sf::Vector2f(i + 50, i * 2 + 50));
-            shapeVector.push_back(shape);
-        }
+        spriteW = 32;
+        spriteH = 32;
+        spriteColour = Default;
+        textureUpdate();
+        sprite.setScale(pairF(2, 2));
+        spriteVector.push_back(this->sprite);
     }
-    /*
+    
     void textureUpdate()
     {
-        spriteTexture.create(32, 32);
+        spriteTexture.create(spriteW, spriteH);
         sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
 
         uint8_t rw{ 255 };
@@ -33,13 +46,13 @@ public:
         for (int i = 0; i < spriteW * spriteH * 4; i += 4)
         {
             //every iteration will call in order every pixel until done.
-            rw = temp[0 + i];
-            gw = temp[1 + i];
-            bw = temp[2 + i];
-            aw = temp[3 + i];
+            rw = front[0 + i];
+            gw = front[1 + i];
+            bw = front[2 + i];
+            aw = front[3 + i];
 
             // Sprite colorizer - not implemented yet
-            /*
+            
             switch (spriteColour)
             {
             case Default:
@@ -119,6 +132,6 @@ public:
         sprite.setTexture(spriteTexture);
         delete[] pixels;
     }
-*/
+
 private:
 };

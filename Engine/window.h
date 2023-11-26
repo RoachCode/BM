@@ -22,20 +22,27 @@ public:
 	// Get the size of the window
 	sf::Vector2u size;
 	int windowScale{ 1 };
+	int tileSize{};
 
 	// Declare the view
 	sf::View view;
 	sf::Vector2f movementOffset;
-	bool isMovingView;
-	bool autoMove;
-	bool up;
-	bool down;
-	bool left;
-	bool right;
-	int viewCenterX;
-	int viewCenterY;
-	int viewCenterOriginX;
-	int viewCenterOriginY;
+	bool movementAllowed;
+	int movementStepSize;
+	bool lastKeyUp{ false };
+	bool lastKeyDown{ false };
+	bool lastKeyLeft{ false };
+	bool lastKeyRight{ false };
+
+	bool up{};
+	bool down{};
+	bool left{};
+	bool right{};
+	int viewX;
+	int viewY;
+	int viewOriginX;
+	int viewOriginY;
+
 	// Create class instances
 	Flow flow;
 		int pathCounter{ 0 }; //?
@@ -48,11 +55,14 @@ public:
 	DevTools DEV_TOOLS;
 	Font2 font;
 
+
+
 	// Screenshot
 	bool onlyOnceHack{ true };
 
 	// Logic
 	void pollEvents();
+	void refreshMovementBools();
 	void pollMovement();
 	void startViewMovement(sf::Vector2f offset);
 	void endViewMovement();
@@ -72,6 +82,9 @@ public:
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
-private:
 
+	sf::Vector2i getGridPosition();
+	void changeFalseLastKeyState(bool& lastKeyInput);
+private:
+	
 };
