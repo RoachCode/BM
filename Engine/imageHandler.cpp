@@ -160,3 +160,11 @@ void ImageHandler::loadWestKagar()
     tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
 
 }
+
+bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
+{
+    //assuming WestKagar
+    std::cout << gridPosition.x << "   " << gridPosition.y << '\n';
+
+    return true;
+}

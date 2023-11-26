@@ -29,5 +29,5 @@ public:
     ImageHandler();
 
     void loadWestKagar();
-
+    bool checkBounds(int direction, sf::Vector2i position);
 };

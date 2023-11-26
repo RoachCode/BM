@@ -257,27 +257,28 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 void Window::pollMovement()
 {
 	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
+	//get grid position
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
 
 	// If the character is centered on a grid, accept movement input.
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
-		if (up && pos.y > 0)
+		if (up && pos.y > 0 && imageHandler.checkBounds(UP, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(0, -movementStepSize);
 			changeFalseLastKeyState(lastKeyUp);
 		}
-		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)
+		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize && imageHandler.checkBounds(DOWN, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(0, movementStepSize);
 			changeFalseLastKeyState(lastKeyDown);
 		}
-		else if (left && pos.x > 0)
+		else if (left && pos.x > 0 && imageHandler.checkBounds(LEFT, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(-movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyLeft);
 		}
-		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize)
+		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize && imageHandler.checkBounds(RIGHT, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyRight);
