@@ -161,10 +161,26 @@ void ImageHandler::loadWestKagar()
 
 }
 
+// Checks the lowest map for allowable movement.
 bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
 {
-    //assuming WestKagar
-    std::cout << gridPosition.x << "   " << gridPosition.y << '\n';
-
-    return true;
+    bool allowed{ false };
+    switch (direction)
+    {
+    case UP:
+        (tileMapA.masterTile[(gridPosition.y - 1) * (4 * 24) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
+        break;
+    case DOWN:
+        (tileMapA.masterTile[(gridPosition.y + 1) * (4 * 24) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
+        break;
+    case LEFT:
+        (tileMapA.masterTile[gridPosition.y * (4 * 24) + gridPosition.x - 1]) == 0 ? allowed = true : allowed = false;
+        break;
+    case RIGHT:
+        (tileMapA.masterTile[gridPosition.y * (4 * 24) + gridPosition.x + 1]) == 0 ? allowed = true : allowed = false;
+        break;
+    default:
+        break;
+    }
+    return allowed;
 }

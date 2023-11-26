@@ -26,6 +26,7 @@ public:
 
     sf::RenderTexture tilemapRenderFront;
     sf::RectangleShape tilemapWindowFront;
+
     ImageHandler();
 
     void loadWestKagar();
