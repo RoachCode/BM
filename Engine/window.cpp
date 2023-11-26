@@ -28,16 +28,11 @@ Window::Window()
 	down = false;
 	left = false;
 	right = false;
-	//viewX = intify(view.getCenter().x);
-	//viewY = intify(view.getCenter().y);
-	//viewOriginX = viewX;
-	//viewOriginY = viewY;
 	movementStepSize = 4 * windowScale;
 	tileSize = 32 * windowScale;
 	uniqueScreenSizeGridSize = pairI(size.x / tileSize, size.y / tileSize);
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
-
 
 }
 
@@ -151,9 +146,6 @@ void Window::pollEvents()
     }
 	pollMovement();
 
-
-
-	// check grid position against view center and move view if character gets too far from center.
 }
 
 void Window::drawText(std::string string, sf::Vector2f startPosition)
@@ -257,7 +249,6 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 void Window::pollMovement()
 {
 	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
-	//get grid position
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
 
 	// If the character is centered on a grid, accept movement input.
