@@ -21,27 +21,29 @@ public:
 
 	// Get the size of the window
 	sf::Vector2u size;
+	sf::Vector2i uniqueScreenSizeGridSize;
 	int windowScale{ 1 };
 	int tileSize{};
 
 	// Declare the view
 	sf::View view;
 	sf::Vector2f movementOffset;
+
 	bool movementAllowed;
 	int movementStepSize;
+
 	bool lastKeyUp{ false };
 	bool lastKeyDown{ false };
 	bool lastKeyLeft{ false };
 	bool lastKeyRight{ false };
-
 	bool up{};
 	bool down{};
 	bool left{};
 	bool right{};
-	int viewX;
-	int viewY;
-	int viewOriginX;
-	int viewOriginY;
+	//int viewX;
+	//int viewY;
+	//int viewOriginX;
+	//int viewOriginY;
 
 	// Create class instances
 	Flow flow;
@@ -54,8 +56,6 @@ public:
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	Font2 font;
-
-
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -82,6 +82,8 @@ public:
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
+
+	sf::Vector2i getTopLeftViewCoordinates();
 
 	sf::Vector2i getGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);

@@ -34,6 +34,7 @@ Window::Window()
 	//viewOriginY = viewY;
 	movementStepSize = 4 * windowScale;
 	tileSize = 32 * windowScale;
+	uniqueScreenSizeGridSize = pairI(size.x / tileSize, size.y / tileSize);
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
@@ -42,72 +43,6 @@ Window::Window()
 
 void Window::pollEvents()
 {
-
-	/*
-	if (pos.x % 64 == 0 && pos.y % 64 == 0)
-	{
-		if (up && pos.y > 0)
-		{
-			//view.move(0, -movementStepSize);
-			sprite.spriteVector[0].setPosition(pos.x, pos.y - movementStepSize);
-			mostRecentDirection = UP;
-		}
-		else if (down && pos.y < 14 * 4 * 64)
-		{
-			//view.move(0, movementStepSize);
-			sprite.spriteVector[0].setPosition(pos.x, pos.y + movementStepSize);
-			mostRecentDirection = DOWN;
-		}
-		else if (left && pos.x > 0)
-		{
-			//view.move(-movementStepSize, 0);
-			sprite.spriteVector[0].setPosition(pos.x - movementStepSize, pos.y);
-			mostRecentDirection = LEFT;
-		}
-		else if (right && pos.x < 24 * 4 * 64)
-		{
-			//view.move(movementStepSize, 0);
-			sprite.spriteVector[0].setPosition(pos.x + movementStepSize, pos.y);
-			mostRecentDirection = RIGHT;
-		}
-
-	}
-	else
-	{
-		if (pos.y % 64 != 0)
-		{
-			if (mostRecentDirection == UP)
-			{
-				//view.move(0, -movementStepSize);
-				sprite.spriteVector[0].setPosition(pos.x, pos.y - movementStepSize);
-				if (pos.y % 64 == 0) { up = false; }
-			}
-			else if (mostRecentDirection == DOWN)
-			{
-				//view.move(0, movementStepSize);
-				sprite.spriteVector[0].setPosition(pos.x, pos.y + movementStepSize);
-				if (pos.y % 64 == 0) { down = false; }
-			}
-		}
-		else if (pos.x % 64 != 0)
-		{
-			if (mostRecentDirection == LEFT)
-			{
-				//view.move(-movementStepSize, 0);
-				sprite.spriteVector[0].setPosition(pos.x - movementStepSize, pos.y);
-				if (pos.x % 64 == 0) { left = false; }
-			}
-			else if (mostRecentDirection == RIGHT)
-			{
-				//view.move(movementStepSize, 0);
-				sprite.spriteVector[0].setPosition(pos.x + movementStepSize, pos.y);
-				if (pos.x % 64 == 0) { right = false; }
-			}
-		}
-	}
-	*/
-	//this->setView(view);
-	
 	sf::Event event;
     while (this->pollEvent(event))
     {
@@ -214,8 +149,11 @@ void Window::pollEvents()
             break;
         }
     }
-
 	pollMovement();
+
+
+
+	// check grid position against view center and move view if character gets too far from center.
 }
 
 void Window::drawText(std::string string, sf::Vector2f startPosition)
@@ -312,27 +250,31 @@ void Window::changeFalseLastKeyState(bool& lastKeyInput)
 		lastKeyInput = true;
 	}
 }
+sf::Vector2i Window::getTopLeftViewCoordinates()
+{
+	return sf::Vector2i(view.getCenter().x - (size.x / windowScale), view.getCenter().y - (size.y / windowScale));
+}
 void Window::pollMovement()
 {
 	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
-		if (up)
+		if (up && pos.y > 0)
 		{
 			sprite.spriteVector[0].move(0, -movementStepSize);
 			changeFalseLastKeyState(lastKeyUp);
 		}
-		else if (down)
+		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)
 		{
 			sprite.spriteVector[0].move(0, movementStepSize);
 			changeFalseLastKeyState(lastKeyDown);
 		}
-		else if (left)
+		else if (left && pos.x > 0)
 		{
 			sprite.spriteVector[0].move(-movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyLeft);
 		}
-		else if (right)
+		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize)
 		{
 			sprite.spriteVector[0].move(movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyRight);
@@ -364,7 +306,38 @@ void Window::pollMovement()
 		}
 	}
 
-
+	if (pos.x > view.getCenter().x && pos.x - view.getCenter().x > 8 * 32)
+	{
+		if (getTopLeftViewCoordinates().x + size.x < imageHandler.sceneSize.x * windowScale) //
+		{
+			view.move(movementStepSize, 0);
+			this->setView(view);
+		}
+	}
+	else if (pos.x < view.getCenter().x && view.getCenter().x - pos.x > 8 * 32)
+	{
+		if (getTopLeftViewCoordinates().x > 0)
+		{
+			view.move(-movementStepSize, 0);
+			this->setView(view);
+		}
+	}
+	else if (pos.y > view.getCenter().y && pos.y - view.getCenter().y > 6 * 32)
+	{
+		if (getTopLeftViewCoordinates().y + size.y < imageHandler.sceneSize.y * windowScale)
+		{
+			view.move(0, movementStepSize);
+			this->setView(view);
+		}
+	}
+	else if (pos.y < view.getCenter().y && view.getCenter().y - pos.y > 6 * 32)
+	{
+		if (getTopLeftViewCoordinates().y > 0)
+		{
+			view.move(0, -movementStepSize);
+			this->setView(view);
+		}
+	}
 }
 
 void Window::drawSprites()
@@ -451,8 +424,6 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 		m_groupDraw();
 	}
 }
-
-
 
 bool justOnce{ true };
 void Window::drawFlow(FlowPreset& fp)

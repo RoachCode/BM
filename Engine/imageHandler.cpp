@@ -24,7 +24,7 @@ ImageHandler::ImageHandler()
     tilemapVector.push_back(&tileMapI);
     tilemapVector.push_back(&tileMapJ);
 
-    sceneSize = sf::Vector2u(32 * 24 * 4, 32 * 14 * 4);
+    sceneSize = sf::Vector2u(32 * 24 * 3, 32 * 14 * 3);
 
     tilemapRenderBack.create(sceneSize.x, sceneSize.y);
     tilemapRenderBack.clear(sf::Color::Black);
