@@ -250,14 +250,12 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 }
 void Window::pollMovement()
 {
-	// clear previous configuration by clearing stack
-	spriteVector.clear();
-
-	int timeDelta{ 120 };
 	sf::Vector2i pos{ pairI(intify(spriteVector[0].getPosition().x), intify(spriteVector[0].getPosition().y)) };
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
-	sf::Time animateMovement = arson.movementClock.getElapsedTime();
-
+	
+	// clear previous configuration by clearing stack	
+	spriteVector.clear();
+	
 	int x{ 0 };
 	int y{ 0 };
 
@@ -319,138 +317,7 @@ void Window::pollMovement()
 		}
 	}
 
-	if (animateMovement.asMilliseconds() >= timeDelta)
-	{
-		if (y < 0)
-		{
-			switch (arson.animCode)
-			{
-			case 0:
-				arson.clearBools();
-				arson.upABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 1:
-				arson.clearBools();
-				arson.upBBool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 2:
-				arson.clearBools();
-				arson.upABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 3:
-				arson.clearBools();
-				arson.upCBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (y > 0)
-		{
-			switch (arson.animCode)
-			{
-			case 0:
-				arson.clearBools();
-				arson.downABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 1:
-				arson.clearBools();
-				arson.downBBool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 2:
-				arson.clearBools();
-				arson.downABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 3:
-				arson.clearBools();
-				arson.downCBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (x < 0)
-		{
-			switch (arson.animCode)
-			{
-			case 0:
-				arson.clearBools();
-				arson.leftABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 1:
-				arson.clearBools();
-				arson.leftBBool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 2:
-				arson.clearBools();
-				arson.leftABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 3:
-				arson.clearBools();
-				arson.leftCBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (x > 0)
-		{
-			switch (arson.animCode)
-			{
-			case 0:
-				arson.clearBools();
-				arson.rightABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 1:
-				arson.clearBools();
-				arson.rightBBool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 2:
-				arson.clearBools();
-				arson.rightABool = true;
-				arson.textureUpdate();
-				arson.animCode += 1;
-				break;
-			case 3:
-				arson.clearBools();
-				arson.rightCBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		arson.movementClock.restart();
-	}
+	arson.changeAnimationState(x, y);
 
 	// Move view when character is offset from the center by one sixth of the displayed grid size
 	if (pos.x > view.getCenter().x + tileSize * oneSixthOfVisibleGrid.x)

@@ -267,4 +267,142 @@ public:
         }
     }
 
+    void changeAnimationState(int x, int y)
+    {
+        int timeDelta{ 120 };
+        sf::Time animateMovement = movementClock.getElapsedTime();
+        int time{ animateMovement.asMilliseconds() };
+        if (time >= timeDelta)
+        {
+            if (y < 0)
+            {
+                switch (animCode)
+                {
+                case 0:
+                    clearBools();
+                    upABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 1:
+                    clearBools();
+                    upBBool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 2:
+                    clearBools();
+                    upABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 3:
+                    clearBools();
+                    upCBool = true;
+                    textureUpdate();
+                    animCode = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (y > 0)
+            {
+                switch (animCode)
+                {
+                case 0:
+                    clearBools();
+                    downABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 1:
+                    clearBools();
+                    downBBool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 2:
+                    clearBools();
+                    downABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 3:
+                    clearBools();
+                    downCBool = true;
+                    textureUpdate();
+                    animCode = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (x < 0)
+            {
+                switch (animCode)
+                {
+                case 0:
+                    clearBools();
+                    leftABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 1:
+                    clearBools();
+                    leftBBool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 2:
+                    clearBools();
+                    leftABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 3:
+                    clearBools();
+                    leftCBool = true;
+                    textureUpdate();
+                    animCode = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (x > 0)
+            {
+                switch (animCode)
+                {
+                case 0:
+                    clearBools();
+                    rightABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 1:
+                    clearBools();
+                    rightBBool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 2:
+                    clearBools();
+                    rightABool = true;
+                    textureUpdate();
+                    animCode += 1;
+                    break;
+                case 3:
+                    clearBools();
+                    rightCBool = true;
+                    textureUpdate();
+                    animCode = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+            movementClock.restart();
+        }
+    }
 };
