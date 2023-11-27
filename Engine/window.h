@@ -5,7 +5,7 @@
 #include "font.h"
 #include "devtools.h"
 #include "imageHandler.h"
-#include "sprite.h"
+#include "character.h"
 #include "noise.h"
 #include "flow.h"
 #include "particles.h"
@@ -40,10 +40,7 @@ public:
 	bool down{};
 	bool left{};
 	bool right{};
-	//int viewX;
-	//int viewY;
-	//int viewOriginX;
-	//int viewOriginY;
+	std::vector<sf::Sprite> spriteVector;
 
 	// Create class instances
 	Flow flow;
@@ -52,7 +49,7 @@ public:
 		int lineCounter{ 0 }; // ?
 	ParticleSystem particles{ 30000 }; // Just for testing it out.
 	Water water;
-	Sprite sprite;
+	Character arson;
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	Font2 font;

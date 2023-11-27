@@ -31,6 +31,8 @@ Window::Window()
 	movementStepSize = 4 * windowScale;
 	tileSize = 32 * windowScale;
 	uniqueScreenSizeGridSize = pairI(size.x / tileSize, size.y / tileSize);
+	
+	spriteVector.push_back(arson.sprite);
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
@@ -248,47 +250,43 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 }
 void Window::pollMovement()
 {
-	sf::Vector2i pos{ pairI(intify(sprite.spriteVector[0].getPosition().x), intify(sprite.spriteVector[0].getPosition().y)) };
+	// clear previous configuration by clearing stack
+	spriteVector.clear();
+
+	int timeDelta{ 120 };
+	sf::Vector2i pos{ pairI(intify(spriteVector[0].getPosition().x), intify(spriteVector[0].getPosition().y)) };
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
+	sf::Time animateMovement = arson.movementClock.getElapsedTime();
+
+	int x{ 0 };
+	int y{ 0 };
 
 	// If the character is centered on a grid, accept movement input.
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
 		if (up && pos.y > 0 && imageHandler.checkBounds(UP, pos / tileSize))
 		{
-			sprite.spriteVector[0].move(0, -movementStepSize);
+			arson.sprite.move(0, -movementStepSize);
 			changeFalseLastKeyState(lastKeyUp);
-			sprite.clearBools();
-			sprite.upABool = true;
-			sprite.animCode = 0;
-			sprite.textureUpdate();
+			y = -1;
 		}
 		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize && imageHandler.checkBounds(DOWN, pos / tileSize))
 		{
-			sprite.spriteVector[0].move(0, movementStepSize);
+			arson.sprite.move(0, movementStepSize);
 			changeFalseLastKeyState(lastKeyDown);
-			sprite.clearBools();
-			sprite.downABool = true;
-			sprite.animCode = 0;
-			sprite.textureUpdate();
+			y = 1;
 		}
 		else if (left && pos.x > 0 && imageHandler.checkBounds(LEFT, pos / tileSize))
 		{
-			sprite.spriteVector[0].move(-movementStepSize, 0);
+			arson.sprite.move(-movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyLeft);
-			sprite.clearBools();
-			sprite.leftABool = true;
-			sprite.animCode = 0;
-			sprite.textureUpdate();
+			x = -1;
 		}
 		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize && imageHandler.checkBounds(RIGHT, pos / tileSize))
 		{
-			sprite.spriteVector[0].move(movementStepSize, 0);
+			arson.sprite.move(movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyRight);
-			sprite.clearBools();
-			sprite.rightABool = true;
-			sprite.animCode = 0;
-			sprite.textureUpdate();
+			x = 1;
 		}
 	}
 	else // auto complete movement until centered on a grid.
@@ -297,108 +295,161 @@ void Window::pollMovement()
 		{
 			if (lastKeyRight)
 			{
-				sprite.spriteVector[0].move(movementStepSize, 0);
-				sprite.clearBools();
-				switch (sprite.animCode)
-				{
-				case 1:
-					sprite.rightBBool = true;
-					sprite.animCode += 1;
-					break;
-				case 2:
-					sprite.rightCBool = true;
-					sprite.animCode += 1;
-					break;
-				case 3:
-					sprite.rightBBool = true;
-					sprite.animCode += 1;
-					break;
-				default:
-					sprite.rightABool = true;
-					sprite.animCode += 1;
-					break;
-				}
-				sprite.textureUpdate();
+				arson.sprite.move(movementStepSize, 0);
+				x = 1;
 			}
 			else if (lastKeyLeft)
 			{
-				sprite.spriteVector[0].move(-movementStepSize, 0);
-				sprite.clearBools();
-				switch (sprite.animCode)
-				{
-				case 1:
-					sprite.leftBBool = true;
-					sprite.animCode += 1;
-					break;
-				case 2:
-					sprite.leftCBool = true;
-					sprite.animCode += 1;
-					break;
-				case 3:
-					sprite.leftBBool = true;
-					sprite.animCode += 1;
-					break;
-				default:
-					sprite.leftABool = true;
-					sprite.animCode += 1;
-					break;
-				}
-				sprite.textureUpdate();
+				arson.sprite.move(-movementStepSize, 0);
+				x = -1;
 			}
 		}
 		else if (pos.y % tileSize != 0)
 		{
 			if (lastKeyUp)
 			{
-				sprite.spriteVector[0].move(0, -movementStepSize);
-				sprite.clearBools();
-				switch (sprite.animCode)
-				{
-				case 1:
-					sprite.upBBool = true;
-					sprite.animCode += 1;
-					break;
-				case 2:
-					sprite.upCBool = true;
-					sprite.animCode += 1;
-					break;
-				case 3:
-					sprite.upBBool = true;
-					sprite.animCode += 1;
-					break;
-				default:
-					sprite.upABool = true;
-					sprite.animCode += 1;
-					break;
-				}
-				sprite.textureUpdate();
+				arson.sprite.move(0, -movementStepSize);
+				y = -1;
 			}
 			else if (lastKeyDown)
 			{
-				sprite.spriteVector[0].move(0, movementStepSize);
-				sprite.clearBools();
-				switch (sprite.animCode)
-				{
-				case 1:
-					sprite.downBBool = true;
-					sprite.animCode += 1;
-					break;
-				case 2:
-					sprite.downCBool = true;
-					sprite.animCode += 1;
-					break;
-				case 3:
-					sprite.downBBool = true;
-					sprite.animCode += 1;
-					break;
-				default:
-					sprite.downABool = true;
-					sprite.animCode += 1;
-					break;
-				}
-				sprite.textureUpdate();
+				arson.sprite.move(0, movementStepSize);
+				y = 1;
 			}
 		}
+	}
+
+	if (animateMovement.asMilliseconds() >= timeDelta)
+	{
+		if (y < 0)
+		{
+			switch (arson.animCode)
+			{
+			case 0:
+				arson.clearBools();
+				arson.upABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 1:
+				arson.clearBools();
+				arson.upBBool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 2:
+				arson.clearBools();
+				arson.upABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 3:
+				arson.clearBools();
+				arson.upCBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (y > 0)
+		{
+			switch (arson.animCode)
+			{
+			case 0:
+				arson.clearBools();
+				arson.downABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 1:
+				arson.clearBools();
+				arson.downBBool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 2:
+				arson.clearBools();
+				arson.downABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 3:
+				arson.clearBools();
+				arson.downCBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (x < 0)
+		{
+			switch (arson.animCode)
+			{
+			case 0:
+				arson.clearBools();
+				arson.leftABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 1:
+				arson.clearBools();
+				arson.leftBBool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 2:
+				arson.clearBools();
+				arson.leftABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 3:
+				arson.clearBools();
+				arson.leftCBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (x > 0)
+		{
+			switch (arson.animCode)
+			{
+			case 0:
+				arson.clearBools();
+				arson.rightABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 1:
+				arson.clearBools();
+				arson.rightBBool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 2:
+				arson.clearBools();
+				arson.rightABool = true;
+				arson.textureUpdate();
+				arson.animCode += 1;
+				break;
+			case 3:
+				arson.clearBools();
+				arson.rightCBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		arson.movementClock.restart();
 	}
 
 	// Move view when character is offset from the center by one sixth of the displayed grid size
@@ -434,16 +485,20 @@ void Window::pollMovement()
 			this->setView(view);
 		}
 	}
+
+	// Add back sprite to stack
+	spriteVector.push_back(arson.sprite);
 }
 
 void Window::drawSprites()
 {
 	//sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
-	for (auto i : sprite.spriteVector)
+	for (auto i : spriteVector)
 	{
 		this->draw(i);
 	}
 	//sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
+
 }
 
 void Window::drawParticles()

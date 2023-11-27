@@ -74,7 +74,7 @@
     <ClInclude Include="Engine\imageHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\sprite.h">
+    <ClInclude Include="Engine\character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\particles.h">
@@ -94,9 +94,6 @@
     </ClInclude>
     <ClInclude Include="ImageResources\arsonImages.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\character.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
