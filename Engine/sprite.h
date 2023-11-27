@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../ImageResources/arsonImages.h"
+#include "constExpressions.h"
 
 enum SpriteColor
 {
@@ -12,17 +13,21 @@ enum SpriteColor
     Dark
 };
 
-class Sprite 
+class Sprite
 {
 public:
     sf::Sprite sprite;
     sf::Texture spriteTexture;
     int spriteW;
     int spriteH;
-    //std::vector<sf::Uint8> currentTexture;
+    std::vector<uint8_t> currentTexture;
     std::vector<sf::Sprite> spriteVector;
+
     int spriteColour;
-    
+    int order;
+    int id{1};
+    int animCode;
+
     Sprite()
     {
         spriteW = 32;
@@ -31,8 +36,9 @@ public:
         textureUpdate();
         sprite.setScale(pairF(2, 2));
         spriteVector.push_back(this->sprite);
+        id = 1;
     }
-    
+
     void textureUpdate()
     {
         spriteTexture.create(spriteW, spriteH);
@@ -43,16 +49,18 @@ public:
         uint8_t bw{ 0 };
         uint8_t aw{ 255 };
 
+        pickArray();
+
         for (int i = 0; i < spriteW * spriteH * 4; i += 4)
         {
             //every iteration will call in order every pixel until done.
-            rw = front[0 + i];
-            gw = front[1 + i];
-            bw = front[2 + i];
-            aw = front[3 + i];
+            rw = currentTexture[0 + i];
+            gw = currentTexture[1 + i];
+            bw = currentTexture[2 + i];
+            aw = currentTexture[3 + i];
 
             // Sprite colorizer - not implemented yet
-            
+
             switch (spriteColour)
             {
             case Default:
@@ -131,7 +139,131 @@ public:
         spriteTexture.update(pixels);
         sprite.setTexture(spriteTexture);
         delete[] pixels;
+        currentTexture.clear();
     }
 
-private:
+    bool downABool{ true };
+    bool downBBool{ false };
+    bool downCBool{ false };
+    bool upABool{ false };
+    bool upBBool{ false };
+    bool upCBool{ false };
+    bool leftABool{ false };
+    bool leftBBool{ false };
+    bool leftCBool{ false };
+    bool rightABool{ false };
+    bool rightBBool{ false };
+    bool rightCBool{ false };
+    bool frontBool{ false };
+    bool backBool{ false };
+    bool idleRBool{ false };
+    bool idleLBool{ false };
+    bool shrug1RBool{ false };
+    bool shrug1LBool{ false };
+    bool shrug2RBool{ false };
+    bool shrug2LBool{ false };
+    bool shrug2mouthRBool{ false };
+    bool shrug2mouthLBool{ false };
+    bool crawlRBool{ false };
+    bool crawlLBool{ false };
+    bool pointRBool{ false };
+    bool pointLBool{ false };
+    bool handsUpRBool{ false };
+    bool handsUpLBool{ false };
+    bool pushRBool{ false };
+    bool pushLBool{ false };
+    bool deadRBool{ false };
+    bool deadLBool{ false };
+    bool hitRBool{ false };
+    bool hitLBool{ false };
+
+    void clearBools()
+    {
+        downABool = false;
+        downBBool = false;
+        downCBool = false;
+        upABool = false;
+        upBBool = false;
+        upCBool = false;
+        leftABool = false;
+        leftBBool = false;
+        leftCBool = false;
+        rightABool = false;
+        rightBBool = false;
+        rightCBool = false;
+        frontBool = false;
+        backBool = false;
+        idleRBool = false;
+        idleLBool = false;
+        shrug1RBool = false;
+        shrug1LBool = false;
+        shrug2RBool = false;
+        shrug2LBool = false;
+        shrug2mouthRBool = false;
+        shrug2mouthLBool = false;
+        crawlRBool = false;
+        crawlLBool = false;
+        pointRBool = false;
+        pointLBool = false;
+        handsUpRBool = false;
+        handsUpLBool = false;
+        pushRBool = false;
+        pushLBool = false;
+        deadRBool = false;
+        deadLBool = false;
+        hitRBool = false;
+        hitLBool = false;
+    }
+
+    void pickArray()
+    {
+        currentTexture.clear(); //Just in case?
+        switch (id)
+        {
+        case 0:
+            break;
+        case 1:
+            for (int i = 0; i < arsonDownA.size(); i++)
+            { // Arson
+                     if (downABool)         { currentTexture.push_back(arsonDownA[i]); }
+                else if (downBBool)         { currentTexture.push_back(arsonDownB[i]); }
+                else if (downCBool)         { currentTexture.push_back(arsonDownC[i]); }
+                else if (upABool)           { currentTexture.push_back(arsonUpA[i]); }
+                else if (upBBool)           { currentTexture.push_back(arsonUpB[i]); }
+                else if (upCBool)           { currentTexture.push_back(arsonUpC[i]); }
+                else if (leftABool)         { currentTexture.push_back(arsonLeftA[i]); }
+                else if (leftBBool)         { currentTexture.push_back(arsonLeftB[i]); }
+                else if (leftCBool)         { currentTexture.push_back(arsonLeftC[i]); }
+                else if (rightABool)        { currentTexture.push_back(arsonRightA[i]); }
+                else if (rightBBool)        { currentTexture.push_back(arsonRightB[i]); }
+                else if (rightCBool)        { currentTexture.push_back(arsonRightC[i]); }
+                else if (frontBool)         { currentTexture.push_back(arsonFront[i]); }
+                else if (backBool)          { currentTexture.push_back(arsonBack[i]); }
+                else if (idleLBool)         { currentTexture.push_back(arsonIdleL[i]); }
+                else if (idleRBool)         { currentTexture.push_back(arsonIdleR[i]); }
+                else if (shrug1RBool)       { currentTexture.push_back(arsonShrug1R[i]); }
+                else if (shrug1LBool)       { currentTexture.push_back(arsonShrug1L[i]); }
+                else if (shrug2RBool)       { currentTexture.push_back(arsonShrug2R[i]); }
+                else if (shrug2LBool)       { currentTexture.push_back(arsonShrug2L[i]); }
+                else if (shrug2mouthRBool)  { currentTexture.push_back(arsonShrug2mouthR[i]); }
+                else if (shrug2mouthLBool)  { currentTexture.push_back(arsonShrug2mouthL[i]); }
+                else if (crawlRBool)        { currentTexture.push_back(arsonCrawlR[i]); }
+                else if (crawlLBool)        { currentTexture.push_back(arsonCrawlL[i]); }
+                else if (pointRBool)        { currentTexture.push_back(arsonPointR[i]); }
+                else if (pointLBool)        { currentTexture.push_back(arsonPointL[i]); }
+                else if (handsUpRBool)      { currentTexture.push_back(arsonHandsUpR[i]); }
+                else if (handsUpLBool)      { currentTexture.push_back(arsonHandsUpL[i]); }
+                else if (pushRBool)         { currentTexture.push_back(arsonPushR[i]); }
+                else if (pushLBool)         { currentTexture.push_back(arsonPushL[i]); }
+                else if (deadRBool)         { currentTexture.push_back(arsonDeadR[i]); }
+                else if (deadLBool)         { currentTexture.push_back(arsonDeadL[i]); }
+                else if (hitRBool)          { currentTexture.push_back(arsonHitR[i]); }
+                else if (hitLBool)          { currentTexture.push_back(arsonHitL[i]); }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
 };

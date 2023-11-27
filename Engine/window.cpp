@@ -258,21 +258,37 @@ void Window::pollMovement()
 		{
 			sprite.spriteVector[0].move(0, -movementStepSize);
 			changeFalseLastKeyState(lastKeyUp);
+			sprite.clearBools();
+			sprite.upABool = true;
+			sprite.animCode = 0;
+			sprite.textureUpdate();
 		}
 		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize && imageHandler.checkBounds(DOWN, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(0, movementStepSize);
 			changeFalseLastKeyState(lastKeyDown);
+			sprite.clearBools();
+			sprite.downABool = true;
+			sprite.animCode = 0;
+			sprite.textureUpdate();
 		}
 		else if (left && pos.x > 0 && imageHandler.checkBounds(LEFT, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(-movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyLeft);
+			sprite.clearBools();
+			sprite.leftABool = true;
+			sprite.animCode = 0;
+			sprite.textureUpdate();
 		}
 		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize && imageHandler.checkBounds(RIGHT, pos / tileSize))
 		{
 			sprite.spriteVector[0].move(movementStepSize, 0);
 			changeFalseLastKeyState(lastKeyRight);
+			sprite.clearBools();
+			sprite.rightABool = true;
+			sprite.animCode = 0;
+			sprite.textureUpdate();
 		}
 	}
 	else // auto complete movement until centered on a grid.
@@ -282,10 +298,52 @@ void Window::pollMovement()
 			if (lastKeyRight)
 			{
 				sprite.spriteVector[0].move(movementStepSize, 0);
+				sprite.clearBools();
+				switch (sprite.animCode)
+				{
+				case 1:
+					sprite.rightBBool = true;
+					sprite.animCode += 1;
+					break;
+				case 2:
+					sprite.rightCBool = true;
+					sprite.animCode += 1;
+					break;
+				case 3:
+					sprite.rightBBool = true;
+					sprite.animCode += 1;
+					break;
+				default:
+					sprite.rightABool = true;
+					sprite.animCode += 1;
+					break;
+				}
+				sprite.textureUpdate();
 			}
 			else if (lastKeyLeft)
 			{
 				sprite.spriteVector[0].move(-movementStepSize, 0);
+				sprite.clearBools();
+				switch (sprite.animCode)
+				{
+				case 1:
+					sprite.leftBBool = true;
+					sprite.animCode += 1;
+					break;
+				case 2:
+					sprite.leftCBool = true;
+					sprite.animCode += 1;
+					break;
+				case 3:
+					sprite.leftBBool = true;
+					sprite.animCode += 1;
+					break;
+				default:
+					sprite.leftABool = true;
+					sprite.animCode += 1;
+					break;
+				}
+				sprite.textureUpdate();
 			}
 		}
 		else if (pos.y % tileSize != 0)
@@ -293,10 +351,52 @@ void Window::pollMovement()
 			if (lastKeyUp)
 			{
 				sprite.spriteVector[0].move(0, -movementStepSize);
+				sprite.clearBools();
+				switch (sprite.animCode)
+				{
+				case 1:
+					sprite.upBBool = true;
+					sprite.animCode += 1;
+					break;
+				case 2:
+					sprite.upCBool = true;
+					sprite.animCode += 1;
+					break;
+				case 3:
+					sprite.upBBool = true;
+					sprite.animCode += 1;
+					break;
+				default:
+					sprite.upABool = true;
+					sprite.animCode += 1;
+					break;
+				}
+				sprite.textureUpdate();
 			}
 			else if (lastKeyDown)
 			{
 				sprite.spriteVector[0].move(0, movementStepSize);
+				sprite.clearBools();
+				switch (sprite.animCode)
+				{
+				case 1:
+					sprite.downBBool = true;
+					sprite.animCode += 1;
+					break;
+				case 2:
+					sprite.downCBool = true;
+					sprite.animCode += 1;
+					break;
+				case 3:
+					sprite.downBBool = true;
+					sprite.animCode += 1;
+					break;
+				default:
+					sprite.downABool = true;
+					sprite.animCode += 1;
+					break;
+				}
+				sprite.textureUpdate();
 			}
 		}
 	}
