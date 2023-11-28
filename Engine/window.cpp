@@ -262,29 +262,69 @@ void Window::pollMovement()
 	// If the character is centered on a grid, accept movement input.
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
-		if (up && pos.y > 0 && imageHandler.checkBounds(UP, pos / tileSize))
+		if (up && pos.y > 0)
 		{
-			arson.sprite.move(0, -movementStepSize);
-			changeFalseLastKeyState(lastKeyUp);
-			y = -1;
+			if (imageHandler.checkBounds(UP, pos / tileSize))
+			{
+				arson.sprite.move(0, -movementStepSize);
+				changeFalseLastKeyState(lastKeyUp);
+				y = -1;
+			}
+			else
+			{
+				arson.clearBools();
+				arson.upBBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+			}
 		}
-		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize && imageHandler.checkBounds(DOWN, pos / tileSize))
+		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)	
 		{
-			arson.sprite.move(0, movementStepSize);
-			changeFalseLastKeyState(lastKeyDown);
-			y = 1;
+			if (imageHandler.checkBounds(DOWN, pos / tileSize))
+			{
+				arson.sprite.move(0, movementStepSize);
+				changeFalseLastKeyState(lastKeyDown);
+				y = 1;
+			}
+			else
+			{
+				arson.clearBools();
+				arson.downBBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+			}
 		}
-		else if (left && pos.x > 0 && imageHandler.checkBounds(LEFT, pos / tileSize))
+		else if (left && pos.x > 0)
 		{
-			arson.sprite.move(-movementStepSize, 0);
-			changeFalseLastKeyState(lastKeyLeft);
-			x = -1;
+			if (imageHandler.checkBounds(LEFT, pos / tileSize))
+			{
+				arson.sprite.move(-movementStepSize, 0);
+				changeFalseLastKeyState(lastKeyLeft);
+				x = -1;
+			}
+			else
+			{
+				arson.clearBools();
+				arson.leftBBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+			}
 		}
-		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize && imageHandler.checkBounds(RIGHT, pos / tileSize))
+		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize)
 		{
-			arson.sprite.move(movementStepSize, 0);
-			changeFalseLastKeyState(lastKeyRight);
-			x = 1;
+			if (imageHandler.checkBounds(RIGHT, pos / tileSize))
+			{
+				arson.sprite.move(movementStepSize, 0);
+				changeFalseLastKeyState(lastKeyRight);
+				x = 1;
+			}
+			else
+			{
+				arson.clearBools();
+				arson.rightBBool = true;
+				arson.textureUpdate();
+				arson.animCode = 0;
+			}
 		}
 	}
 	else // auto complete movement until centered on a grid.
