@@ -22,7 +22,7 @@ public:
     int animCode;
 
     Character(int id);
-    void textureUpdate();
+    void textureUpdate(bool& inputBool);
     void clearBools();
     void pickArray();
     void changeAnimationState(int x, int y);
@@ -32,7 +32,7 @@ public:
     std::vector<int> coordVector;
 
     // Animation State Booleans
-    bool downABool{ true }; // Default
+    bool downABool{ false };
     bool downBBool{ false };
     bool downCBool{ false };
     bool upABool{ false };

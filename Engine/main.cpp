@@ -64,7 +64,7 @@ int main()
         window.drawTileMapsFront(); // 620
         window.drawWaterTile();
 
-        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
+        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
         window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, window.getTopLeftViewCoordinates().y + 50)); // 1100 - 1200 fps
 
 		

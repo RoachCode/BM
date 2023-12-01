@@ -7,14 +7,16 @@ Character::Character(int id) : m_id(id)
     spriteH = 32;
     spriteColour = Default;
     order = id;
-    textureUpdate();
+    textureUpdate(downABool);
     sprite.setScale(pairF(2, 2));
     coordVector.push_back(0);
     coordVector.push_back(0);
 }
 
-void Character::textureUpdate()
+void Character::textureUpdate(bool &inputBool)
 {
+    clearBools();
+    inputBool = true;
     spriteTexture.create(spriteW, spriteH);
     sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
 
@@ -437,27 +439,19 @@ void Character::changeAnimationState(int x, int y)
             switch (animCode)
             {
             case 0:
-                clearBools();
-                upABool = true;
-                textureUpdate();
+                textureUpdate(upABool);
                 animCode += 1;
                 break;
             case 1:
-                clearBools();
-                upBBool = true;
-                textureUpdate();
+                textureUpdate(upBBool);
                 animCode += 1;
                 break;
             case 2:
-                clearBools();
-                upABool = true;
-                textureUpdate();
+                textureUpdate(upABool);
                 animCode += 1;
                 break;
             case 3:
-                clearBools();
-                upCBool = true;
-                textureUpdate();
+                textureUpdate(upCBool);
                 animCode = 0;
                 break;
             default:
@@ -470,27 +464,19 @@ void Character::changeAnimationState(int x, int y)
             switch (animCode)
             {
             case 0:
-                clearBools();
-                downABool = true;
-                textureUpdate();
+                textureUpdate(downABool);
                 animCode += 1;
                 break;
             case 1:
-                clearBools();
-                downBBool = true;
-                textureUpdate();
+                textureUpdate(downBBool);
                 animCode += 1;
                 break;
             case 2:
-                clearBools();
-                downABool = true;
-                textureUpdate();
+                textureUpdate(downABool);
                 animCode += 1;
                 break;
             case 3:
-                clearBools();
-                downCBool = true;
-                textureUpdate();
+                textureUpdate(downCBool);
                 animCode = 0;
                 break;
             default:
@@ -503,27 +489,19 @@ void Character::changeAnimationState(int x, int y)
             switch (animCode)
             {
             case 0:
-                clearBools();
-                leftABool = true;
-                textureUpdate();
+                textureUpdate(leftABool);
                 animCode += 1;
                 break;
             case 1:
-                clearBools();
-                leftBBool = true;
-                textureUpdate();
+                textureUpdate(leftBBool);
                 animCode += 1;
                 break;
             case 2:
-                clearBools();
-                leftABool = true;
-                textureUpdate();
+                textureUpdate(leftABool);
                 animCode += 1;
                 break;
             case 3:
-                clearBools();
-                leftCBool = true;
-                textureUpdate();
+                textureUpdate(leftCBool);
                 animCode = 0;
                 break;
             default:
@@ -536,27 +514,19 @@ void Character::changeAnimationState(int x, int y)
             switch (animCode)
             {
             case 0:
-                clearBools();
-                rightABool = true;
-                textureUpdate();
+                textureUpdate(rightABool);
                 animCode += 1;
                 break;
             case 1:
-                clearBools();
-                rightBBool = true;
-                textureUpdate();
+                textureUpdate(rightBBool);
                 animCode += 1;
                 break;
             case 2:
-                clearBools();
-                rightABool = true;
-                textureUpdate();
+                textureUpdate(rightABool);
                 animCode += 1;
                 break;
             case 3:
-                clearBools();
-                rightCBool = true;
-                textureUpdate();
+                textureUpdate(rightCBool);
                 animCode = 0;
                 break;
             default:
@@ -606,36 +576,26 @@ void Character::checkTimeout()
 
         if (upABool || upBBool || upCBool)
         {
-            clearBools();
-            //backBool = true;
-            upABool = true;
-            textureUpdate();
+            textureUpdate(upABool);
             animCode = 0;
         }
         else if (leftABool || leftBBool || leftCBool)
         {
-            clearBools();
-            idleLBool = true;
-            textureUpdate();
+            textureUpdate(idleLBool);
             animCode = 0;
         }
         else if (rightABool || rightBBool || rightCBool)
         {
-            clearBools();
-            idleRBool = true;
-            textureUpdate();
+            textureUpdate(idleRBool);
             animCode = 0;
         }
         else if (downABool || downBBool || downCBool)
         {
-            clearBools();
-            //frontBool = true;
-            downABool = true;
-            textureUpdate();
+            textureUpdate(downABool);
             animCode = 0;
         }
 
-        textureUpdate();
+        //textureUpdate();
         
     }
 }

@@ -289,8 +289,7 @@ void Window::checkUnderlyingTile(int dir)
 			{
 				dir = DOWN;
 			}
-
-			if (getCharacterByOrder(i - 1).coordVector[0] == -1)
+			else if (getCharacterByOrder(i - 1).coordVector[0] == -1)
 			{
 				dir = LEFT;
 			}
@@ -325,11 +324,10 @@ void Window::checkUnderlyingTile(int dir)
 }
 void Window::pollMovement()
 {
-	sf::Vector2i pos{ pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)) };
-
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
-	
+
+	sf::Vector2i pos{ pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)) };
 	int x{ 0 };
 	int y{ 0 };
 
@@ -338,7 +336,6 @@ void Window::pollMovement()
 	{
 		if (up && pos.y > 0)
 		{
-
 			if (imageHandler.checkBounds(UP, pos / tileSize))
 			{
 				checkUnderlyingTile(UP);
@@ -348,15 +345,12 @@ void Window::pollMovement()
 			}
 			else
 			{
-				getCharacterByOrder(1).clearBools();
-				getCharacterByOrder(1).upBBool = true;
-				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool);
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)	
 		{
-
 			if (imageHandler.checkBounds(DOWN, pos / tileSize))
 			{
 				checkUnderlyingTile(DOWN);
@@ -367,15 +361,12 @@ void Window::pollMovement()
 			}
 			else
 			{
-				getCharacterByOrder(1).clearBools();
-				getCharacterByOrder(1).downBBool = true;
-				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).downBBool);
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 		else if (left && pos.x > 0)
 		{
-			
 			if (imageHandler.checkBounds(LEFT, pos / tileSize))
 			{
 				checkUnderlyingTile(LEFT);
@@ -386,9 +377,7 @@ void Window::pollMovement()
 			}
 			else
 			{
-				getCharacterByOrder(1).clearBools();
-				getCharacterByOrder(1).leftBBool = true;
-				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool);
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
@@ -404,9 +393,7 @@ void Window::pollMovement()
 			}
 			else
 			{
-				getCharacterByOrder(1).clearBools();
-				getCharacterByOrder(1).rightBBool = true;
-				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).rightBBool);
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
@@ -492,23 +479,19 @@ void Window::pollMovement()
 	getCharacterByOrder(3).checkTimeout();
 	getCharacterByOrder(4).checkTimeout();
 
-	// Add back sprite to stack. Do this in the order of sprite position
-	spriteVector.push_back(getCharacterByOrder(4).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
 	spriteVector.push_back(getCharacterByOrder(1).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(4).sprite);
 
 	sortSpriteVectorByHeight();
 }
 
 void Window::drawSprites()
 {
-	//water.westKagarWater[i + j * (24 * 4)
-
-	
 	for (auto i : spriteVector)
 	{
-		i.setPosition(pairF(i.getPosition().x, i.getPosition().y - (10 * windowScale)));
+		i.setPosition(pairF(i.getPosition().x, i.getPosition().y - (8 * windowScale)));
 		this->draw(i);
 	}
 }
