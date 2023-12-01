@@ -1,6 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../ImageResources/arsonImages.h"
+#include "../ImageResources/coleImages.h"
+#include "../ImageResources/gaiaImages.h"
+#include "../ImageResources/nekoImages.h"
 #include "constExpressions.h"
 
 enum CharacterID
@@ -46,7 +49,7 @@ public:
     std::vector<int> coordVector;
 
     // Animation State Booleans
-    bool downABool{ false };
+    bool downABool{ true }; // Default
     bool downBBool{ false };
     bool downCBool{ false };
     bool upABool{ false };
@@ -58,7 +61,7 @@ public:
     bool rightABool{ false };
     bool rightBBool{ false };
     bool rightCBool{ false };
-    bool frontBool{ true }; // Default
+    bool frontBool{ false };
     bool backBool{ false };
     bool idleRBool{ false };
     bool idleLBool{ false };

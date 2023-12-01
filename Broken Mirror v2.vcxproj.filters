@@ -95,6 +95,15 @@
     <ClInclude Include="ImageResources\arsonImages.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageResources\coleImages.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageResources\gaiaImages.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageResources\nekoImages.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />

@@ -15,7 +15,6 @@ Character::Character(int id) : m_id(id)
 
 void Character::textureUpdate()
 {
-    //std::cout << animCode << " ";
     spriteTexture.create(spriteW, spriteH);
     sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
 
@@ -163,7 +162,7 @@ void Character::pickArray()
     {
     case 0:
         break;
-    case 1:
+    case 1: // Arson
         for (int i = 0; i < arsonDownA.size(); i++)
         { // Arson
             if (downABool) { currentTexture.push_back(arsonDownA[i]); }
@@ -202,121 +201,223 @@ void Character::pickArray()
             else if (hitLBool) { currentTexture.push_back(arsonHitL[i]); }
         }
         break;
-    case 2:
-        for (int i = 0; i < arsonDownA.size(); i++)
-        { // Arson
-            if (downABool) { currentTexture.push_back(arsonDownA[i]); }
-            else if (downBBool) { currentTexture.push_back(arsonDownB[i]); }
-            else if (downCBool) { currentTexture.push_back(arsonDownC[i]); }
-            else if (upABool) { currentTexture.push_back(arsonUpA[i]); }
-            else if (upBBool) { currentTexture.push_back(arsonUpB[i]); }
-            else if (upCBool) { currentTexture.push_back(arsonUpC[i]); }
-            else if (leftABool) { currentTexture.push_back(arsonLeftA[i]); }
-            else if (leftBBool) { currentTexture.push_back(arsonLeftB[i]); }
-            else if (leftCBool) { currentTexture.push_back(arsonLeftC[i]); }
-            else if (rightABool) { currentTexture.push_back(arsonRightA[i]); }
-            else if (rightBBool) { currentTexture.push_back(arsonRightB[i]); }
-            else if (rightCBool) { currentTexture.push_back(arsonRightC[i]); }
-            else if (frontBool) { currentTexture.push_back(arsonFront[i]); }
-            else if (backBool) { currentTexture.push_back(arsonBack[i]); }
-            else if (idleLBool) { currentTexture.push_back(arsonIdleL[i]); }
-            else if (idleRBool) { currentTexture.push_back(arsonIdleR[i]); }
-            else if (shrug1RBool) { currentTexture.push_back(arsonShrug1R[i]); }
-            else if (shrug1LBool) { currentTexture.push_back(arsonShrug1L[i]); }
-            else if (shrug2RBool) { currentTexture.push_back(arsonShrug2R[i]); }
-            else if (shrug2LBool) { currentTexture.push_back(arsonShrug2L[i]); }
-            else if (shrug2mouthRBool) { currentTexture.push_back(arsonShrug2mouthR[i]); }
-            else if (shrug2mouthLBool) { currentTexture.push_back(arsonShrug2mouthL[i]); }
-            else if (crawlRBool) { currentTexture.push_back(arsonCrawlR[i]); }
-            else if (crawlLBool) { currentTexture.push_back(arsonCrawlL[i]); }
-            else if (pointRBool) { currentTexture.push_back(arsonPointR[i]); }
-            else if (pointLBool) { currentTexture.push_back(arsonPointL[i]); }
-            else if (handsUpRBool) { currentTexture.push_back(arsonHandsUpR[i]); }
-            else if (handsUpLBool) { currentTexture.push_back(arsonHandsUpL[i]); }
-            else if (pushRBool) { currentTexture.push_back(arsonPushR[i]); }
-            else if (pushLBool) { currentTexture.push_back(arsonPushL[i]); }
-            else if (deadRBool) { currentTexture.push_back(arsonDeadR[i]); }
-            else if (deadLBool) { currentTexture.push_back(arsonDeadL[i]); }
-            else if (hitRBool) { currentTexture.push_back(arsonHitR[i]); }
-            else if (hitLBool) { currentTexture.push_back(arsonHitL[i]); }
+    case 2: // Gaia
+        if (rightABool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (rightBBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+            break;
+        }
+        else if (rightCBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (idleRBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < gaiaDownA.size(); i++)
+            {
+                if (downABool)      { currentTexture.push_back(gaiaDownA[i]); }
+                else if (downBBool) { currentTexture.push_back(gaiaDownB[i]); }
+                else if (downCBool) { currentTexture.push_back(gaiaDownC[i]); }
+                else if (upABool)   { currentTexture.push_back(gaiaUpA[i]); }
+                else if (upBBool)   { currentTexture.push_back(gaiaUpB[i]); }
+                else if (upCBool)   { currentTexture.push_back(gaiaUpC[i]); }
+                else if (leftABool) { currentTexture.push_back(gaiaLeftA[i]); }
+                else if (leftBBool) { currentTexture.push_back(gaiaLeftB[i]); }
+                else if (leftCBool) { currentTexture.push_back(gaiaLeftC[i]); }
+                else if (frontBool) { currentTexture.push_back(gaiaFront[i]); }
+                else if (backBool)  { currentTexture.push_back(gaiaBack[i]); }
+                else if (idleLBool) { currentTexture.push_back(gaiaIdleL[i]); }
+            }
         }
         break;
-    case 3:
-        for (int i = 0; i < arsonDownA.size(); i++)
-        { // Arson
-            if (downABool) { currentTexture.push_back(arsonDownA[i]); }
-            else if (downBBool) { currentTexture.push_back(arsonDownB[i]); }
-            else if (downCBool) { currentTexture.push_back(arsonDownC[i]); }
-            else if (upABool) { currentTexture.push_back(arsonUpA[i]); }
-            else if (upBBool) { currentTexture.push_back(arsonUpB[i]); }
-            else if (upCBool) { currentTexture.push_back(arsonUpC[i]); }
-            else if (leftABool) { currentTexture.push_back(arsonLeftA[i]); }
-            else if (leftBBool) { currentTexture.push_back(arsonLeftB[i]); }
-            else if (leftCBool) { currentTexture.push_back(arsonLeftC[i]); }
-            else if (rightABool) { currentTexture.push_back(arsonRightA[i]); }
-            else if (rightBBool) { currentTexture.push_back(arsonRightB[i]); }
-            else if (rightCBool) { currentTexture.push_back(arsonRightC[i]); }
-            else if (frontBool) { currentTexture.push_back(arsonFront[i]); }
-            else if (backBool) { currentTexture.push_back(arsonBack[i]); }
-            else if (idleLBool) { currentTexture.push_back(arsonIdleL[i]); }
-            else if (idleRBool) { currentTexture.push_back(arsonIdleR[i]); }
-            else if (shrug1RBool) { currentTexture.push_back(arsonShrug1R[i]); }
-            else if (shrug1LBool) { currentTexture.push_back(arsonShrug1L[i]); }
-            else if (shrug2RBool) { currentTexture.push_back(arsonShrug2R[i]); }
-            else if (shrug2LBool) { currentTexture.push_back(arsonShrug2L[i]); }
-            else if (shrug2mouthRBool) { currentTexture.push_back(arsonShrug2mouthR[i]); }
-            else if (shrug2mouthLBool) { currentTexture.push_back(arsonShrug2mouthL[i]); }
-            else if (crawlRBool) { currentTexture.push_back(arsonCrawlR[i]); }
-            else if (crawlLBool) { currentTexture.push_back(arsonCrawlL[i]); }
-            else if (pointRBool) { currentTexture.push_back(arsonPointR[i]); }
-            else if (pointLBool) { currentTexture.push_back(arsonPointL[i]); }
-            else if (handsUpRBool) { currentTexture.push_back(arsonHandsUpR[i]); }
-            else if (handsUpLBool) { currentTexture.push_back(arsonHandsUpL[i]); }
-            else if (pushRBool) { currentTexture.push_back(arsonPushR[i]); }
-            else if (pushLBool) { currentTexture.push_back(arsonPushL[i]); }
-            else if (deadRBool) { currentTexture.push_back(arsonDeadR[i]); }
-            else if (deadLBool) { currentTexture.push_back(arsonDeadL[i]); }
-            else if (hitRBool) { currentTexture.push_back(arsonHitR[i]); }
-            else if (hitLBool) { currentTexture.push_back(arsonHitL[i]); }
+    case 3: // Cole 
+        if (rightABool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (rightBBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+            break;
+        }
+        else if (rightCBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (idleRBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < coleDownA.size(); i++)
+            {
+                if (downABool) { currentTexture.push_back(coleDownA[i]); }
+                else if (downBBool) { currentTexture.push_back(coleDownB[i]); }
+                else if (downCBool) { currentTexture.push_back(coleDownC[i]); }
+                else if (upABool) { currentTexture.push_back(coleUpA[i]); }
+                else if (upBBool) { currentTexture.push_back(coleUpB[i]); }
+                else if (upCBool) { currentTexture.push_back(coleUpC[i]); }
+                else if (leftABool) { currentTexture.push_back(coleLeftA[i]); }
+                else if (leftBBool) { currentTexture.push_back(coleLeftB[i]); }
+                else if (leftCBool) { currentTexture.push_back(coleLeftC[i]); }
+                else if (frontBool) { currentTexture.push_back(coleFront[i]); }
+                else if (backBool) { currentTexture.push_back(coleBack[i]); }
+                else if (idleLBool) { currentTexture.push_back(coleIdleL[i]); }
+            }
         }
         break;
-    case 4:
-        for (int i = 0; i < arsonDownA.size(); i++)
-        { // Arson
-            if (downABool) { currentTexture.push_back(arsonDownA[i]); }
-            else if (downBBool) { currentTexture.push_back(arsonDownB[i]); }
-            else if (downCBool) { currentTexture.push_back(arsonDownC[i]); }
-            else if (upABool) { currentTexture.push_back(arsonUpA[i]); }
-            else if (upBBool) { currentTexture.push_back(arsonUpB[i]); }
-            else if (upCBool) { currentTexture.push_back(arsonUpC[i]); }
-            else if (leftABool) { currentTexture.push_back(arsonLeftA[i]); }
-            else if (leftBBool) { currentTexture.push_back(arsonLeftB[i]); }
-            else if (leftCBool) { currentTexture.push_back(arsonLeftC[i]); }
-            else if (rightABool) { currentTexture.push_back(arsonRightA[i]); }
-            else if (rightBBool) { currentTexture.push_back(arsonRightB[i]); }
-            else if (rightCBool) { currentTexture.push_back(arsonRightC[i]); }
-            else if (frontBool) { currentTexture.push_back(arsonFront[i]); }
-            else if (backBool) { currentTexture.push_back(arsonBack[i]); }
-            else if (idleLBool) { currentTexture.push_back(arsonIdleL[i]); }
-            else if (idleRBool) { currentTexture.push_back(arsonIdleR[i]); }
-            else if (shrug1RBool) { currentTexture.push_back(arsonShrug1R[i]); }
-            else if (shrug1LBool) { currentTexture.push_back(arsonShrug1L[i]); }
-            else if (shrug2RBool) { currentTexture.push_back(arsonShrug2R[i]); }
-            else if (shrug2LBool) { currentTexture.push_back(arsonShrug2L[i]); }
-            else if (shrug2mouthRBool) { currentTexture.push_back(arsonShrug2mouthR[i]); }
-            else if (shrug2mouthLBool) { currentTexture.push_back(arsonShrug2mouthL[i]); }
-            else if (crawlRBool) { currentTexture.push_back(arsonCrawlR[i]); }
-            else if (crawlLBool) { currentTexture.push_back(arsonCrawlL[i]); }
-            else if (pointRBool) { currentTexture.push_back(arsonPointR[i]); }
-            else if (pointLBool) { currentTexture.push_back(arsonPointL[i]); }
-            else if (handsUpRBool) { currentTexture.push_back(arsonHandsUpR[i]); }
-            else if (handsUpLBool) { currentTexture.push_back(arsonHandsUpL[i]); }
-            else if (pushRBool) { currentTexture.push_back(arsonPushR[i]); }
-            else if (pushLBool) { currentTexture.push_back(arsonPushL[i]); }
-            else if (deadRBool) { currentTexture.push_back(arsonDeadR[i]); }
-            else if (deadLBool) { currentTexture.push_back(arsonDeadL[i]); }
-            else if (hitRBool) { currentTexture.push_back(arsonHitR[i]); }
-            else if (hitLBool) { currentTexture.push_back(arsonHitL[i]); }
+    case 4: // Neko
+        if (rightABool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (rightBBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+            break;
+        }
+        else if (rightCBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else if (idleRBool)
+        {
+            for (int k = 0; k < 32; k++) // vertical count
+            {
+                for (int j = 0; j < 4 * 32; j += 4)
+                {
+                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
+                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
+                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
+                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < nekoDownA.size(); i++)
+            {
+                if (downABool) { currentTexture.push_back(nekoDownA[i]); }
+                else if (downBBool) { currentTexture.push_back(nekoDownB[i]); }
+                else if (downCBool) { currentTexture.push_back(nekoDownC[i]); }
+                else if (upABool) { currentTexture.push_back(nekoUpA[i]); }
+                else if (upBBool) { currentTexture.push_back(nekoUpB[i]); }
+                else if (upCBool) { currentTexture.push_back(nekoUpC[i]); }
+                else if (leftABool) { currentTexture.push_back(nekoLeftA[i]); }
+                else if (leftBBool) { currentTexture.push_back(nekoLeftB[i]); }
+                else if (leftCBool) { currentTexture.push_back(nekoLeftC[i]); }
+                else if (frontBool) { currentTexture.push_back(nekoFront[i]); }
+                else if (backBool) { currentTexture.push_back(nekoBack[i]); }
+                else if (idleLBool) { currentTexture.push_back(nekoIdleL[i]); }
+            }
         }
         break;
     default:
@@ -505,7 +606,8 @@ void Character::checkTimeout()
         if (upABool || upBBool || upCBool)
         {
             clearBools();
-            backBool = true;
+            //backBool = true;
+            upABool = true;
             textureUpdate();
             animCode = 0;
         }
@@ -526,7 +628,8 @@ void Character::checkTimeout()
         else if (downABool || downBBool || downCBool)
         {
             clearBools();
-            frontBool = true;
+            //frontBool = true;
+            downABool = true;
             textureUpdate();
             animCode = 0;
         }

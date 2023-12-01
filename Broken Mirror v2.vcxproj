@@ -47,6 +47,9 @@
     <ClInclude Include="engine\water.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="ImageResources\arsonImages.h" />
+    <ClInclude Include="ImageResources\coleImages.h" />
+    <ClInclude Include="ImageResources\gaiaImages.h" />
+    <ClInclude Include="ImageResources\nekoImages.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />
