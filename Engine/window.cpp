@@ -248,82 +248,98 @@ sf::Vector2i Window::getTopLeftViewCoordinates()
 {
 	return sf::Vector2i(view.getCenter().x - (size.x / windowScale), view.getCenter().y - (size.y / windowScale));
 }
+Character& Window::getCharacterByOrder(int order)
+{
+	if (arson.order == order) { return arson; }
+	else if (gaia.order == order) { return gaia; }
+	else if (cole.order == order) { return cole; }
+	else if (neko.order == order) { return neko; }
+}
+void Window::sortSpriteVectorByHeight()
+{
+	std::sort(
+		spriteVector.begin(),
+		spriteVector.end(),
+		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		{
+			return sprite.getPosition().y < sprite2.getPosition().y;
+		});
+}
 void Window::pollMovement()
 {
-	sf::Vector2i pos{ pairI(intify(spriteVector[0].getPosition().x), intify(spriteVector[0].getPosition().y)) };
-	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
-	
+	sf::Vector2i pos{ pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)) };
+
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
 	
 	int x{ 0 };
 	int y{ 0 };
 
-	// If the character is centered on a grid, accept movement input.
+	// If the main character is centered on a grid, accept movement input.
 	if (pos.x % tileSize == 0 && pos.y % tileSize == 0)
 	{
 		if (up && pos.y > 0)
 		{
 			if (imageHandler.checkBounds(UP, pos / tileSize))
 			{
-				arson.sprite.move(0, -movementStepSize);
+				getCharacterByOrder(1).sprite.move(0, -movementStepSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
 			}
 			else
 			{
-				arson.clearBools();
-				arson.upBBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
+				getCharacterByOrder(1).clearBools();
+				getCharacterByOrder(1).upBBool = true;
+				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)	
 		{
 			if (imageHandler.checkBounds(DOWN, pos / tileSize))
 			{
-				arson.sprite.move(0, movementStepSize);
+				getCharacterByOrder(1).sprite.move(0, movementStepSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
 			}
 			else
 			{
-				arson.clearBools();
-				arson.downBBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
+				getCharacterByOrder(1).clearBools();
+				getCharacterByOrder(1).downBBool = true;
+				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 		else if (left && pos.x > 0)
 		{
 			if (imageHandler.checkBounds(LEFT, pos / tileSize))
 			{
-				arson.sprite.move(-movementStepSize, 0);
+				getCharacterByOrder(1).sprite.move(-movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
 			}
 			else
 			{
-				arson.clearBools();
-				arson.leftBBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
+				getCharacterByOrder(1).clearBools();
+				getCharacterByOrder(1).leftBBool = true;
+				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize)
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / tileSize))
 			{
-				arson.sprite.move(movementStepSize, 0);
+				getCharacterByOrder(1).sprite.move(movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
 			}
 			else
 			{
-				arson.clearBools();
-				arson.rightBBool = true;
-				arson.textureUpdate();
-				arson.animCode = 0;
+				getCharacterByOrder(1).clearBools();
+				getCharacterByOrder(1).rightBBool = true;
+				getCharacterByOrder(1).textureUpdate();
+				getCharacterByOrder(1).animCode = 0;
 			}
 		}
 	}
@@ -333,12 +349,12 @@ void Window::pollMovement()
 		{
 			if (lastKeyRight)
 			{
-				arson.sprite.move(movementStepSize, 0);
+				getCharacterByOrder(1).sprite.move(movementStepSize, 0);
 				x = 1;
 			}
 			else if (lastKeyLeft)
 			{
-				arson.sprite.move(-movementStepSize, 0);
+				getCharacterByOrder(1).sprite.move(-movementStepSize, 0);
 				x = -1;
 			}
 		}
@@ -346,19 +362,29 @@ void Window::pollMovement()
 		{
 			if (lastKeyUp)
 			{
-				arson.sprite.move(0, -movementStepSize);
+				getCharacterByOrder(1).sprite.move(0, -movementStepSize);
 				y = -1;
 			}
 			else if (lastKeyDown)
 			{
-				arson.sprite.move(0, movementStepSize);
+				getCharacterByOrder(1).sprite.move(0, movementStepSize);
 				y = 1;
 			}
 		}
 	}
+	
+	if (x != 0 || y != 0)
+	{
+		getCharacterByOrder(1).changeAnimationState(x, y);
+		getCharacterByOrder(1).coordVector.push_back(x);
+		getCharacterByOrder(1).coordVector.push_back(y);
+	}
+	getCharacterByOrder(2).follow(getCharacterByOrder(1), movementStepSize);
+	getCharacterByOrder(3).follow(getCharacterByOrder(2), movementStepSize);
+	getCharacterByOrder(4).follow(getCharacterByOrder(3), movementStepSize);
 
-	arson.changeAnimationState(x, y);
-
+	pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
+	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
 	// Move view when character is offset from the center by one sixth of the displayed grid size
 	if (pos.x > view.getCenter().x + tileSize * oneSixthOfVisibleGrid.x)
 	{
@@ -393,8 +419,18 @@ void Window::pollMovement()
 		}
 	}
 
-	// Add back sprite to stack
-	spriteVector.push_back(arson.sprite);
+	getCharacterByOrder(1).checkTimeout();
+	getCharacterByOrder(2).checkTimeout();
+	getCharacterByOrder(3).checkTimeout();
+	getCharacterByOrder(4).checkTimeout();
+	
+	// Add back sprite to stack. Do this in the order of sprite position
+	spriteVector.push_back(getCharacterByOrder(4).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(1).sprite);
+
+	sortSpriteVectorByHeight();
 }
 
 void Window::drawSprites()

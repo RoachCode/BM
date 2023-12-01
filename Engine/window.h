@@ -49,7 +49,11 @@ public:
 		int lineCounter{ 0 }; // ?
 	ParticleSystem particles{ 30000 }; // Just for testing it out.
 	Water water;
-	Character arson;
+	Character arson{ 1 };
+	Character gaia{ 2 };
+	Character cole{ 3 };
+	Character neko{ 4 };
+
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	Font2 font;
@@ -60,6 +64,7 @@ public:
 	// Logic
 	void pollEvents();
 	void refreshMovementBools();
+	Character& getCharacterByOrder(int order);
 	void pollMovement();
 	void startViewMovement(sf::Vector2f offset);
 	void endViewMovement();
@@ -84,6 +89,7 @@ public:
 
 	sf::Vector2i getGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
+	void sortSpriteVectorByHeight();
 private:
 	
 };

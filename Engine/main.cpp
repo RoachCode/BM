@@ -47,9 +47,9 @@ FlowPreset inProgress
 int main()
 {
     Window window;
-	window.DEV_TOOLS.toggleFreeMovement();
+	//window.DEV_TOOLS.toggleFreeMovement();
 	//window.view.zoom(2);
-	window.setVerticalSyncEnabled(true);
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
     while (window.isOpen())
     {
         window.clear(sf::Color(0, 0, 0, 255));
