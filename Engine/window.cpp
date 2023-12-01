@@ -267,7 +267,10 @@ void Window::sortSpriteVectorByHeight()
 }
 sf::Vector2i Window::getGridPosition()
 {
-	return sf::Vector2i(spriteVector.back().getPosition().x / 64, spriteVector.back().getPosition().y / 64);
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / 64, 
+		getCharacterByOrder(1).sprite.getPosition().y / 64
+	);
 }
 void Window::checkUnderlyingTile(int dir)
 {
@@ -479,10 +482,10 @@ void Window::pollMovement()
 	getCharacterByOrder(3).checkTimeout();
 	getCharacterByOrder(4).checkTimeout();
 
-	spriteVector.push_back(getCharacterByOrder(1).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
 	spriteVector.push_back(getCharacterByOrder(4).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(1).sprite);
 
 	sortSpriteVectorByHeight();
 }
