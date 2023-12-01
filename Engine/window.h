@@ -49,10 +49,11 @@ public:
 		int lineCounter{ 0 }; // ?
 	ParticleSystem particles{ 30000 }; // Just for testing it out.
 	Water water;
-	Character arson{ 1 };
-	Character gaia{ 2 };
-	Character cole{ 3 };
-	Character neko{ 4 };
+
+	Character arson{ intify(CharacterID::ArsonID) };
+	Character gaia{ intify(CharacterID::GaiaID) };
+	Character cole{ intify(CharacterID::ColeID) };
+	Character neko{ intify(CharacterID::NekoID) };
 
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
@@ -90,6 +91,7 @@ public:
 	sf::Vector2i getGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
 	void sortSpriteVectorByHeight();
+	void setPositionAndDraw(float x, float y);
 private:
 	
 };

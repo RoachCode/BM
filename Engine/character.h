@@ -6,23 +6,6 @@
 #include "../ImageResources/nekoImages.h"
 #include "constExpressions.h"
 
-enum CharacterID
-{
-    ArsonID,
-    GaiaID,
-    ColeID,
-    NekoID
-};
-enum SpriteColor
-{
-    Default,
-    Inverted,
-    Black,
-    Transparent,
-    Blue,
-    Dark
-};
-
 class Character
 {
 private:

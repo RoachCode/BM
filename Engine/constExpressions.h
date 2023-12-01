@@ -66,3 +66,21 @@ const enum FlowPresetNames
 	DragonFlame,
 	CyanRivers
 };
+
+const enum CharacterID
+{
+	NOBODY,
+	ArsonID,
+	GaiaID,
+	ColeID,
+	NekoID
+};
+const enum SpriteColor
+{
+	Default,
+	Inverted,
+	Black,
+	Transparent,
+	Blue,
+	Dark
+};

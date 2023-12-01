@@ -465,6 +465,56 @@ void Window::drawParticles(sf::Color color)
 
 }
 
+void Window::setPositionAndDraw(float x, float y)
+{
+	sf::Vector2f noiseOrigin = pairF(x, y);
+
+	// Row 1
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y));
+	this->draw(noise);
+
+	// Row 2
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
+
+	// Row 3
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
+
+	// Row 4
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+}
 void Window::m_groupDraw(sf::Vector2f direction)
 {
 	noise.move(direction);
@@ -481,16 +531,7 @@ void Window::m_groupDraw(sf::Vector2f direction)
 		noiseOrigin = noise.getPosition();
 	}
 	this->draw(noise);
-
-	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * windowScale, noiseOrigin.y));
-	this->draw(noise);
-
-	noise.setPosition(sf::Vector2f(noiseOrigin.x, noise.getPosition().y + noise.getSize().y * windowScale));
-	this->draw(noise);
-
-	noise.setPosition(sf::Vector2f(noise.getPosition().x + noise.getSize().x * windowScale, noiseOrigin.y + noise.getSize().y * windowScale));
-	this->draw(noise);
-
+	setPositionAndDraw(noiseOrigin.x, noiseOrigin.y);
 	noise.setPosition(noiseOrigin);
 }
 void Window::m_groupDraw(int dirX, int dirY)
@@ -549,6 +590,7 @@ void Window::drawFlow()
 	this->draw(flow.flowWindow);
 }
 
+// Is automatic, prints on tiles 89 and 90.
 void Window::drawWaterTile()
 {
 	water.update(water.clock.getElapsedTime());
