@@ -93,6 +93,5 @@ public:
 	void sortSpriteVectorByHeight();
 	void setPositionAndDraw(float x, float y);
 	void checkUnderlyingTile(int dir);
-private:
-	
+
 };

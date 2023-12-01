@@ -38,6 +38,7 @@ Window::Window()
 
 }
 
+// Polls all events
 void Window::pollEvents()
 {
 	sf::Event event;
@@ -150,70 +151,7 @@ void Window::pollEvents()
 
 }
 
-void Window::drawText(std::string string, sf::Vector2f startPosition)
-{
-	font.setStartPos(startPosition);
-	font.setPos(font.getStartPos());
-	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) * windowScale };
-	// bounds on the right. so far only right side.
-	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * windowScale)
-	{
-		// - 1 is so the shadow offset is also kept in bounds
-		font.setStartPos(sf::Vector2f(size.x - pixelWidth - 1, startPosition.y));
-		font.setPos(font.getStartPos());
-	}
-
-	// Runs twice to set a shadow effect
-	for (int i = 0; i <= 1; i++)
-	{
-		// Creates shadow effect through duplication
-		if (i == 0)
-		{
-			font.setColor(sf::Color(0, 0, 0), true);
-			font.setPos(sf::Vector2f(font.getPos().x + 1, font.getPos().y + 1));
-		}
-		else
-		{
-			// why in the fuck can I only set my text color here?
-			//font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue, 255));
-			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue), true);
-			font.setPos(sf::Vector2f(font.getPos().x - 1, font.getPos().y - 1));
-		}
-
-		// prints characters.
-		for (int j = 0; j < string.length(); j++)
-		{
-			const char letter = string[j];
-			if (font.attachCharImageSubRectToSprite(letter))
-			{
-				if (j != 0)
-				{
-					font.move(sf::Vector2f(font.moveR.x * windowScale, font.moveR.y * windowScale));
-				}
-				font.charSprite.setScale(sf::Vector2f(windowScale, windowScale));
-				this->draw(font.charSprite);
-			}
-			else
-			{
-				std::cout << "couldn't attach char image";
-			}
-		}
-		font.setPos(font.getStartPos());
-	}
-}
-
-void Window::drawTileMapsBack()
-{
-	imageHandler.tilemapWindowBack.setScale(sf::Vector2f(windowScale, windowScale));
-	this->draw(imageHandler.tilemapWindowBack);
-}
-
-void Window::drawTileMapsFront()
-{
-	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(windowScale, windowScale));
-	this->draw(imageHandler.tilemapWindowFront);
-}
-
+// View Functions
 void Window::startViewMovement(sf::Vector2f offset)
 {
 	if (DEV_TOOLS.queryFreeMovement())
@@ -222,115 +160,39 @@ void Window::startViewMovement(sf::Vector2f offset)
 		movementOffset = offset;
 	}
 }
-
 void Window::endViewMovement()
 {
 	movementAllowed = false;
 	movementOffset = sf::Vector2f(0.f, 0.f);
 }
-
-void Window::refreshMovementBools()
-{
-	lastKeyUp = false;
-	lastKeyDown = false;
-	lastKeyLeft = false;
-	lastKeyRight = false;
-}
-void Window::changeFalseLastKeyState(bool& lastKeyInput)
-{
-	if (!lastKeyInput)
-	{
-		refreshMovementBools();
-		lastKeyInput = true;
-	}
-}
 sf::Vector2i Window::getTopLeftViewCoordinates()
 {
 	return sf::Vector2i(view.getCenter().x - (size.x / windowScale), view.getCenter().y - (size.y / windowScale));
 }
-Character& Window::getCharacterByOrder(int order)
-{
-	if (arson.order == order) { return arson; }
-	else if (gaia.order == order) { return gaia; }
-	else if (cole.order == order) { return cole; }
-	else if (neko.order == order) { return neko; }
-}
-void Window::sortSpriteVectorByHeight()
-{
-	std::sort(
-		spriteVector.begin(),
-		spriteVector.end(),
-		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
-		{
-			return sprite.getPosition().y < sprite2.getPosition().y;
-		});
-}
-sf::Vector2i Window::getGridPosition()
-{
-	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / 64, 
-		getCharacterByOrder(1).sprite.getPosition().y / 64
-	);
-}
-void Window::checkUnderlyingTile(int dir)
-{
-	// For each character...
-	for (int i = 1; i <= 4; i++)
-	{
-		// Get Grid Position for each character
-		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / 64) };
-		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / 64) };
 
-		// If character is not in the lead, check lead coordinates and adjust direction
-		if (i > 1)
-		{
-			if (getCharacterByOrder(i - 1).coordVector[1] == -1)
-			{
-				dir = UP;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[1] == 1)
-			{
-				dir = DOWN;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[0] == -1)
-			{
-				dir = LEFT;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[0] == 1)
-			{
-				dir = RIGHT;
-			}
-		}
-		// If the tile in the direction of travel will be under the character...
-		switch (dir)
-		{
-		case UP:
-			if (water.westKagarWater[(24 * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
-			break;
-		case DOWN:
-			if (water.westKagarWater[(24 * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
-			break;
-		case LEFT:
-			if (water.westKagarWater[(24 * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
-			break;
-		case RIGHT:
-			if (water.westKagarWater[(24 * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
-			break;
-		default:
-			break;
-		}
-	}
+// Tilemap Functions
+void Window::drawTileMapsBack()
+{
+	imageHandler.tilemapWindowBack.setScale(sf::Vector2f(windowScale, windowScale));
+	this->draw(imageHandler.tilemapWindowBack);
 }
+void Window::drawTileMapsFront()
+{
+	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(windowScale, windowScale));
+	this->draw(imageHandler.tilemapWindowFront);
+}
+
+// Sprite Functions
 void Window::pollMovement()
 {
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
 
-	sf::Vector2i pos{ pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)) };
+	sf::Vector2i pos{ 
+		pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), 
+			  intify(getCharacterByOrder(1).sprite.getPosition().y)) 
+	};
+
 	int x{ 0 };
 	int y{ 0 };
 
@@ -489,7 +351,99 @@ void Window::pollMovement()
 
 	sortSpriteVectorByHeight();
 }
+Character& Window::getCharacterByOrder(int order)
+{
+	if (arson.order == order) { return arson; }
+	else if (gaia.order == order) { return gaia; }
+	else if (cole.order == order) { return cole; }
+	else if (neko.order == order) { return neko; }
+}
+void Window::refreshMovementBools()
+{
+	lastKeyUp = false;
+	lastKeyDown = false;
+	lastKeyLeft = false;
+	lastKeyRight = false;
+}
+void Window::changeFalseLastKeyState(bool& lastKeyInput)
+{
+	if (!lastKeyInput)
+	{
+		refreshMovementBools();
+		lastKeyInput = true;
+	}
+}
+sf::Vector2i Window::getGridPosition()
+{
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / 64, 
+		getCharacterByOrder(1).sprite.getPosition().y / 64
+	);
+}
+void Window::checkUnderlyingTile(int dir)
+{
+	// For each character...
+	for (int i = 1; i <= 4; i++)
+	{
+		// Get Grid Position for each character
+		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / 64) };
+		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / 64) };
 
+		// If character is not in the lead, check lead coordinates and adjust direction
+		if (i > 1)
+		{
+			if (getCharacterByOrder(i - 1).coordVector[1] == -1)
+			{
+				dir = UP;
+			}
+			else if (getCharacterByOrder(i - 1).coordVector[1] == 1)
+			{
+				dir = DOWN;
+			}
+			else if (getCharacterByOrder(i - 1).coordVector[0] == -1)
+			{
+				dir = LEFT;
+			}
+			else if (getCharacterByOrder(i - 1).coordVector[0] == 1)
+			{
+				dir = RIGHT;
+			}
+		}
+
+		// If the tile in the direction of travel will be under the character...
+		switch (dir)
+		{
+		case UP:
+			if (water.westKagarWater[(24 * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case DOWN:
+			if (water.westKagarWater[(24 * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case LEFT:
+			if (water.westKagarWater[(24 * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case RIGHT:
+			if (water.westKagarWater[(24 * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		default:
+			break;
+		}
+	}
+}
+void Window::sortSpriteVectorByHeight()
+{
+	std::sort(
+		spriteVector.begin(),
+		spriteVector.end(),
+		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		{
+			return sprite.getPosition().y < sprite2.getPosition().y;
+		});
+}
 void Window::drawSprites()
 {
 	for (auto i : spriteVector)
@@ -499,6 +453,7 @@ void Window::drawSprites()
 	}
 }
 
+// Particle Functions
 void Window::drawParticles()
 {
 	sf::Vector2i mouse = sf::Mouse::getPosition(*this);
@@ -511,15 +466,10 @@ void Window::drawParticles()
 void Window::drawParticles(sf::Color color)
 {
 	particles.setColor(color);
-	//sf::Vector2i mouse = sf::Mouse::getPosition(*this);
-	//particles.setEmitter(this->mapPixelToCoords(mouse));
-	//sf::Time elapsed = particles.clock.restart();
-	//particles.update(elapsed);
-	//draw(particles);
 	drawParticles();
-
 }
 
+// Noise Functions
 void Window::setPositionAndDraw(float x, float y)
 {
 	sf::Vector2f noiseOrigin = pairF(x, y);
@@ -615,6 +565,7 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 	}
 }
 
+// Flow Functions
 bool justOnce{ true };
 void Window::drawFlow(FlowPreset& fp)
 {
@@ -645,9 +596,10 @@ void Window::drawFlow()
 	this->draw(flow.flowWindow);
 }
 
-// Is automatic, prints on tiles 89 and 90.
+// Water Functions
 void Window::drawWaterTile()
 {
+	// Is automatic, prints on tiles 89 and 90.
 	water.update(water.clock.getElapsedTime());
 
 	if (!water.westKagarWater.size())
@@ -680,4 +632,57 @@ void Window::drawWaterTile()
 	 
 	//reset
 	water.noise.setPosition(0, 0);
+}
+
+// Text Functions
+void Window::drawText(std::string string, sf::Vector2f startPosition)
+{
+	font.setStartPos(startPosition);
+	font.setPos(font.getStartPos());
+	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) * windowScale };
+	// bounds on the right. so far only right side.
+	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * windowScale)
+	{
+		// - 1 is so the shadow offset is also kept in bounds
+		font.setStartPos(sf::Vector2f(size.x - pixelWidth - 1, startPosition.y));
+		font.setPos(font.getStartPos());
+	}
+
+	// Runs twice to set a shadow effect
+	for (int i = 0; i <= 1; i++)
+	{
+		// Creates shadow effect through duplication
+		if (i == 0)
+		{
+			font.setColor(sf::Color(0, 0, 0), true);
+			font.setPos(sf::Vector2f(font.getPos().x + 1, font.getPos().y + 1));
+		}
+		else
+		{
+			// why in the fuck can I only set my text color here?
+			//font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue, 255));
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue), true);
+			font.setPos(sf::Vector2f(font.getPos().x - 1, font.getPos().y - 1));
+		}
+
+		// prints characters.
+		for (int j = 0; j < string.length(); j++)
+		{
+			const char letter = string[j];
+			if (font.attachCharImageSubRectToSprite(letter))
+			{
+				if (j != 0)
+				{
+					font.move(sf::Vector2f(font.moveR.x * windowScale, font.moveR.y * windowScale));
+				}
+				font.charSprite.setScale(sf::Vector2f(windowScale, windowScale));
+				this->draw(font.charSprite);
+			}
+			else
+			{
+				std::cout << "couldn't attach char image";
+			}
+		}
+		font.setPos(font.getStartPos());
+	}
 }
