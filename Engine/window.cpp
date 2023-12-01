@@ -438,6 +438,7 @@ void Window::drawSprites()
 	//sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
 	for (auto i : spriteVector)
 	{
+		i.setPosition(pairF(i.getPosition().x, i.getPosition().y - (10 * windowScale)));
 		this->draw(i);
 	}
 	//sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
