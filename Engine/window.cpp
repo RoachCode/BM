@@ -265,6 +265,64 @@ void Window::sortSpriteVectorByHeight()
 			return sprite.getPosition().y < sprite2.getPosition().y;
 		});
 }
+sf::Vector2i Window::getGridPosition()
+{
+	return sf::Vector2i(spriteVector.back().getPosition().x / 64, spriteVector.back().getPosition().y / 64);
+}
+void Window::checkUnderlyingTile(int dir)
+{
+	// For each character...
+	for (int i = 1; i <= 4; i++)
+	{
+		// Get Grid Position for each character
+		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / 64) };
+		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / 64) };
+
+		// If character is not in the lead, check lead coordinates and adjust direction
+		if (i > 1)
+		{
+			if (getCharacterByOrder(i - 1).coordVector[1] == -1)
+			{
+				dir = UP;
+			}
+			else if (getCharacterByOrder(i - 1).coordVector[1] == 1)
+			{
+				dir = DOWN;
+			}
+
+			if (getCharacterByOrder(i - 1).coordVector[0] == -1)
+			{
+				dir = LEFT;
+			}
+			else if (getCharacterByOrder(i - 1).coordVector[0] == 1)
+			{
+				dir = RIGHT;
+			}
+		}
+		// If the tile in the direction of travel will be under the character...
+		switch (dir)
+		{
+		case UP:
+			if (water.westKagarWater[(24 * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case DOWN:
+			if (water.westKagarWater[(24 * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case LEFT:
+			if (water.westKagarWater[(24 * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		case RIGHT:
+			if (water.westKagarWater[(24 * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			break;
+		default:
+			break;
+		}
+	}
+}
 void Window::pollMovement()
 {
 	sf::Vector2i pos{ pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)) };
@@ -280,8 +338,10 @@ void Window::pollMovement()
 	{
 		if (up && pos.y > 0)
 		{
+
 			if (imageHandler.checkBounds(UP, pos / tileSize))
 			{
+				checkUnderlyingTile(UP);
 				getCharacterByOrder(1).sprite.move(0, -movementStepSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
@@ -296,8 +356,11 @@ void Window::pollMovement()
 		}
 		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)	
 		{
+
 			if (imageHandler.checkBounds(DOWN, pos / tileSize))
 			{
+				checkUnderlyingTile(DOWN);
+
 				getCharacterByOrder(1).sprite.move(0, movementStepSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
@@ -312,8 +375,11 @@ void Window::pollMovement()
 		}
 		else if (left && pos.x > 0)
 		{
+			
 			if (imageHandler.checkBounds(LEFT, pos / tileSize))
 			{
+				checkUnderlyingTile(LEFT);
+
 				getCharacterByOrder(1).sprite.move(-movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
@@ -330,6 +396,8 @@ void Window::pollMovement()
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / tileSize))
 			{
+				checkUnderlyingTile(RIGHT);
+
 				getCharacterByOrder(1).sprite.move(movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
@@ -423,7 +491,7 @@ void Window::pollMovement()
 	getCharacterByOrder(2).checkTimeout();
 	getCharacterByOrder(3).checkTimeout();
 	getCharacterByOrder(4).checkTimeout();
-	
+
 	// Add back sprite to stack. Do this in the order of sprite position
 	spriteVector.push_back(getCharacterByOrder(4).sprite);
 	spriteVector.push_back(getCharacterByOrder(3).sprite);
@@ -435,14 +503,14 @@ void Window::pollMovement()
 
 void Window::drawSprites()
 {
-	//sprite.spriteVector[0].move(0, (-8 * windowScale)); // Move characters up
+	//water.westKagarWater[i + j * (24 * 4)
+
+	
 	for (auto i : spriteVector)
 	{
 		i.setPosition(pairF(i.getPosition().x, i.getPosition().y - (10 * windowScale)));
 		this->draw(i);
 	}
-	//sprite.spriteVector[0].move(0, (8 * windowScale)); // Move characters down
-
 }
 
 void Window::drawParticles()

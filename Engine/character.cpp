@@ -581,10 +581,11 @@ void Character::follow(Character& otherCharacter, int movementStepSize)
 {
     int x{ otherCharacter.coordVector.front() };
     int y{ otherCharacter.coordVector[1] };
-    if (otherCharacter.coordVector.size() == 16)
+    if (otherCharacter.coordVector.size() > 16)
     {
+
         sprite.move(x * movementStepSize, y * movementStepSize);
-        
+
         otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());
         otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());
 

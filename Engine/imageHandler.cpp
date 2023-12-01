@@ -145,7 +145,7 @@ void ImageHandler::loadWestKagar()
 
         tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
 
-        if (i < 4)
+        if (i < 6)
         {
             tilemapRenderBack.draw(*tilemapVector[i]);
         }

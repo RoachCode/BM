@@ -18,6 +18,14 @@ constexpr sf::Vector2i pairI(T const& value1, T const& value2) { return sf::Vect
 template <typename T>
 constexpr sf::Vector2u pairU(T const& value1, T const& value2) { return sf::Vector2u(static_cast<unsigned int>(value1), static_cast<unsigned int>(value2)); }
 
+/*
+template<class... Args>
+constexpr auto concatenate(const Args&... args)
+{
+	return (args + ... + 0);
+}
+*/
+
 // Constants
 // PI
 constexpr double PI{ 3.14159265358979323846264338 };

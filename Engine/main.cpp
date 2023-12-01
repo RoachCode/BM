@@ -65,7 +65,10 @@ int main()
         window.drawWaterTile();
 
         window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
-        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(10000, 50)); // 1100 - 1200 fps
+        window.drawText(window.DEV_TOOLS.getFPS(), sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, window.getTopLeftViewCoordinates().y + 50)); // 1100 - 1200 fps
+
+		
+		window.drawText("X" + std::to_string(intify(window.getGridPosition().x)) + " Y" + std::to_string(intify(window.getGridPosition().y)), sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 111, window.getTopLeftViewCoordinates().y + 8));
 
         window.display();
     }
