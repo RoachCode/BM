@@ -13,9 +13,10 @@ Character::Character(int id) : m_id(id)
     coordVector.push_back(0);
 }
 
+// Public
 void Character::textureUpdate(bool &inputBool)
 {
-    clearBools();
+    m_clearBools();
     inputBool = true;
     spriteTexture.create(spriteW, spriteH);
     sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
@@ -117,44 +118,6 @@ void Character::textureUpdate(bool &inputBool)
     delete[] pixels;
     currentTexture.clear();
     //movementClock.restart();
-}
-
-void Character::clearBools()
-{
-    downABool = false;
-    downBBool = false;
-    downCBool = false;
-    upABool = false;
-    upBBool = false;
-    upCBool = false;
-    leftABool = false;
-    leftBBool = false;
-    leftCBool = false;
-    rightABool = false;
-    rightBBool = false;
-    rightCBool = false;
-    frontBool = false;
-    backBool = false;
-    idleRBool = false;
-    idleLBool = false;
-    shrug1RBool = false;
-    shrug1LBool = false;
-    shrug2RBool = false;
-    shrug2LBool = false;
-    shrug2mouthRBool = false;
-    shrug2mouthLBool = false;
-    crawlRBool = false;
-    crawlLBool = false;
-    pointRBool = false;
-    pointLBool = false;
-    handsUpRBool = false;
-    handsUpLBool = false;
-    pushRBool = false;
-    pushLBool = false;
-    deadRBool = false;
-    deadLBool = false;
-    hitRBool = false;
-    hitLBool = false;
 }
 
 void Character::pickArray()
@@ -568,7 +531,7 @@ void Character::follow(Character& otherCharacter, int movementStepSize)
 
 void Character::checkTimeout()
 {
-    int timeDelta{ 2000 };
+    int timeDelta{ 1250 };
     sf::Time animateMovement = movementClock.getElapsedTime();
     int time{ animateMovement.asMilliseconds() };
     if (time >= timeDelta)
@@ -598,4 +561,43 @@ void Character::checkTimeout()
         //textureUpdate();
         
     }
+}
+
+// Private
+void Character::m_clearBools()
+{
+    downABool = false;
+    downBBool = false;
+    downCBool = false;
+    upABool = false;
+    upBBool = false;
+    upCBool = false;
+    leftABool = false;
+    leftBBool = false;
+    leftCBool = false;
+    rightABool = false;
+    rightBBool = false;
+    rightCBool = false;
+    frontBool = false;
+    backBool = false;
+    idleRBool = false;
+    idleLBool = false;
+    shrug1RBool = false;
+    shrug1LBool = false;
+    shrug2RBool = false;
+    shrug2LBool = false;
+    shrug2mouthRBool = false;
+    shrug2mouthLBool = false;
+    crawlRBool = false;
+    crawlLBool = false;
+    pointRBool = false;
+    pointLBool = false;
+    handsUpRBool = false;
+    handsUpLBool = false;
+    pushRBool = false;
+    pushLBool = false;
+    deadRBool = false;
+    deadLBool = false;
+    hitRBool = false;
+    hitLBool = false;
 }

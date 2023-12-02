@@ -10,6 +10,7 @@ class Character
 {
 private:
     int m_id;
+    void m_clearBools();
 public:
     sf::Sprite sprite;
     sf::Texture spriteTexture;
@@ -23,7 +24,6 @@ public:
 
     Character(int id);
     void textureUpdate(bool& inputBool);
-    void clearBools();
     void pickArray();
     void changeAnimationState(int x, int y);
     void swapOrder(Character& otherCharacter);
