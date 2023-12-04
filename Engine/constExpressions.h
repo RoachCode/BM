@@ -10,6 +10,9 @@ template <typename T>
 constexpr int intify(T const& value) { return static_cast<int>(value); }
 
 template <typename T>
+constexpr int charify(T const& value) { return static_cast<char>(value); }
+
+template <typename T>
 constexpr sf::Vector2f pairF(T const& value1, T const& value2) { return sf::Vector2f(static_cast<float>(value1), static_cast<float>(value2)); }
 
 template <typename T>

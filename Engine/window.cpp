@@ -673,10 +673,13 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 			{
 				if (j != 0)
 				{
-					font.move(sf::Vector2f(font.moveR.x * windowScale, font.moveR.y * windowScale));
+					font.move(sf::Vector2f((font.addon.x + font.moveR.x) * windowScale, (font.addon.y + font.moveR.y) * windowScale));
 				}
-				font.charSprite.setScale(sf::Vector2f(windowScale, windowScale));
+				font.charSprite.setScale(sf::Vector2f(windowScale, windowScale)); //?
 				this->draw(font.charSprite);
+				if (font.addon.y > 0) { font.move(sf::Vector2f(0, -font.addon.y * windowScale)); font.addon.y = 0; }
+				if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * windowScale, 0)); font.addon.x = 0; }
+				if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-windowScale, 0)); }
 			}
 			else
 			{

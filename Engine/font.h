@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "constExpressions.h"
 
 extern class Font2
 {
@@ -10,6 +11,9 @@ public:
 	sf::Uint8 textGreen{ 255 };
 	sf::Uint8 textBlue{ 255 };
 	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
+
+	// AthroughTildeData
+#pragma region
 	std::vector<bool> AthroughTildeData
 	{
 		// A
@@ -575,7 +579,7 @@ public:
 		// t
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 1, 1, 0,
+		1, 1, 1, 1, 1, 1,
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
@@ -700,8 +704,13 @@ public:
 		0, 1, 0, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0
 
+
+	};
+	#pragma endregion
+	std::vector<bool> specialChars
+	{
 		// ^ SWORD
 		1, 0, 1, 1, 0, 0, 0, 0,
 		0, 1, 1, 0, 0, 0, 0, 0,
@@ -760,8 +769,11 @@ public:
 		0, 1, 1, 0, 0, 1, 0, 0,
 		0, 0, 1, 1, 0, 0, 1, 0,
 		0, 0, 0, 1, 1, 0, 0, 1,
-		0, 0, 0, 0, 1, 1, 1, 1,
+		0, 0, 0, 0, 1, 1, 1, 1
 
+	};
+	std::vector<bool> punctuationChars
+	{
 		// :
 		0, 0,
 		0, 0,
@@ -790,14 +802,19 @@ public:
 		1, 1,
 		1, 1,
 		0, 1,
-		1, 0,
-
+		1, 0
 	};
 	sf::Image fontImage;
+	sf::Image fontSpecialImage;
+	sf::Image fontPunctuationImage;
 	sf::Texture fontTexture;
+	sf::Texture fontSpecialTexture;
+	sf::Texture fontPunctuationTexture;
+
 	sf::Sprite charSprite;
 	// Sets character kerning
 	sf::Vector2f moveR{ sf::Vector2f(7.f, 0.f) };
+	sf::Vector2i addon{ sf::Vector2i(0, 0) };
 	Font2();
 	void createFontImageAndTexture();
 	void setColor(sf::Color colorIn, bool ignoreReassignment = false);

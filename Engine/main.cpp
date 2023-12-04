@@ -68,13 +68,15 @@ int main()
 			sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, 
 			window.getTopLeftViewCoordinates().y + 50)
 		); // 1100 - 1200 fps
+		/*
 		window.drawText(
 			"X" + std::to_string(intify(window.getGridPosition().x)) + 
 			" Y" + std::to_string(intify(window.getGridPosition().y)), 
 			sf::Vector2f(window.getTopLeftViewCoordinates().x + 
 			window.getSize().x - 111, window.getTopLeftViewCoordinates().y + 8)
 		);
-
+		*/
+		window.drawText("Scintillating quibbles, indeed.", sf::Vector2f(100, window.view.getCenter().y));
         window.display();
     }
     return 0;
