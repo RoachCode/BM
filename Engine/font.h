@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
 
-extern class Font2
+class Font2
 {
 private:
 
@@ -826,7 +826,7 @@ public:
 	void move(sf::Vector2f offset);
 	int getRectOffset(char input);
 	const sf::Color alphaKey{ sf::Color(69,69,69) };
-	void resetImage(sf::Color colorIn2);
+	void resetImage(sf::Image& image, sf::Texture& texture, sf::Color colorIn2);
 
 	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;)
 };

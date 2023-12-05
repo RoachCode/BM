@@ -62,7 +62,7 @@ int main()
         //window.drawFlow(cyanRivers);
         window.drawTileMapsFront(); // 620
         window.drawWaterTile();
-        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
+        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
         window.drawText(
 			window.DEV_TOOLS.getFPS(), 
 			sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, 
@@ -76,7 +76,7 @@ int main()
 			window.getSize().x - 111, window.getTopLeftViewCoordinates().y + 8)
 		);
 		*/
-		window.drawText("Scintillating quibbles, indeed.", sf::Vector2f(100, window.view.getCenter().y));
+		window.drawText("^ | < { _ balogna smelly funk smellery easy bunk knob abaloni ", sf::Vector2f(100, window.view.getCenter().y), 2);
         window.display();
     }
     return 0;

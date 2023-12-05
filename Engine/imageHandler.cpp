@@ -24,7 +24,7 @@ ImageHandler::ImageHandler()
     tilemapVector.push_back(&tileMapI);
     tilemapVector.push_back(&tileMapJ);
 
-    sceneSize = sf::Vector2u(32 * 24 * 3, 32 * 14 * 3);
+    sceneSize = sf::Vector2u(32 * TILES_PER_CHUNK_X * 3, 32 * TILES_PER_CHUNK_Y * 3);
 
     tilemapRenderBack.create(sceneSize.x, sceneSize.y);
     tilemapRenderBack.clear(sf::Color::Black);
@@ -168,16 +168,16 @@ bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
     switch (direction)
     {
     case UP:
-        (tileMapA.masterTile[(gridPosition.y - 1) * (4 * 24) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
+        (tileMapA.masterTile[(gridPosition.y - 1) * (4 * TILES_PER_CHUNK_X) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
         break;
     case DOWN:
-        (tileMapA.masterTile[(gridPosition.y + 1) * (4 * 24) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
+        (tileMapA.masterTile[(gridPosition.y + 1) * (4 * TILES_PER_CHUNK_X) + gridPosition.x]) == 0 ? allowed = true : allowed = false;
         break;
     case LEFT:
-        (tileMapA.masterTile[gridPosition.y * (4 * 24) + gridPosition.x - 1]) == 0 ? allowed = true : allowed = false;
+        (tileMapA.masterTile[gridPosition.y * (4 * TILES_PER_CHUNK_X) + gridPosition.x - 1]) == 0 ? allowed = true : allowed = false;
         break;
     case RIGHT:
-        (tileMapA.masterTile[gridPosition.y * (4 * 24) + gridPosition.x + 1]) == 0 ? allowed = true : allowed = false;
+        (tileMapA.masterTile[gridPosition.y * (4 * TILES_PER_CHUNK_X) + gridPosition.x + 1]) == 0 ? allowed = true : allowed = false;
         break;
     default:
         break;

@@ -214,7 +214,7 @@ void Window::pollMovement()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
-		else if (down && pos.y < imageHandler.sceneSize.y * windowScale - tileSize)	
+		else if (down && pos.y < intify(imageHandler.sceneSize.y) * windowScale - tileSize)	
 		{
 			if (imageHandler.checkBounds(DOWN, pos / tileSize))
 			{
@@ -246,7 +246,7 @@ void Window::pollMovement()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
-		else if (right && pos.x < imageHandler.sceneSize.x * windowScale - tileSize)
+		else if (right && pos.x < intify(imageHandler.sceneSize.x) * windowScale - tileSize)
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / tileSize))
 			{
@@ -414,19 +414,19 @@ void Window::checkUnderlyingTile(int dir)
 		switch (dir)
 		{
 		case UP:
-			if (water.westKagarWater[(24 * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
 			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
 			break;
 		case DOWN:
-			if (water.westKagarWater[(24 * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
 			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
 			break;
 		case LEFT:
-			if (water.westKagarWater[(24 * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
 			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
 			break;
 		case RIGHT:
-			if (water.westKagarWater[(24 * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
 			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
 			break;
 		default:
@@ -446,10 +446,10 @@ void Window::sortSpriteVectorByHeight()
 }
 void Window::drawSprites()
 {
-	for (auto i : spriteVector)
+	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		i.setPosition(pairF(i.getPosition().x, i.getPosition().y - (8 * windowScale)));
-		this->draw(i);
+		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * windowScale)));
+		this->draw(spriteVector[i]);
 	}
 }
 
@@ -604,7 +604,7 @@ void Window::drawWaterTile()
 
 	if (!water.westKagarWater.size())
 	{
-		for (int i = 0; i < imageHandler.tileMapE.masterTile.size(); i++)
+		for (size_t i = 0; i < imageHandler.tileMapE.masterTile.size(); i++)
 		{
 			if (imageHandler.tileMapE.masterTile[i] == 89 || imageHandler.tileMapE.masterTile[i] == 90)
 			{
@@ -617,11 +617,11 @@ void Window::drawWaterTile()
 		}
 	}
 
-	for (int i = 0; i < 24 * 4; i++)
+	for (int i = 0; i < TILES_PER_CHUNK_X * 4; i++)
 	{
-		for (int j = 0; j < 14 * 4; j++)
+		for (int j = 0; j < TILES_PER_CHUNK_Y * 4; j++)
 		{
-			if (water.westKagarWater[i + j * (24 * 4)])
+			if (water.westKagarWater[i + j * (TILES_PER_CHUNK_X * 4)])
 			{
 				water.noise.setScale(windowScale, windowScale);
 				water.noise.setPosition(water.width * windowScale * i, water.height * windowScale * j);
@@ -635,13 +635,14 @@ void Window::drawWaterTile()
 }
 
 // Text Functions
-void Window::drawText(std::string string, sf::Vector2f startPosition)
+void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
+	const int fontScale{ scale * windowScale };
 	font.setStartPos(startPosition);
 	font.setPos(font.getStartPos());
-	int pixelWidth{ static_cast<int>(font.moveR.x) * static_cast<int>(string.length()) * windowScale };
+	int pixelWidth{ static_cast<int>(font.moveR.x * scale) * static_cast<int>(string.length()) * fontScale };
 	// bounds on the right. so far only right side.
-	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * windowScale)
+	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * fontScale)
 	{
 		// - 1 is so the shadow offset is also kept in bounds
 		font.setStartPos(sf::Vector2f(size.x - pixelWidth - 1, startPosition.y));
@@ -659,27 +660,26 @@ void Window::drawText(std::string string, sf::Vector2f startPosition)
 		}
 		else
 		{
-			// why in the fuck can I only set my text color here?
 			//font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue, 255));
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue), true);
 			font.setPos(sf::Vector2f(font.getPos().x - 1, font.getPos().y - 1));
 		}
 
 		// prints characters.
-		for (int j = 0; j < string.length(); j++)
+		for (size_t j = 0; j < string.length(); j++)
 		{
 			const char letter = string[j];
 			if (font.attachCharImageSubRectToSprite(letter))
 			{
 				if (j != 0)
 				{
-					font.move(sf::Vector2f((font.addon.x + font.moveR.x) * windowScale, (font.addon.y + font.moveR.y) * windowScale));
+					font.move(sf::Vector2f((font.addon.x + font.moveR.x) * fontScale, (font.addon.y + font.moveR.y) * fontScale));
 				}
-				font.charSprite.setScale(sf::Vector2f(windowScale, windowScale)); //?
+				font.charSprite.setScale(sf::Vector2f(fontScale, fontScale));
 				this->draw(font.charSprite);
-				if (font.addon.y > 0) { font.move(sf::Vector2f(0, -font.addon.y * windowScale)); font.addon.y = 0; }
-				if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * windowScale, 0)); font.addon.x = 0; }
-				if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-windowScale, 0)); }
+				if (font.addon.y > 0) { font.move(sf::Vector2f(0.f, -1.f * floatify(font.addon.y * fontScale))); font.addon.y = 0; }
+				if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * fontScale, 0)); font.addon.x = 0; }
+				if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-fontScale, 0)); }
 			}
 			else
 			{

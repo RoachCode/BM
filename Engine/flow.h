@@ -4,7 +4,7 @@
 #include <deque>
 #include "noise.h"
 
-extern class FlowPreset
+class FlowPreset
 {
 public:
 	// Constructor
@@ -30,7 +30,7 @@ public:
 	int yCount;
 };
 
-extern class Flow : public Noise
+class Flow : public Noise
 {
 public:
 	// Constructor

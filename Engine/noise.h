@@ -1,8 +1,10 @@
 #pragma once
+#pragma warning( disable : 4244 ) // Line 111. I want to perform a narrowing conversion.
 #include "OpenSimplexNoise.h"
 #include "constExpressions.h"
 
-extern class Noise
+
+class Noise
 {
 public:
 	Noise()
@@ -119,7 +121,7 @@ public:
 	{
 		int lowest{ 0 };
 		int highest{ 0 };
-		for (int i = 0; i < m_tempContainer.size(); i++)
+		for (size_t i = 0; i < m_tempContainer.size(); i++)
 		{
 
 			if (m_tempContainer[i] < lowest) { lowest = m_tempContainer[i]; }
@@ -127,7 +129,7 @@ public:
 		}
 		//std::cout << "lowest: " << lowest << "     Highest: " << highest << '\n';
 		m_simplexData.clear();
-		for (int i = 0; i < m_tempContainer.size(); i++)
+		for (size_t i = 0; i < m_tempContainer.size(); i++)
 		{
 			this->m_tempContainer[i] += abs(lowest);
 			if (m_tempContainer[i] > 255) { m_tempContainer[i] = 255; }

@@ -72,80 +72,80 @@ void TileMap::createMasterTile(
     masterTile.clear();
 
     // 4 x 4 tilesets...
-    for (int y = 0; y < 14; y++)
+    for (int y = 0; y < TILES_PER_CHUNK_Y; y++)
     {
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a00[x + y * 24]);
+            masterTile.push_back(a00[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a10[x + y * 24]);
+            masterTile.push_back(a10[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a20[x + y * 24]);
+            masterTile.push_back(a20[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a30[x + y * 24]);
+            masterTile.push_back(a30[x + y * TILES_PER_CHUNK_X]);
         }
     }
-    for (int y = 0; y < 14; y++)
+    for (int y = 0; y < TILES_PER_CHUNK_Y; y++)
     {
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a01[x + y * 24]);
+            masterTile.push_back(a01[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a11[x + y * 24]);
+            masterTile.push_back(a11[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a21[x + y * 24]);
+            masterTile.push_back(a21[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a31[x + y * 24]);
+            masterTile.push_back(a31[x + y * TILES_PER_CHUNK_X]);
         }
     }
-    for (int y = 0; y < 14; y++)
+    for (int y = 0; y < TILES_PER_CHUNK_Y; y++)
     {
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a02[x + y * 24]);
+            masterTile.push_back(a02[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a12[x + y * 24]);
+            masterTile.push_back(a12[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a22[x + y * 24]);
+            masterTile.push_back(a22[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a32[x + y * 24]);
+            masterTile.push_back(a32[x + y * TILES_PER_CHUNK_X]);
         }
     }
-    for (int y = 0; y < 14; y++)
+    for (int y = 0; y < TILES_PER_CHUNK_Y; y++)
     {
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a03[x + y * 24]);
+            masterTile.push_back(a03[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a13[x + y * 24]);
+            masterTile.push_back(a13[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a23[x + y * 24]);
+            masterTile.push_back(a23[x + y * TILES_PER_CHUNK_X]);
         }
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < TILES_PER_CHUNK_X; x++)
         {
-            masterTile.push_back(a33[x + y * 24]);
+            masterTile.push_back(a33[x + y * TILES_PER_CHUNK_X]);
         }
     }
 }

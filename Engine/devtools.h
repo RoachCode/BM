@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-extern class DevTools
+class DevTools
 {
 public:
 	// Constructor

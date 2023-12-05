@@ -12,7 +12,7 @@
 #include "water.h"
 #include "maps.h"
 
-extern class Window : public sf::RenderWindow, public Noise
+class Window : public sf::RenderWindow, public Noise
 {
 public:
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
@@ -80,7 +80,7 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
 
-	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f));
+	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f), int scale = 1);
 
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);

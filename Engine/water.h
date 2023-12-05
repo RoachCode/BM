@@ -6,7 +6,7 @@
 #include "maps.h"
 #include "noise.h"
 
-extern class Water : public Noise
+class Water : public Noise
 {
 public:
 	std::vector<bool> westKagarWater;
