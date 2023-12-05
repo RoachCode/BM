@@ -129,61 +129,29 @@ void Font2::setColor(sf::Color colorIn, bool ignoreReassignment)
 		textGreen = sf::Uint8(colorIn.g);
 		textBlue = sf::Uint8(colorIn.b);
 	}
-	resetImage(colorIn);
+	resetImage(fontImage, fontTexture, colorIn);
+	resetImage(fontSpecialImage, fontSpecialTexture, colorIn);
+	resetImage(fontPunctuationImage, fontPunctuationTexture, colorIn);
 }
 
-void Font2::resetImage(sf::Color colorIn2)
+void Font2::resetImage(sf::Image &image, sf::Texture &texture, sf::Color colorIn2)
 {
-	const int imagePixelW = fontImage.getSize().x;
-	const int imagePixelH = fontImage.getSize().y;
+	const int imagePixelW = image.getSize().x;
+	const int imagePixelH = image.getSize().y;
 	for (int i = 0; i < imagePixelW; i++)
 	{
 		for (int j = 0; j < imagePixelH; j++)
 		{
-			sf::Color color = fontImage.getPixel(i, j);
+			sf::Color color = image.getPixel(i, j);
 			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
 			{
-				fontImage.setPixel(i, j, colorIn2);
+				image.setPixel(i, j, colorIn2);
 			}
 		}
 	}
-	fontTexture.loadFromImage(fontImage);
+	texture.loadFromImage(image);
 	charSprite.setScale(sf::Vector2f(1, 1)); // ? not sure if needed.
-	charSprite.setTexture(fontTexture);
-
-	const int imageSpecialPixelW = fontSpecialImage.getSize().x;
-	const int imageSpecialPixelH = fontSpecialImage.getSize().y;
-	for (int i = 0; i < imageSpecialPixelW; i++)
-	{
-		for (int j = 0; j < imageSpecialPixelH; j++)
-		{
-			sf::Color color = fontSpecialImage.getPixel(i, j);
-			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
-			{
-				fontSpecialImage.setPixel(i, j, colorIn2);
-			}
-		}
-	}
-	fontSpecialTexture.loadFromImage(fontSpecialImage);
-	charSprite.setScale(sf::Vector2f(1, 1)); // ? not sure if needed.
-	charSprite.setTexture(fontSpecialTexture);
-
-	const int imagePunctuationPixelW = fontPunctuationImage.getSize().x;
-	const int imagePunctuationPixelH = fontPunctuationImage.getSize().y;
-	for (int i = 0; i < imagePunctuationPixelW; i++)
-	{
-		for (int j = 0; j < imagePunctuationPixelH; j++)
-		{
-			sf::Color color = fontPunctuationImage.getPixel(i, j);
-			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
-			{
-				fontPunctuationImage.setPixel(i, j, colorIn2);
-			}
-		}
-	}
-	fontPunctuationTexture.loadFromImage(fontPunctuationImage);
-	charSprite.setScale(sf::Vector2f(1, 1)); // ? not sure if needed.
-	charSprite.setTexture(fontPunctuationTexture);
+	charSprite.setTexture(texture);
 }
 
 int Font2::getRectOffset(char input)
