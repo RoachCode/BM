@@ -4,8 +4,84 @@
 
 Font2::Font2()
 {
-	setColor(sf::Color(255, 120, 10));
+	//setColor(sf::Color(255, 120, 10));
 	createFontImageAndTexture();
+}
+
+void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image &image, sf::Texture &texture)
+{
+	const int height{ 8 };
+	for (int i = 0; i < charCount; i++)
+	{
+		sf::Uint8* pixels = new sf::Uint8[pixPerChar * 4];
+
+		for (int j = 0; j < pixPerChar; j++)
+		{
+			// Picks from correct image array based on width of character
+			switch (width)
+			{
+			case 2:
+				if (punctuationChars[j + i * pixPerChar] == true)
+				{
+					pixels[(j * 4) + 0] = textRed;
+					pixels[(j * 4) + 1] = textGreen;
+					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 3] = sf::Uint8(255);
+				}
+				else
+				{
+					pixels[(j * 4) + 0] = alphaKey.r;
+					pixels[(j * 4) + 1] = alphaKey.g;
+					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 3] = sf::Uint8(0);
+				}
+				break;
+			case 6:
+				if (AthroughTildeData[j + i * pixPerChar] == true)
+				{
+					pixels[(j * 4) + 0] = textRed;
+					pixels[(j * 4) + 1] = textGreen;
+					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 3] = sf::Uint8(255);
+				}
+				else
+				{
+					pixels[(j * 4) + 0] = alphaKey.r;
+					pixels[(j * 4) + 1] = alphaKey.g;
+					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 3] = sf::Uint8(0);
+				}
+				break;
+			case 8:
+				if (specialChars[j + i * pixPerChar] == true)
+				{
+					pixels[(j * 4) + 0] = textRed;
+					pixels[(j * 4) + 1] = textGreen;
+					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 3] = sf::Uint8(255);
+				}
+				else
+				{
+					pixels[(j * 4) + 0] = alphaKey.r;
+					pixels[(j * 4) + 1] = alphaKey.g;
+					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 3] = sf::Uint8(0);
+				}
+				break;
+			default:
+				break;
+			};
+		}
+		sf::Image charImage;
+		charImage.create(width, height, pixels);
+		delete[] pixels;
+		image.copy(charImage, i * width, 0);
+
+		texture.create(width, height);
+		texture.loadFromImage(image);
+
+		charSprite.setTexture(texture);
+	}
 }
 
 void Font2::createFontImageAndTexture()
@@ -30,95 +106,11 @@ void Font2::createFontImageAndTexture()
 	fontSpecialImage.create(charCount2 * w2, 8);
 	fontPunctuationImage.create(charCount3 * w3, 8);
 
-	for (int i = 0; i < charCount1; i++)
-	{
-		sf::Uint8* pixels = new sf::Uint8[pixPerChar1 * 4];
+	setColor(sf::Color(255, 120, 10));
+	setCharTextureToSprite(pixPerChar1, charCount1, w1, fontImage, fontTexture);
+	setCharTextureToSprite(pixPerChar2, charCount2, w2, fontSpecialImage, fontSpecialTexture);
+	setCharTextureToSprite(pixPerChar3, charCount3, w3, fontPunctuationImage, fontPunctuationTexture);
 
-		for (int j = 0; j < pixPerChar1; j++)
-		{
-			if (AthroughTildeData[j + i * pixPerChar1] == true)
-			{
-				pixels[(j * 4) + 0] = textRed;
-				pixels[(j * 4) + 1] = textGreen;
-				pixels[(j * 4) + 2] = textBlue;
-				pixels[(j * 4) + 3] = sf::Uint8(255);
-			}
-			else
-			{
-				pixels[(j * 4) + 0] = alphaKey.r;
-				pixels[(j * 4) + 1] = alphaKey.g;
-				pixels[(j * 4) + 2] = alphaKey.b;
-				pixels[(j * 4) + 3] = sf::Uint8(0);
-			}
-		}
-		sf::Image charImage;
-		charImage.create(w1, 8, pixels);
-		fontImage.copy(charImage, i * w1, 0);
-		delete[] pixels;
-		fontTexture.create(w1, 8);
-		fontTexture.loadFromImage(fontImage);
-		charSprite.setTexture(fontTexture);
-	}
-
-	for (int i = 0; i < charCount2; i++)
-	{
-		sf::Uint8* pixels = new sf::Uint8[pixPerChar2 * 4];
-
-		for (int j = 0; j < pixPerChar2; j++)
-		{
-			if (specialChars[j + i * pixPerChar2] == true)
-			{
-				pixels[(j * 4) + 0] = textRed;
-				pixels[(j * 4) + 1] = textGreen;
-				pixels[(j * 4) + 2] = textBlue;
-				pixels[(j * 4) + 3] = sf::Uint8(255);
-			}
-			else
-			{
-				pixels[(j * 4) + 0] = alphaKey.r;
-				pixels[(j * 4) + 1] = alphaKey.g;
-				pixels[(j * 4) + 2] = alphaKey.b;
-				pixels[(j * 4) + 3] = sf::Uint8(0);
-			}
-		}
-		sf::Image charSpecialImage;
-		charSpecialImage.create(w2, 8, pixels);
-		fontSpecialImage.copy(charSpecialImage, i * w2, 0);
-		delete[] pixels;
-		fontSpecialTexture.create(w2, 8);
-		fontSpecialTexture.loadFromImage(fontSpecialImage);
-		charSprite.setTexture(fontSpecialTexture);
-	}
-	
-	for (int i = 0; i < charCount3; i++)
-	{
-		sf::Uint8* pixels = new sf::Uint8[pixPerChar3 * 4];
-
-		for (int j = 0; j < pixPerChar3; j++)
-		{
-			if (punctuationChars[j + i * pixPerChar3] == true)
-			{
-				pixels[(j * 4) + 0] = textRed;
-				pixels[(j * 4) + 1] = textGreen;
-				pixels[(j * 4) + 2] = textBlue;
-				pixels[(j * 4) + 3] = sf::Uint8(255);
-			}
-			else
-			{
-				pixels[(j * 4) + 0] = alphaKey.r;
-				pixels[(j * 4) + 1] = alphaKey.g;
-				pixels[(j * 4) + 2] = alphaKey.b;
-				pixels[(j * 4) + 3] = sf::Uint8(0);
-			}
-		}
-		sf::Image charPunctuationImage;
-		charPunctuationImage.create(w3, 8, pixels);
-		fontPunctuationImage.copy(charPunctuationImage, i * w3, 0);
-		delete[] pixels;
-		fontPunctuationTexture.create(w3, 8);
-		fontPunctuationTexture.loadFromImage(fontPunctuationImage);
-		charSprite.setTexture(fontPunctuationTexture);
-	}
 }
 
 void Font2::setColor(sf::Color colorIn, bool ignoreReassignment)
@@ -268,6 +260,7 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 		charSprite.setTextureRect(sf::IntRect((offset - 75) * 2, 0, 2, 8));
 		return true;
 	}
+	return false;
 }
 
 //void Font2::drawText(std::string string)

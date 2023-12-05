@@ -4,6 +4,7 @@
 Window::Window()
 	: sf::RenderWindow(sf::VideoMode(0, 0, 32U), "Lockestone Chronicles", sf::Style::Fullscreen)
 {
+	setGameIcon();
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
@@ -36,6 +37,20 @@ Window::Window()
 
 	Noise::m_initSimplex(size.x / windowScale, size.y / windowScale, 4);
 
+}
+
+// Set Icon
+void Window::setGameIcon()
+{
+	/*
+	sf::Uint8* pixels = new sf::Uint8[32 * 32 * 4];
+	for (size_t i = 0; i < gaiaDownA.size(); i++)
+	{
+		pixels[i] = gaiaDownA[i];
+	}
+	setIcon(32, 32, pixels);
+	delete[] pixels;
+	*/
 }
 
 // Polls all events
@@ -357,6 +372,7 @@ Character& Window::getCharacterByOrder(int order)
 	else if (gaia.order == order) { return gaia; }
 	else if (cole.order == order) { return cole; }
 	else if (neko.order == order) { return neko; }
+	else { return arson; }
 }
 void Window::refreshMovementBools()
 {

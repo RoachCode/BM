@@ -827,6 +827,6 @@ public:
 	int getRectOffset(char input);
 	const sf::Color alphaKey{ sf::Color(69,69,69) };
 	void resetImage(sf::Image& image, sf::Texture& texture, sf::Color colorIn2);
-
+	void setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image& image, sf::Texture& texture);
 	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;)
 };
