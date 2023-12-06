@@ -48,7 +48,6 @@ int main()
 {
     Window window;
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.view.zoom(2);
 	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
     while (window.isOpen())
     {
@@ -62,7 +61,7 @@ int main()
         //window.drawFlow(cyanRivers);
         window.drawTileMapsFront(); // 620
         window.drawWaterTile();
-        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
+        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
         window.drawText(
 			window.DEV_TOOLS.getFPS(), 
 			sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, 
@@ -76,7 +75,7 @@ int main()
 			window.getSize().x - 111, window.getTopLeftViewCoordinates().y + 8)
 		);
 		*/
-		window.drawText("^ | < { _ balogna smelly funk smellery easy bunk knob abaloni ", sf::Vector2f(100, window.view.getCenter().y), 2);
+		window.drawText("^ | < { _ balogna smelly asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdffunk smellery easy bunk knob abaloni ", sf::Vector2f(100, window.view.getCenter().y), 2);
         window.display();
     }
     return 0;

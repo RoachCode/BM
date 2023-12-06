@@ -13,12 +13,7 @@ Window::Window()
 	// Assign current view to Window::view
 	view = getDefaultView();
 	// Sets the view to the appropriate zoom level for display
-	windowScale = 1;
-	while (size.x > (CHUNK_WIDTH_PIXELS * windowScale * 2))
-	{
-		windowScale *= 2;
-	}
-	windowScale = 2; //temp
+	setWindowScale();
 	setView(view);
 	movementAllowed = false;
 	lastKeyUp = false;
@@ -167,6 +162,16 @@ void Window::pollEvents()
 }
 
 // View Functions
+void Window::setWindowScale()
+{
+	if (size.x < CHUNK_WIDTH_PIXELS * 1.5) { windowScale = 1; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * 3) { windowScale = 2; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * 4.5) { windowScale = 3; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * 6) { windowScale = 4; }
+	else { windowScale = 1; }
+	// I doubt we need more.
+	windowScale = 2; //temp
+}
 void Window::startViewMovement(sf::Vector2f offset)
 {
 	if (DEV_TOOLS.queryFreeMovement())
@@ -656,32 +661,29 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	const int fontScale{ scale * windowScale };
 	font.setStartPos(startPosition);
 	font.setPos(font.getStartPos());
-	int pixelWidth{ static_cast<int>(font.moveR.x * scale) * static_cast<int>(string.length()) * fontScale };
-	// bounds on the right. so far only right side.
+	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) };
+
+	// bounds on the right. so far only right side. TODO
 	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * fontScale)
 	{
-		// - 1 is so the shadow offset is also kept in bounds
-		font.setStartPos(sf::Vector2f(size.x - pixelWidth - 1, startPosition.y));
+		font.setStartPos(sf::Vector2f(size.x - pixelWidth, startPosition.y));
 		font.setPos(font.getStartPos());
 	}
 
-	// Runs twice to set a shadow effect
+	// prints characters.
 	for (int i = 0; i <= 1; i++)
 	{
-		// Creates shadow effect through duplication
+		// Runs twice to set a shadow effect
 		if (i == 0)
 		{
 			font.setColor(sf::Color(0, 0, 0), true);
-			font.setPos(sf::Vector2f(font.getPos().x + 1, font.getPos().y + 1));
+			font.move(sf::Vector2f(windowScale, windowScale));
 		}
 		else
 		{
-			//font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue, 255));
-			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue), true);
-			font.setPos(sf::Vector2f(font.getPos().x - 1, font.getPos().y - 1));
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
+			font.move(sf::Vector2f(-windowScale, -windowScale));
 		}
-
-		// prints characters.
 		for (size_t j = 0; j < string.length(); j++)
 		{
 			const char letter = string[j];
@@ -703,5 +705,5 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 			}
 		}
 		font.setPos(font.getStartPos());
-	}
+	} 
 }

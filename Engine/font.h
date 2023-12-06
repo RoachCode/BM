@@ -816,8 +816,8 @@ public:
 	sf::Vector2f moveR{ sf::Vector2f(7.f, 0.f) };
 	sf::Vector2i addon{ sf::Vector2i(0, 0) };
 	Font2();
-	void createFontImageAndTexture();
-	void setColor(sf::Color colorIn, bool ignoreReassignment = false);
+	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(255, 120, 10)));
+	void setColor(sf::Color colorIn, bool ignoreReassign = false);
 	bool attachCharImageSubRectToSprite(char input);
 	sf::Vector2f getPos();
 	void setPos(sf::Vector2f newPos);
@@ -826,7 +826,6 @@ public:
 	void move(sf::Vector2f offset);
 	int getRectOffset(char input);
 	const sf::Color alphaKey{ sf::Color(69,69,69) };
-	void resetImage(sf::Image& image, sf::Texture& texture, sf::Color colorIn2);
 	void setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image& image, sf::Texture& texture);
 	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;)
 };

@@ -84,7 +84,7 @@ void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf:
 	}
 }
 
-void Font2::createFontImageAndTexture()
+void Font2::createFontImageAndTexture(sf::Color color)
 {
 	const int pixPerChar1{ 48 };
 	const int pixPerChar2{ 64 };
@@ -106,44 +106,12 @@ void Font2::createFontImageAndTexture()
 	fontSpecialImage.create(charCount2 * w2, 8);
 	fontPunctuationImage.create(charCount3 * w3, 8);
 
-	setColor(sf::Color(255, 120, 10));
+	setColor(color);
+
 	setCharTextureToSprite(pixPerChar1, charCount1, w1, fontImage, fontTexture);
 	setCharTextureToSprite(pixPerChar2, charCount2, w2, fontSpecialImage, fontSpecialTexture);
 	setCharTextureToSprite(pixPerChar3, charCount3, w3, fontPunctuationImage, fontPunctuationTexture);
 
-}
-
-void Font2::setColor(sf::Color colorIn, bool ignoreReassignment)
-{
-	if (!ignoreReassignment)
-	{
-		textRed = sf::Uint8(colorIn.r);
-		textGreen = sf::Uint8(colorIn.g);
-		textBlue = sf::Uint8(colorIn.b);
-	}
-	resetImage(fontImage, fontTexture, colorIn);
-	resetImage(fontSpecialImage, fontSpecialTexture, colorIn);
-	resetImage(fontPunctuationImage, fontPunctuationTexture, colorIn);
-}
-
-void Font2::resetImage(sf::Image &image, sf::Texture &texture, sf::Color colorIn2)
-{
-	const int imagePixelW = image.getSize().x;
-	const int imagePixelH = image.getSize().y;
-	for (int i = 0; i < imagePixelW; i++)
-	{
-		for (int j = 0; j < imagePixelH; j++)
-		{
-			sf::Color color = image.getPixel(i, j);
-			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
-			{
-				image.setPixel(i, j, colorIn2);
-			}
-		}
-	}
-	texture.loadFromImage(image);
-	charSprite.setScale(sf::Vector2f(1, 1)); // ? not sure if needed.
-	charSprite.setTexture(texture);
 }
 
 int Font2::getRectOffset(char input)
@@ -233,7 +201,6 @@ int Font2::getRectOffset(char input)
 		return -1;
 	}
 };
-
 bool Font2::attachCharImageSubRectToSprite(char input)
 {
 	int offset{ getRectOffset(input) };
@@ -263,13 +230,79 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 	return false;
 }
 
-//void Font2::drawText(std::string string)
+void Font2::setColor(sf::Color colorIn, bool ignoreReassign)
+{
+	if (!ignoreReassign)
+	{
+		textRed = sf::Uint8(colorIn.r);
+		textGreen = sf::Uint8(colorIn.g);
+		textBlue = sf::Uint8(colorIn.b);
+	}
+	int imagePixelW = fontImage.getSize().x;
+	int imagePixelH = fontImage.getSize().y;
+	for (int i = 0; i < imagePixelW; i++)
+	{
+		for (int j = 0; j < imagePixelH; j++)
+		{
+			sf::Color color = fontImage.getPixel(i, j);
+			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
+			{
+				fontImage.setPixel(i, j, colorIn);
+			}
+		}
+	}
+	fontTexture.loadFromImage(fontImage);
+//
+	imagePixelW = fontSpecialImage.getSize().x;
+	imagePixelH = fontSpecialImage.getSize().y;
+	for (int i = 0; i < imagePixelW; i++)
+	{
+		for (int j = 0; j < imagePixelH; j++)
+		{
+			sf::Color color = fontSpecialImage.getPixel(i, j);
+			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
+			{
+				fontSpecialImage.setPixel(i, j, colorIn);
+			}
+		}
+	}
+	fontSpecialTexture.loadFromImage(fontSpecialImage);
+//
+	imagePixelW = fontPunctuationImage.getSize().x;
+	imagePixelH = fontPunctuationImage.getSize().y;
+	for (int i = 0; i < imagePixelW; i++)
+	{
+		for (int j = 0; j < imagePixelH; j++)
+		{
+			sf::Color color = fontPunctuationImage.getPixel(i, j);
+			if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
+			{
+				fontPunctuationImage.setPixel(i, j, colorIn);
+			}
+		}
+	}
+	fontPunctuationTexture.loadFromImage(fontPunctuationImage);
 
+	const int charWidth{ intify(charSprite.getLocalBounds().width) };
+	switch (charWidth)
+	{
+	case 2:
+		charSprite.setTexture(fontPunctuationTexture);
+		break;
+	case 6:
+		charSprite.setTexture(fontTexture);
+		break;
+	case 8:
+		charSprite.setTexture(fontSpecialTexture);
+		break;
+	default:
+		break;
+	};
+}
 void Font2::move(sf::Vector2f offset)
 {
 	charSprite.move(offset);
 }
-
 sf::Vector2f Font2::getPos() { return charSprite.getPosition(); }
 void Font2::setPos(sf::Vector2f newPos) { charSprite.setPosition(newPos); }
 sf::Vector2f Font2::getStartPos() { return startPos; }

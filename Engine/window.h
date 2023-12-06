@@ -94,4 +94,5 @@ public:
 	void setPositionAndDraw(float x, float y);
 	void checkUnderlyingTile(int dir);
 	void setGameIcon();
+	void setWindowScale();
 };
