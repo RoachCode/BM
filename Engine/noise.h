@@ -33,6 +33,7 @@ public:
 	// For fullscreen cloud noise
 	int simplexSpeed;
 	int simplexStepper;
+	sf::Vector2f simplexMovementCollector;
 
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;

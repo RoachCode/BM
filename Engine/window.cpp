@@ -8,7 +8,7 @@ Window::Window()
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	setWindowScale(1.5f);
+	setWindowScale(1.2f); //default 1.5
 	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
@@ -168,9 +168,8 @@ void Window::setWindowScale(float factor)
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 2)) { windowScale = 2; }
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { windowScale = 3; }
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { windowScale = 4; }
-	else { windowScale = 1; }
+	else { windowScale = 2; }
 	// I doubt we need more.
-	//windowScale = 2; //temp
 }
 void Window::startViewMovement(sf::Vector2f offset)
 {
@@ -627,13 +626,49 @@ void Window::m_groupDraw()
 }
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
-
 	noise.setScale(sf::Vector2f(windowScale, windowScale));
 	simplexSpeed++;
 	if (simplexSpeed > delay)
 	{
 		simplexSpeed = 0;
-		m_groupDraw(direction);
+		simplexMovementCollector.x = simplexMovementCollector.x + direction.x;
+		simplexMovementCollector.y = simplexMovementCollector.y + direction.y;
+		if ((simplexMovementCollector.x >= windowScale) && (simplexMovementCollector.y >= windowScale))
+		{
+			simplexMovementCollector.x = 0.f;
+			simplexMovementCollector.y = 0.f;
+			m_groupDraw(sf::Vector2f(windowScale, windowScale));
+		}
+		else if (simplexMovementCollector.x >= windowScale)
+		{
+			simplexMovementCollector.x = 0.f;
+			m_groupDraw(sf::Vector2f(windowScale, 0));
+		}
+		else if (simplexMovementCollector.y >= windowScale)
+		{
+			simplexMovementCollector.y = 0.f;
+			m_groupDraw(sf::Vector2f(0, windowScale));
+		}
+		else if ((simplexMovementCollector.x <= -windowScale) && (simplexMovementCollector.y <= -windowScale))
+		{
+			simplexMovementCollector.x = 0.f;
+			simplexMovementCollector.y = 0.f;
+			m_groupDraw(sf::Vector2f(-windowScale, -windowScale));
+		}
+		else if (simplexMovementCollector.x <= -windowScale)
+		{
+			simplexMovementCollector.x = 0.f;
+			m_groupDraw(sf::Vector2f(-windowScale, 0));
+		}
+		else if (simplexMovementCollector.y <= -windowScale)
+		{
+			simplexMovementCollector.y = 0.f;
+			m_groupDraw(sf::Vector2f(0, -windowScale));
+		}
+		else
+		{
+			m_groupDraw();
+		}
 	}
 	else if (simplexSpeed != 0)
 	{
@@ -719,7 +754,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) };
 
 	// Bounds Right
-	if ((intify(startPosition.x) + pixelWidth) > intify(view.getSize().x))
+	if ((intify(startPosition.x) + pixelWidth) > intify(getViewCoordinates(UR).x))
 	{
 		startPosition.x = floatify(getViewCoordinates(UR).x - pixelWidth);
 		font.setStartPos(startPosition);
@@ -728,21 +763,21 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	// Bounds Left
 	if (intify(startPosition.x) < getViewCoordinates(UL).x)
 	{
-		startPosition.x = floatify(getViewCoordinates(UL).x);
+		startPosition.x = floatify(getViewCoordinates(UL).x + windowScale);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Bottom
 	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
 	{
-		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * windowScale));
+		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * windowScale) - windowScale);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Top
 	if (intify(startPosition.y) < getViewCoordinates(UL).y)
 	{
-		startPosition.y = floatify(getViewCoordinates(UL).y);
+		startPosition.y = floatify(getViewCoordinates(UL).y + windowScale);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
