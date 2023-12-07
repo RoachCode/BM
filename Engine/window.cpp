@@ -413,8 +413,8 @@ void Window::changeFalseLastKeyState(bool& lastKeyInput)
 sf::Vector2i Window::getGridPosition()
 {
 	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / 64, 
-		getCharacterByOrder(1).sprite.getPosition().y / 64
+		getCharacterByOrder(1).sprite.getPosition().x / tileSize, 
+		getCharacterByOrder(1).sprite.getPosition().y / tileSize
 	);
 }
 void Window::checkUnderlyingTile(int dir)
