@@ -86,7 +86,7 @@ public:
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
 
-	sf::Vector2i getTopLeftViewCoordinates();
+	sf::Vector2f getViewCoordinates(int dir);
 
 	sf::Vector2i getGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
@@ -94,5 +94,5 @@ public:
 	void setPositionAndDraw(float x, float y);
 	void checkUnderlyingTile(int dir);
 	void setGameIcon();
-	void setWindowScale();
+	void setWindowScale(float factor = 1.5f);
 };

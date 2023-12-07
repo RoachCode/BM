@@ -8,12 +8,12 @@ Window::Window()
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
+	setWindowScale(1.5f);
 	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
 	view = getDefaultView();
 	// Sets the view to the appropriate zoom level for display
-	setWindowScale();
 	setView(view);
 	movementAllowed = false;
 	lastKeyUp = false;
@@ -162,15 +162,15 @@ void Window::pollEvents()
 }
 
 // View Functions
-void Window::setWindowScale()
+void Window::setWindowScale(float factor)
 {
-	if (size.x < CHUNK_WIDTH_PIXELS * 1.5) { windowScale = 1; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * 3) { windowScale = 2; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * 4.5) { windowScale = 3; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * 6) { windowScale = 4; }
+	if (size.x < CHUNK_WIDTH_PIXELS * (factor * 1)) { windowScale = 1; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 2)) { windowScale = 2; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { windowScale = 3; }
+	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { windowScale = 4; }
 	else { windowScale = 1; }
 	// I doubt we need more.
-	windowScale = 2; //temp
+	//windowScale = 2; //temp
 }
 void Window::startViewMovement(sf::Vector2f offset)
 {
@@ -185,9 +185,25 @@ void Window::endViewMovement()
 	movementAllowed = false;
 	movementOffset = sf::Vector2f(0.f, 0.f);
 }
-sf::Vector2i Window::getTopLeftViewCoordinates()
+sf::Vector2f Window::getViewCoordinates(int dir)
 {
-	return sf::Vector2i(view.getCenter().x - (size.x / windowScale), view.getCenter().y - (size.y / windowScale));
+	switch (dir)
+	{
+	case UL:
+		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
+		break;
+	case UR:
+		return sf::Vector2f(floatify(view.getCenter().x + view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
+		break;
+	case DL:
+		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y + view.getSize().y / 2));
+		break;
+	case DR:
+		return sf::Vector2f(floatify(view.getCenter().x + view.getSize().x / 2), floatify(view.getCenter().y + view.getSize().y / 2));
+		break;
+	default:
+		break;
+	}
 }
 
 // Tilemap Functions
@@ -325,10 +341,11 @@ void Window::pollMovement()
 
 	pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
+
 	// Move view when character is offset from the center by one sixth of the displayed grid size
 	if (pos.x > view.getCenter().x + tileSize * oneSixthOfVisibleGrid.x)
 	{
-		if (getTopLeftViewCoordinates().x + size.x < imageHandler.sceneSize.x * windowScale) //
+		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * windowScale)
 		{
 			view.move(movementStepSize, 0);
 			this->setView(view);
@@ -336,7 +353,7 @@ void Window::pollMovement()
 	}
 	else if (pos.x + tileSize * oneSixthOfVisibleGrid.x < view.getCenter().x)
 	{
-		if (getTopLeftViewCoordinates().x > 0)
+		if (getViewCoordinates(UL).x > 0)
 		{
 			view.move(-movementStepSize, 0);
 			this->setView(view);
@@ -344,7 +361,7 @@ void Window::pollMovement()
 	}
 	if (pos.y > view.getCenter().y + tileSize * oneSixthOfVisibleGrid.y)
 	{
-		if (getTopLeftViewCoordinates().y + size.y < imageHandler.sceneSize.y * windowScale)
+		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * windowScale)
 		{
 			view.move(0, movementStepSize);
 			this->setView(view);
@@ -352,7 +369,7 @@ void Window::pollMovement()
 	}
 	else if (pos.y + tileSize * oneSixthOfVisibleGrid.y < view.getCenter().y)
 	{
-		if (getTopLeftViewCoordinates().y > 0)
+		if (getViewCoordinates(UL).y > 0)
 		{
 			view.move(0, -movementStepSize);
 			this->setView(view);
@@ -407,8 +424,8 @@ void Window::checkUnderlyingTile(int dir)
 	for (int i = 1; i <= 4; i++)
 	{
 		// Get Grid Position for each character
-		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / 64) };
-		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / 64) };
+		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / tileSize) };
+		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / tileSize) };
 
 		// If character is not in the lead, check lead coordinates and adjust direction
 		if (i > 1)
@@ -470,6 +487,7 @@ void Window::drawSprites()
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
 		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * windowScale)));
+		spriteVector[i].setScale(windowScale, windowScale);
 		this->draw(spriteVector[i]);
 	}
 }
@@ -495,7 +513,24 @@ void Window::setPositionAndDraw(float x, float y)
 {
 	sf::Vector2f noiseOrigin = pairF(x, y);
 
+	// Row 0
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y + (noise.getSize().y * windowScale * -1)));
+	this->draw(noise);
+
 	// Row 1
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y));
+	this->draw(noise);
+	// Drawn in previous function
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y));
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y));
@@ -506,6 +541,8 @@ void Window::setPositionAndDraw(float x, float y)
 	this->draw(noise);
 
 	// Row 2
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y + (noise.getSize().y * windowScale * 1)));
+	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 1)));
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 1)));
@@ -514,10 +551,12 @@ void Window::setPositionAndDraw(float x, float y)
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 1)));
 	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 1)));
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y + (noise.getSize().y * windowScale * 1)));
 	this->draw(noise);
 
 	// Row 3
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y + (noise.getSize().y * windowScale * 2)));
+	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 2)));
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 2)));
@@ -526,10 +565,12 @@ void Window::setPositionAndDraw(float x, float y)
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 2)));
 	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 2)));
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y + (noise.getSize().y * windowScale * 2)));
 	this->draw(noise);
 
 	// Row 4
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 3)));
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 3)));
@@ -538,7 +579,21 @@ void Window::setPositionAndDraw(float x, float y)
 	this->draw(noise);
 	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 3)));
 	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 3)));
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y + (noise.getSize().y * windowScale * 3)));
+	this->draw(noise);
+
+	// Row 5
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * -1), y + (noise.getSize().y * windowScale * 4)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 0), y + (noise.getSize().y * windowScale * 4)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 1), y + (noise.getSize().y * windowScale * 4)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 2), y + (noise.getSize().y * windowScale * 4)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 3), y + (noise.getSize().y * windowScale * 4)));
+	this->draw(noise);
+	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * windowScale * 4), y + (noise.getSize().y * windowScale * 4)));
 	this->draw(noise);
 }
 void Window::m_groupDraw(sf::Vector2f direction)
@@ -659,15 +714,37 @@ void Window::drawWaterTile()
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
 	const int fontScale{ scale * windowScale };
-	font.setStartPos(startPosition);
+	font.setStartPos(sf::Vector2f(startPosition.x + 1, startPosition.y + 1));
 	font.setPos(font.getStartPos());
 	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) };
 
-	// bounds on the right. so far only right side. TODO
-	if ((static_cast<int>(startPosition.x) + pixelWidth) > static_cast<int>(size.x) * fontScale)
+	// Bounds Right
+	if ((intify(startPosition.x) + pixelWidth) > intify(view.getSize().x))
 	{
-		font.setStartPos(sf::Vector2f(size.x - pixelWidth, startPosition.y));
-		font.setPos(font.getStartPos());
+		startPosition.x = floatify(getViewCoordinates(UR).x - pixelWidth);
+		font.setStartPos(startPosition);
+		font.setPos(startPosition);
+	}
+	// Bounds Left
+	if (intify(startPosition.x) < getViewCoordinates(UL).x)
+	{
+		startPosition.x = floatify(getViewCoordinates(UL).x);
+		font.setStartPos(startPosition);
+		font.setPos(startPosition);
+	}
+	// Bounds Bottom
+	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
+	{
+		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * windowScale));
+		font.setStartPos(startPosition);
+		font.setPos(startPosition);
+	}
+	// Bounds Top
+	if (intify(startPosition.y) < getViewCoordinates(UL).y)
+	{
+		startPosition.y = floatify(getViewCoordinates(UL).y);
+		font.setStartPos(startPosition);
+		font.setPos(startPosition);
 	}
 
 	// prints characters.
@@ -677,12 +754,12 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 		if (i == 0)
 		{
 			font.setColor(sf::Color(0, 0, 0), true);
-			font.move(sf::Vector2f(windowScale, windowScale));
+			font.move(sf::Vector2f(windowScale / 2, windowScale / 2));
 		}
 		else
 		{
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.move(sf::Vector2f(-windowScale, -windowScale));
+			font.move(sf::Vector2f(-windowScale / 2, -windowScale / 2));
 		}
 		for (size_t j = 0; j < string.length(); j++)
 		{

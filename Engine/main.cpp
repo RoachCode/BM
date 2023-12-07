@@ -61,21 +61,21 @@ int main()
         //window.drawFlow(cyanRivers);
         window.drawTileMapsFront(); // 620
         window.drawWaterTile();
-        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8     
+        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 160. if speed is needed we can jump frames         x = -0.8   
+		/*
         window.drawText(
 			window.DEV_TOOLS.getFPS(), 
-			sf::Vector2f(window.getTopLeftViewCoordinates().x + window.getSize().x - 64, 
-			window.getTopLeftViewCoordinates().y + 50)
+			sf::Vector2f(window.getViewCoordinates(UL).x, 
+			window.getViewCoordinates(UL).y)
 		); // 1100 - 1200 fps
-		/*
-		window.drawText(
-			"X" + std::to_string(intify(window.getGridPosition().x)) + 
-			" Y" + std::to_string(intify(window.getGridPosition().y)), 
-			sf::Vector2f(window.getTopLeftViewCoordinates().x + 
-			window.getSize().x - 111, window.getTopLeftViewCoordinates().y + 8)
-		);
 		*/
-		window.drawText("^ | < { _ balogna smelly asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdffunk smellery easy bunk knob abaloni ", sf::Vector2f(100, window.view.getCenter().y), 2);
+		window.drawText(
+			"X" + std::to_string(intify(window.getGridPosition().x)) +
+			" Y" + std::to_string(intify(window.getGridPosition().y)),
+			window.getViewCoordinates(DR)
+		);
+		
+		//window.drawText("Sword:^ Staff:| Axe:< Bow:{ Item:_", sf::Vector2f(100, window.view.getCenter().y), 2);
         window.display();
     }
     return 0;
