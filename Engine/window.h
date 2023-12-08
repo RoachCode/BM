@@ -22,7 +22,7 @@ public:
 	// Get the size of the window
 	sf::Vector2u size;
 	sf::Vector2i uniqueScreenSizeGridSize;
-	int windowScale{ 1 };
+	int pixelSize{ 1 };
 	int tileSize{};
 
 	// Declare the view
@@ -94,5 +94,6 @@ public:
 	void setPositionAndDraw(float x, float y);
 	void checkUnderlyingTile(int dir);
 	void setGameIcon();
-	void setWindowScale(float factor = 1.5f);
+	void setpixelSize(float factor = 1.2f);
+
 };

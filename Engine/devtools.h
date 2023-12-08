@@ -20,6 +20,9 @@ public:
 	// Logs to the console adding a line break after, using std::string.
 	const void log(std::string in);
 
+	// Toggles wallToggleBool
+	bool wallToggleBool;
+	void wallToggle();
 private:
 	// Runs the m_counter and m_clock and sets the m_fps value
 	void m_calculateFPS();

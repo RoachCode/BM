@@ -516,7 +516,7 @@ void Character::follow(Character& otherCharacter, int movementStepSize)
     int y{ otherCharacter.coordVector[1] };
     if (otherCharacter.coordVector.size() > 16)
     {
-
+        //movementStepSize comes in already altered by pixelSize.
         sprite.move(x * movementStepSize, y * movementStepSize);
 
         otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());

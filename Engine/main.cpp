@@ -62,16 +62,19 @@ int main()
         window.drawWaterTile();
         window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8   
 		
-        window.drawText("FPS:" + window.DEV_TOOLS.getFPS(), window.getViewCoordinates(UR)); // 1100 - 1200 fps
+        window.drawText("FPS:" + window.DEV_TOOLS.getFPS(), window.getViewCoordinates(UR), 2); // 1100 - 1200 fps
 		window.drawText(
 			"X" + std::to_string(intify(window.getGridPosition().x)) +
 			" Y" + std::to_string(intify(window.getGridPosition().y)),
-			window.getViewCoordinates(DR)
+			window.getViewCoordinates(DR), 2
 		);
 		//window.drawText("Sword:^ Staff:| Axe:< Bow:{ Item:_", window.getViewCoordinates(DL));
-		window.drawText("Location: West Kagar", window.getViewCoordinates(DL));
-
-        window.display();
+		window.drawText("Location: West Kagar", window.getViewCoordinates(DL), 2);
+		if (window.DEV_TOOLS.wallToggleBool)
+		{
+			window.drawText("NO WALLS", window.getViewCoordinates(UL), 2);
+		}
+		window.display();
     }
     return 0;
 }

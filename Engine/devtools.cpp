@@ -7,6 +7,7 @@ DevTools::DevTools()
     m_freeMovementAllowed = false;
     m_counter = 0;
     m_fps = 0;
+    wallToggleBool = false;
 }
 
 const bool DevTools::queryFreeMovement()
@@ -30,6 +31,10 @@ const void DevTools::log(std::string in)
     std::cout << in << '\n';
 }
 
+void DevTools::wallToggle()
+{
+    wallToggleBool = !wallToggleBool;
+}
 // Private
 void DevTools::m_calculateFPS()
 {
