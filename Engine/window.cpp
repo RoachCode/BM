@@ -328,6 +328,7 @@ void Window::moveCharacters()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
+		else if (up) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool); }
 		else if (down && pos.y < intify(imageHandler.sceneSize.y) * pixelSize - (tileSize * pixelSize))
 		{
 			if (imageHandler.checkBounds(DOWN, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
@@ -344,6 +345,7 @@ void Window::moveCharacters()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
+		else if (down) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).downBBool); }
 		else if (left && pos.x > 0)
 		{
 			if (imageHandler.checkBounds(LEFT, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
@@ -360,6 +362,7 @@ void Window::moveCharacters()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
+		else if (left) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool); }
 		else if (right && pos.x < intify(imageHandler.sceneSize.x) * pixelSize - (tileSize * pixelSize))
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
@@ -376,6 +379,7 @@ void Window::moveCharacters()
 				getCharacterByOrder(1).animCode = 0;
 			}
 		}
+		else if (right) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).rightBBool); }
 	}
 	else // auto complete movement until centered on a grid.
 	{
