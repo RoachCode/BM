@@ -8,7 +8,7 @@ Character::Character(int id) : m_id(id)
     spriteColour = Default;
     order = id;
     textureUpdate(downABool);
-    sprite.setScale(pairF(2, 2));
+    sprite.setScale(pairF(1.999f, 1.999f));
     coordVector.push_back(0);
     coordVector.push_back(0);
 }
@@ -392,6 +392,28 @@ void Character::pickArray()
 
 void Character::changeAnimationState(int x, int y)
 {
+    const sf::Vector2f grid{ 
+        sprite.getPosition().x / intify(sprite.getGlobalBounds().width + 1), 
+        sprite.getPosition().y / intify(sprite.getGlobalBounds().width + 1) 
+    };
+    // West Kagar Ladders
+    // todo: Add more codes perhaps, and more animation choices to the switch? y = -2, etc.
+    if (grid.x == 7)
+    {
+        if (grid.y > 32 && grid.y <= 37)
+        {
+            y = -1;
+        }
+    }
+    else if (grid.x == 9)
+    {
+        if (grid.y > 36 && grid.y <= 37)
+        {
+            y = -1;
+        }
+    }
+
+
     int timeDelta{ 120 };
     sf::Time animateMovement = movementClock.getElapsedTime();
     int time{ animateMovement.asMilliseconds() };
@@ -498,11 +520,7 @@ void Character::changeAnimationState(int x, int y)
 
         }
         movementClock.restart();
-
     }
-
-
-    
 }
 
 void Character::swapOrder(Character& otherCharacter)

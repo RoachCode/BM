@@ -8,7 +8,7 @@ Window::Window()
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	setpixelSize(1.2f); //default 1.2f
+	setpixelSize(0.2f); //default 1.2f
 	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
@@ -28,7 +28,7 @@ Window::Window()
 	tileSize = 32;
 	uniqueScreenSizeGridSize = pairI(size.x / (tileSize * pixelSize), size.y / (tileSize * pixelSize));
 	
-	spriteVector.push_back(arson.sprite);
+	//spriteVector.push_back(arson.sprite);
 
 	//Noise::m_initSimplex(size.x / pixelSize, size.y / pixelSize, 4); Used to be screen size, changed to chunk size.
 	Noise::m_initSimplex(32 * TILES_PER_CHUNK_X, 32 * TILES_PER_CHUNK_Y, 4);
@@ -757,14 +757,32 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	const int fontScale{ (scale < 2) ? 2 : scale };
 	font.setStartPos(sf::Vector2f(startPosition.x + 1, startPosition.y + 1));
 	font.setPos(font.getStartPos());
+
 	// GET CHARACTER COUNTS FOR EACH TYPE OF CHARACTER.
-	
-	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) }; // inaccurate
+	int specialCount{ 0 };
+	int punctuationCount{ 0 };
+	for (size_t i = 0; i < string.length(); i++)
+	{
+		if (string[i] == '^' ||
+			string[i] == '|' ||
+			string[i] == '<' ||
+			string[i] == '{' ||
+			string[i] == '=' ||
+			string[i] == '_')
+		{ specialCount++; }
+		else if (
+			string[i] == ',' ||
+			string[i] == '.' ||
+			string[i] == ':')
+		{ punctuationCount++; }
+	}
+	int normalCount{ intify(string.length()) - specialCount - punctuationCount };
+	int messageWidth{ (9 * specialCount * fontScale) + (3 * punctuationCount * fontScale) + (7 * normalCount * fontScale) };
 
 	// Bounds Right
-	if ((intify(startPosition.x) + pixelWidth) > intify(getViewCoordinates(UR).x))
+	if ((intify(startPosition.x) + messageWidth) > intify(getViewCoordinates(UR).x))
 	{
-		startPosition.x = floatify(getViewCoordinates(UR).x - pixelWidth); // inaccurate
+		startPosition.x = floatify(getViewCoordinates(UR).x - messageWidth);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
@@ -801,7 +819,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 		else
 		{
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.setPos(sf::Vector2f(font.getPos().x - pixelSize, font.getPos().y - pixelSize));
+			font.setPos(sf::Vector2f(font.getPos().x - fontScale, font.getPos().y - fontScale));
 		}
 		for (size_t j = 0; j < string.length(); j++)
 		{
@@ -811,6 +829,25 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 				if (j != 0)
 				{
 					font.setPos(sf::Vector2f(font.getPos().x + (font.addon.x + font.moveR.x) * fontScale, font.getPos().y + (font.addon.y + font.moveR.y) * fontScale));
+					if (letter == '^' ||
+						letter == '|' ||
+						letter == '<' ||
+						letter == '{' ||
+						letter == '_' ||
+						letter == '=')
+					{
+						font.moveR = sf::Vector2f(9.f, 0.f);
+					}
+					else if (letter == ',' ||
+						letter == '.' ||
+						letter == ':')
+					{
+						font.moveR = sf::Vector2f(3.f, 0.f);
+					}
+					else
+					{
+						font.moveR = sf::Vector2f(7.f, 0.f);
+					}
 				}
 				font.charSprite.setScale(sf::Vector2f(fontScale, fontScale));
 				this->draw(font.charSprite);
