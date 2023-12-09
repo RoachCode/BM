@@ -94,5 +94,6 @@ public:
 	void checkUnderlyingTile(int dir);
 	void setGameIcon();
 	void setpixelSize(float factor = 1.2f);
-
+	void moveViewByCharacter();
+	void moveCharacters();
 };

@@ -208,6 +208,67 @@ sf::Vector2f Window::getViewCoordinates(int dir)
 		break;
 	}
 }
+void Window::moveViewByCharacter()
+{
+	const sf::Vector2i pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
+	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
+
+	// Move view when character is offset from the center by one sixth of the displayed grid size
+	if (pos.x > view.getCenter().x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x)
+	{
+		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * pixelSize)
+		{
+			view.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+			this->setView(view);
+		}
+	}
+	else if (pos.x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x < view.getCenter().x)
+	{
+		if (getViewCoordinates(UL).x > 0)
+		{
+			view.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+			this->setView(view);
+		}
+	}
+	if (pos.y > view.getCenter().y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y)
+	{
+		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * pixelSize)
+		{
+			view.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
+			this->setView(view);
+		}
+	}
+	else if (pos.y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y < view.getCenter().y)
+	{
+		if (getViewCoordinates(UL).y > 0)
+		{
+			view.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
+			this->setView(view);
+		}
+	}
+}
+void Window::refreshMovementBools()
+{
+	lastKeyUp = false;
+	lastKeyDown = false;
+	lastKeyLeft = false;
+	lastKeyRight = false;
+}
+void Window::changeFalseLastKeyState(bool& lastKeyInput)
+{
+	if (!lastKeyInput)
+	{
+		refreshMovementBools();
+		lastKeyInput = true;
+	}
+}
+sf::Vector2i Window::getGridPosition()
+{
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / (tileSize * pixelSize),
+		getCharacterByOrder(1).sprite.getPosition().y / (tileSize * pixelSize)
+	);
+}
 
 // Tilemap Functions
 void Window::drawTileMapsBack()
@@ -222,14 +283,28 @@ void Window::drawTileMapsFront()
 }
 
 // Sprite Functions
-void Window::pollMovement()
+void Window::sortSpriteVectorByHeight()
+{
+	spriteVector.push_back(getCharacterByOrder(4).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(1).sprite);
+	std::sort(
+		spriteVector.begin(),
+		spriteVector.end(),
+		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		{
+			return sprite.getPosition().y < sprite2.getPosition().y;
+		});
+}
+void Window::moveCharacters()
 {
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
 
-	sf::Vector2i pos{ 
-		pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), 
-			  intify(getCharacterByOrder(1).sprite.getPosition().y)) 
+	sf::Vector2i pos{
+		pairI(intify(getCharacterByOrder(1).sprite.getPosition().x),
+			intify(getCharacterByOrder(1).sprite.getPosition().y))
 	};
 
 	int x{ 0 };
@@ -331,7 +406,6 @@ void Window::pollMovement()
 			}
 		}
 	}
-	
 	if (x != 0 || y != 0)
 	{
 		getCharacterByOrder(1).changeAnimationState(x, y);
@@ -342,54 +416,19 @@ void Window::pollMovement()
 	getCharacterByOrder(3).follow(getCharacterByOrder(2), pixelSize);
 	getCharacterByOrder(4).follow(getCharacterByOrder(3), pixelSize);
 
-	pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
-	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
-
-	// Move view when character is offset from the center by one sixth of the displayed grid size
-	if (pos.x > view.getCenter().x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x)
-	{
-		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * pixelSize)
-		{
-			view.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
-			this->setView(view);
-		}
-	}
-	else if (pos.x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x < view.getCenter().x)
-	{
-		if (getViewCoordinates(UL).x > 0)
-		{
-			view.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
-			this->setView(view);
-		}
-	}
-	if (pos.y > view.getCenter().y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y)
-	{
-		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * pixelSize)
-		{
-			view.move(0, getCharacterByOrder(1).movementStepSize* pixelSize);
-			this->setView(view);
-		}
-	}
-	else if (pos.y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y < view.getCenter().y)
-	{
-		if (getViewCoordinates(UL).y > 0)
-		{
-			view.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
-			this->setView(view);
-		}
-	}
-
 	getCharacterByOrder(1).checkTimeout();
 	getCharacterByOrder(2).checkTimeout();
 	getCharacterByOrder(3).checkTimeout();
 	getCharacterByOrder(4).checkTimeout();
 
-	spriteVector.push_back(getCharacterByOrder(4).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
-	spriteVector.push_back(getCharacterByOrder(1).sprite);
 
+
+}
+void Window::pollMovement()
+{
+	moveCharacters();
 	sortSpriteVectorByHeight();
+	moveViewByCharacter();	
 }
 Character& Window::getCharacterByOrder(int order)
 {
@@ -398,28 +437,6 @@ Character& Window::getCharacterByOrder(int order)
 	else if (cole.order == order) { return cole; }
 	else if (neko.order == order) { return neko; }
 	else { return arson; }
-}
-void Window::refreshMovementBools()
-{
-	lastKeyUp = false;
-	lastKeyDown = false;
-	lastKeyLeft = false;
-	lastKeyRight = false;
-}
-void Window::changeFalseLastKeyState(bool& lastKeyInput)
-{
-	if (!lastKeyInput)
-	{
-		refreshMovementBools();
-		lastKeyInput = true;
-	}
-}
-sf::Vector2i Window::getGridPosition()
-{
-	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (tileSize * pixelSize),
-		getCharacterByOrder(1).sprite.getPosition().y / (tileSize * pixelSize)
-	);
 }
 void Window::checkUnderlyingTile(int dir)
 {
@@ -539,16 +556,6 @@ void Window::checkUnderlyingTile(int dir)
 			break;
 		}
 	}
-}
-void Window::sortSpriteVectorByHeight()
-{
-	std::sort(
-		spriteVector.begin(),
-		spriteVector.end(),
-		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
-		{
-			return sprite.getPosition().y < sprite2.getPosition().y;
-		});
 }
 void Window::drawSprites()
 {
