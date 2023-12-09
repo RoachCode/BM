@@ -754,33 +754,33 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	const int fontScale{ scale * pixelSize };
 	font.setStartPos(sf::Vector2f(startPosition.x + 1, startPosition.y + 1));
 	font.setPos(font.getStartPos());
-	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) };
+	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) }; // inaccurate
 
 	// Bounds Right
 	if ((intify(startPosition.x) + pixelWidth) > intify(getViewCoordinates(UR).x))
 	{
-		startPosition.x = floatify(getViewCoordinates(UR).x - pixelWidth);
+		startPosition.x = floatify(getViewCoordinates(UR).x - pixelWidth); // inaccurate
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Left
 	if (intify(startPosition.x) <= getViewCoordinates(UL).x)
 	{
-		startPosition.x = floatify(getViewCoordinates(UL).x + fontScale);
+		startPosition.x = floatify(getViewCoordinates(UL).x + pixelSize);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Bottom
 	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
 	{
-		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - fontScale);
+		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - pixelSize);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Top
 	if (intify(startPosition.y) <= getViewCoordinates(UL).y)
 	{
-		startPosition.y = floatify(getViewCoordinates(UL).y + fontScale);
+		startPosition.y = floatify(getViewCoordinates(UL).y + pixelSize);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
@@ -792,12 +792,12 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 		if (i == 0)
 		{
 			font.setColor(sf::Color(0, 0, 0), true);
-			font.move(sf::Vector2f(fontScale / 2, fontScale / 2));
+			font.move(sf::Vector2f(pixelSize / 2, pixelSize / 2));
 		}
 		else
 		{
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.move(sf::Vector2f(-fontScale / 2, -fontScale / 2));
+			font.move(sf::Vector2f(-pixelSize / 2, -pixelSize / 2));
 		}
 		for (size_t j = 0; j < string.length(); j++)
 		{
