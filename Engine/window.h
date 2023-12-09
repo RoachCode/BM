@@ -28,10 +28,7 @@ public:
 	// Declare the view
 	sf::View view;
 	sf::Vector2f movementOffset;
-
 	bool movementAllowed;
-	int movementStepSize;
-
 	bool lastKeyUp{ false };
 	bool lastKeyDown{ false };
 	bool lastKeyLeft{ false };
@@ -40,6 +37,8 @@ public:
 	bool down{};
 	bool left{};
 	bool right{};
+
+	// Holds all sprites
 	std::vector<sf::Sprite> spriteVector;
 
 	// Create class instances

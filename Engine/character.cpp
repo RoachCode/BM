@@ -11,6 +11,7 @@ Character::Character(int id) : m_id(id)
     sprite.setScale(pairF(1.999f, 1.999f));
     coordVector.push_back(0);
     coordVector.push_back(0);
+    movementStepSize = 4;
 }
 
 // Public
@@ -398,6 +399,7 @@ void Character::changeAnimationState(int x, int y)
     };
     // West Kagar Ladders
     // todo: Add more codes perhaps, and more animation choices to the switch? y = -2, etc.
+    // maybe make a function that works in all directions. Call it moonwalk()
     if (grid.x == 7)
     {
         if (grid.y > 32 && grid.y <= 37)
@@ -528,14 +530,13 @@ void Character::swapOrder(Character& otherCharacter)
     std::swap(order, otherCharacter.order);
 }
 
-void Character::follow(Character& otherCharacter, int movementStepSize)
+void Character::follow(Character& otherCharacter, int pixelSize)
 {
     int x{ otherCharacter.coordVector.front() };
     int y{ otherCharacter.coordVector[1] };
-    if (otherCharacter.coordVector.size() > 16)
+    if (otherCharacter.coordVector.size() > 128 / (otherCharacter.movementStepSize * pixelSize))
     {
-        //movementStepSize comes in already altered by pixelSize.
-        sprite.move(x * movementStepSize, y * movementStepSize);
+        sprite.move(x * movementStepSize * pixelSize, y * movementStepSize * pixelSize);
 
         otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());
         otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());

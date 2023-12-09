@@ -24,7 +24,6 @@ Window::Window()
 	down = false;
 	left = false;
 	right = false;
-	movementStepSize = 4;
 	tileSize = 32;
 	uniqueScreenSizeGridSize = pairI(size.x / (tileSize * pixelSize), size.y / (tileSize * pixelSize));
 	
@@ -244,7 +243,7 @@ void Window::pollMovement()
 			if (imageHandler.checkBounds(UP, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
 			{
 				checkUnderlyingTile(UP);
-				getCharacterByOrder(1).sprite.move(0, -movementStepSize * pixelSize);
+				getCharacterByOrder(1).sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
 			}
@@ -260,7 +259,7 @@ void Window::pollMovement()
 			{
 				checkUnderlyingTile(DOWN);
 
-				getCharacterByOrder(1).sprite.move(0, movementStepSize * pixelSize);
+				getCharacterByOrder(1).sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
 			}
@@ -276,7 +275,7 @@ void Window::pollMovement()
 			{
 				checkUnderlyingTile(LEFT);
 
-				getCharacterByOrder(1).sprite.move(-movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
 			}
@@ -292,7 +291,7 @@ void Window::pollMovement()
 			{
 				checkUnderlyingTile(RIGHT);
 
-				getCharacterByOrder(1).sprite.move(movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
 			}
@@ -309,12 +308,12 @@ void Window::pollMovement()
 		{
 			if (lastKeyRight)
 			{
-				getCharacterByOrder(1).sprite.move(movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				x = 1;
 			}
 			else if (lastKeyLeft)
 			{
-				getCharacterByOrder(1).sprite.move(-movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				x = -1;
 			}
 		}
@@ -322,12 +321,12 @@ void Window::pollMovement()
 		{
 			if (lastKeyUp)
 			{
-				getCharacterByOrder(1).sprite.move(0, -movementStepSize * pixelSize);
+				getCharacterByOrder(1).sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 				y = -1;
 			}
 			else if (lastKeyDown)
 			{
-				getCharacterByOrder(1).sprite.move(0, movementStepSize * pixelSize);
+				getCharacterByOrder(1).sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
 				y = 1;
 			}
 		}
@@ -339,9 +338,9 @@ void Window::pollMovement()
 		getCharacterByOrder(1).coordVector.push_back(x);
 		getCharacterByOrder(1).coordVector.push_back(y);
 	}
-	getCharacterByOrder(2).follow(getCharacterByOrder(1), movementStepSize * pixelSize);
-	getCharacterByOrder(3).follow(getCharacterByOrder(2), movementStepSize * pixelSize);
-	getCharacterByOrder(4).follow(getCharacterByOrder(3), movementStepSize * pixelSize);
+	getCharacterByOrder(2).follow(getCharacterByOrder(1), pixelSize);
+	getCharacterByOrder(3).follow(getCharacterByOrder(2), pixelSize);
+	getCharacterByOrder(4).follow(getCharacterByOrder(3), pixelSize);
 
 	pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
@@ -351,7 +350,7 @@ void Window::pollMovement()
 	{
 		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * pixelSize)
 		{
-			view.move(movementStepSize * pixelSize, 0);
+			view.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 			this->setView(view);
 		}
 	}
@@ -359,7 +358,7 @@ void Window::pollMovement()
 	{
 		if (getViewCoordinates(UL).x > 0)
 		{
-			view.move(-movementStepSize * pixelSize, 0);
+			view.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 			this->setView(view);
 		}
 	}
@@ -367,7 +366,7 @@ void Window::pollMovement()
 	{
 		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * pixelSize)
 		{
-			view.move(0, movementStepSize* pixelSize);
+			view.move(0, getCharacterByOrder(1).movementStepSize* pixelSize);
 			this->setView(view);
 		}
 	}
@@ -375,7 +374,7 @@ void Window::pollMovement()
 	{
 		if (getViewCoordinates(UL).y > 0)
 		{
-			view.move(0, -movementStepSize * pixelSize);
+			view.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 			this->setView(view);
 		}
 	}
@@ -427,6 +426,35 @@ void Window::checkUnderlyingTile(int dir)
 	// For each character...
 	for (int i = 1; i <= 4; i++)
 	{
+		if (i == 4 && 
+			getCharacterByOrder(1).spriteColour == SpriteColor::Default &&
+			getCharacterByOrder(2).spriteColour == SpriteColor::Default &&
+			getCharacterByOrder(3).spriteColour == SpriteColor::Default &&
+			getCharacterByOrder(4).spriteColour == SpriteColor::Default
+			)
+		{
+			getCharacterByOrder(1).movementStepSize = 4;
+			while (getCharacterByOrder(1).coordVector.size() > 128 / (4 * pixelSize))
+			{
+				getCharacterByOrder(1).coordVector.pop_back();
+			}
+			getCharacterByOrder(2).movementStepSize = 4;
+			while (getCharacterByOrder(2).coordVector.size() > 128 / (4 * pixelSize))
+			{
+				getCharacterByOrder(2).coordVector.pop_back();
+			}
+			getCharacterByOrder(3).movementStepSize = 4;
+			while (getCharacterByOrder(3).coordVector.size() > 128 / (4 * pixelSize))
+			{
+				getCharacterByOrder(3).coordVector.pop_back();
+			}
+			getCharacterByOrder(4).movementStepSize = 4;
+			while (getCharacterByOrder(4).coordVector.size() > 128 / (4 * pixelSize))
+			{
+				getCharacterByOrder(4).coordVector.pop_back();
+			}
+		}
+
 		// Get Grid Position for each character
 		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / (tileSize * pixelSize)) };
 		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / (tileSize * pixelSize)) };
@@ -456,20 +484,56 @@ void Window::checkUnderlyingTile(int dir)
 		switch (dir)
 		{
 		case UP:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy - 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy - 1) + xx]) 
+			{ 
+				getCharacterByOrder(i).spriteColour = SpriteColor::Blue; 
+				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
+				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
+			else
+			{ 
+				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
+				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
 			break;
 		case DOWN:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy + 1) + xx]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy + 1) + xx]) 
+			{ 
+				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
+				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
+				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
+			else
+			{
+				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
+				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
 			break;
 		case LEFT:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx - 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx - 1]) 
+			{ 
+				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
+				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
+				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
+			else
+			{
+				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
+				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
 			break;
 		case RIGHT:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx + 1]) { getCharacterByOrder(i).spriteColour = SpriteColor::Blue; }
-			else if (getCharacterByOrder(i).spriteColour == SpriteColor::Blue) { getCharacterByOrder(i).spriteColour = SpriteColor::Default; }
+			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx + 1]) 
+			{ 
+				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
+				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
+				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
+			else
+			{
+				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
+				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
+			}
 			break;
 		default:
 			break;

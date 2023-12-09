@@ -21,6 +21,7 @@ public:
     int spriteColour;
     int order;
     int animCode;
+    int movementStepSize;
 
     Character(int id);
     void textureUpdate(bool& inputBool);
