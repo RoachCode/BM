@@ -207,7 +207,7 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 	if (offset == -1) { return false; }
 	if (offset == 77) { addon.y = 1; } // comma
 	if (offset == 43 || offset == 46 || offset == 52 || offset == 53 || offset == 61) { addon.y = 2; } // all the other low letters
-	if (offset == 48) { addon.x = -1; }
+	//if (offset == 48) { addon.x = -1; }
 
 	if (offset < 69)
 	{

@@ -204,6 +204,8 @@ sf::Vector2f Window::getViewCoordinates(int dir)
 		return sf::Vector2f(floatify(view.getCenter().x + view.getSize().x / 2), floatify(view.getCenter().y + view.getSize().y / 2));
 		break;
 	default:
+		// UL
+		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
 		break;
 	}
 }
@@ -751,9 +753,12 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
-	const int fontScale{ scale * pixelSize };
+	scale += 1;
+	const int fontScale{ (scale < 2) ? 2 : scale };
 	font.setStartPos(sf::Vector2f(startPosition.x + 1, startPosition.y + 1));
 	font.setPos(font.getStartPos());
+	// GET CHARACTER COUNTS FOR EACH TYPE OF CHARACTER.
+	
 	int pixelWidth{ static_cast<int>(font.moveR.x * static_cast<int>(string.length()) * fontScale) }; // inaccurate
 
 	// Bounds Right
@@ -766,21 +771,21 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 	// Bounds Left
 	if (intify(startPosition.x) <= getViewCoordinates(UL).x)
 	{
-		startPosition.x = floatify(getViewCoordinates(UL).x + pixelSize);
+		startPosition.x = floatify(getViewCoordinates(UL).x + (fontScale * 2));
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Bottom
 	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
 	{
-		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - pixelSize);
+		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - fontScale);
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
 	// Bounds Top
 	if (intify(startPosition.y) <= getViewCoordinates(UL).y)
 	{
-		startPosition.y = floatify(getViewCoordinates(UL).y + pixelSize);
+		startPosition.y = floatify(getViewCoordinates(UL).y + (fontScale * 2));
 		font.setStartPos(startPosition);
 		font.setPos(startPosition);
 	}
@@ -792,12 +797,11 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 		if (i == 0)
 		{
 			font.setColor(sf::Color(0, 0, 0), true);
-			font.move(sf::Vector2f(pixelSize / 2, pixelSize / 2));
 		}
 		else
 		{
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.move(sf::Vector2f(-pixelSize / 2, -pixelSize / 2));
+			font.setPos(sf::Vector2f(font.getPos().x - pixelSize, font.getPos().y - pixelSize));
 		}
 		for (size_t j = 0; j < string.length(); j++)
 		{
@@ -806,13 +810,13 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 			{
 				if (j != 0)
 				{
-					font.move(sf::Vector2f((font.addon.x + font.moveR.x) * fontScale, (font.addon.y + font.moveR.y) * fontScale));
+					font.setPos(sf::Vector2f(font.getPos().x + (font.addon.x + font.moveR.x) * fontScale, font.getPos().y + (font.addon.y + font.moveR.y) * fontScale));
 				}
 				font.charSprite.setScale(sf::Vector2f(fontScale, fontScale));
 				this->draw(font.charSprite);
-				if (font.addon.y > 0) { font.move(sf::Vector2f(0.f, -1.f * floatify(font.addon.y * fontScale))); font.addon.y = 0; }
-				if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * fontScale, 0)); font.addon.x = 0; }
-				if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-fontScale, 0)); }
+				if (font.addon.y > 0) { font.setPos(sf::Vector2f(font.getPos().x, font.getPos().y - floatify(font.addon.y * fontScale))); font.addon.y = 0; }
+				//if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * fontScale, 0)); font.addon.x = 0; }
+				//if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-fontScale, 0)); }
 			}
 			else
 			{
