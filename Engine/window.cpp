@@ -762,17 +762,17 @@ void Window::drawFlow(FlowPreset& fp)
 {
 	flow.drawFlow(fp);
 
-	// screenshot
-	if (onlyOnceHack)
-	{
+				// screenshot
+				if (onlyOnceHack)
+				{
 
-		std::string filename = flow.currentName + ".png";
-		if (!flow.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
-		{
-			std::cout << "screenshot failed";
-		}
-		onlyOnceHack = false;
-	}
+					std::string filename = flow.currentName + ".png";
+					if (!flow.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
+					{
+						std::cout << "screenshot failed";
+					}
+					onlyOnceHack = false;
+				}
 
 	this->draw(flow.flowWindow);
 	
@@ -826,6 +826,19 @@ void Window::drawWaterTile()
 }
 
 // Text Functions
+void Window::drawDevToolsText()
+{
+	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2); // 1100 - 1200 fps
+	drawText
+	(
+		"X: " + std::to_string(intify(getGridPosition().x)) +
+		", Y :" + std::to_string(intify(getGridPosition().y)),
+		getViewCoordinates(DR),
+		2
+	);
+	drawText("Location: West Kagar", getViewCoordinates(DL), 2);
+	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
+}
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
 	scale += 1;

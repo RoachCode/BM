@@ -96,4 +96,6 @@ public:
 	void setpixelSize(float factor = 1.2f);
 	void moveViewByCharacter();
 	void moveCharacters();
+	void drawDevToolsText();
+
 };

@@ -2,7 +2,7 @@
 #include "flow.h"
 
 // Public
-FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount) :
+FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount, int rad) :
 	name(n),
 	red(r),
 	green(g),
@@ -11,7 +11,8 @@ FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float 
 	plottedPoints(pp),
 	stepSize(ss),
 	xCount(xcount),
-	yCount(ycount)
+	yCount(ycount),
+	radius(rad)
 {
 	ppCounter = 0;
 };
@@ -19,6 +20,7 @@ FlowPreset::FlowPreset(int n, float r, float g, float b, float a, int pp, float 
 // Public
 Flow::Flow()
 {
+
 	// Set defaults
 	m_drawGrid = false;
 	m_drawNeedles = false;
@@ -97,7 +99,10 @@ Flow::Flow()
 			quad[3].color = sf::Color(0, 33, 0, 185);
 		}
 	}
+	flowWindow.setTexture(&flowWindowTexture.getTexture());
+
 };
+
 void Flow::drawFlow(FlowPreset& fp)
 {
 	sf::Color initialColor = sf::Color(fp.red, fp.green, fp.blue, fp.alpha);
@@ -155,6 +160,7 @@ void Flow::drawFlow(FlowPreset& fp)
 					m_tracer.setRadius(initialRadius);
 
 					this->m_drawAllLines(fp);
+
 				}
 			}
 			fp.ppCounter++;
@@ -165,13 +171,7 @@ void Flow::drawFlow(FlowPreset& fp)
 			m_drawLines = false;
 		}
 	}
-
-	if (m_drawGrid || m_drawNeedles || m_drawLines)
-	{
-		flowWindowTexture.display();
-		flowWindow.setTexture(&flowWindowTexture.getTexture());
-	}
-
+	
 }
 void Flow::drawFlow()
 {
@@ -214,7 +214,9 @@ void Flow::m_applyChanges(FlowPreset& fp)
 	{
 	case InProgress:
 		currentName = "InProgress";
-		fp.red = m_tracer.getFillColor().r + 1.5;
+		
+		//fp.red = m_tracer.getFillColor().r + 1.5;
+		m_tracer.setRadius(fp.radius);
 		break;
 
 	case DragonFlame:

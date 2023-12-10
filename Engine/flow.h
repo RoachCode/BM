@@ -8,8 +8,8 @@ class FlowPreset
 {
 public:
 	// Constructor
-	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2) {};
-	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount);
+	FlowPreset() : name(-1), red(0), green(0), blue(255), alpha(255), plottedPoints(20), stepSize(100), xCount(2), yCount(2), radius(1) {};
+	FlowPreset(int n, float r, float g, float b, float a, int pp, float ss, int xcount, int ycount, int rad);
 
 	// Preset name
 	int name;
@@ -19,6 +19,9 @@ public:
 	float green;
 	float blue;
 	float alpha;
+
+	// Radius
+	int radius;
 
 	// Variables
 	int plottedPoints;
