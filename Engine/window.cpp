@@ -282,10 +282,30 @@ void Window::drawTileMapsBack()
 }
 void Window::drawTileMapsFront()
 {
-	const int alpha{(imageHandler.transparency) ? 160 : 255 };
-	imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, alpha)); //neat, global transparency.
+	//const int alpha{(imageHandler.transparency) ? 160 : 255 };
+	//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, alpha)); //neat, global transparency.
 	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
+
+	/*
+	sf::CircleShape circle;
+	circle.setRadius(32);
+	circle.setFillColor(sf::Color(0, 0, 0, 0));
+	circle.setPosition(getCharacterByOrder(1).sprite.getPosition());
+
+	//imageHandler.tilemapRenderFront.draw(circle, sf::BlendNone);
+
+	
+	imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
+	imageHandler.tempRender.draw(circle, sf::BlendNone);
+
+	imageHandler.tempRender.display();
+	imageHandler.tempRectangle.setTexture(&imageHandler.tempRender.getTexture());
+
+	this->draw(imageHandler.tempRectangle);
+	imageHandler.tempRender.clear(sf::Color::Transparent);
+*/
 	this->draw(imageHandler.tilemapWindowFront);
+
 }
 
 // Sprite Functions

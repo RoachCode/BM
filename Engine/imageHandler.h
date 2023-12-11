@@ -23,9 +23,12 @@ public:
 
     sf::RenderTexture tilemapRenderBack;
     sf::RenderTexture tilemapRenderFront;
+    sf::RenderTexture tempRender;
+    sf::RectangleShape tempRectangle;
     
     sf::RectangleShape tilemapWindowBack;
     sf::RectangleShape tilemapWindowFront;
+
 
     bool transparency;
 

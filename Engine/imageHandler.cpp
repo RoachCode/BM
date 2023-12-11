@@ -34,6 +34,9 @@ ImageHandler::ImageHandler()
     tilemapRenderFront.clear(sf::Color::Transparent);
     tilemapWindowFront.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
 
+    tempRender.create(sceneSize.x, sceneSize.y);
+    tempRender.clear(sf::Color::Transparent);
+    tempRectangle.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
 
     this->loadWestKagar();
 
@@ -154,11 +157,12 @@ void ImageHandler::loadWestKagar()
             tilemapRenderFront.draw(*tilemapVector[i]);
         }
     }
+
     tilemapRenderBack.display();
     tilemapRenderFront.display();
     tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
     tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
-    //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //neat, global transparency.
+    //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 155)); //neat, global transparency.
 }
 
 // Checks the lowest map for allowable movement.

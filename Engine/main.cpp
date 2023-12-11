@@ -65,7 +65,7 @@ int main()
         window.drawWaterTile();
         window.drawTileMapsFront(); // 620
 
-        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
+        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
 		window.drawDevToolsText();
 
 		window.display();
