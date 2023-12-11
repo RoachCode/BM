@@ -138,6 +138,10 @@ void Window::pollEvents()
 				break;
 			case sf::Keyboard::W:
 				DEV_TOOLS.wallToggle();
+				break;
+			case sf::Keyboard::T:
+				imageHandler.transparencyToggle();
+				break;
 			default:
 				break;
 			}
@@ -278,6 +282,8 @@ void Window::drawTileMapsBack()
 }
 void Window::drawTileMapsFront()
 {
+	const int alpha{(imageHandler.transparency) ? 160 : 255 };
+	imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, alpha)); //neat, global transparency.
 	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
 	this->draw(imageHandler.tilemapWindowFront);
 }

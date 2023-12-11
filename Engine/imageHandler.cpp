@@ -145,7 +145,7 @@ void ImageHandler::loadWestKagar()
 
         tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
 
-        if (i < 6)
+        if (i < 5)
         {
             tilemapRenderBack.draw(*tilemapVector[i]);
         }
@@ -158,7 +158,7 @@ void ImageHandler::loadWestKagar()
     tilemapRenderFront.display();
     tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
     tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
-
+    //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //neat, global transparency.
 }
 
 // Checks the lowest map for allowable movement.
@@ -184,3 +184,5 @@ bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
     }
     return allowed;
 }
+
+void ImageHandler::transparencyToggle() { transparency = !transparency; }

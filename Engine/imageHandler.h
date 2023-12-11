@@ -22,13 +22,16 @@ public:
     sf::Vector2u sceneSize;
 
     sf::RenderTexture tilemapRenderBack;
-    sf::RectangleShape tilemapWindowBack;
-
     sf::RenderTexture tilemapRenderFront;
+    
+    sf::RectangleShape tilemapWindowBack;
     sf::RectangleShape tilemapWindowFront;
+
+    bool transparency;
 
     ImageHandler();
 
     void loadWestKagar();
     bool checkBounds(int direction, sf::Vector2i position);
+    void transparencyToggle();
 };
