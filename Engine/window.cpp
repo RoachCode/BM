@@ -284,28 +284,46 @@ void Window::drawTileMapsFront()
 {
 	//const int alpha{(imageHandler.transparency) ? 160 : 255 };
 	//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, alpha)); //neat, global transparency.
-	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
 
-	/*
-	sf::CircleShape circle;
-	circle.setRadius(32);
-	circle.setFillColor(sf::Color(0, 0, 0, 0));
-	circle.setPosition(getCharacterByOrder(1).sprite.getPosition());
 
-	//imageHandler.tilemapRenderFront.draw(circle, sf::BlendNone);
+	if (imageHandler.transparency)
+	{
+		sf::CircleShape circle(tileSize);
+ 
+		circle.setFillColor(sf::Color(0, 0, 0, 0));
+		static int iterator{ 0 };
+		float radius = Noise::m_simplexData[iterator] / 30.f + tileSize * .66;
+		circle.setRadius(radius);
+		iterator++;
+		if (iterator >= Noise::m_simplexData.size()) { iterator = 0; }
+		circle.setPosition
+		(
+			sf::Vector2f
+			(
+				getCharacterByOrder(1).sprite.getPosition().x / pixelSize - radius + tileSize / 2,
+				getCharacterByOrder(1).sprite.getPosition().y / pixelSize - radius + tileSize / 2 - 8 / pixelSize
+			)
+		);
+		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
+		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
+		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
+		imageHandler.tempRender.draw(circle, sf::BlendNone);
+		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 225)); //global transparency.
+		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
 
-	
-	imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-	imageHandler.tempRender.draw(circle, sf::BlendNone);
+		imageHandler.tempRender.display();
+		imageHandler.tempRectangle.setTexture(&imageHandler.tempRender.getTexture());
 
-	imageHandler.tempRender.display();
-	imageHandler.tempRectangle.setTexture(&imageHandler.tempRender.getTexture());
-
-	this->draw(imageHandler.tempRectangle);
-	imageHandler.tempRender.clear(sf::Color::Transparent);
-*/
-	this->draw(imageHandler.tilemapWindowFront);
-
+		imageHandler.tempRectangle.setScale(sf::Vector2f(pixelSize, pixelSize));
+		this->draw(imageHandler.tempRectangle);
+		//imageHandler.tempRender.clear(sf::Color::Transparent);
+	}
+	else
+	{
+		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
+		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
+		this->draw(imageHandler.tilemapWindowFront);
+	}
 }
 
 // Sprite Functions
