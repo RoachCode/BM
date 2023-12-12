@@ -282,21 +282,13 @@ void Window::drawTileMapsBack()
 }
 void Window::drawTileMapsFront()
 {
-	//const int alpha{(imageHandler.transparency) ? 160 : 255 };
-	//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, alpha)); //neat, global transparency.
-
-
 	if (imageHandler.transparency)
 	{
-		sf::CircleShape circle(tileSize);
- 
-		circle.setFillColor(sf::Color(0, 0, 0, 0));
-		static int iterator{ 0 };
-		float radius = Noise::m_simplexData[iterator] / 30.f + tileSize * .66;
-		circle.setRadius(radius);
-		iterator++;
-		if (iterator >= Noise::m_simplexData.size()) { iterator = 0; }
-		circle.setPosition
+		float radius = Noise::m_simplexData[imageHandler.iterator] / 30.f + tileSize * .66;
+		imageHandler.circle.setRadius(radius);
+		imageHandler.iterator++;
+		if (imageHandler.iterator >= Noise::m_simplexData.size()) { imageHandler.iterator = 0; }
+		imageHandler.circle.setPosition
 		(
 			sf::Vector2f
 			(
@@ -307,16 +299,13 @@ void Window::drawTileMapsFront()
 		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
 		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
 		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-		imageHandler.tempRender.draw(circle, sf::BlendNone);
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 225)); //global transparency.
+		imageHandler.tempRender.draw(imageHandler.circle, sf::BlendNone);
+		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //global transparency.
 		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-
 		imageHandler.tempRender.display();
-		imageHandler.tempRectangle.setTexture(&imageHandler.tempRender.getTexture());
-
 		imageHandler.tempRectangle.setScale(sf::Vector2f(pixelSize, pixelSize));
 		this->draw(imageHandler.tempRectangle);
-		//imageHandler.tempRender.clear(sf::Color::Transparent);
+		imageHandler.tempRender.clear(sf::Color::Transparent);
 	}
 	else
 	{
@@ -801,7 +790,7 @@ void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 }
 
 // Flow Functions
-bool justOnce{ true };
+bool justOnce{ true }; // for screenshots
 void Window::drawFlow(FlowPreset& fp)
 {
 	flow.drawFlow(fp);

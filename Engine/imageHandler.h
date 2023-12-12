@@ -29,7 +29,8 @@ public:
     sf::RectangleShape tilemapWindowBack;
     sf::RectangleShape tilemapWindowFront;
 
-
+    sf::CircleShape circle;
+    int iterator;
     bool transparency;
 
     ImageHandler();

@@ -38,6 +38,10 @@ ImageHandler::ImageHandler()
     tempRender.clear(sf::Color::Transparent);
     tempRectangle.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
 
+    circle.setFillColor(sf::Color(0, 0, 0, 0));
+    tempRectangle.setTexture(&tempRender.getTexture());
+    transparency = true;
+
     this->loadWestKagar();
 
 }
