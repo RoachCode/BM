@@ -24,9 +24,10 @@ public:
     int movementStepSize;
 
     Character(int id);
+    void textureUpdate();
     void textureUpdate(bool& inputBool);
     void pickArray();
-    void changeAnimationState(int x, int y);
+    void changeAnimationState(int x, int y, int pixelSize);
     void swapOrder(Character& otherCharacter);
     void follow(Character& otherCharacter, int movementStepSize);
     void checkTimeout();

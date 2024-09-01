@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 4018 ) // signed/unsigned mismatch in conditionals is OK.
 #include <SFML/Graphics.hpp>
 #include <deque>
 #include "constExpressions.h"
@@ -23,7 +24,7 @@ public:
 	sf::Vector2u size;
 	sf::Vector2i uniqueScreenSizeGridSize;
 	int pixelSize{ 1 };
-	int tileSize{};
+	int tilePixels{};
 
 	// Declare the view
 	sf::View view;
@@ -91,7 +92,7 @@ public:
 	void changeFalseLastKeyState(bool& lastKeyInput);
 	void sortSpriteVectorByHeight();
 	void setPositionAndDraw(float x, float y);
-	void checkUnderlyingTile(int dir);
+	void checkUnderlyingTile();
 	void setGameIcon();
 	void setpixelSize(float factor = 1.2f);
 	void moveViewByCharacter();

@@ -8,7 +8,7 @@ Window::Window()
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
 	// Get the size of the window
 	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	setpixelSize(0.2f); //default 1.2f
+	setpixelSize(1.2f); //default 1.2f
 	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
 	// Assign current view to Window::view
@@ -24,13 +24,12 @@ Window::Window()
 	down = false;
 	left = false;
 	right = false;
-	tileSize = 32;
-	uniqueScreenSizeGridSize = pairI(size.x / (tileSize * pixelSize), size.y / (tileSize * pixelSize));
+	//uniqueScreenSizeGridSize = pairI(size.x / (tilePixels), size.y / (tilePixels));
 	
 	//spriteVector.push_back(arson.sprite);
 
 	//Noise::m_initSimplex(size.x / pixelSize, size.y / pixelSize, 4); Used to be screen size, changed to chunk size.
-	Noise::m_initSimplex(32 * TILES_PER_CHUNK_X, 32 * TILES_PER_CHUNK_Y, 4);
+	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
 
 }
 
@@ -175,7 +174,12 @@ void Window::setpixelSize(float factor)
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { pixelSize = 3; }
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { pixelSize = 4; }
 	else { pixelSize = 2; }
+
+	pixelSize = 4;
+
 	// I doubt we need more.
+	tilePixels = TILE_SIZE * pixelSize;
+	uniqueScreenSizeGridSize = pairI(size.x / (tilePixels), size.y / (tilePixels));
 }
 void Window::startViewMovement(sf::Vector2f offset)
 {
@@ -218,7 +222,7 @@ void Window::moveViewByCharacter()
 	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
 
 	// Move view when character is offset from the center by one sixth of the displayed grid size
-	if (pos.x > view.getCenter().x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x)
+	if (pos.x > view.getCenter().x + (tilePixels) * oneSixthOfVisibleGrid.x)
 	{
 		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * pixelSize)
 		{
@@ -226,15 +230,15 @@ void Window::moveViewByCharacter()
 			this->setView(view);
 		}
 	}
-	else if (pos.x + (tileSize * pixelSize) * oneSixthOfVisibleGrid.x < view.getCenter().x)
+	else if (pos.x + (tilePixels) * oneSixthOfVisibleGrid.x < view.getCenter().x)
 	{
-		if (getViewCoordinates(UL).x > 0)
+		if (getViewCoordinates(UL).x > pixelSize)
 		{
 			view.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 			this->setView(view);
 		}
 	}
-	if (pos.y > view.getCenter().y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y)
+	if (pos.y > view.getCenter().y + (tilePixels) * oneSixthOfVisibleGrid.y)
 	{
 		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * pixelSize)
 		{
@@ -242,9 +246,9 @@ void Window::moveViewByCharacter()
 			this->setView(view);
 		}
 	}
-	else if (pos.y + (tileSize * pixelSize) * oneSixthOfVisibleGrid.y < view.getCenter().y)
+	else if (pos.y + (tilePixels) * oneSixthOfVisibleGrid.y < view.getCenter().y)
 	{
-		if (getViewCoordinates(UL).y > 0)
+		if (getViewCoordinates(UL).y > pixelSize)
 		{
 			view.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 			this->setView(view);
@@ -269,8 +273,8 @@ void Window::changeFalseLastKeyState(bool& lastKeyInput)
 sf::Vector2i Window::getGridPosition()
 {
 	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (tileSize * pixelSize),
-		getCharacterByOrder(1).sprite.getPosition().y / (tileSize * pixelSize)
+		getCharacterByOrder(1).sprite.getPosition().x / (tilePixels),
+		getCharacterByOrder(1).sprite.getPosition().y / (tilePixels)
 	);
 }
 
@@ -284,7 +288,7 @@ void Window::drawTileMapsFront()
 {
 	if (imageHandler.transparency)
 	{
-		float radius = Noise::m_simplexData[imageHandler.iterator] / 30.f + tileSize * .66;
+		float radius = Noise::m_simplexData[imageHandler.iterator] / 30.f + TILE_SIZE * .66;
 		imageHandler.circle.setRadius(radius);
 		imageHandler.iterator++;
 		if (imageHandler.iterator >= Noise::m_simplexData.size()) { imageHandler.iterator = 0; }
@@ -292,8 +296,8 @@ void Window::drawTileMapsFront()
 		(
 			sf::Vector2f
 			(
-				getCharacterByOrder(1).sprite.getPosition().x / pixelSize - radius + tileSize / 2,
-				getCharacterByOrder(1).sprite.getPosition().y / pixelSize - radius + tileSize / 2 - 8 / pixelSize
+				getCharacterByOrder(1).sprite.getPosition().x / pixelSize - radius + TILE_SIZE / 2,
+				getCharacterByOrder(1).sprite.getPosition().y / pixelSize - radius + TILE_SIZE / 2 - 8 / pixelSize
 			)
 		);
 		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
@@ -344,13 +348,12 @@ void Window::moveCharacters()
 	int y{ 0 };
 
 	// If the main character is centered on a grid, accept movement input.
-	if (pos.x % (tileSize * pixelSize) == 0 && pos.y % (tileSize * pixelSize) == 0)
+	if (pos.x % (tilePixels) == 0 && pos.y % (tilePixels) == 0)
 	{
 		if (up && pos.y > 0)
 		{
-			if (imageHandler.checkBounds(UP, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(UP, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				checkUnderlyingTile(UP);
 				getCharacterByOrder(1).sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
@@ -362,12 +365,10 @@ void Window::moveCharacters()
 			}
 		}
 		else if (up) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool); }
-		else if (down && pos.y < intify(imageHandler.sceneSize.y) * pixelSize - (tileSize * pixelSize))
+		else if (down && pos.y < intify(imageHandler.sceneSize.y) * pixelSize - (tilePixels))
 		{
-			if (imageHandler.checkBounds(DOWN, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(DOWN, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				checkUnderlyingTile(DOWN);
-
 				getCharacterByOrder(1).sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
@@ -381,10 +382,8 @@ void Window::moveCharacters()
 		else if (down) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).downBBool); }
 		else if (left && pos.x > 0)
 		{
-			if (imageHandler.checkBounds(LEFT, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(LEFT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				checkUnderlyingTile(LEFT);
-
 				getCharacterByOrder(1).sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
@@ -396,12 +395,10 @@ void Window::moveCharacters()
 			}
 		}
 		else if (left) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool); }
-		else if (right && pos.x < intify(imageHandler.sceneSize.x) * pixelSize - (tileSize * pixelSize))
+		else if (right && pos.x < intify(imageHandler.sceneSize.x) * pixelSize - (tilePixels))
 		{
-			if (imageHandler.checkBounds(RIGHT, pos / (tileSize * pixelSize)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(RIGHT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				checkUnderlyingTile(RIGHT);
-
 				getCharacterByOrder(1).sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
@@ -416,7 +413,7 @@ void Window::moveCharacters()
 	}
 	else // auto complete movement until centered on a grid.
 	{
-		if (pos.x % (tileSize * pixelSize) != 0)
+		if (pos.x % (tilePixels) != 0)
 		{
 			if (lastKeyRight)
 			{
@@ -429,7 +426,7 @@ void Window::moveCharacters()
 				x = -1;
 			}
 		}
-		else if (pos.y % (tileSize * pixelSize) != 0)
+		else if (pos.y % (tilePixels) != 0)
 		{
 			if (lastKeyUp)
 			{
@@ -445,20 +442,24 @@ void Window::moveCharacters()
 	}
 	if (x != 0 || y != 0)
 	{
-		getCharacterByOrder(1).changeAnimationState(x, y);
+		getCharacterByOrder(1).changeAnimationState(x, y, pixelSize);
+
+		//getCharacterByOrder(1).coordVector.clear();
+
 		getCharacterByOrder(1).coordVector.push_back(x);
 		getCharacterByOrder(1).coordVector.push_back(y);
+
+		getCharacterByOrder(2).follow(getCharacterByOrder(1), pixelSize);
+		getCharacterByOrder(3).follow(getCharacterByOrder(2), pixelSize);
+		getCharacterByOrder(4).follow(getCharacterByOrder(3), pixelSize);
+		
+		checkUnderlyingTile();
 	}
-	getCharacterByOrder(2).follow(getCharacterByOrder(1), pixelSize);
-	getCharacterByOrder(3).follow(getCharacterByOrder(2), pixelSize);
-	getCharacterByOrder(4).follow(getCharacterByOrder(3), pixelSize);
 
 	getCharacterByOrder(1).checkTimeout();
 	getCharacterByOrder(2).checkTimeout();
 	getCharacterByOrder(3).checkTimeout();
 	getCharacterByOrder(4).checkTimeout();
-
-
 
 }
 void Window::pollMovement()
@@ -475,130 +476,58 @@ Character& Window::getCharacterByOrder(int order)
 	else if (neko.order == order) { return neko; }
 	else { return arson; }
 }
-void Window::checkUnderlyingTile(int dir)
+void Window::checkUnderlyingTile()
 {
-	// For each character...
-	for (int i = 1; i <= 4; i++)
+	for (int i = 1; i < 5; i++)
 	{
-		if (i == 4 && 
-			getCharacterByOrder(1).spriteColour == SpriteColor::Default &&
-			getCharacterByOrder(2).spriteColour == SpriteColor::Default &&
-			getCharacterByOrder(3).spriteColour == SpriteColor::Default &&
-			getCharacterByOrder(4).spriteColour == SpriteColor::Default
-			)
-		{
-			getCharacterByOrder(1).movementStepSize = 4;
-			while (getCharacterByOrder(1).coordVector.size() > 128 / (4 * pixelSize))
-			{
-				getCharacterByOrder(1).coordVector.pop_back();
-			}
-			getCharacterByOrder(2).movementStepSize = 4;
-			while (getCharacterByOrder(2).coordVector.size() > 128 / (4 * pixelSize))
-			{
-				getCharacterByOrder(2).coordVector.pop_back();
-			}
-			getCharacterByOrder(3).movementStepSize = 4;
-			while (getCharacterByOrder(3).coordVector.size() > 128 / (4 * pixelSize))
-			{
-				getCharacterByOrder(3).coordVector.pop_back();
-			}
-			getCharacterByOrder(4).movementStepSize = 4;
-			while (getCharacterByOrder(4).coordVector.size() > 128 / (4 * pixelSize))
-			{
-				getCharacterByOrder(4).coordVector.pop_back();
-			}
-		}
-
 		// Get Grid Position for each character
-		int xx{ intify(getCharacterByOrder(i).sprite.getPosition().x / (tileSize * pixelSize)) };
-		int yy{ intify(getCharacterByOrder(i).sprite.getPosition().y / (tileSize * pixelSize)) };
+		int x{ intify(getCharacterByOrder(i).sprite.getPosition().x / (tilePixels)) };
+		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (tilePixels)) };
+		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
-		// If character is not in the lead, check lead coordinates and adjust direction
-		if (i > 1)
+		if (water.westKagarWater[arrayPos])
 		{
-			if (getCharacterByOrder(i - 1).coordVector[1] == -1)
-			{
-				dir = UP;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[1] == 1)
-			{
-				dir = DOWN;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[0] == -1)
-			{
-				dir = LEFT;
-			}
-			else if (getCharacterByOrder(i - 1).coordVector[0] == 1)
-			{
-				dir = RIGHT;
-			}
+			getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
+			getCharacterByOrder(i).textureUpdate();
+			getCharacterByOrder(i).movementStepSize = 1;
+		}
+		else
+		{
+			getCharacterByOrder(i).spriteColour = SpriteColor::Default;
+			getCharacterByOrder(i).textureUpdate();
+		}
+	}
+	// When everyone is out of the water and centered on the grid, back to fast movement.
+	
+	if (getCharacterByOrder(1).spriteColour == SpriteColor::Default &&
+		getCharacterByOrder(2).spriteColour == SpriteColor::Default &&
+		getCharacterByOrder(3).spriteColour == SpriteColor::Default &&
+		getCharacterByOrder(4).spriteColour == SpriteColor::Default &&
+		intify(getCharacterByOrder(1).sprite.getPosition().x) % (tilePixels) == 0 &&
+		intify(getCharacterByOrder(1).sprite.getPosition().y) % (tilePixels) == 0
+		)
+	{
+		if (getCharacterByOrder(1).coordVector.size() > 16)
+		{
+			const int resize{ 64 / getCharacterByOrder(1).movementStepSize - 16 };
+
+			getCharacterByOrder(1).coordVector.erase(getCharacterByOrder(1).coordVector.begin(), getCharacterByOrder(1).coordVector.begin() + resize);
+			getCharacterByOrder(2).coordVector.erase(getCharacterByOrder(2).coordVector.begin(), getCharacterByOrder(2).coordVector.begin() + resize);
+			getCharacterByOrder(3).coordVector.erase(getCharacterByOrder(3).coordVector.begin(), getCharacterByOrder(3).coordVector.begin() + resize);
+			getCharacterByOrder(4).coordVector.erase(getCharacterByOrder(4).coordVector.begin(), getCharacterByOrder(4).coordVector.begin() + resize);
 		}
 
-		// If the tile in the direction of travel will be under the character...
-		switch (dir)
-		{
-		case UP:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy - 1) + xx]) 
-			{ 
-				getCharacterByOrder(i).spriteColour = SpriteColor::Blue; 
-				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
-				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			else
-			{ 
-				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
-				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			break;
-		case DOWN:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * (yy + 1) + xx]) 
-			{ 
-				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
-				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
-				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			else
-			{
-				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
-				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			break;
-		case LEFT:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx - 1]) 
-			{ 
-				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
-				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
-				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			else
-			{
-				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
-				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			break;
-		case RIGHT:
-			if (water.westKagarWater[(TILES_PER_CHUNK_X * 4) * yy + xx + 1]) 
-			{ 
-				getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
-				if (i == 1) { getCharacterByOrder(i).movementStepSize = 1; }
-				else { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			else
-			{
-				getCharacterByOrder(i).spriteColour = SpriteColor::Default;
-				if (i != 1 && getCharacterByOrder(i - 1).spriteColour == SpriteColor::Default) { getCharacterByOrder(i).movementStepSize = getCharacterByOrder(i - 1).movementStepSize; }
-			}
-			break;
-		default:
-			break;
-		}
+		getCharacterByOrder(1).movementStepSize = 4;
+		getCharacterByOrder(2).movementStepSize = 4;
+		getCharacterByOrder(3).movementStepSize = 4;
+		getCharacterByOrder(4).movementStepSize = 4;
 	}
 }
 void Window::drawSprites()
 {
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
+		//spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
 		spriteVector[i].setScale(pixelSize, pixelSize);
 		this->draw(spriteVector[i]);
 	}

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\character.cpp" />
+    <ClCompile Include="Engine\constExpressions.cpp" />
     <ClCompile Include="Engine\devtools.cpp" />
     <ClCompile Include="Engine\filesys.cpp" />
     <ClCompile Include="Engine\flow.cpp" />

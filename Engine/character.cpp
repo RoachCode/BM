@@ -3,9 +3,9 @@
 
 Character::Character(int id) : m_id(id) 
 {
-    spriteW = 32;
-    spriteH = 32;
-    spriteColour = Default;
+    spriteW = TILE_SIZE;
+    spriteH = TILE_SIZE;
+    spriteColour = SpriteColor::Default;
     order = id;
     textureUpdate(downABool);
     sprite.setScale(pairF(1.999f, 1.999f));
@@ -15,6 +15,104 @@ Character::Character(int id) : m_id(id)
 }
 
 // Public
+void Character::textureUpdate()
+{
+    spriteTexture.create(spriteW, spriteH);
+    sf::Uint8* pixels = new sf::Uint8[spriteW * spriteH * 4];
+
+    uint8_t rw{ 255 };
+    uint8_t gw{ 0 };
+    uint8_t bw{ 0 };
+    uint8_t aw{ 255 };
+
+    for (int i = 0; i < spriteW * spriteH * 4; i += 4)
+    {
+        //every iteration will call in order every pixel until done.
+        rw = currentTexture[0 + i];
+        gw = currentTexture[1 + i];
+        bw = currentTexture[2 + i];
+        aw = currentTexture[3 + i];
+
+        // Sprite colorizer - not implemented yet
+
+        switch (spriteColour)
+        {
+        case Default:
+            pixels[i + 0] = rw;
+            pixels[i + 1] = gw;
+            pixels[i + 2] = bw;
+            pixels[i + 3] = aw;
+            break;
+        case Inverted:
+            if (rw <= 34 && gw <= 34 && bw <= 34)
+            {
+                pixels[i + 0] = rw; // assigns the value at r to the pixels object
+                pixels[i + 1] = gw;
+                pixels[i + 2] = bw;
+            }
+            else
+            {
+                pixels[i + 0] = 255 - rw; // assigns the value at r to the pixels object
+                pixels[i + 1] = 255 - gw;
+                pixels[i + 2] = 255 - bw;
+            }
+            pixels[i + 3] = aw;
+            break;
+        case Black:
+            if (rw > 45 || gw > 45 || bw > 45)
+            {
+                aw = 0;
+            }
+            pixels[i + 0] = rw; // assigns the value at r to the pixels object
+            pixels[i + 1] = gw;
+            pixels[i + 2] = bw;
+            pixels[i + 3] = aw;
+            break;
+        case Transparent:
+            if (aw > 250)
+            {
+                aw = 127;
+            }
+            pixels[i + 0] = rw; // assigns the value at r to the pixels object
+            pixels[i + 1] = gw;
+            pixels[i + 2] = bw;
+            pixels[i + 3] = aw;
+            break;
+        case Blue:
+            if (rw + gw + bw > 255)
+            {
+                bw = 255;
+            }
+            else
+            {
+                bw = rw + gw + bw;
+                rw = 0;
+                gw = 0;
+            }
+            pixels[i + 0] = rw; // assigns the value at r to the pixels object
+            pixels[i + 1] = gw;
+            pixels[i + 2] = bw;
+            pixels[i + 3] = aw;
+            break;
+        case Dark:
+            pixels[i + 0] = rw / 2; // assigns the value at r to the pixels object
+            pixels[i + 1] = gw / 2;
+            pixels[i + 2] = bw / 2;
+            pixels[i + 3] = aw;
+            break;
+        default:
+            pixels[i + 0] = rw;
+            pixels[i + 1] = gw;
+            pixels[i + 2] = bw;
+            pixels[i + 3] = aw;
+            break;
+        }
+    }
+    spriteTexture.update(pixels);
+    sprite.setTexture(spriteTexture);
+    delete[] pixels;
+    currentTexture.clear();
+}
 void Character::textureUpdate(bool &inputBool)
 {
     m_clearBools();
@@ -170,54 +268,54 @@ void Character::pickArray()
     case 2: // Gaia
         if (rightABool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(gaiaLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (rightBBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(gaiaLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
             break;
         }
         else if (rightCBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(gaiaLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (idleRBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(gaiaIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
@@ -243,54 +341,54 @@ void Character::pickArray()
     case 3: // Cole 
         if (rightABool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(coleLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (rightBBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(coleLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
             break;
         }
         else if (rightCBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(coleLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (idleRBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(coleIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
@@ -316,54 +414,54 @@ void Character::pickArray()
     case 4: // Neko
         if (rightABool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(nekoLeftA[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (rightBBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(nekoLeftB[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
             break;
         }
         else if (rightCBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(nekoLeftC[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
         else if (idleRBool)
         {
-            for (int k = 0; k < 32; k++) // vertical count
+            for (int k = 0; k < TILE_SIZE; k++) // vertical count
             {
-                for (int j = 0; j < 4 * 32; j += 4)
+                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
                 {
-                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 3]);
-                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 2]);
-                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j - 1]);
-                    currentTexture.push_back(nekoIdleL[(k * 32 * 4) + (4 * 32) - 1 - j]);
+                    currentTexture.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
+                    currentTexture.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
+                    currentTexture.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
+                    currentTexture.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
                 }
             }
         }
@@ -391,12 +489,13 @@ void Character::pickArray()
     }
 }
 
-void Character::changeAnimationState(int x, int y)
+void Character::changeAnimationState(int x, int y, int pixelSize)
 {
     const sf::Vector2f grid{ 
-        sprite.getPosition().x / intify(sprite.getGlobalBounds().width + 1), 
-        sprite.getPosition().y / intify(sprite.getGlobalBounds().width + 1) 
+        sprite.getPosition().x / (TILE_SIZE * pixelSize),
+        sprite.getPosition().y / (TILE_SIZE * pixelSize)
     };
+    //std::cout << std::to_string(sprite.getGlobalBounds().height * sprite.getScale().x) << '\n';
     // West Kagar Ladders
     // todo: Add more codes perhaps, and more animation choices to the switch? y = -2, etc.
     // maybe make a function that works in all directions. Call it moonwalk()
@@ -530,21 +629,22 @@ void Character::swapOrder(Character& otherCharacter)
     std::swap(order, otherCharacter.order);
 }
 
-void Character::follow(Character& otherCharacter, int pixelSize)
+void Character::follow(Character& leadingCharacter, int pixelSize)
 {
-    int x{ otherCharacter.coordVector.front() };
-    int y{ otherCharacter.coordVector[1] };
-    if (otherCharacter.coordVector.size() > 128 / (otherCharacter.movementStepSize * pixelSize))
+    int x{ leadingCharacter.coordVector.front() };
+    int y{ leadingCharacter.coordVector[1] };
+
+    if (intify(leadingCharacter.coordVector.size()) > 64 / leadingCharacter.movementStepSize)
     {
         sprite.move(x * movementStepSize * pixelSize, y * movementStepSize * pixelSize);
 
-        otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());
-        otherCharacter.coordVector.erase(otherCharacter.coordVector.begin());
+        leadingCharacter.coordVector.erase(leadingCharacter.coordVector.begin());
+        leadingCharacter.coordVector.erase(leadingCharacter.coordVector.begin());
 
         coordVector.push_back(x);
         coordVector.push_back(y);
         
-        changeAnimationState(x, y);
+        changeAnimationState(x, y, pixelSize);
     }
 }
 
