@@ -98,5 +98,5 @@ public:
 	void moveViewByCharacter();
 	void moveCharacters();
 	void drawDevToolsText();
-
+	void initWaterTile();
 };

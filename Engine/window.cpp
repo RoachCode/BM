@@ -24,13 +24,9 @@ Window::Window()
 	down = false;
 	left = false;
 	right = false;
-	//uniqueScreenSizeGridSize = pairI(size.x / (tilePixels), size.y / (tilePixels));
-	
-	//spriteVector.push_back(arson.sprite);
 
-	//Noise::m_initSimplex(size.x / pixelSize, size.y / pixelSize, 4); Used to be screen size, changed to chunk size.
 	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
-
+	initWaterTile();
 }
 
 // Set Icon
@@ -173,9 +169,7 @@ void Window::setpixelSize(float factor)
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 2)) { pixelSize = 2; }
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { pixelSize = 3; }
 	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { pixelSize = 4; }
-	else { pixelSize = 2; }
-
-	pixelSize = 4;
+	else { pixelSize = 4; }
 
 	// I doubt we need more.
 	tilePixels = TILE_SIZE * pixelSize;
@@ -302,10 +296,12 @@ void Window::drawTileMapsFront()
 		);
 		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
 		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
+		// Draws the front scene with zero opacity
 		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
 		imageHandler.tempRender.draw(imageHandler.circle, sf::BlendNone);
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //global transparency.
-		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
+		// Adds a transparent layer on top
+		//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //global transparency.
+		//imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
 		imageHandler.tempRender.display();
 		imageHandler.tempRectangle.setScale(sf::Vector2f(pixelSize, pixelSize));
 		this->draw(imageHandler.tempRectangle);
@@ -750,11 +746,8 @@ void Window::drawFlow()
 }
 
 // Water Functions
-void Window::drawWaterTile()
+void Window::initWaterTile()
 {
-	// Is automatic, prints on tiles 89 and 90.
-	water.update(water.clock.getElapsedTime());
-
 	if (!water.westKagarWater.size())
 	{
 		for (size_t i = 0; i < imageHandler.tileMapE.masterTile.size(); i++)
@@ -769,6 +762,11 @@ void Window::drawWaterTile()
 			}
 		}
 	}
+}
+void Window::drawWaterTile()
+{
+	// Is automatic, prints on tiles 89 and 90.
+	water.update(water.clock.getElapsedTime());
 
 	for (int i = 0; i < TILES_PER_CHUNK_X * 4; i++)
 	{
@@ -790,15 +788,9 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::drawDevToolsText()
 {
-	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2); // 1100 - 1200 fps
-	drawText
-	(
-		"X: " + std::to_string(intify(getGridPosition().x)) +
-		", Y :" + std::to_string(intify(getGridPosition().y)),
-		getViewCoordinates(DR),
-		2
-	);
-	drawText("Location: West Kagar", getViewCoordinates(DL), 2);
+	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
+	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
+	drawText("Location: West Kagar and here is a bunch of extra works I am very concerned about!", getViewCoordinates(DL), 2);
 	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
 }
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
@@ -900,7 +892,9 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 					}
 				}
 				font.charSprite.setScale(sf::Vector2f(fontScale, fontScale));
+
 				this->draw(font.charSprite);
+
 				if (font.addon.y > 0) { font.setPos(sf::Vector2f(font.getPos().x, font.getPos().y - floatify(font.addon.y * fontScale))); font.addon.y = 0; }
 				//if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * fontScale, 0)); font.addon.x = 0; }
 				//if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-fontScale, 0)); }
@@ -911,5 +905,5 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 			}
 		}
 		font.setPos(font.getStartPos());
-	} 
+	}
 }

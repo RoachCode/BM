@@ -52,22 +52,28 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+
     while (window.isOpen())
     {
         window.clear(sf::Color(0, 0, 0, 255));
         window.pollEvents();
 
-        window.drawTileMapsBack(); // 620
+        //window.drawTileMapsBack(); // 620
 		//window.drawParticles(sf::Color(255, 255, 255, 30));
-		window.drawSprites(); // 1050
+		//window.drawSprites(); // 1050
         //window.drawFlow(inProgress);
-        window.drawWaterTile();
-        window.drawTileMapsFront(); // 620
+        //window.drawWaterTile();
+        //window.drawTileMapsFront(); // 620
+        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
+		
 
-        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
-		window.drawDevToolsText();
 
+		window.drawDevToolsText();//550fps (300 loss) | 625fps (225 loss) | 
+
+
+
+		//window.DEV_TOOLS.log(window.DEV_TOOLS.getFPS());850
 		window.display();
     }
     return 0;

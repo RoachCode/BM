@@ -149,7 +149,6 @@ void ImageHandler::loadWestKagar()
             break;
         }
 
-
         tilemapVector[i]->load(tileImage, sf::Vector2u(32, 32), 96, 56);
 
         if (i < 5)
