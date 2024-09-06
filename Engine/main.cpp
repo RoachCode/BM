@@ -68,9 +68,15 @@ int main()
         //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
 		
 
-
 		window.drawDevToolsText();//550fps (300 loss) | 625fps (225 loss) | 
+		sf::RectangleShape rect(sf::Vector2f(window.font.fontSpecialImage.getSize().x, window.font.fontSpecialImage.getSize().y));
+		
 
+		sf::Texture tex;
+		tex.loadFromImage(window.font.fontSpecialImage);
+		rect.setTexture(&tex);
+		rect.setScale(2.999f, 2.999f);
+		window.draw(rect);
 
 
 		//window.DEV_TOOLS.log(window.DEV_TOOLS.getFPS());850

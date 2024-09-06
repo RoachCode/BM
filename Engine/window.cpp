@@ -790,7 +790,7 @@ void Window::drawDevToolsText()
 {
 	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
 	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	drawText("Location: West Kagar and here is a bunch of extra works I am very concerned about!", getViewCoordinates(DL), 2);
+	drawText("Location: West Kagar abcdefghijklmnopqrstuvwxyz", getViewCoordinates(DL), 2);
 	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
 }
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
