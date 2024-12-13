@@ -786,13 +786,16 @@ void Window::drawWaterTile()
 }
 
 // Text Functions
+
 void Window::drawDevToolsText()
 {
-	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
-	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	drawText("Location: West Kagar abcdefghijklmnopqrstuvwxyz", getViewCoordinates(DL), 2);
+	//drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
+	//drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
+	drawText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", pairF(2, 2));
 	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
 }
+
+/*
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
 	scale += 1;
@@ -905,5 +908,114 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 			}
 		}
 		font.setPos(font.getStartPos());
+	}
+}
+*/
+
+void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
+{
+	if (boundingWidth == 0) { boundingWidth = size.x; }
+	scale += 1;
+	const int fontScale{ (scale < 2) ? 2 : scale };
+	font.fontMap.setPosition(startPosition);
+
+	// GET CHARACTER COUNTS FOR EACH TYPE OF CHARACTER.
+	int specialCount{ 0 };
+	int punctuationCount{ 0 };
+	for (size_t i = 0; i < string.length(); i++)
+	{
+		if (string[i] == '^' ||
+			string[i] == '|' ||
+			string[i] == '<' ||
+			string[i] == '{' ||
+			string[i] == '=' ||
+			string[i] == '_')
+		{
+			specialCount++;
+		}
+		else if (
+			string[i] == ',' ||
+			string[i] == '.' ||
+			string[i] == ':')
+		{
+			punctuationCount++;
+		}
+	}
+
+	int normalCount{ intify(string.length()) - specialCount - punctuationCount };
+	int spaces{ intify(string.length()) - 1 };
+	int messageWidthInTiles{ (specialCount * 4) + punctuationCount + (normalCount * 3) + spaces };
+	int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale };
+	int messageRows{ messageWidthInPixels / boundingWidth + 1 };
+	int tilesPerRow{ boundingWidth / (2 * fontScale) };
+	//if (messageRows < 1) { messageRows = 1; }
+
+	/*
+	// Bounds Right
+	if ((intify(startPosition.x) + messageWidth) > intify(getViewCoordinates(UR).x))
+	{
+		startPosition.x = floatify(getViewCoordinates(UR).x - messageWidth);
+		font.fontMap.setPosition(startPosition);
+	}
+	// Bounds Left
+	if (intify(startPosition.x) <= getViewCoordinates(UL).x)
+	{
+		startPosition.x = floatify(getViewCoordinates(UL).x + (fontScale * 2));
+		font.fontMap.setPosition(startPosition);
+	}
+	// Bounds Bottom
+	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
+	{
+		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - fontScale);
+		font.fontMap.setPosition(startPosition);
+	}
+	// Bounds Top
+	if (intify(startPosition.y) <= getViewCoordinates(UL).y)
+	{
+		startPosition.y = floatify(getViewCoordinates(UL).y + (fontScale * 2));
+		font.fontMap.setPosition(startPosition);
+	}
+*/
+	// prints characters.
+	for (int i = 0; i <= 1; i++)
+	{
+		// Runs twice to set a shadow effect
+		if (i == 0)
+		{
+			font.setColor(sf::Color(44, 44, 44), true);
+			font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
+		}
+		else
+		{
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
+			font.fontMap.setPosition(startPosition);
+		}
+		font.currentString.clear();
+		for (size_t j = 0; j < string.length(); j++)
+		{
+			const char letter = string[j];
+			const int letterNumber{ font.getRectOffset(letter) };
+			if (font.getRectOffset(letter) < 207)
+			{
+				font.currentString.push_back(letterNumber + 0);
+				font.currentString.push_back(letterNumber + 1);
+				font.currentString.push_back(letterNumber + 2);
+			}
+			else if (font.getRectOffset(letter) < 231)
+			{
+				font.currentString.push_back(letterNumber + 0);
+				font.currentString.push_back(letterNumber + 1);
+				font.currentString.push_back(letterNumber + 2);
+				font.currentString.push_back(letterNumber + 3);
+			}
+			else
+			{
+				font.currentString.push_back(letterNumber + 0);
+			}
+			if (j < string.length()) font.currentString.push_back(78); // space
+		}
+		
+		font.fontMap.load(font.fontImage, sf::Vector2u(2, 8), font.currentString, messageWidthInTiles, messageRows);
+		draw(font.fontMap);
 	}
 }

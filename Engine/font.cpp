@@ -1,13 +1,12 @@
 #pragma once
 #include "font.h"
 #include <iostream>
-
+/*
 Font2::Font2()
 {
 	//setColor(sf::Color(255, 120, 10));
 	createFontImageAndTexture();
 }
-
 void Font2::createFontImageAndTexture(sf::Color color)
 {
 	const int pixPerChar1{ 48 };
@@ -37,7 +36,6 @@ void Font2::createFontImageAndTexture(sf::Color color)
 	setCharTextureToSprite(pixPerChar3, charCount3, w3, fontPunctuationImage, fontPunctuationTexture);
 
 }
-
 void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image &image, sf::Texture &texture)
 {
 	const int height{ 8 };
@@ -113,7 +111,6 @@ void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf:
 		charSprite.setTexture(texture);
 	}
 }
-
 int Font2::getRectOffset(char input)
 {
 	switch (input)
@@ -229,7 +226,6 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 	}
 	return false;
 }
-
 void Font2::setColor(sf::Color colorIn, bool ignoreReassign)
 {
 	if (!ignoreReassign)
@@ -308,3 +304,6 @@ sf::Vector2f Font2::getPos() { return charSprite.getPosition(); }
 void Font2::setPos(sf::Vector2f newPos) { charSprite.setPosition(newPos); }
 sf::Vector2f Font2::getStartPos() { return startPos; }
 void Font2::setStartPos(sf::Vector2f newPos) { startPos = newPos; }
+*/
+
+

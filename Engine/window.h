@@ -57,7 +57,7 @@ public:
 
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
-	Font2 font;
+	Font font;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -80,7 +80,7 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
 
-	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f), int scale = 1);
+	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f), int scale = 1, int boundingWidth = 0);
 
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);
