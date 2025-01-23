@@ -789,9 +789,9 @@ void Window::drawWaterTile()
 
 void Window::drawDevToolsText()
 {
-	//drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
+	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 1, 300);
 	//drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	drawText();
+	drawText("But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?");
 	//if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
 }
 
@@ -914,11 +914,6 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
 {
-	// testing parameters
-	scale = 1;
-	startPosition.x = 500;
-	string = "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?";
-	
 	// init, scale and bounding
 	font.currentString.clear();
 	if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; }
@@ -927,6 +922,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 	// tiles are two pixels wide
 	int maxTilesPerRow{ boundingWidth / (2 * fontScale) };
 
+	// create text
 	for (size_t j = 0; j < string.length(); j++)
 	{
 		const char letter = string[j];
@@ -948,56 +944,49 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 		{
 			font.currentString.push_back(letterNumber + 0);
 		}
-		//
-		if (string[j + 1] == ' ')
-		{
-			int lengthOfNextWordInTiles{ 3 }; //starts with a space
-			int iterator{ 0 };
+		// kerning space (2 pixels)
+		if (j < string.length() && letter != ' ') { font.currentString.push_back(78); }
 
-			while (j + 2 + iterator < intify(string.length()) && string[j + 2 + iterator] != ' ')
+		// check to see if the word will fit on this row (including following punctuation)
+		if (string[j] == ' ')
+		{
+			int tilesInWord{ 4 }; //starts with a space. supposed to be 3 but this works for some reason.
+			int iterator{ 1 };
+			while (string[j + iterator] != ' ' && j + iterator < string.length())
 			{
-					
-				if (font.getRectOffset(string[j + 2 + iterator]) < 207)
+				if (font.getRectOffset(letter) < 207)
 				{
-					lengthOfNextWordInTiles += 3;
+					tilesInWord += 3;
 				}
-				else if (font.getRectOffset(string[j + 2 + iterator]) < 231)
+				else if (font.getRectOffset(letter) < 231)
 				{
-					lengthOfNextWordInTiles += 4;
+					tilesInWord += 4;
 				}
 				else
 				{
-					lengthOfNextWordInTiles += 1;
+					tilesInWord += 1;
+				}
+				//kerning if the word isn't finished
+				if (string[j + iterator + 1] != ' ')
+				{
+					tilesInWord += 1;
 				}
 				iterator += 1;
-				if (string[j + 2 + iterator] != ' ')
-				{
-					lengthOfNextWordInTiles += 1; //kerning
-				}
 			}
 
-			int currentPositionOffset{ intify(font.currentString.size()) };
-			while (currentPositionOffset > maxTilesPerRow)
-			{
-				currentPositionOffset -= maxTilesPerRow;
-			}
+			// get current position in the line
+			int tilePosition{ intify(font.currentString.size()) };
+			while (tilePosition > maxTilesPerRow) { tilePosition -= maxTilesPerRow; }
 
-			int availableTiles{ maxTilesPerRow - currentPositionOffset };
-			if (lengthOfNextWordInTiles > availableTiles)
+			// if the word won't fit, use kerning spaces to finish the line
+			if (tilePosition + tilesInWord > maxTilesPerRow)
 			{
-				for (int k = 0; k < availableTiles; k++)
-				{
-					font.currentString.push_back(78);
-				}
-				j++;
+				int remainingTiles{ maxTilesPerRow - tilePosition };
+				for (int i = 0; i < remainingTiles; i++) { font.currentString.push_back(78); }
 			}
 		}
-		else if (j < string.length()) font.currentString.push_back(78); // kerning space (2 pixels)
-		//
 	}
 
-
-		
 	// add blank characters to the end to complete the tilemap (missing tiles is undefined behaviour)
 	int messageTileCount{ intify(font.currentString.size()) };
 	int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
@@ -1011,7 +1000,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 	// creates background to show text bounds are working properly (for testing)
 	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + pixelSize));
 	tempbg.setPosition(startPosition);
-	tempbg.setFillColor(sf::Color(0, 10, 20, 255));
+	tempbg.setFillColor(sf::Color(0, 100, 200, 25));
 	draw(tempbg);
 	
 	// prints characters.

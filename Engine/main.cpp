@@ -52,31 +52,22 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
     while (window.isOpen())
     {
         window.clear(sf::Color(0, 0, 0, 255));
         window.pollEvents();
 
-        //window.drawTileMapsBack(); // 620
+        window.drawTileMapsBack(); // 620
 		//window.drawParticles(sf::Color(255, 255, 255, 30));
-		//window.drawSprites(); // 1050
+		window.drawSprites(); // 1050
         //window.drawFlow(inProgress);
-        //window.drawWaterTile();
-        //window.drawTileMapsFront(); // 620
-        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
+        window.drawWaterTile();
+        window.drawTileMapsFront(); // 620
+        window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
 		
-		//window.draw(window.font.fontMap); ??
 		window.drawDevToolsText();//550fps (300 loss) | 625fps (225 loss) | 
-
-		//sf::RectangleShape rect(sf::Vector2f(window.font.fontImage.getSize().x, window.font.fontImage.getSize().y));
-		//rect.setTexture(&window.font.fontTexture);
-		//rect.setPosition(0.f, 200.f);
-		//rect.setScale(2.999f, 2.999f);
-		//window.draw(rect);
-
-
 		//window.DEV_TOOLS.log(window.DEV_TOOLS.getFPS());//850
 		window.display();
     }
