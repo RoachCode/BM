@@ -1672,7 +1672,7 @@ public:
 	{
 		const int height{ 8 };
 		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size()) / 8 };
-		fontImage.create(fullWidth, height);
+		fontImage.create(fullWidth, height + 2);
 
 		const int pixPerText{ 48 };
 		const int pixPerSpec{ 64 };
@@ -1776,7 +1776,11 @@ public:
 
 		}
 
-		fontTexture.create(fullWidth, height);
+		sf::Image whiteSpace;
+		whiteSpace.create(fullWidth, 2, sf::Color(alphaKey.r, alphaKey.g, alphaKey.b, 0));
+		fontImage.copy(whiteSpace, 0, 8);
+
+		fontTexture.create(fullWidth, height + 2);
 		fontTexture.loadFromImage(fontImage);
 		setColor(color);
 	}
