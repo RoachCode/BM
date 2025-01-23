@@ -914,13 +914,104 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
 {
+	// testing parameters
 	scale = 1;
 	startPosition.x = 500;
 	string = "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?";
-	//Handling exceptions and rounding errors
+	
+	// init, scale and bounding
+	font.currentString.clear();
 	if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; }
 	const int fontScale{ scale * pixelSize };
-	font.fontMap.setPosition(startPosition);
+
+	// tiles are two pixels wide
+	int maxTilesPerRow{ boundingWidth / (2 * fontScale) - pixelSize };
+
+	for (size_t j = 0; j < string.length(); j++)
+	{
+		const char letter = string[j];
+		const int letterNumber{ font.getRectOffset(letter) };
+		if (font.getRectOffset(letter) < 207)
+		{
+			font.currentString.push_back(letterNumber + 0);
+			font.currentString.push_back(letterNumber + 1);
+			font.currentString.push_back(letterNumber + 2);
+		}
+		else if (font.getRectOffset(letter) < 231)
+		{
+			font.currentString.push_back(letterNumber + 0);
+			font.currentString.push_back(letterNumber + 1);
+			font.currentString.push_back(letterNumber + 2);
+			font.currentString.push_back(letterNumber + 3);
+		}
+		else
+		{
+			font.currentString.push_back(letterNumber + 0);
+		}
+
+		if (string[j + 1] == ' ')
+		{
+			int lengthOfNextWordInTiles{ 3 }; //starts with a space
+			int iterator{ 0 };
+
+			while (j + 2 + iterator < intify(string.length()) && string[j + 2 + iterator] != ' ')
+			{
+					
+				if (font.getRectOffset(string[j + 2 + iterator]) < 207)
+				{
+					lengthOfNextWordInTiles += 3;
+				}
+				else if (font.getRectOffset(string[j + 2 + iterator]) < 231)
+				{
+					lengthOfNextWordInTiles += 4;
+				}
+				else
+				{
+					lengthOfNextWordInTiles += 1;
+				}
+				iterator += 1;
+				if (string[j + 2 + iterator] != ' ')
+				{
+					lengthOfNextWordInTiles += 1; //kerning
+				}
+			}
+
+			int currentPositionOffset{ intify(font.currentString.size()) };
+			while (currentPositionOffset > maxTilesPerRow)
+			{
+				currentPositionOffset -= maxTilesPerRow;
+			}
+
+			int availableTiles{ maxTilesPerRow - currentPositionOffset };
+			if (lengthOfNextWordInTiles > availableTiles)
+			{
+				for (int k = 0; k < availableTiles; k++)
+				{
+					font.currentString.push_back(78);
+				}
+				j++;
+			}
+		}
+		else if (j < string.length()) font.currentString.push_back(78); // kerning space (2 pixels)
+	}
+
+	int messageTileCount{ intify(font.currentString.size()) };
+		
+	// add blank characters to the end to complete the tilemap (missing tiles is undefined behaviour)
+	int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
+	while (messageTileCount % maxTilesPerRow != 0)
+	{
+		font.currentString.push_back(78);
+		messageTileCount += 1;
+	}
+	int messageRows{ messageTileCount / maxTilesPerRow};
+
+
+	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + pixelSize));
+	tempbg.setPosition(startPosition);
+	tempbg.setFillColor(sf::Color(0, 10, 10, 255));
+	draw(tempbg);
+	
 
 	// prints characters.
 	for (int i = 0; i <= 1; i++)
@@ -936,98 +1027,6 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
 			font.fontMap.setPosition(startPosition);
 		}
-
-		font.currentString.clear();
-		// tiles are two pixels wide
-		int maxTilesPerRow{ boundingWidth / (2 * fontScale) - pixelSize };
-
-		for (size_t j = 0; j < string.length(); j++)
-		{
-			const char letter = string[j];
-			const int letterNumber{ font.getRectOffset(letter) };
-			if (font.getRectOffset(letter) < 207)
-			{
-				font.currentString.push_back(letterNumber + 0);
-				font.currentString.push_back(letterNumber + 1);
-				font.currentString.push_back(letterNumber + 2);
-			}
-			else if (font.getRectOffset(letter) < 231)
-			{
-				font.currentString.push_back(letterNumber + 0);
-				font.currentString.push_back(letterNumber + 1);
-				font.currentString.push_back(letterNumber + 2);
-				font.currentString.push_back(letterNumber + 3);
-			}
-			else
-			{
-				font.currentString.push_back(letterNumber + 0);
-			}
-
-			if (string[j + 1] == ' ')
-			{
-				int lengthOfNextWordInTiles{ 3 }; //starts with a space
-				int iterator{ 0 };
-
-				while (j + 2 + iterator < intify(string.length()) && string[j + 2 + iterator] != ' ')
-				{
-					
-					if (font.getRectOffset(string[j + 2 + iterator]) < 207)
-					{
-						lengthOfNextWordInTiles += 3;
-					}
-					else if (font.getRectOffset(string[j + 2 + iterator]) < 231)
-					{
-						lengthOfNextWordInTiles += 4;
-					}
-					else
-					{
-						lengthOfNextWordInTiles += 1;
-					}
-					iterator += 1;
-					if (string[j + 2 + iterator] != ' ')
-					{
-						lengthOfNextWordInTiles += 1; //kerning
-					}
-				}
-
-				int currentPositionOffset{ intify(font.currentString.size()) };
-				while (currentPositionOffset > maxTilesPerRow)
-				{
-					currentPositionOffset -= maxTilesPerRow;
-				}
-
-				int availableTiles{ maxTilesPerRow - currentPositionOffset };
-				if (lengthOfNextWordInTiles > availableTiles)
-				{
-					for (int k = 0; k < availableTiles; k++)
-					{
-						font.currentString.push_back(78);
-					}
-					j++;
-				}
-			}
-			else if (j < string.length()) font.currentString.push_back(78); // kerning space (2 pixels)
-		}
-
-		int messageTileCount{ intify(font.currentString.size()) };
-		
-		// add blank characters to the end to complete the tilemap (missing tiles is undefined behaviour)
-		int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
-		while (messageTileCount % maxTilesPerRow != 0)
-		{
-			font.currentString.push_back(78);
-			messageTileCount += 1;
-		}
-		int messageRows{ messageTileCount / maxTilesPerRow};
-
-		if (i == 0)
-		{
-			sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + pixelSize));
-			tempbg.setPosition(startPosition);
-			tempbg.setFillColor(sf::Color(0, 10, 10, 255));
-			draw(tempbg);
-		}
-
 		font.fontMap.load(font.fontImage, sf::Vector2u(2, 10), font.currentString, messageWidthInTiles, messageRows);
 		font.fontMap.setScale(pairF(fontScale, fontScale));
 		draw(font.fontMap);
