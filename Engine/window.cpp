@@ -925,7 +925,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 	const int fontScale{ scale * pixelSize };
 
 	// tiles are two pixels wide
-	int maxTilesPerRow{ boundingWidth / (2 * fontScale) - pixelSize };
+	int maxTilesPerRow{ boundingWidth / (2 * fontScale) };
 
 	for (size_t j = 0; j < string.length(); j++)
 	{
@@ -948,7 +948,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 		{
 			font.currentString.push_back(letterNumber + 0);
 		}
-
+		//
 		if (string[j + 1] == ' ')
 		{
 			int lengthOfNextWordInTiles{ 3 }; //starts with a space
@@ -993,11 +993,13 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 			}
 		}
 		else if (j < string.length()) font.currentString.push_back(78); // kerning space (2 pixels)
+		//
 	}
 
-	int messageTileCount{ intify(font.currentString.size()) };
+
 		
 	// add blank characters to the end to complete the tilemap (missing tiles is undefined behaviour)
+	int messageTileCount{ intify(font.currentString.size()) };
 	int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
 	while (messageTileCount % maxTilesPerRow != 0)
 	{
@@ -1006,13 +1008,12 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 	}
 	int messageRows{ messageTileCount / maxTilesPerRow};
 
-
+	// creates background to show text bounds are working properly (for testing)
 	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + pixelSize));
 	tempbg.setPosition(startPosition);
-	tempbg.setFillColor(sf::Color(0, 10, 10, 255));
+	tempbg.setFillColor(sf::Color(0, 10, 20, 255));
 	draw(tempbg);
 	
-
 	// prints characters.
 	for (int i = 0; i <= 1; i++)
 	{
