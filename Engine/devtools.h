@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#define DEBUG(a) std::cerr << #a << ": " << (a) << '\n'
 
 class DevTools
 {
@@ -18,7 +19,8 @@ public:
 	const std::string getFPS();
 
 	// Logs to the console adding a line break after, using std::string.
-	const void log(std::string in);
+	template <typename T>
+	constexpr void log(T const& in = "Error: Nothing Found");
 
 	// Toggles wallToggleBool
 	bool wallToggleBool;

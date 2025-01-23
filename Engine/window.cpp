@@ -789,9 +789,9 @@ void Window::drawWaterTile()
 
 void Window::drawDevToolsText()
 {
-	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 1, 300);
+	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
 	//drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	drawText("But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?");
+	//drawText("But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?");
 	//if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
 }
 
@@ -945,7 +945,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 			font.currentString.push_back(letterNumber + 0);
 		}
 		// kerning space (2 pixels)
-		if (j < string.length() && letter != ' ') { font.currentString.push_back(78); }
+		if (j < string.length() - 1 && letter != ' ') { font.currentString.push_back(78); }
 
 		// check to see if the word will fit on this row (including following punctuation)
 		if (string[j] == ' ')
@@ -987,9 +987,13 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 		}
 	}
 
-	// add blank characters to the end to complete the tilemap (missing tiles is undefined behaviour)
+	// add blank characters to the end to complete the tilemap or shrink to fit
 	int messageTileCount{ intify(font.currentString.size()) };
 	int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
+	int totalTextPixelCountX{ messageWidthInTiles * 2 * fontScale + fontScale };
+	if (totalTextPixelCountX < boundingWidth) { boundingWidth = totalTextPixelCountX; }
+	DEBUG(boundingWidth);
+
 	while (messageTileCount % maxTilesPerRow != 0)
 	{
 		font.currentString.push_back(78);
@@ -998,9 +1002,9 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 	int messageRows{ messageTileCount / maxTilesPerRow};
 
 	// creates background to show text bounds are working properly (for testing)
-	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + pixelSize));
+	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + fontScale)); // + pixelsize is for shadow
 	tempbg.setPosition(startPosition);
-	tempbg.setFillColor(sf::Color(0, 100, 200, 25));
+	tempbg.setFillColor(sf::Color(0, 100, 200, 105));
 	draw(tempbg);
 	
 	// prints characters.
@@ -1010,7 +1014,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 		if (i == 0)
 		{
 			font.setColor(sf::Color(44, 44, 44), true);
-			font.fontMap.setPosition(pairF(startPosition.x + pixelSize, startPosition.y + pixelSize));
+			font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
 		}
 		else
 		{

@@ -26,7 +26,8 @@ const std::string DevTools::getFPS()
     return std::to_string(m_fps);
 }
 
-const void DevTools::log(std::string in)
+template <typename T>
+constexpr void DevTools::log(T const& in)
 {
     std::cout << in << '\n';
 }
