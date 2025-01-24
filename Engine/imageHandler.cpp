@@ -34,14 +34,6 @@ ImageHandler::ImageHandler()
     tilemapRenderFront.clear(sf::Color::Transparent);
     tilemapWindowFront.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
 
-    tempRender.create(sceneSize.x, sceneSize.y);
-    tempRender.clear(sf::Color::Transparent);
-    tempRectangle.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
-
-    circle.setFillColor(sf::Color(0, 0, 0, 0));
-    tempRectangle.setTexture(&tempRender.getTexture());
-    transparency = true;
-
     this->loadWestKagar();
 
 }
@@ -192,4 +184,4 @@ bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
     return allowed;
 }
 
-void ImageHandler::transparencyToggle() { transparency = !transparency; }
+//void ImageHandler::transparencyToggle() { transparency = !transparency; }

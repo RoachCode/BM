@@ -80,7 +80,7 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
 
-	void drawText(std::string string = "NOTEXT", sf::Vector2f startPosition = sf::Vector2f(250.f, 250.f), int scale = 1, int boundingWidth = 0);
+	void drawText(std::string string = "NOTEXT", sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), int scale = 1, int boundingWidth = 0);
 
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);

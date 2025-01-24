@@ -23,19 +23,12 @@ public:
 
     sf::RenderTexture tilemapRenderBack;
     sf::RenderTexture tilemapRenderFront;
-    sf::RenderTexture tempRender;
-    sf::RectangleShape tempRectangle;
     
     sf::RectangleShape tilemapWindowBack;
     sf::RectangleShape tilemapWindowFront;
-
-    sf::CircleShape circle;
-    int iterator;
-    bool transparency;
 
     ImageHandler();
 
     void loadWestKagar();
     bool checkBounds(int direction, sf::Vector2i position);
-    void transparencyToggle();
 };

@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#define DEBUG(a) std::cerr << #a << ": " << (a) << '\n'
 
 class DevTools
 {

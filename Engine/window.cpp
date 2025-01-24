@@ -134,9 +134,6 @@ void Window::pollEvents()
 			case sf::Keyboard::W:
 				DEV_TOOLS.wallToggle();
 				break;
-			case sf::Keyboard::T:
-				imageHandler.transparencyToggle();
-				break;
 			default:
 				break;
 			}
@@ -280,39 +277,9 @@ void Window::drawTileMapsBack()
 }
 void Window::drawTileMapsFront()
 {
-	if (imageHandler.transparency)
-	{
-		float radius = Noise::m_simplexData[imageHandler.iterator] / 30.f + TILE_SIZE * .66;
-		imageHandler.circle.setRadius(radius);
-		imageHandler.iterator++;
-		if (imageHandler.iterator >= Noise::m_simplexData.size()) { imageHandler.iterator = 0; }
-		imageHandler.circle.setPosition
-		(
-			sf::Vector2f
-			(
-				getCharacterByOrder(1).sprite.getPosition().x / pixelSize - radius + TILE_SIZE / 2,
-				getCharacterByOrder(1).sprite.getPosition().y / pixelSize - radius + TILE_SIZE / 2 - 8 / pixelSize
-			)
-		);
-		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
-		// Draws the front scene with zero opacity
-		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-		imageHandler.tempRender.draw(imageHandler.circle, sf::BlendNone);
-		// Adds a transparent layer on top
-		//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //global transparency.
-		//imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-		imageHandler.tempRender.display();
-		imageHandler.tempRectangle.setScale(sf::Vector2f(pixelSize, pixelSize));
-		this->draw(imageHandler.tempRectangle);
-		imageHandler.tempRender.clear(sf::Color::Transparent);
-	}
-	else
-	{
-		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
-		this->draw(imageHandler.tilemapWindowFront);
-	}
+	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
+	//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
+	this->draw(imageHandler.tilemapWindowFront);
 }
 
 // Sprite Functions
@@ -790,9 +757,10 @@ void Window::drawWaterTile()
 void Window::drawDevToolsText()
 {
 	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
-	//drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	//drawText("But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?");
-	//if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
+	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
+	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
+	drawText(longString, pairF(250, 250), 1, 800);
+	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(DL), 2); }
 }
 
 /*
@@ -916,11 +884,12 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 {
 	// init, scale and bounding
 	font.currentString.clear();
-	if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; }
+	//if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; } // the visible screen
+	//if (boundingWidth < 0) { boundingWidth = 0; }
 	const int fontScale{ scale * pixelSize };
 
 	// tiles are two pixels wide
-	int maxTilesPerRow{ boundingWidth / (2 * fontScale) };
+	int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * fontScale) };
 
 	// create text
 	for (size_t j = 0; j < string.length(); j++)
@@ -948,7 +917,7 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 		if (j < string.length() - 1 && letter != ' ') { font.currentString.push_back(78); }
 
 		// check to see if the word will fit on this row (including following punctuation)
-		if (string[j] == ' ')
+		if (string[j] == ' ' && maxTilesPerRow != 0)
 		{
 			int tilesInWord{ 4 }; //starts with a space. supposed to be 3 but this works for some reason.
 			int iterator{ 1 };
@@ -989,11 +958,36 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale,
 
 	// add blank characters to the end to complete the tilemap or shrink to fit
 	int messageTileCount{ intify(font.currentString.size()) };
-	int messageWidthInTiles{ messageTileCount > maxTilesPerRow ? maxTilesPerRow : messageTileCount };
-	int totalTextPixelCountX{ messageWidthInTiles * 2 * fontScale + fontScale };
-	if (totalTextPixelCountX < boundingWidth) { boundingWidth = totalTextPixelCountX; }
-	DEBUG(boundingWidth);
+	int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
+	int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale + fontScale };
+	if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
 
+	// If no bounding box was specified, stay in the view.
+	if (maxTilesPerRow == 0)
+	{
+		maxTilesPerRow = messageTileCount;
+		boundingWidth = messageWidthInPixels;
+		// Bounds Right
+		if ((intify(startPosition.x) + messageWidthInPixels) > intify(getViewCoordinates(UR).x))
+		{
+			startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels);
+		}
+		// Bounds Left
+		if (intify(startPosition.x) < getViewCoordinates(UL).x)
+		{
+			startPosition.x = getViewCoordinates(UL).x;
+		}
+		// Bounds Bottom
+		if (intify(startPosition.y) + 10 > intify(getViewCoordinates(DR).y))
+		{
+			startPosition.y = floatify(getViewCoordinates(DR).y - (10 * fontScale) - fontScale);
+		}
+		// Bounds Top
+		if (intify(startPosition.y) < getViewCoordinates(UL).y)
+		{
+			startPosition.y = getViewCoordinates(UL).y;
+		}
+	}
 	while (messageTileCount % maxTilesPerRow != 0)
 	{
 		font.currentString.push_back(78);
