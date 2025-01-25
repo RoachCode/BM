@@ -44,6 +44,7 @@
     <ClInclude Include="Engine\OpenSimplexNoise.h" />
     <ClInclude Include="Engine\particles.h" />
     <ClInclude Include="Engine\character.h" />
+    <ClInclude Include="Engine\textbox.h" />
     <ClInclude Include="Engine\tilemap.h" />
     <ClInclude Include="engine\water.h" />
     <ClInclude Include="Engine\window.h" />

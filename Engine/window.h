@@ -12,6 +12,7 @@
 #include "particles.h"
 #include "water.h"
 #include "maps.h"
+#include "textbox.h"
 
 class Window : public sf::RenderWindow, public Noise
 {
@@ -58,6 +59,7 @@ public:
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	Font font;
+	TextBox textBox;
 
 	// Screenshot
 	bool onlyOnceHack{ true };

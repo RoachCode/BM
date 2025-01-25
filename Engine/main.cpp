@@ -59,18 +59,23 @@ int main()
         window.clear(sf::Color(0, 0, 0, 255));
         window.pollEvents();
 
-        window.drawTileMapsBack();
+        //window.drawTileMapsBack();
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
 		window.drawSprites();
         //window.drawFlow(inProgress);
-        window.drawWaterTile();
-        window.drawTileMapsFront();
+        //window.drawWaterTile();
+        //window.drawTileMapsFront();
 
 		// positive x values are broken, currently
-        window.drawFullSimplex(sf::Vector2f(0, -.45), 0); //if speed is needed we can jump frames   x = -0.8
+        //window.drawFullSimplex(sf::Vector2f(0, -.45), 0); //if speed is needed we can jump frames   x = -0.8
 		
 		window.drawDevToolsText();
 		//DEBUG(window.DEV_TOOLS.getFPS());
+		
+
+		window.draw(window.textBox.corner);
+		
+
 		window.display();
     }
     return 0;
