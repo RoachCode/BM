@@ -46,6 +46,7 @@
     <ClInclude Include="Engine\character.h" />
     <ClInclude Include="Engine\textbox.h" />
     <ClInclude Include="Engine\tilemap.h" />
+    <ClInclude Include="Engine\view.h" />
     <ClInclude Include="engine\water.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="ImageResources\arsonImages.h" />

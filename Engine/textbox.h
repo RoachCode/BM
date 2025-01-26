@@ -1,8 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
+#include "view.h"
 
-class TextBox
+class TextBox : public View
 {
 private:
 public:
@@ -27,7 +28,7 @@ public:
     };
     sf::RectangleShape border;
     sf::VertexArray background;
-    sf::Image fuckYou;
+
     sf::Color topLeft;
     sf::Color topRight;
     sf::Color bottomRight;
@@ -60,6 +61,9 @@ public:
 
     void createCorner()
     {
+        // get values from View class
+        int pixelSize{ getPixelSize() };
+
         int size{ 14 };
         cornerTexture.create(size, size);
         sf::Uint8* pixels = new sf::Uint8[size * size * 4];
@@ -82,21 +86,14 @@ public:
             }
         }
 
-        fuckYou.create(size, size, pixels);
-        cornerTexture.loadFromImage(fuckYou);
+
+        cornerTexture.update(pixels);
         corner.setTexture(cornerTexture);
         delete[] pixels;
 
-        //corner.setScale(10, 10);
+        corner.setScale(pixelSize, pixelSize);
         corner.setPosition(pairF(800, 600));
     }
-
-
-
-
-
-
-
 
 
 

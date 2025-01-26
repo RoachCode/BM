@@ -24,15 +24,14 @@ ImageHandler::ImageHandler()
     tilemapVector.push_back(&tileMapI);
     tilemapVector.push_back(&tileMapJ);
 
-    sceneSize = sf::Vector2u(32 * TILES_PER_CHUNK_X * 3, 32 * TILES_PER_CHUNK_Y * 3);
-
-    tilemapRenderBack.create(sceneSize.x, sceneSize.y);
+    sf::Vector2u sceneSize = View::getSceneSize();
+    tilemapRenderBack.create(intify(sceneSize.x), intify(sceneSize.y));
     tilemapRenderBack.clear(sf::Color::Black);
-    tilemapWindowBack.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
+    tilemapWindowBack.setSize(sf::Vector2f(floatify(sceneSize.x), floatify(sceneSize.y)));
 
-    tilemapRenderFront.create(sceneSize.x, sceneSize.y);
+    tilemapRenderFront.create(intify(sceneSize.x), intify(sceneSize.y));
     tilemapRenderFront.clear(sf::Color::Transparent);
-    tilemapWindowFront.setSize(sf::Vector2f(sceneSize.x, sceneSize.y));
+    tilemapWindowFront.setSize(sf::Vector2f(floatify(sceneSize.x), floatify(sceneSize.y)));
 
     this->loadWestKagar();
 
@@ -183,5 +182,3 @@ bool ImageHandler::checkBounds(int direction, sf::Vector2i gridPosition)
     }
     return allowed;
 }
-
-//void ImageHandler::transparencyToggle() { transparency = !transparency; }
