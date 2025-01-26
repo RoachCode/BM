@@ -1,13 +1,41 @@
 #pragma once
 #include "font.h"
 #include <iostream>
-
+/*
 Font2::Font2()
 {
 	//setColor(sf::Color(255, 120, 10));
 	createFontImageAndTexture();
 }
+void Font2::createFontImageAndTexture(sf::Color color)
+{
+	const int pixPerChar1{ 48 };
+	const int pixPerChar2{ 64 };
+	const int pixPerChar3{ 16 };
 
+	const int charCount1{ 68 };
+	const int charCount2{ 6 };
+	const int charCount3{ 3 };
+
+	const int w1{ 6 };
+	const int w2{ 8 };
+	const int w3{ 2 };
+
+	if (!fontTexture.create(charCount1 * w1, 8)) { std::cout << "failed - fontTexture.create()" << '\n'; }
+	if (!fontSpecialTexture.create(charCount2 * w2, 8)) { std::cout << "failed - fontSpecialTexture.create()" << '\n'; }
+	if (!fontPunctuationTexture.create(charCount3 * w3, 8)) { std::cout << "failed - fontPunctuationTexture.create()" << '\n'; }
+
+	fontImage.create(charCount1 * w1, 8);
+	fontSpecialImage.create(charCount2 * w2, 8);
+	fontPunctuationImage.create(charCount3 * w3, 8);
+
+	setColor(color);
+
+	setCharTextureToSprite(pixPerChar1, charCount1, w1, fontImage, fontTexture);
+	setCharTextureToSprite(pixPerChar2, charCount2, w2, fontSpecialImage, fontSpecialTexture);
+	setCharTextureToSprite(pixPerChar3, charCount3, w3, fontPunctuationImage, fontPunctuationTexture);
+
+}
 void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image &image, sf::Texture &texture)
 {
 	const int height{ 8 };
@@ -83,37 +111,6 @@ void Font2::setCharTextureToSprite(int pixPerChar, int charCount, int width, sf:
 		charSprite.setTexture(texture);
 	}
 }
-
-void Font2::createFontImageAndTexture(sf::Color color)
-{
-	const int pixPerChar1{ 48 };
-	const int pixPerChar2{ 64 };
-	const int pixPerChar3{ 16 };
-
-	const int charCount1{ 68 };
-	const int charCount2{ 6 };
-	const int charCount3{ 3 };
-
-	const int w1{ 6 };
-	const int w2{ 8 };
-	const int w3{ 2 };
-
-	if (!fontTexture.create(charCount1 * w1, 8)) { std::cout << "failed - fontTexture.create()" << '\n'; }
-	if (!fontSpecialTexture.create(charCount2 * w2, 8)) { std::cout << "failed - fontSpecialTexture.create()" << '\n'; }
-	if (!fontPunctuationTexture.create(charCount3 * w3, 8)) { std::cout << "failed - fontPunctuationTexture.create()" << '\n'; }
-
-	fontImage.create(charCount1 * w1, 8);
-	fontSpecialImage.create(charCount2 * w2, 8);
-	fontPunctuationImage.create(charCount3 * w3, 8);
-
-	setColor(color);
-
-	setCharTextureToSprite(pixPerChar1, charCount1, w1, fontImage, fontTexture);
-	setCharTextureToSprite(pixPerChar2, charCount2, w2, fontSpecialImage, fontSpecialTexture);
-	setCharTextureToSprite(pixPerChar3, charCount3, w3, fontPunctuationImage, fontPunctuationTexture);
-
-}
-
 int Font2::getRectOffset(char input)
 {
 	switch (input)
@@ -229,7 +226,6 @@ bool Font2::attachCharImageSubRectToSprite(char input)
 	}
 	return false;
 }
-
 void Font2::setColor(sf::Color colorIn, bool ignoreReassign)
 {
 	if (!ignoreReassign)
@@ -283,6 +279,7 @@ void Font2::setColor(sf::Color colorIn, bool ignoreReassign)
 	}
 	fontPunctuationTexture.loadFromImage(fontPunctuationImage);
 
+	// won't need this after switching to vertexArray
 	const int charWidth{ intify(charSprite.getLocalBounds().width) };
 	switch (charWidth)
 	{
@@ -307,3 +304,6 @@ sf::Vector2f Font2::getPos() { return charSprite.getPosition(); }
 void Font2::setPos(sf::Vector2f newPos) { charSprite.setPosition(newPos); }
 sf::Vector2f Font2::getStartPos() { return startPos; }
 void Font2::setStartPos(sf::Vector2f newPos) { startPos = newPos; }
+*/
+
+

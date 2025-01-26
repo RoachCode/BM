@@ -44,7 +44,7 @@ int main()
 		0,          // blue  ----------- [125, 255]
 		40,         // alpha ----------- [0, 255]
 		200,        // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
-		floatify(window.pixelSize * 4),   // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
+		floatify(window.getPixelSize() * 4),   // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
 		4,          // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
 		8,          // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
 		4
@@ -59,21 +59,23 @@ int main()
         window.clear(sf::Color(0, 0, 0, 255));
         window.pollEvents();
 
-        //window.drawTileMapsBack(); // 620
-		//window.drawParticles(sf::Color(255, 255, 255, 30));
-		//window.drawSprites(); // 1050
+        //window.drawTileMapsBack();
+		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
+		//window.drawSprites();
         //window.drawFlow(inProgress);
         //window.drawWaterTile();
-        //window.drawTileMapsFront(); // 620
-        //window.drawFullSimplex(sf::Vector2f(0, -0.45), 0); // 520. if speed is needed we can jump frames         x = -0.8
+        //window.drawTileMapsFront();
+
+		// positive x values are broken, currently
+        window.drawFullSimplex(sf::Vector2f(0.f, -.45f), 0); //if speed is needed we can jump frames   x = -0.8
+		
+		window.drawDevToolsText();
+		//DEBUG(window.DEV_TOOLS.getFPS());
 		
 
+		//window.draw(window.textBox.corner);
+		
 
-		window.drawDevToolsText();//550fps (300 loss) | 625fps (225 loss) | 
-
-
-
-		//window.DEV_TOOLS.log(window.DEV_TOOLS.getFPS());850
 		window.display();
     }
     return 0;

@@ -107,6 +107,12 @@
     <ClInclude Include="ImageResources\nekoImages.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\textbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />

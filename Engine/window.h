@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <deque>
 #include "constExpressions.h"
+#include "view.h"
 #include "font.h"
 #include "devtools.h"
 #include "imageHandler.h"
@@ -12,28 +13,20 @@
 #include "particles.h"
 #include "water.h"
 #include "maps.h"
+#include "textbox.h"
 
-class Window : public sf::RenderWindow, public Noise
+class Window : public sf::RenderWindow, public Noise, public View
 {
 public:
 	// Call constructor, which calls inherited constructor from sf::RenderWindow
 	using sf::RenderWindow::RenderWindow;
 	Window();
 
-	// Get the size of the window
-	sf::Vector2u size;
-	sf::Vector2i uniqueScreenSizeGridSize;
-	int pixelSize{ 1 };
-	int tilePixels{};
-
-	// Declare the view
-	sf::View view;
-	sf::Vector2f movementOffset;
-	bool movementAllowed;
 	bool lastKeyUp{ false };
 	bool lastKeyDown{ false };
 	bool lastKeyLeft{ false };
 	bool lastKeyRight{ false };
+
 	bool up{};
 	bool down{};
 	bool left{};
@@ -57,7 +50,8 @@ public:
 
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
-	Font2 font;
+	Font font;
+	TextBox textBox;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -67,8 +61,6 @@ public:
 	void refreshMovementBools();
 	Character& getCharacterByOrder(int order);
 	void pollMovement();
-	void startViewMovement(sf::Vector2f offset);
-	void endViewMovement();
 
 	void drawTileMapsBack();
 	void drawFlow(FlowPreset& fp);
@@ -80,13 +72,11 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(1, 0), int speed = 0);
 
-	void drawText(std::string string, sf::Vector2f startPosition = sf::Vector2f(50.f, 50.f), int scale = 1);
+	void drawText(std::string string = "NOTEXT", sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), int scale = 1, int boundingWidth = 0);
 
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
-
-	sf::Vector2f getViewCoordinates(int dir);
 
 	sf::Vector2i getGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
@@ -94,8 +84,7 @@ public:
 	void setPositionAndDraw(float x, float y);
 	void checkUnderlyingTile();
 	void setGameIcon();
-	void setpixelSize(float factor = 1.2f);
-	void moveViewByCharacter();
+
 	void moveCharacters();
 	void drawDevToolsText();
 	void initWaterTile();

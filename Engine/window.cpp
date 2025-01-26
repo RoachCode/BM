@@ -2,30 +2,18 @@
 #include "window.h"
 
 Window::Window()
-	: sf::RenderWindow(sf::VideoMode(0, 0, 32U), "Lockestone Chronicles", sf::Style::Fullscreen)
+	: sf::RenderWindow(sf::VideoMode(0, 0, 32U), "Fool's Errand", sf::Style::Fullscreen)
 {
 	setGameIcon();
-	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view
-	// Get the size of the window
-	size = sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height);
-	setpixelSize(1.2f); //default 1.2f
-	//setVerticalSyncEnabled(true); // must be disabled for DevTools fps counter to work
+	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view (not implemented yet)
+	setView(View::getView());
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
-	// Assign current view to Window::view
-	view = getDefaultView();
-	// Sets the view to the appropriate zoom level for display
-	setView(view);
-	movementAllowed = false;
-	lastKeyUp = false;
-	lastKeyDown = false;
-	lastKeyLeft = false;
-	lastKeyRight = false;
+	refreshMovementBools();
 	up = false;
 	down = false;
 	left = false;
 	right = false;
-
-	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
+	
 	initWaterTile();
 }
 
@@ -43,7 +31,22 @@ void Window::setGameIcon()
 	*/
 }
 
-// Polls all events
+// Polls all events, keyboard
+void Window::refreshMovementBools()
+{
+	lastKeyUp = false;
+	lastKeyDown = false;
+	lastKeyLeft = false;
+	lastKeyRight = false;
+}
+void Window::changeFalseLastKeyState(bool& lastKeyInput)
+{
+	if (!lastKeyInput)
+	{
+		refreshMovementBools();
+		lastKeyInput = true;
+	}
+}
 void Window::pollEvents()
 {
 	sf::Event event;
@@ -134,9 +137,6 @@ void Window::pollEvents()
 			case sf::Keyboard::W:
 				DEV_TOOLS.wallToggle();
 				break;
-			case sf::Keyboard::T:
-				imageHandler.transparencyToggle();
-				break;
 			default:
 				break;
 			}
@@ -162,158 +162,9 @@ void Window::pollEvents()
 
 }
 
-// View Functions
-void Window::setpixelSize(float factor)
-{
-	if (size.x < CHUNK_WIDTH_PIXELS * (factor * 1)) { pixelSize = 1; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 2)) { pixelSize = 2; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { pixelSize = 3; }
-	else if (size.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { pixelSize = 4; }
-	else { pixelSize = 4; }
-
-	// I doubt we need more.
-	tilePixels = TILE_SIZE * pixelSize;
-	uniqueScreenSizeGridSize = pairI(size.x / (tilePixels), size.y / (tilePixels));
-}
-void Window::startViewMovement(sf::Vector2f offset)
-{
-	if (DEV_TOOLS.queryFreeMovement())
-	{
-		movementAllowed = true;
-		movementOffset = offset;
-	}
-}
-void Window::endViewMovement()
-{
-	movementAllowed = false;
-	movementOffset = sf::Vector2f(0.f, 0.f);
-}
-sf::Vector2f Window::getViewCoordinates(int dir)
-{
-	switch (dir)
-	{
-	case UL:
-		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
-		break;
-	case UR:
-		return sf::Vector2f(floatify(view.getCenter().x + view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
-		break;
-	case DL:
-		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y + view.getSize().y / 2));
-		break;
-	case DR:
-		return sf::Vector2f(floatify(view.getCenter().x + view.getSize().x / 2), floatify(view.getCenter().y + view.getSize().y / 2));
-		break;
-	default:
-		// UL
-		return sf::Vector2f(floatify(view.getCenter().x - view.getSize().x / 2), floatify(view.getCenter().y - view.getSize().y / 2));
-		break;
-	}
-}
-void Window::moveViewByCharacter()
-{
-	const sf::Vector2i pos = pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y));
-	sf::Vector2i oneSixthOfVisibleGrid{ pairI(uniqueScreenSizeGridSize.x / 6, uniqueScreenSizeGridSize.y / 6) };
-
-	// Move view when character is offset from the center by one sixth of the displayed grid size
-	if (pos.x > view.getCenter().x + (tilePixels) * oneSixthOfVisibleGrid.x)
-	{
-		if (getViewCoordinates(UR).x < imageHandler.sceneSize.x * pixelSize)
-		{
-			view.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
-			this->setView(view);
-		}
-	}
-	else if (pos.x + (tilePixels) * oneSixthOfVisibleGrid.x < view.getCenter().x)
-	{
-		if (getViewCoordinates(UL).x > pixelSize)
-		{
-			view.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
-			this->setView(view);
-		}
-	}
-	if (pos.y > view.getCenter().y + (tilePixels) * oneSixthOfVisibleGrid.y)
-	{
-		if (getViewCoordinates(DL).y < imageHandler.sceneSize.y * pixelSize)
-		{
-			view.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
-			this->setView(view);
-		}
-	}
-	else if (pos.y + (tilePixels) * oneSixthOfVisibleGrid.y < view.getCenter().y)
-	{
-		if (getViewCoordinates(UL).y > pixelSize)
-		{
-			view.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
-			this->setView(view);
-		}
-	}
-}
-void Window::refreshMovementBools()
-{
-	lastKeyUp = false;
-	lastKeyDown = false;
-	lastKeyLeft = false;
-	lastKeyRight = false;
-}
-void Window::changeFalseLastKeyState(bool& lastKeyInput)
-{
-	if (!lastKeyInput)
-	{
-		refreshMovementBools();
-		lastKeyInput = true;
-	}
-}
-sf::Vector2i Window::getGridPosition()
-{
-	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (tilePixels),
-		getCharacterByOrder(1).sprite.getPosition().y / (tilePixels)
-	);
-}
-
 // Tilemap Functions
-void Window::drawTileMapsBack()
-{
-	imageHandler.tilemapWindowBack.setScale(sf::Vector2f(pixelSize, pixelSize));
-	this->draw(imageHandler.tilemapWindowBack);
-}
-void Window::drawTileMapsFront()
-{
-	if (imageHandler.transparency)
-	{
-		float radius = Noise::m_simplexData[imageHandler.iterator] / 30.f + TILE_SIZE * .66;
-		imageHandler.circle.setRadius(radius);
-		imageHandler.iterator++;
-		if (imageHandler.iterator >= Noise::m_simplexData.size()) { imageHandler.iterator = 0; }
-		imageHandler.circle.setPosition
-		(
-			sf::Vector2f
-			(
-				getCharacterByOrder(1).sprite.getPosition().x / pixelSize - radius + TILE_SIZE / 2,
-				getCharacterByOrder(1).sprite.getPosition().y / pixelSize - radius + TILE_SIZE / 2 - 8 / pixelSize
-			)
-		);
-		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(1, 1));
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
-		// Draws the front scene with zero opacity
-		imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-		imageHandler.tempRender.draw(imageHandler.circle, sf::BlendNone);
-		// Adds a transparent layer on top
-		//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 200)); //global transparency.
-		//imageHandler.tempRender.draw(imageHandler.tilemapWindowFront);
-		imageHandler.tempRender.display();
-		imageHandler.tempRectangle.setScale(sf::Vector2f(pixelSize, pixelSize));
-		this->draw(imageHandler.tempRectangle);
-		imageHandler.tempRender.clear(sf::Color::Transparent);
-	}
-	else
-	{
-		imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
-		imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
-		this->draw(imageHandler.tilemapWindowFront);
-	}
-}
+void Window::drawTileMapsBack() { this->draw(imageHandler.tilemapWindowBack); }
+void Window::drawTileMapsFront() { this->draw(imageHandler.tilemapWindowFront); }
 
 // Sprite Functions
 void Window::sortSpriteVectorByHeight()
@@ -332,6 +183,11 @@ void Window::sortSpriteVectorByHeight()
 }
 void Window::moveCharacters()
 {
+	// get values from View class
+	int tilePixels{ getTilePixels() };
+	int pixelSize{ getPixelSize() };
+	sf::Vector2u sceneSize{ getSceneSize() };
+
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
 
@@ -361,7 +217,7 @@ void Window::moveCharacters()
 			}
 		}
 		else if (up) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool); }
-		else if (down && pos.y < intify(imageHandler.sceneSize.y) * pixelSize - (tilePixels))
+		else if (down && pos.y < intify(sceneSize.y) * pixelSize - (tilePixels))
 		{
 			if (imageHandler.checkBounds(DOWN, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
@@ -391,7 +247,7 @@ void Window::moveCharacters()
 			}
 		}
 		else if (left) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool); }
-		else if (right && pos.x < intify(imageHandler.sceneSize.x) * pixelSize - (tilePixels))
+		else if (right && pos.x < intify(sceneSize.x) * pixelSize - (tilePixels))
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
@@ -458,11 +314,19 @@ void Window::moveCharacters()
 	getCharacterByOrder(4).checkTimeout();
 
 }
+sf::Vector2i Window::getGridPosition()
+{
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
+		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
+	);
+}
 void Window::pollMovement()
 {
 	moveCharacters();
 	sortSpriteVectorByHeight();
-	moveViewByCharacter();	
+	// bottleneck ahead, fix it.
+	this->setView(View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)), getCharacterByOrder(1).movementStepSize));
 }
 Character& Window::getCharacterByOrder(int order)
 {
@@ -477,8 +341,8 @@ void Window::checkUnderlyingTile()
 	for (int i = 1; i < 5; i++)
 	{
 		// Get Grid Position for each character
-		int x{ intify(getCharacterByOrder(i).sprite.getPosition().x / (tilePixels)) };
-		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (tilePixels)) };
+		int x{ intify(getCharacterByOrder(i).sprite.getPosition().x / (getTilePixels())) };
+		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (getTilePixels())) };
 		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
 		if (water.westKagarWater[arrayPos])
@@ -499,8 +363,8 @@ void Window::checkUnderlyingTile()
 		getCharacterByOrder(2).spriteColour == SpriteColor::Default &&
 		getCharacterByOrder(3).spriteColour == SpriteColor::Default &&
 		getCharacterByOrder(4).spriteColour == SpriteColor::Default &&
-		intify(getCharacterByOrder(1).sprite.getPosition().x) % (tilePixels) == 0 &&
-		intify(getCharacterByOrder(1).sprite.getPosition().y) % (tilePixels) == 0
+		intify(getCharacterByOrder(1).sprite.getPosition().x) % (getTilePixels()) == 0 &&
+		intify(getCharacterByOrder(1).sprite.getPosition().y) % (getTilePixels()) == 0
 		)
 	{
 		if (getCharacterByOrder(1).coordVector.size() > 16)
@@ -521,6 +385,9 @@ void Window::checkUnderlyingTile()
 }
 void Window::drawSprites()
 {
+	// get values from View class
+	int pixelSize{ getPixelSize() };
+
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
 		//spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
@@ -548,6 +415,8 @@ void Window::drawParticles(sf::Color color)
 // Noise Functions
 void Window::setPositionAndDraw(float x, float y)
 {
+	// get values from View class
+	int pixelSize{ getPixelSize() };
 	sf::Vector2f noiseOrigin = pairF(x, y);
 
 	// Row 0
@@ -635,6 +504,9 @@ void Window::setPositionAndDraw(float x, float y)
 }
 void Window::m_groupDraw(sf::Vector2f direction)
 {
+	// get values from View class
+	int pixelSize{ getPixelSize() };
+
 	noise.move(direction);
 	sf::Vector2f noiseOrigin = noise.getPosition();
 
@@ -662,8 +534,12 @@ void Window::m_groupDraw()
 	const sf::Vector2f direction = sf::Vector2f(0, 0);
 	m_groupDraw(direction);
 }
+// do we want to move this by pixelsize or just by pixel?
 void Window::drawFullSimplex(sf::Vector2f direction, int delay)
 {
+	// get values from View class
+	int pixelSize{ getPixelSize() };
+
 	noise.setScale(sf::Vector2f(pixelSize, pixelSize));
 	simplexSpeed++;
 	if (simplexSpeed > delay)
@@ -765,6 +641,9 @@ void Window::initWaterTile()
 }
 void Window::drawWaterTile()
 {
+	// get values from View class
+	int pixelSize{ getPixelSize() };
+
 	// Is automatic, prints on tiles 89 and 90.
 	water.update(water.clock.getElapsedTime());
 
@@ -788,11 +667,14 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::drawDevToolsText()
 {
-	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UR), 2);
-	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(DR), 2);
-	drawText("Location: West Kagar and here is a bunch of extra works I am very concerned about!", getViewCoordinates(DL), 2);
-	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(UL), 2); }
+	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
+	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
+	//drawText(longString, pairF(250, 250), 1, 800);
+	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(DL), 2); }
 }
+
+/*
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 {
 	scale += 1;
@@ -905,5 +787,150 @@ void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
 			}
 		}
 		font.setPos(font.getStartPos());
+	}
+}
+*/
+
+void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
+{
+	// get values from View class
+	int pixelSize{ getPixelSize() };
+
+	// init, scale and bounding
+	font.currentString.clear();
+	//if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; } // the visible screen
+	//if (boundingWidth < 0) { boundingWidth = 0; }
+	const int fontScale{ scale * pixelSize };
+
+	// tiles are two pixels wide
+	int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * fontScale) };
+
+	// create text
+	for (size_t j = 0; j < string.length(); j++)
+	{
+		const char letter = string[j];
+		const int letterNumber{ font.getRectOffset(letter) };
+		if (font.getRectOffset(letter) < 207)
+		{
+			font.currentString.push_back(letterNumber + 0);
+			font.currentString.push_back(letterNumber + 1);
+			font.currentString.push_back(letterNumber + 2);
+		}
+		else if (font.getRectOffset(letter) < 231)
+		{
+			font.currentString.push_back(letterNumber + 0);
+			font.currentString.push_back(letterNumber + 1);
+			font.currentString.push_back(letterNumber + 2);
+			font.currentString.push_back(letterNumber + 3);
+		}
+		else
+		{
+			font.currentString.push_back(letterNumber + 0);
+		}
+		// kerning space (2 pixels)
+		if (j < string.length() - 1 && letter != ' ') { font.currentString.push_back(78); }
+
+		// check to see if the word will fit on this row (including following punctuation)
+		if (string[j] == ' ' && maxTilesPerRow != 0)
+		{
+			int tilesInWord{ 4 }; //starts with a space. supposed to be 3 but this works for some reason.
+			int iterator{ 1 };
+			while (string[j + iterator] != ' ' && j + iterator < string.length())
+			{
+				if (font.getRectOffset(letter) < 207)
+				{
+					tilesInWord += 3;
+				}
+				else if (font.getRectOffset(letter) < 231)
+				{
+					tilesInWord += 4;
+				}
+				else
+				{
+					tilesInWord += 1;
+				}
+				//kerning if the word isn't finished
+				if (string[j + iterator + 1] != ' ')
+				{
+					tilesInWord += 1;
+				}
+				iterator += 1;
+			}
+
+			// get current position in the line
+			int tilePosition{ intify(font.currentString.size()) };
+			while (tilePosition > maxTilesPerRow) { tilePosition -= maxTilesPerRow; }
+
+			// if the word won't fit, use kerning spaces to finish the line
+			if (tilePosition + tilesInWord > maxTilesPerRow)
+			{
+				int remainingTiles{ maxTilesPerRow - tilePosition };
+				for (int i = 0; i < remainingTiles; i++) { font.currentString.push_back(78); }
+			}
+		}
+	}
+
+	// add blank characters to the end to complete the tilemap or shrink to fit
+	int messageTileCount{ intify(font.currentString.size()) };
+	int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
+	int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale + fontScale };
+	if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
+
+	// If no bounding box was specified, stay in the view.
+	if (maxTilesPerRow == 0)
+	{
+		maxTilesPerRow = messageTileCount;
+		boundingWidth = messageWidthInPixels;
+		// Bounds Right
+		if ((intify(startPosition.x) + messageWidthInPixels) > intify(getViewCoordinates(UR).x))
+		{
+			startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels);
+		}
+		// Bounds Left
+		if (intify(startPosition.x) < getViewCoordinates(UL).x)
+		{
+			startPosition.x = getViewCoordinates(UL).x;
+		}
+		// Bounds Bottom
+		if (intify(startPosition.y) + 10 > intify(getViewCoordinates(DR).y))
+		{
+			startPosition.y = floatify(getViewCoordinates(DR).y - (10 * fontScale) - fontScale);
+		}
+		// Bounds Top
+		if (intify(startPosition.y) < getViewCoordinates(UL).y)
+		{
+			startPosition.y = getViewCoordinates(UL).y;
+		}
+	}
+	while (messageTileCount % maxTilesPerRow != 0)
+	{
+		font.currentString.push_back(78);
+		messageTileCount += 1;
+	}
+	int messageRows{ messageTileCount / maxTilesPerRow};
+
+	// creates background to show text bounds are working properly (for testing)
+	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + fontScale)); // + pixelsize is for shadow
+	tempbg.setPosition(startPosition);
+	tempbg.setFillColor(sf::Color(0, 100, 200, 105));
+	draw(tempbg);
+	
+	// prints characters.
+	for (int i = 0; i <= 1; i++)
+	{
+		// Runs twice to set a shadow effect
+		if (i == 0)
+		{
+			font.setColor(sf::Color(44, 44, 44), true);
+			font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
+		}
+		else
+		{
+			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
+			font.fontMap.setPosition(startPosition);
+		}
+		font.fontMap.load(font.fontImage, sf::Vector2u(2, 10), font.currentString, messageWidthInTiles, messageRows);
+		font.fontMap.setScale(pairF(fontScale, fontScale));
+		draw(font.fontMap);
 	}
 }
