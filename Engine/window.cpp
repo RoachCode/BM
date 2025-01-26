@@ -8,15 +8,12 @@ Window::Window()
 	//DEV_TOOLS.toggleFreeMovement(); // For dev mode free-panning view (not implemented yet)
 	setView(View::getView());
 	setKeyRepeatEnabled(false); // easier to set eg movement states by checking press and release states
-
 	refreshMovementBools();
-
 	up = false;
 	down = false;
 	left = false;
 	right = false;
-
-	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
+	
 	initWaterTile();
 }
 
@@ -166,23 +163,8 @@ void Window::pollEvents()
 }
 
 // Tilemap Functions
-void Window::drawTileMapsBack()
-{
-	// get values from View class
-	int pixelSize{ getPixelSize() };
-
-	imageHandler.tilemapWindowBack.setScale(sf::Vector2f(pixelSize, pixelSize));
-	this->draw(imageHandler.tilemapWindowBack);
-}
-void Window::drawTileMapsFront()
-{
-	// get values from View class
-	int pixelSize{ getPixelSize() };
-
-	imageHandler.tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
-	//imageHandler.tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 255));
-	this->draw(imageHandler.tilemapWindowFront);
-}
+void Window::drawTileMapsBack() { this->draw(imageHandler.tilemapWindowBack); }
+void Window::drawTileMapsFront() { this->draw(imageHandler.tilemapWindowFront); }
 
 // Sprite Functions
 void Window::sortSpriteVectorByHeight()
@@ -435,7 +417,6 @@ void Window::setPositionAndDraw(float x, float y)
 {
 	// get values from View class
 	int pixelSize{ getPixelSize() };
-
 	sf::Vector2f noiseOrigin = pairF(x, y);
 
 	// Row 0
@@ -688,8 +669,8 @@ void Window::drawDevToolsText()
 {
 	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
 	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
-	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
-	drawText(longString, pairF(250, 250), 1, 800);
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
+	//drawText(longString, pairF(250, 250), 1, 800);
 	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(DL), 2); }
 }
 

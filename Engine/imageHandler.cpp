@@ -157,6 +157,9 @@ void ImageHandler::loadWestKagar()
     tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
     tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
     //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 155)); //neat, global transparency.
+    int pixelSize{ getPixelSize() };
+    tilemapWindowBack.setScale(sf::Vector2f(pixelSize, pixelSize));
+    tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
 }
 
 // Checks the lowest map for allowable movement.
