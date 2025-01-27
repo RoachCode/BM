@@ -15,6 +15,7 @@ Window::Window()
 	right = false;
 	
 	initWaterTile();
+	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
 }
 
 // Set Icon
@@ -515,9 +516,19 @@ void Window::m_groupDraw(sf::Vector2f direction)
 		noise.setPosition(direction.x, noise.getPosition().y);
 		noiseOrigin = noise.getPosition();
 	}
+	else if (noise.getPosition().x > noise.getSize().x * pixelSize)
+	{
+		noise.setPosition(-direction.x, noise.getPosition().y);
+		noiseOrigin = noise.getPosition();
+	}
 	if (noise.getPosition().y < noise.getSize().y * -pixelSize)
 	{
 		noise.setPosition(noise.getPosition().x, direction.y);
+		noiseOrigin = noise.getPosition();
+	}
+	else if (noise.getPosition().y > noise.getSize().y * pixelSize)
+	{
+		noise.setPosition(noise.getPosition().x, -direction.y);
 		noiseOrigin = noise.getPosition();
 	}
 	this->draw(noise);

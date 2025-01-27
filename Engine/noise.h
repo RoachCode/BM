@@ -17,7 +17,6 @@ public:
 		m_simplexSizeY = 0;
 		simplexSpeed = 0;
 		simplexStepper = 0;
-		m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
 	}
 	// Data
 	// Vector array of angles, one per cell
@@ -182,8 +181,5 @@ public:
 		noise.setTexture(&noiseTexture);
 
 	}
-	void createSimplexSheet()
-	{
 
-	}
 };
