@@ -17,10 +17,6 @@ public:
 	// returns FPS as a std::string.
 	const std::string getFPS();
 
-	// Logs to the console adding a line break after, using std::string.
-	template <typename T>
-	constexpr void log(T const& in = "Error: Nothing Found");
-
 	// Toggles wallToggleBool
 	bool wallToggleBool;
 	void wallToggle();

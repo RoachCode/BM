@@ -544,60 +544,54 @@ void Window::m_groupDraw()
 	const sf::Vector2f direction = sf::Vector2f(0, 0);
 	m_groupDraw(direction);
 }
-// do we want to move this by pixelsize or just by pixel?
-void Window::drawFullSimplex(sf::Vector2f direction, int delay)
+void Window::drawFullSimplex(sf::Vector2f direction)
 {
 	// get values from View class
 	int pixelSize{ getPixelSize() };
 
 	noise.setScale(sf::Vector2f(pixelSize, pixelSize));
-	simplexSpeed++;
-	if (simplexSpeed > delay)
+
+
+	simplexSpeed = 0;
+	simplexMovementCollector.x = simplexMovementCollector.x + direction.x;
+	simplexMovementCollector.y = simplexMovementCollector.y + direction.y;
+	if ((simplexMovementCollector.x >= pixelSize) && (simplexMovementCollector.y >= pixelSize))
 	{
-		simplexSpeed = 0;
-		simplexMovementCollector.x = simplexMovementCollector.x + direction.x;
-		simplexMovementCollector.y = simplexMovementCollector.y + direction.y;
-		if ((simplexMovementCollector.x >= pixelSize) && (simplexMovementCollector.y >= pixelSize))
-		{
-			simplexMovementCollector.x = 0.f;
-			simplexMovementCollector.y = 0.f;
-			m_groupDraw(sf::Vector2f(pixelSize, pixelSize));
-		}
-		else if (simplexMovementCollector.x >= pixelSize)
-		{
-			simplexMovementCollector.x = 0.f;
-			m_groupDraw(sf::Vector2f(pixelSize, 0));
-		}
-		else if (simplexMovementCollector.y >= pixelSize)
-		{
-			simplexMovementCollector.y = 0.f;
-			m_groupDraw(sf::Vector2f(0, pixelSize));
-		}
-		else if ((simplexMovementCollector.x <= -pixelSize) && (simplexMovementCollector.y <= -pixelSize))
-		{
-			simplexMovementCollector.x = 0.f;
-			simplexMovementCollector.y = 0.f;
-			m_groupDraw(sf::Vector2f(-pixelSize, -pixelSize));
-		}
-		else if (simplexMovementCollector.x <= -pixelSize)
-		{
-			simplexMovementCollector.x = 0.f;
-			m_groupDraw(sf::Vector2f(-pixelSize, 0));
-		}
-		else if (simplexMovementCollector.y <= -pixelSize)
-		{
-			simplexMovementCollector.y = 0.f;
-			m_groupDraw(sf::Vector2f(0, -pixelSize));
-		}
-		else
-		{
-			m_groupDraw();
-		}
+		simplexMovementCollector.x = 0.f;
+		simplexMovementCollector.y = 0.f;
+		m_groupDraw(sf::Vector2f(pixelSize, pixelSize));
 	}
-	else if (simplexSpeed != 0)
+	else if (simplexMovementCollector.x >= pixelSize)
+	{
+		simplexMovementCollector.x = 0.f;
+		m_groupDraw(sf::Vector2f(pixelSize, 0));
+	}
+	else if (simplexMovementCollector.y >= pixelSize)
+	{
+		simplexMovementCollector.y = 0.f;
+		m_groupDraw(sf::Vector2f(0, pixelSize));
+	}
+	else if ((simplexMovementCollector.x <= -pixelSize) && (simplexMovementCollector.y <= -pixelSize))
+	{
+		simplexMovementCollector.x = 0.f;
+		simplexMovementCollector.y = 0.f;
+		m_groupDraw(sf::Vector2f(-pixelSize, -pixelSize));
+	}
+	else if (simplexMovementCollector.x <= -pixelSize)
+	{
+		simplexMovementCollector.x = 0.f;
+		m_groupDraw(sf::Vector2f(-pixelSize, 0));
+	}
+	else if (simplexMovementCollector.y <= -pixelSize)
+	{
+		simplexMovementCollector.y = 0.f;
+		m_groupDraw(sf::Vector2f(0, -pixelSize));
+	}
+	else
 	{
 		m_groupDraw();
 	}
+
 }
 
 // Flow Functions
@@ -646,7 +640,7 @@ void Window::drawWaterTile()
 	//draw(waterTileMap);
 
 	
-	// change to vertexarray ?
+	// change to vertexbuffer ?
 	for (int i = 0; i < TILES_PER_CHUNK_X * 4; i++)
 	{
 		for (int j = 0; j < TILES_PER_CHUNK_Y * 4; j++)

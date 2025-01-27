@@ -31,7 +31,6 @@ public:
 	int startOctave;
 
 	// For fullscreen cloud noise
-	int simplexSpeed;
 	int simplexStepper;
 	sf::Vector2f simplexMovementCollector;
 
