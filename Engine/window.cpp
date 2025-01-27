@@ -14,7 +14,6 @@ Window::Window()
 	left = false;
 	right = false;
 	
-	initWaterTile();
 	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
 }
 
@@ -633,46 +632,38 @@ void Window::drawFlow()
 }
 
 // Water Functions
-void Window::initWaterTile()
-{
-	if (!water.westKagarWater.size())
-	{
-		for (size_t i = 0; i < imageHandler.tileMapE.masterTile.size(); i++)
-		{
-			if (imageHandler.tileMapE.masterTile[i] == 89 || imageHandler.tileMapE.masterTile[i] == 90)
-			{
-				water.westKagarWater.push_back(1);
-			}
-			else
-			{
-				water.westKagarWater.push_back(0);
-			}
-		}
-	}
-}
+
 void Window::drawWaterTile()
 {
 	// get values from View class
 	int pixelSize{ getPixelSize() };
-
+	water.noise.noise.setScale(pixelSize, pixelSize);
 	// Is automatic, prints on tiles 89 and 90.
-	water.update(water.clock.getElapsedTime());
+	water.update();
 
+	//FontMap waterTileMap;
+	//waterTileMap.load(water.waterAnimationFrames, sf::Vector2u(32, 32), water.westKagarWater, TILES_PER_CHUNK_X * 4, TILES_PER_CHUNK_Y * 4);
+	//draw(waterTileMap);
+
+	
+	// change to vertexarray ?
 	for (int i = 0; i < TILES_PER_CHUNK_X * 4; i++)
 	{
 		for (int j = 0; j < TILES_PER_CHUNK_Y * 4; j++)
 		{
 			if (water.westKagarWater[i + j * (TILES_PER_CHUNK_X * 4)])
 			{
-				water.noise.setScale(pixelSize, pixelSize);
-				water.noise.setPosition(water.width * pixelSize * i, water.height * pixelSize * j);
-				draw(water.noise);
+				water.noise.noise.setPosition(water.width * pixelSize * i, water.height * pixelSize * j);
+				draw(water.noise.noise);
 			}
 		}
 	}
-	 
+
 	//reset
-	water.noise.setPosition(0, 0);
+	water.noise.noise.setPosition(0, 0);
+	
+
+
 }
 
 // Text Functions

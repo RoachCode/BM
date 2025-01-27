@@ -61,10 +61,10 @@ int main()
 
         window.drawTileMapsBack();
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
-		//window.drawSprites();
+		window.drawSprites();
         //window.drawFlow(inProgress);
         window.drawWaterTile();
-        //window.drawTileMapsFront();
+        window.drawTileMapsFront();
 
         window.drawFullSimplex(sf::Vector2f(-0.2f, -0.07f), 0); //if speed is needed we can jump frames   x = -0.8
 		

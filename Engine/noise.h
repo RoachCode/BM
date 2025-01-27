@@ -41,7 +41,7 @@ public:
 	float qdMod{ 0.f };
 	bool isWater{ false };
 	bool reverse{ false };
-	int animationDepth{};
+
 	float stepSize{};
 
 	void m_createSimplexValues(int x, int y)
@@ -116,7 +116,7 @@ public:
 
 		}
 		m_normalizeRGB();
-		createSimplexTexture();
+		if (!isWater) { createSimplexTexture(); } //sloppy, fix this.
 	}
 	void m_normalizeRGB()
 	{
