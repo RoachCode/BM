@@ -15,7 +15,6 @@ public:
 		m_simplexSizeY = 0;
 		m_simplexSizeX = 0;
 		m_simplexSizeY = 0;
-		simplexSpeed = 0;
 		simplexStepper = 0;
 	}
 	// Data
