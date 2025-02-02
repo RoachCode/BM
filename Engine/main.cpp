@@ -56,24 +56,21 @@ int main()
 
     while (window.isOpen())
     {
-        window.clear(sf::Color(0, 0, 0, 255));
+        window.clear(sf::Color(50, 0, 50, 255));
         window.pollEvents();
 
         window.drawTileMapsBack();
-		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
 		window.drawSprites();
+
+		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
+
         window.drawWaterTile();
         window.drawTileMapsFront();
-
         window.drawFullSimplex(sf::Vector2f(-0.2f, -0.07f)); //if speed is needed we can jump frames   x = -0.8
 		
-		window.drawDevToolsText();
-		//DEBUG(window.DEV_TOOLS.getFPS());
-		
-
-		window.draw(window.textBox.corner);
-		
+		window.addDevToolsText();
+		window.drawText();
 
 		window.display();
     }

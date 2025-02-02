@@ -624,7 +624,6 @@ void Window::drawFlow()
 }
 
 // Water Functions
-
 void Window::drawWaterTile()
 {
 	// get values from View class
@@ -659,155 +658,28 @@ void Window::drawWaterTile()
 }
 
 // Text Functions
-void Window::drawDevToolsText()
+void Window::addDevToolsText() 
 {
-	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
-	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
-	//std::string longString{ "{|^_<= @#$ But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
-	//drawText(longString, pairF(250, 250), 1, 800);
-	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(DL), 2); }
+	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
+	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
+	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	addText(longString, pairF(250, 250), 1, 800);
+	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2); }
 }
-
-void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
+void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
 {
-	// get values from View class
-	int pixelSize{ getPixelSize() };
+	textBox.addText(string, startPosition, scale, boundingWidth);
+}
+void Window::drawText()
+{
+	this->draw(textBox.borderBlack);
+	for (size_t i = 0; i < textBox.spriteContainerBlack.size(); i++) { this->draw(textBox.spriteContainerBlack[i]); }
 
-	// init, scale and bounding
-	font.currentString.clear();
-	//if (boundingWidth == 0) { boundingWidth = size.x - startPosition.x; } // the visible screen
-	//if (boundingWidth < 0) { boundingWidth = 0; }
-	const int fontScale{ scale * pixelSize };
+	this->draw(textBox.background);
 
-	// tiles are two pixels wide
-	int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * fontScale) };
+	this->draw(textBox.border);
+	for (size_t i = 0; i < textBox.spriteContainer.size(); i++) { this->draw(textBox.spriteContainer[i]); }
 
-	// create text
-	for (size_t j = 0; j < string.length(); j++)
-	{
-		const char letter = string[j];
-		const int letterNumber{ font.getRectOffset(letter) };
-		if (font.getRectOffset(letter) < 207)
-		{
-			font.currentString.push_back(letterNumber + 0);
-			font.currentString.push_back(letterNumber + 1);
-			font.currentString.push_back(letterNumber + 2);
-		}
-		else if (font.getRectOffset(letter) < 231)
-		{
-			font.currentString.push_back(letterNumber + 0);
-			font.currentString.push_back(letterNumber + 1);
-			font.currentString.push_back(letterNumber + 2);
-			font.currentString.push_back(letterNumber + 3);
-		}
-		else
-		{
-			font.currentString.push_back(letterNumber + 0);
-		}
-		// kerning space (2 pixels)
-		if (j < string.length() - 1 && letter != ' ') { font.currentString.push_back(78); }
-
-		// check to see if the word will fit on this row (including following punctuation)
-		if (string[j] == ' ' && maxTilesPerRow != 0)
-		{
-			int tilesInWord{ 4 }; //starts with a space. supposed to be 3 but this works for some reason.
-			int iterator{ 1 };
-			while (string[j + iterator] != ' ' && j + iterator < string.length())
-			{
-				if (font.getRectOffset(letter) < 207)
-				{
-					tilesInWord += 3;
-				}
-				else if (font.getRectOffset(letter) < 231)
-				{
-					tilesInWord += 4;
-				}
-				else
-				{
-					tilesInWord += 1;
-				}
-				//kerning if the word isn't finished
-				if (string[j + iterator + 1] != ' ')
-				{
-					tilesInWord += 1;
-				}
-				iterator += 1;
-			}
-
-			// get current position in the line
-			int tilePosition{ intify(font.currentString.size()) };
-			while (tilePosition > maxTilesPerRow) { tilePosition -= maxTilesPerRow; }
-
-			// if the word won't fit, use kerning spaces to finish the line
-			if (tilePosition + tilesInWord > maxTilesPerRow)
-			{
-				int remainingTiles{ maxTilesPerRow - tilePosition };
-				for (int i = 0; i < remainingTiles; i++) { font.currentString.push_back(78); }
-			}
-		}
-	}
-
-	// add blank characters to the end to complete the tilemap or shrink to fit
-	int messageTileCount{ intify(font.currentString.size()) };
-	int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
-	int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale + fontScale };
-	if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
-
-	// If no bounding box was specified, stay in the view.
-	if (maxTilesPerRow == 0)
-	{
-		maxTilesPerRow = messageTileCount;
-		boundingWidth = messageWidthInPixels;
-		// Bounds Right
-		if ((intify(startPosition.x) + messageWidthInPixels) > intify(getViewCoordinates(UR).x))
-		{
-			startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels);
-		}
-		// Bounds Left
-		if (intify(startPosition.x) < getViewCoordinates(UL).x)
-		{
-			startPosition.x = getViewCoordinates(UL).x;
-		}
-		// Bounds Bottom
-		if (intify(startPosition.y) + 10 > intify(getViewCoordinates(DR).y))
-		{
-			startPosition.y = floatify(getViewCoordinates(DR).y - (10 * fontScale) - fontScale);
-		}
-		// Bounds Top
-		if (intify(startPosition.y) < getViewCoordinates(UL).y)
-		{
-			startPosition.y = getViewCoordinates(UL).y;
-		}
-	}
-	while (messageTileCount % maxTilesPerRow != 0)
-	{
-		font.currentString.push_back(78);
-		messageTileCount += 1;
-	}
-	int messageRows{ messageTileCount / maxTilesPerRow};
-
-	// creates background to show text bounds are working properly (for testing)
-	sf::RectangleShape tempbg(pairF(boundingWidth, messageRows * 10 * fontScale + fontScale)); // + pixelsize is for shadow
-	tempbg.setPosition(startPosition);
-	tempbg.setFillColor(sf::Color(0, 100, 200, 105));
-	draw(tempbg);
-	
-	// prints characters.
-	for (int i = 0; i <= 1; i++)
-	{
-		// Runs twice to set a shadow effect
-		if (i == 0)
-		{
-			font.setColor(sf::Color(44, 44, 44), true);
-			font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
-		}
-		else
-		{
-			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.fontMap.setPosition(startPosition);
-		}
-		font.fontMap.load(font.fontImage, sf::Vector2u(2, 10), font.currentString, messageWidthInTiles, messageRows);
-		font.fontMap.setScale(pairF(fontScale, fontScale));
-		draw(font.fontMap);
-	}
+	for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
+	textBox.emptyContainers();
 }
