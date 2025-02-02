@@ -1,7 +1,9 @@
+
+/*
 #pragma once
 #include "font.h"
 #include <iostream>
-/*
+
 Font2::Font2()
 {
 	//setColor(sf::Color(255, 120, 10));

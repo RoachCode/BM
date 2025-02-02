@@ -26,12 +26,6 @@ const std::string DevTools::getFPS()
     return std::to_string(m_fps);
 }
 
-template <typename T>
-constexpr void DevTools::log(T const& in)
-{
-    std::cout << in << '\n';
-}
-
 void DevTools::wallToggle()
 {
     wallToggleBool = !wallToggleBool;

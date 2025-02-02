@@ -22,10 +22,11 @@ private:
 		else if (m_screenSize.x < CHUNK_WIDTH_PIXELS * (factor * 3)) { m_pixelSize = 3; }
 		else if (m_screenSize.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { m_pixelSize = 4; }
 		else { m_pixelSize = 4; }
-
+		//m_pixelSize = 2; //for testing
 		// I doubt we need more.
 		m_tilePixels = TILE_SIZE * m_pixelSize;
 		m_uniqueScreenSizeGridSize = pairI(m_screenSize.x / (m_tilePixels), m_screenSize.y / (m_tilePixels));
+
 	}
 	void m_setScreenSize()
 	{
@@ -38,6 +39,8 @@ private:
 		//new stuff to fixs bugs...
 		m_view.setSize(floatify(m_uniqueScreenSizeGridSize.x * m_tilePixels), floatify(m_uniqueScreenSizeGridSize.y * m_tilePixels));
 		m_view.setCenter(floatify(m_view.getSize().x / 2), floatify(m_view.getSize().y / 2));
+
+		//m_view.zoom(10.f);
 	}
 	void m_setSceneSize()
 	{

@@ -15,9 +15,7 @@ public:
 		m_simplexSizeY = 0;
 		m_simplexSizeX = 0;
 		m_simplexSizeY = 0;
-		simplexSpeed = 0;
 		simplexStepper = 0;
-		m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
 	}
 	// Data
 	// Vector array of angles, one per cell
@@ -32,7 +30,6 @@ public:
 	int startOctave;
 
 	// For fullscreen cloud noise
-	int simplexSpeed;
 	int simplexStepper;
 	sf::Vector2f simplexMovementCollector;
 
@@ -42,7 +39,7 @@ public:
 	float qdMod{ 0.f };
 	bool isWater{ false };
 	bool reverse{ false };
-	int animationDepth{};
+
 	float stepSize{};
 
 	void m_createSimplexValues(int x, int y)
@@ -117,7 +114,7 @@ public:
 
 		}
 		m_normalizeRGB();
-		createSimplexTexture();
+		if (!isWater) { createSimplexTexture(); } //sloppy, fix this.
 	}
 	void m_normalizeRGB()
 	{
@@ -182,8 +179,5 @@ public:
 		noise.setTexture(&noiseTexture);
 
 	}
-	void createSimplexSheet()
-	{
 
-	}
 };
