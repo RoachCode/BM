@@ -551,8 +551,6 @@ void Window::drawFullSimplex(sf::Vector2f direction)
 
 	noise.setScale(sf::Vector2f(pixelSize, pixelSize));
 
-
-	simplexSpeed = 0;
 	simplexMovementCollector.x = simplexMovementCollector.x + direction.x;
 	simplexMovementCollector.y = simplexMovementCollector.y + direction.y;
 	if ((simplexMovementCollector.x >= pixelSize) && (simplexMovementCollector.y >= pixelSize))
@@ -665,127 +663,10 @@ void Window::drawDevToolsText()
 {
 	drawText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
 	drawText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
-	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
+	//std::string longString{ "{|^_<= @#$ But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?" }; 
 	//drawText(longString, pairF(250, 250), 1, 800);
 	if (this->DEV_TOOLS.wallToggleBool) { drawText("NO WALLS", getViewCoordinates(DL), 2); }
 }
-
-/*
-void Window::drawText(std::string string, sf::Vector2f startPosition, int scale)
-{
-	scale += 1;
-	const int fontScale{ (scale < 2) ? 2 : scale };
-	font.setStartPos(sf::Vector2f(startPosition.x + 1, startPosition.y + 1));
-	font.setPos(font.getStartPos());
-
-	// GET CHARACTER COUNTS FOR EACH TYPE OF CHARACTER.
-	int specialCount{ 0 };
-	int punctuationCount{ 0 };
-	for (size_t i = 0; i < string.length(); i++)
-	{
-		if (string[i] == '^' ||
-			string[i] == '|' ||
-			string[i] == '<' ||
-			string[i] == '{' ||
-			string[i] == '=' ||
-			string[i] == '_')
-		{ specialCount++; }
-		else if (
-			string[i] == ',' ||
-			string[i] == '.' ||
-			string[i] == ':')
-		{ punctuationCount++; }
-	}
-	int normalCount{ intify(string.length()) - specialCount - punctuationCount };
-	int messageWidth{ (9 * specialCount * fontScale) + (3 * punctuationCount * fontScale) + (7 * normalCount * fontScale) };
-
-	// Bounds Right
-	if ((intify(startPosition.x) + messageWidth) > intify(getViewCoordinates(UR).x))
-	{
-		startPosition.x = floatify(getViewCoordinates(UR).x - messageWidth);
-		font.setStartPos(startPosition);
-		font.setPos(startPosition);
-	}
-	// Bounds Left
-	if (intify(startPosition.x) <= getViewCoordinates(UL).x)
-	{
-		startPosition.x = floatify(getViewCoordinates(UL).x + (fontScale * 2));
-		font.setStartPos(startPosition);
-		font.setPos(startPosition);
-	}
-	// Bounds Bottom
-	if (intify(startPosition.y) + 8 > intify(getViewCoordinates(DR).y))
-	{
-		startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - fontScale);
-		font.setStartPos(startPosition);
-		font.setPos(startPosition);
-	}
-	// Bounds Top
-	if (intify(startPosition.y) <= getViewCoordinates(UL).y)
-	{
-		startPosition.y = floatify(getViewCoordinates(UL).y + (fontScale * 2));
-		font.setStartPos(startPosition);
-		font.setPos(startPosition);
-	}
-
-	// prints characters.
-	for (int i = 0; i <= 1; i++)
-	{
-		// Runs twice to set a shadow effect
-		if (i == 0)
-		{
-			font.setColor(sf::Color(0, 0, 0), true);
-		}
-		else
-		{
-			font.setColor(sf::Color(font.textRed, font.textGreen, font.textBlue));
-			font.setPos(sf::Vector2f(font.getPos().x - fontScale, font.getPos().y - fontScale));
-		}
-		for (size_t j = 0; j < string.length(); j++)
-		{
-			const char letter = string[j];
-			if (font.attachCharImageSubRectToSprite(letter))
-			{
-				if (j != 0)
-				{
-					font.setPos(sf::Vector2f(font.getPos().x + (font.addon.x + font.moveR.x) * fontScale, font.getPos().y + (font.addon.y + font.moveR.y) * fontScale));
-					if (letter == '^' ||
-						letter == '|' ||
-						letter == '<' ||
-						letter == '{' ||
-						letter == '_' ||
-						letter == '=')
-					{
-						font.moveR = sf::Vector2f(9.f, 0.f);
-					}
-					else if (letter == ',' ||
-						letter == '.' ||
-						letter == ':')
-					{
-						font.moveR = sf::Vector2f(3.f, 0.f);
-					}
-					else
-					{
-						font.moveR = sf::Vector2f(7.f, 0.f);
-					}
-				}
-				font.charSprite.setScale(sf::Vector2f(fontScale, fontScale));
-
-				this->draw(font.charSprite);
-
-				if (font.addon.y > 0) { font.setPos(sf::Vector2f(font.getPos().x, font.getPos().y - floatify(font.addon.y * fontScale))); font.addon.y = 0; }
-				//if (font.addon.x < 0) { font.move(sf::Vector2f(font.addon.x * fontScale, 0)); font.addon.x = 0; }
-				//if (letter == 'l' || letter == 'i') { font.move(sf::Vector2f(-fontScale, 0)); }
-			}
-			else
-			{
-				std::cout << "couldn't attach char image";
-			}
-		}
-		font.setPos(font.getStartPos());
-	}
-}
-*/
 
 void Window::drawText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
 {
