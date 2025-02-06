@@ -1783,6 +1783,18 @@ public:
 		1, 1,
 		0, 1,
 		1, 0,
+
+		// '
+		1, 1,
+		1, 1,
+		0, 1,
+		1, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
 	};
 
 	const int tileWidthUnit{ 16 };
@@ -1835,7 +1847,7 @@ public:
 
 		const int charCountText{ 69 };
 		const int charCountSpec{ 6 };
-		const int charCountPunc{ 3 };
+		const int charCountPunc{ 4 };
 
 		const int charWidthText{ 6 };
 		const int charWidthSpec{ 8 };
@@ -1937,6 +1949,7 @@ public:
 	}
 
 	std::vector<int> currentString = { 0, 1, 2, 3, 4, 5 };
+
 	int getRectOffset(char input)
 	{
 		switch (input)
@@ -2019,6 +2032,7 @@ public:
 		case ':': return 231;//
 		case '.': return 232;
 		case ',': return 233;
+		case '\'': return 234;
 		default:
 			std::cout << "character missing: " << input << '\n';
 			return -1;

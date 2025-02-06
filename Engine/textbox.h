@@ -28,9 +28,9 @@ private:
 public:
     sf::Sprite corner;
     sf::Texture cornerTexture;
+
 	std::vector<sf::Sprite> spriteContainer;
 	std::vector<sf::Sprite> spriteContainerBlack;
-
 	std::vector<FontMap> fontContainer;
 
     sf::VertexArray border;
@@ -88,10 +88,10 @@ public:
 		background.setPrimitiveType(sf::Quads);
 		border.setPrimitiveType(sf::Quads);
 		borderBlack.setPrimitiveType(sf::Quads);
-        topLeft = sf::Color(0, 0, 255, 155);
-        topRight = sf::Color(0, 255, 0, 155);
-        bottomRight = sf::Color(255, 0, 0, 155);
-        bottomLeft = sf::Color(0, 0, 0, 155);
+        topLeft = sf::Color(0, 0, 255, 255);
+        topRight = sf::Color(0, 255, 0, 255);
+        bottomRight = sf::Color(255, 0, 0, 255);
+        bottomLeft = sf::Color(0, 0, 0, 255);
     }
 
 	void createText(std::string string, int maxTilesPerRow)
