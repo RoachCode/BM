@@ -88,12 +88,21 @@ public:
 		background.setPrimitiveType(sf::Quads);
 		border.setPrimitiveType(sf::Quads);
 		borderBlack.setPrimitiveType(sf::Quads);
-        topLeft = sf::Color(0, 0, 255, 255);
-        topRight = sf::Color(0, 255, 0, 255);
-        bottomRight = sf::Color(255, 0, 0, 255);
-        bottomLeft = sf::Color(0, 0, 0, 255);
+        topLeft = sf::Color(0, 0, 255, 155);
+        topRight = sf::Color(0, 255, 0, 155);
+        bottomRight = sf::Color(255, 0, 0, 155);
+        bottomLeft = sf::Color(0, 0, 0, 155);
     }
 
+	void emptyContainers()
+	{
+		borderBlack.resize(0);
+		border.resize(0);
+		background.resize(0);
+		spriteContainer.clear();
+		spriteContainerBlack.clear();
+		fontContainer.clear();
+	}
 	void createText(std::string string, int maxTilesPerRow)
 	{
 		Font::currentString.clear();
@@ -310,15 +319,6 @@ public:
 
 	}
 
-	void emptyContainers()
-	{
-		borderBlack.resize(0);
-		border.resize(0);
-		background.resize(0);
-		spriteContainer.clear();
-		spriteContainerBlack.clear();
-		fontContainer.clear();
-	}
 	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 	{
 		// get values from View class
@@ -398,4 +398,11 @@ public:
 
 	}
 
+	void setAlpha(sf::Uint8 alpha)
+	{
+		topLeft.a = alpha;
+		topRight.a = alpha;
+		bottomRight.a = alpha;
+		bottomLeft.a = alpha;
+	}
 };

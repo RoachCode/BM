@@ -15,6 +15,7 @@ Window::Window()
 	right = false;
 	
 	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
+	importantTextBox.setAlpha(sf::Uint8(255));
 }
 
 // Set Icon
@@ -661,24 +662,30 @@ void Window::addDevToolsText()
 	std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	addText(longString, pairF(250, 250), 1, 800);
 
-	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2, 0, true, true);
-	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2, 0, true, true);
-	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2, 0, true, true); }
+	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2, 0, true, true, true);
+	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2, 0, true, true, true);
+	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2, 0, true, true, true); }
 }
-void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
+void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders, bool important)
 {
-	textBox.addText(string, startPosition, scale, boundingWidth, background, borders);
+	if (important) { importantTextBox.addText(string, startPosition, scale, boundingWidth, background, borders); }
+	else { textBox.addText(string, startPosition, scale, boundingWidth, background, borders); }
 }
 void Window::drawText()
 {
-	this->draw(textBox.borderBlack);
 	for (size_t i = 0; i < textBox.spriteContainerBlack.size(); i++) { this->draw(textBox.spriteContainerBlack[i]); }
-
+	this->draw(textBox.borderBlack);
 	this->draw(textBox.background);
-
 	this->draw(textBox.border);
 	for (size_t i = 0; i < textBox.spriteContainer.size(); i++) { this->draw(textBox.spriteContainer[i]); }
-
 	for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
 	textBox.emptyContainers();
+
+	for (size_t i = 0; i < importantTextBox.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.spriteContainerBlack[i]); }
+	this->draw(importantTextBox.borderBlack);
+	this->draw(importantTextBox.background);
+	this->draw(importantTextBox.border);
+	for (size_t i = 0; i < importantTextBox.spriteContainer.size(); i++) { this->draw(importantTextBox.spriteContainer[i]); }
+	for (size_t i = 0; i < importantTextBox.fontContainer.size(); i++) { this->draw(importantTextBox.fontContainer[i]); }
+	importantTextBox.emptyContainers();
 }

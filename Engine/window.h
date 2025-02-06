@@ -51,6 +51,7 @@ public:
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	TextBox textBox;
+	TextBox importantTextBox;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -77,7 +78,8 @@ public:
 		int scale = 1, 
 		int boundingWidth = 0,
 		bool background = true,
-		bool borders = true
+		bool borders = true,
+		bool important = false
 	);
 	void drawText();
 
