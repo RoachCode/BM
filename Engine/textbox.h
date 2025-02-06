@@ -88,10 +88,10 @@ public:
 		background.setPrimitiveType(sf::Quads);
 		border.setPrimitiveType(sf::Quads);
 		borderBlack.setPrimitiveType(sf::Quads);
-        topLeft = sf::Color(0, 0, 255, 55);
-        topRight = sf::Color(0, 255, 0, 55);
-        bottomRight = sf::Color(255, 0, 0, 55);
-        bottomLeft = sf::Color(0, 0, 0, 55);
+        topLeft = sf::Color(0, 0, 255, 155);
+        topRight = sf::Color(0, 255, 0, 155);
+        bottomRight = sf::Color(255, 0, 0, 155);
+        bottomLeft = sf::Color(0, 0, 0, 155);
     }
 
 	void createText(std::string string, int maxTilesPerRow)
@@ -161,18 +161,6 @@ public:
 			}
 		}
 	}
-
-	void createTextBox(int boundingWidth, int messageRows, int fontScale, sf::Vector2f startPosition)
-	{
-		const int pixelSize{ getPixelSize() };
-		const int margin{ 6 * pixelSize };
-		const int width{ boundingWidth + margin * 2 };
-		const int height{ messageRows * 10 * fontScale + fontScale + margin * 2 };
-		const sf::Vector2f pos(pairF(startPosition.x - margin - pixelSize, startPosition.y - margin - pixelSize));
-
-		createBackground(pos, width, height);
-		createBorders(pos, width, height);
-	}
     void createBackground(sf::Vector2f startPosition, int width, int height)
     {
 		sf::Vertex a;
@@ -207,7 +195,7 @@ public:
 		// Background
 		corner.setColor(borderColorBlack);
 		corner.setRotation(270.f);
-		corner.setPosition(pairF(startPosition.x - cornerSize / 2 + pixelSize + pixelSize, startPosition.x + cornerSize / 2 + pixelSize + pixelSize));
+		corner.setPosition(pairF(startPosition.x - cornerSize / 2 + pixelSize + pixelSize, startPosition.y + cornerSize / 2 + pixelSize + pixelSize));
 		spriteContainerBlack.push_back(corner);
 
 		corner.setRotation(0.f);
@@ -225,7 +213,7 @@ public:
 		// Foreground
 		corner.setColor(borderColor);
 		corner.setRotation(270.f);
-		corner.setPosition(pairF(startPosition.x - cornerSize / 2 + pixelSize, startPosition.x + cornerSize / 2 + pixelSize));
+		corner.setPosition(pairF(startPosition.x - cornerSize / 2 + pixelSize, startPosition.y + cornerSize / 2 + pixelSize));
 		spriteContainer.push_back(corner);
 
 		corner.setRotation(0.f);
@@ -331,7 +319,7 @@ public:
 		spriteContainerBlack.clear();
 		fontContainer.clear();
 	}
-	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
+	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 	{
 		// get values from View class
 		int pixelSize{ getPixelSize() };
@@ -353,25 +341,31 @@ public:
 		{
 			maxTilesPerRow = messageTileCount;
 			boundingWidth = messageWidthInPixels;
+
+			// The following lineThickness value is also found in createBorders(). If redefined, do so to both.
+			const int margin{ (borders) ? 6 * pixelSize : 0 };
+			const int lineThickness{ (borders) ? 6 * pixelSize : 0 };
+			const int edgeOffset{ fontScale * 2 + margin + lineThickness };
+
 			// Bounds Right
-			if ((intify(startPosition.x) + messageWidthInPixels) > intify(getViewCoordinates(UR).x))
+			if ((intify(startPosition.x) + messageWidthInPixels) > intify(getViewCoordinates(UR).x - edgeOffset))
 			{
-				startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels);
+				startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels - edgeOffset);
 			}
 			// Bounds Left
-			if (intify(startPosition.x) < getViewCoordinates(UL).x)
+			if (intify(startPosition.x) < getViewCoordinates(UL).x + edgeOffset)
 			{
-				startPosition.x = getViewCoordinates(UL).x;
+				startPosition.x = getViewCoordinates(UL).x + edgeOffset;
 			}
 			// Bounds Bottom
-			if (intify(startPosition.y) + 10 > intify(getViewCoordinates(DR).y))
+			if (intify(startPosition.y) + 8 * fontScale > intify(getViewCoordinates(DR).y - edgeOffset))
 			{
-				startPosition.y = floatify(getViewCoordinates(DR).y - (10 * fontScale) - fontScale);
+				startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - fontScale - edgeOffset);
 			}
 			// Bounds Top
-			if (intify(startPosition.y) < getViewCoordinates(UL).y)
+			if (intify(startPosition.y) < getViewCoordinates(UL).y + edgeOffset)
 			{
-				startPosition.y = getViewCoordinates(UL).y;
+				startPosition.y = getViewCoordinates(UL).y + edgeOffset;
 			}
 		}
 		while (messageTileCount % maxTilesPerRow != 0)
@@ -381,8 +375,13 @@ public:
 		}
 
 		int messageRows{ messageTileCount / maxTilesPerRow };
+		const int margin{ 6 * pixelSize };
+		const int width{ boundingWidth + margin * 2 };
+		const int height{ messageRows * 10 * fontScale - fontScale + margin * 2 };
+		const sf::Vector2f pos(pairF(startPosition.x - margin - pixelSize, startPosition.y - margin - pixelSize));
 
-		createTextBox(boundingWidth, messageRows, fontScale, startPosition);
+		if (background) { createBackground(pos, width, height); }
+		if (borders) { createBorders(pos, width, height); }
 
 		// create font map
 		Font::fontMap.setScale(pairF(fontScale, fontScale));

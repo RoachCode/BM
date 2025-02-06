@@ -52,7 +52,7 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
     while (window.isOpen())
     {
@@ -69,6 +69,9 @@ int main()
         window.drawTileMapsFront();
         window.drawFullSimplex(sf::Vector2f(-0.2f, -0.07f)); //if speed is needed we can jump frames   x = -0.8
 		
+		//window.drawMenu();
+		//window.drawBattle();
+
 		window.addDevToolsText();
 		window.drawText();
 

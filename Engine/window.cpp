@@ -658,17 +658,18 @@ void Window::drawWaterTile()
 }
 
 // Text Functions
-void Window::addDevToolsText() 
+void Window::addDevToolsText()
 {
-	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2);
-	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2);
-	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2, 0, false, true);
+	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2, 0, false, true);
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	addText(longString, pairF(250, 250), 1, 800);
-	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2); }
+	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2, 0, false, true); }
 }
-void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth)
+void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 {
-	textBox.addText(string, startPosition, scale, boundingWidth);
+	textBox.addText(string, startPosition, scale, boundingWidth, background, borders);
 }
 void Window::drawText()
 {

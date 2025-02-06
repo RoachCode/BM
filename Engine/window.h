@@ -71,7 +71,14 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
 
-	void addText(std::string string = "NOTEXT", sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), int scale = 1, int boundingWidth = 0);
+	void addText(
+		std::string string = "NOTEXT", 
+		sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), 
+		int scale = 1, 
+		int boundingWidth = 0,
+		bool background = true,
+		bool borders = true
+	);
 	void drawText();
 
 	void m_groupDraw(sf::Vector2f direction);
