@@ -113,6 +113,12 @@
     <ClInclude Include="Engine\view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="notes.md" />

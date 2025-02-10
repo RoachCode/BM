@@ -4,7 +4,7 @@
 #include <deque>
 #include "constExpressions.h"
 #include "view.h"
-
+#include "menu.h"
 #include "devtools.h"
 #include "imageHandler.h"
 #include "character.h"
@@ -52,6 +52,7 @@ public:
 	DevTools DEV_TOOLS;
 	TextBox textBox;
 	TextBox importantTextBox;
+	Menu menu;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -71,6 +72,7 @@ public:
 	void drawWaterTile();
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
+	void drawMenu();
 
 	void addText(
 		std::string string = "NOTEXT", 
