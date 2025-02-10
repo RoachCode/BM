@@ -29,9 +29,14 @@ private:
 				Font::currentString.push_back(letterNumber + 2);
 				Font::currentString.push_back(letterNumber + 3);
 			}
+			else if (Font::getRectOffset(letter) < 236)
+			{
+				Font::currentString.push_back(letterNumber + 0);
+			}
 			else
 			{
 				Font::currentString.push_back(letterNumber + 0);
+				Font::currentString.push_back(letterNumber + 1);
 			}
 			// kerning space (2 pixels)
 			if (j < string.length() - 1 && letter != ' ') { Font::currentString.push_back(78); }
@@ -51,9 +56,13 @@ private:
 					{
 						tilesInWord += 4;
 					}
-					else
+					else if (Font::getRectOffset(letter) < 236)
 					{
 						tilesInWord += 1;
+					}
+					else
+					{
+						tilesInWord += 2;
 					}
 					//kerning if the word isn't finished
 					if (string[j + iterator + 1] != ' ')

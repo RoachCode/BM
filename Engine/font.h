@@ -1795,9 +1795,58 @@ public:
 		0, 0,
 		0, 0,
 		0, 0,
+
+		// !
+		1, 1,
+		1, 1,
+		1, 1,
+		1, 1,
+		1, 1,
+		0, 0,
+		1, 1,
+		1, 1,
+		0, 0,
+		0, 0,
+	};
+	std::vector<bool> narrowCharacters
+	{		
+		// i
+		0, 1, 1, 0,
+		0, 0, 0, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		1, 1, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		
+		// l
+		1, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+
+		// t
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		1, 1, 1, 1,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 0, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
 	};
 
-	const int tileWidthUnit{ 16 };
 	sf::Image fontImage;
 	sf::Texture fontTexture;
 	sf::Uint8 textRed{ 255 };
@@ -1835,24 +1884,28 @@ public:
 		fontTexture.loadFromImage(fontImage);
 	}
 
-	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(100, 160, 190)))
+	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(130, 190, 230)))
 	{
 		const int height{ 10 };
-		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size()) / height };
+		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size() + narrowCharacters.size()) / height };
 		fontImage.create(fullWidth, height);
 
 		const int pixPerText{ 60 };
 		const int pixPerSpec{ 80 };
 		const int pixPerPunc{ 20 };
+		const int pixPerNarr{ 40 };
 
 		const int charCountText{ 69 };
 		const int charCountSpec{ 6 };
-		const int charCountPunc{ 4 };
+		const int charCountPunc{ 5 };
+		const int charCountNarr{ 3 };
 
 		const int charWidthText{ 6 };
 		const int charWidthSpec{ 8 };
 		const int charWidthPunc{ 2 };
+		const int charWidthNarr{ 4 };
 
+		// pixelCount and width are redefined for each container
 		int pixelCount{ charCountText * pixPerText };
 		int width{ pixelCount / height };
 		for (int i = 0; i < charCountText; i++)
@@ -1943,6 +1996,36 @@ public:
 
 		}
 
+		pixelCount = charCountNarr * pixPerNarr;
+		width = pixelCount / height;
+		for (int i = 0; i < charCountNarr; i++)
+		{
+			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
+			for (int j = 0; j < pixPerNarr; j++)
+			{
+				if (narrowCharacters[j + i * pixPerNarr] == true)
+				{
+					pixels[(j * 4) + 0] = textRed;
+					pixels[(j * 4) + 1] = textGreen;
+					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 3] = sf::Uint8(255);
+				}
+				else
+				{
+					pixels[(j * 4) + 0] = alphaKey.r;
+					pixels[(j * 4) + 1] = alphaKey.g;
+					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 3] = sf::Uint8(0);
+				}
+			}
+			sf::Image narrImage;
+			narrImage.create(charWidthNarr, height, pixels);
+
+			delete[] pixels;
+			fontImage.copy(narrImage, (charWidthText * charCountText) + (charWidthSpec * charCountSpec) + (charWidthPunc * charCountPunc) + i * charWidthNarr, 0);
+
+		}
+
 		fontTexture.create(fullWidth, height);
 		fontTexture.loadFromImage(fontImage);
 		setColor(color);
@@ -1999,10 +2082,10 @@ public:
 		case 'f': return 126;
 		case 'g': return 129;
 		case 'h': return 132;
-		case 'i': return 135;
+		//case 'i': return 135;
 		case 'j': return 138;
 		case 'k': return 141;
-		case 'l': return 144;
+		//case 'l': return 144;
 		case 'm': return 147;
 		case 'n': return 150;
 		case 'o': return 153;
@@ -2010,7 +2093,7 @@ public:
 		case 'q': return 159;
 		case 'r': return 162;
 		case 's': return 165;
-		case 't': return 168;
+		//case 't': return 168;
 		case 'u': return 171;
 		case 'v': return 174;
 		case 'w': return 177;
@@ -2018,7 +2101,7 @@ public:
 		case 'y': return 183;
 		case 'z': return 186;
 		case '?': return 189;
-		case '!': return 192;
+		//case '!': return 192;
 		case '@': return 195;
 		case '#': return 198;
 		case '$': return 201;
@@ -2033,6 +2116,10 @@ public:
 		case '.': return 232;
 		case ',': return 233;
 		case '\'': return 234;
+		case '!': return 235;
+		case 'i': return 236; //
+		case 'l': return 238;
+		case 't': return 240;
 		default:
 			std::cout << "character missing: " << input << '\n';
 			return -1;
