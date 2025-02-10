@@ -15,7 +15,7 @@ Window::Window()
 	right = false;
 	
 	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
-	importantTextBox.setAlpha(sf::Uint8(255));
+	importantTextBox.box.setAlpha(sf::Uint8(255));
 }
 
 // Set Icon
@@ -73,6 +73,8 @@ void Window::pollEvents()
 			case sf::Keyboard::Up:
 				up = true;
 				break;
+			case sf::Keyboard::Space:
+				menu.toggleMenu();
 			default:
 				break;
 			}
@@ -148,6 +150,9 @@ void Window::pollEvents()
 			case sf::Mouse::Left:
 				particles.particleBool = true;
 				break;
+			case sf::Mouse::Middle:
+				View::resetZoom();
+				break;
 			default:
 				break;
 			}
@@ -155,6 +160,13 @@ void Window::pollEvents()
 		case sf::Event::MouseButtonReleased:
 			particles.particleBool = false;
 			break;
+		case sf::Event::MouseWheelScrolled:
+			// the delta is an integer
+		{
+			float delta{ event.mouseWheelScroll.delta / 10 };
+			View::zoom(delta);
+			break;
+		}
         default:
             break;
         }
@@ -662,9 +674,11 @@ void Window::addDevToolsText()
 	std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	addText(longString, pairF(250, 250), 1, 800);
 
-	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), 2, 0, true, true, true);
-	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), 2, 0, true, true, true);
-	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), 2, 0, true, true, true); }
+	int devToolsTextSize{ 2 };
+	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);
+	addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
+	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
+	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), devToolsTextSize, 0, true, true, true); }
 }
 void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders, bool important)
 {
@@ -673,19 +687,45 @@ void Window::addText(std::string string, sf::Vector2f startPosition, int scale, 
 }
 void Window::drawText()
 {
-	for (size_t i = 0; i < textBox.spriteContainerBlack.size(); i++) { this->draw(textBox.spriteContainerBlack[i]); }
-	this->draw(textBox.borderBlack);
-	this->draw(textBox.background);
-	this->draw(textBox.border);
-	for (size_t i = 0; i < textBox.spriteContainer.size(); i++) { this->draw(textBox.spriteContainer[i]); }
+	for (size_t i = 0; i < textBox.box.spriteContainerBlack.size(); i++) { this->draw(textBox.box.spriteContainerBlack[i]); }
+	this->draw(textBox.box.borderBlack);
+	this->draw(textBox.box.background);
+	this->draw(textBox.box.border);
+	for (size_t i = 0; i < textBox.box.spriteContainer.size(); i++) { this->draw(textBox.box.spriteContainer[i]); }
 	for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
 	textBox.emptyContainers();
 
-	for (size_t i = 0; i < importantTextBox.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.spriteContainerBlack[i]); }
-	this->draw(importantTextBox.borderBlack);
-	this->draw(importantTextBox.background);
-	this->draw(importantTextBox.border);
-	for (size_t i = 0; i < importantTextBox.spriteContainer.size(); i++) { this->draw(importantTextBox.spriteContainer[i]); }
+	for (size_t i = 0; i < importantTextBox.box.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.box.spriteContainerBlack[i]); }
+	this->draw(importantTextBox.box.borderBlack);
+	this->draw(importantTextBox.box.background);
+	this->draw(importantTextBox.box.border);
+	for (size_t i = 0; i < importantTextBox.box.spriteContainer.size(); i++) { this->draw(importantTextBox.box.spriteContainer[i]); }
 	for (size_t i = 0; i < importantTextBox.fontContainer.size(); i++) { this->draw(importantTextBox.fontContainer[i]); }
 	importantTextBox.emptyContainers();
+}
+
+// Menu Functinos
+void Window::drawMenu()
+{
+	if (menu.menuEnabled())
+	{
+		menu.createMenu();
+
+		for (size_t i = 0; i < menu.menuBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.menuBox.box.spriteContainerBlack[i]); }
+		this->draw(menu.menuBox.box.borderBlack);
+		this->draw(menu.menuBox.box.background);
+		this->draw(menu.menuBox.box.border);
+		for (size_t i = 0; i < menu.menuBox.box.spriteContainer.size(); i++) { this->draw(menu.menuBox.box.spriteContainer[i]); }
+		for (size_t i = 0; i < menu.menuBox.fontContainer.size(); i++) { this->draw(menu.menuBox.fontContainer[i]); }
+		menu.menuBox.emptyContainers();
+
+		for (size_t i = 0; i < menu.alertBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.alertBox.box.spriteContainerBlack[i]); }
+		this->draw(menu.alertBox.box.borderBlack);
+		this->draw(menu.alertBox.box.background);
+		this->draw(menu.alertBox.box.border);
+		for (size_t i = 0; i < menu.alertBox.box.spriteContainer.size(); i++) { this->draw(menu.alertBox.box.spriteContainer[i]); }
+		for (size_t i = 0; i < menu.alertBox.fontContainer.size(); i++) { this->draw(menu.alertBox.fontContainer[i]); }
+		menu.alertBox.emptyContainers();
+
+	}
 }
