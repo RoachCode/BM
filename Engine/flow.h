@@ -33,7 +33,7 @@ public:
 	int yCount;
 };
 
-class Flow : public Noise
+class Flow : protected Noise
 {
 public:
 	// Constructor
@@ -52,7 +52,8 @@ public:
 	sf::RectangleShape flowWindow;
 	// Name of the currently loaded FlowPreset
 	std::string currentName;
-
+	// Vector array of angles, one per cell
+	std::vector<float> angleVector;
 private:
 
 	// Iterates on the current flow algorithm

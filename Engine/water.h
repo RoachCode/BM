@@ -7,7 +7,7 @@
 #include "noise.h"
 #include "imageHandler.h"
 
-class Water : public ImageHandler
+class Water : protected ImageHandler
 {
 public:
 	std::vector<bool> westKagarWater;

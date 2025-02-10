@@ -4,7 +4,7 @@
 #include "tilemap.h"
 #include "maps.h"
 
-class ImageHandler : public View
+class ImageHandler : protected View
 {
 public:
     uint8_t zDepth;
