@@ -1835,7 +1835,7 @@ public:
 		fontTexture.loadFromImage(fontImage);
 	}
 
-	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(255, 120, 10)))
+	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(100, 160, 190)))
 	{
 		const int height{ 10 };
 		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size()) / height };
