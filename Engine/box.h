@@ -263,4 +263,18 @@ public:
 		bottomRight.a = alpha;
 		bottomLeft.a = alpha;
 	}
+	void setColor(sf::Color colorIn)
+	{
+		topLeft = colorIn;
+		topRight = colorIn;
+		bottomRight = colorIn;
+		bottomLeft = colorIn;
+	}
+	void setColor(sf::Color colorInTL, sf::Color colorInTR, sf::Color colorInBL, sf::Color colorInBR)
+	{
+		topLeft = colorInTL;
+		topRight = colorInTR;
+		bottomRight = colorInBR;
+		bottomLeft = colorInBL;
+	}
 };
