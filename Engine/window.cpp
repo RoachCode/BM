@@ -171,8 +171,8 @@ void Window::pollEvents()
             break;
         }
     }
-	pollMovement();
-
+	// if the menu is closed, poll movement
+	if (!menu.menuEnabled()) { pollMovement(); }
 }
 
 // Tilemap Functions
@@ -403,9 +403,9 @@ void Window::drawSprites()
 
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		//spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
-		spriteVector[i].setScale(pixelSize, pixelSize);
+		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
 		this->draw(spriteVector[i]);
+		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y + (8 * pixelSize)));
 	}
 }
 
@@ -559,6 +559,8 @@ void Window::m_groupDraw()
 }
 void Window::drawFullSimplex(sf::Vector2f direction)
 {
+	if (menu.menuEnabled()) { direction = pairF(0, 0); }
+
 	// get values from View class
 	int pixelSize{ getPixelSize() };
 
@@ -643,7 +645,7 @@ void Window::drawWaterTile()
 	int pixelSize{ getPixelSize() };
 	water.noise.noise.setScale(pixelSize, pixelSize);
 	// Is automatic, prints on tiles 89 and 90.
-	water.update();
+	if (!menu.menuEnabled()) { water.update(); }
 
 	//FontMap waterTileMap;
 	//waterTileMap.load(water.waterAnimationFrames, sf::Vector2u(32, 32), water.westKagarWater, TILES_PER_CHUNK_X * 4, TILES_PER_CHUNK_Y * 4);

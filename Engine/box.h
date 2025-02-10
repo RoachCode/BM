@@ -89,10 +89,10 @@ public:
 		background.setPrimitiveType(sf::Quads);
 		border.setPrimitiveType(sf::Quads);
 		borderBlack.setPrimitiveType(sf::Quads);
-		topLeft = sf::Color(0, 0, 255, 155);
-		topRight = sf::Color(0, 255, 0, 155);
-		bottomRight = sf::Color(255, 0, 0, 155);
-		bottomLeft = sf::Color(0, 0, 0, 155);
+		topLeft = sf::Color(0, 0, 255, 55);
+		topRight = sf::Color(0, 255, 0, 55);
+		bottomRight = sf::Color(255, 0, 0, 55);
+		bottomLeft = sf::Color(0, 0, 0, 55);
 
 		int pixelSize{ getPixelSize() };
 		borderOffset = 8 * pixelSize;

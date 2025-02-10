@@ -1,5 +1,6 @@
 #pragma once
 #include "character.h"
+#include "view.h"
 
 Character::Character(int id) : m_id(id) 
 {
@@ -8,7 +9,7 @@ Character::Character(int id) : m_id(id)
     spriteColour = SpriteColor::Default;
     order = id;
     textureUpdate(downABool);
-    sprite.setScale(pairF(1.999f, 1.999f));
+    sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
     coordVector.push_back(0);
     coordVector.push_back(0);
     movementStepSize = 4;

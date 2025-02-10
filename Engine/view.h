@@ -96,7 +96,7 @@ public:
 	}
 	void zoom(float delta)
 	{
-		m_view.zoom(1 - delta);
+		//m_view.zoom(1 - delta);
 	}
 	void resetZoom()
 	{

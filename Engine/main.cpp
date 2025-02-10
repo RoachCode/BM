@@ -52,24 +52,24 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
     while (window.isOpen())
     {
         window.clear(sf::Color(50, 0, 50, 255));
         window.pollEvents();
 
-        //window.drawTileMapsBack();
-		//window.drawSprites();
+        window.drawTileMapsBack();
+		window.drawSprites();
 
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
 
-        //window.drawWaterTile();
-        //window.drawTileMapsFront();
-        //window.drawFullSimplex(sf::Vector2f(-0.2f, -0.07f));
+        window.drawWaterTile();
+        window.drawTileMapsFront();
+        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		
-		window.addDevToolsText();
+		//window.addDevToolsText();
 		window.drawText();
 
 		window.drawMenu();
