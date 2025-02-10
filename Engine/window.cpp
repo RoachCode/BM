@@ -672,8 +672,11 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::addDevToolsText()
 {
-	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
-	std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
+	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
+	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
+	textBox.box.setColor(sf::Color::Black);
+	textBox.box.setAlpha(150);
 	addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
@@ -689,12 +692,16 @@ void Window::addText(std::string string, sf::Vector2f startPosition, int scale, 
 }
 void Window::drawText()
 {
-	for (size_t i = 0; i < textBox.box.spriteContainerBlack.size(); i++) { this->draw(textBox.box.spriteContainerBlack[i]); }
-	this->draw(textBox.box.borderBlack);
-	this->draw(textBox.box.background);
-	this->draw(textBox.box.border);
-	for (size_t i = 0; i < textBox.box.spriteContainer.size(); i++) { this->draw(textBox.box.spriteContainer[i]); }
-	for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
+	// In this case, menu will need it's own text class, too. Or - it can use important without borders and backgrounds.
+	if (!menu.menuEnabled())
+	{
+		for (size_t i = 0; i < textBox.box.spriteContainerBlack.size(); i++) { this->draw(textBox.box.spriteContainerBlack[i]); }
+		this->draw(textBox.box.borderBlack);
+		this->draw(textBox.box.background);
+		this->draw(textBox.box.border);
+		for (size_t i = 0; i < textBox.box.spriteContainer.size(); i++) { this->draw(textBox.box.spriteContainer[i]); }
+		for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
+	}
 	textBox.emptyContainers();
 
 	for (size_t i = 0; i < importantTextBox.box.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.box.spriteContainerBlack[i]); }
