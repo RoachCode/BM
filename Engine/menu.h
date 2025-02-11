@@ -30,8 +30,11 @@ public:
 
 	void createMenu()
 	{
+		// background container
 		pos = pairF(View::getViewCoordinates(UL).x + offset, View::getViewCoordinates(UL).y + offset);
 		menuBox.box.createBackground(pos, width, height);
 		menuBox.box.createBorders(pos, width, height);
+
+
 	}
 };

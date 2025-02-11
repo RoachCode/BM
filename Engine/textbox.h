@@ -16,20 +16,20 @@ private:
 		{
 			const char letter = string[j];
 			const int letterNumber{ Font::getRectOffset(letter) };
-			if (Font::getRectOffset(letter) < 207)
+			if (Font::getRectOffset(letter) < 195)
 			{
 				Font::currentString.push_back(letterNumber + 0);
 				Font::currentString.push_back(letterNumber + 1);
 				Font::currentString.push_back(letterNumber + 2);
 			}
-			else if (Font::getRectOffset(letter) < 231)
+			else if (Font::getRectOffset(letter) < 219)
 			{
 				Font::currentString.push_back(letterNumber + 0);
 				Font::currentString.push_back(letterNumber + 1);
 				Font::currentString.push_back(letterNumber + 2);
 				Font::currentString.push_back(letterNumber + 3);
 			}
-			else if (Font::getRectOffset(letter) < 236)
+			else if (Font::getRectOffset(letter) < 224)
 			{
 				Font::currentString.push_back(letterNumber + 0);
 			}
@@ -48,15 +48,15 @@ private:
 				int iterator{ 1 };
 				while (string[j + iterator] != ' ' && j + iterator < string.length())
 				{
-					if (Font::getRectOffset(letter) < 207)
+					if (Font::getRectOffset(letter) < 195)
 					{
 						tilesInWord += 3;
 					}
-					else if (Font::getRectOffset(letter) < 231)
+					else if (Font::getRectOffset(letter) < 219)
 					{
 						tilesInWord += 4;
 					}
-					else if (Font::getRectOffset(letter) < 236)
+					else if (Font::getRectOffset(letter) < 224)
 					{
 						tilesInWord += 1;
 					}
@@ -132,7 +132,7 @@ public:
 			{
 				startPosition.x = getViewCoordinates(UL).x + edgeOffset;
 			}
-			// Bounds Bottom
+			// Bounds Bottom (this is 8 because that's the height of the generic characters)
 			if (intify(startPosition.y) + 8 * fontScale + edgeOffset > intify(getViewCoordinates(DR).y))
 			{
 				startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - edgeOffset);
@@ -140,7 +140,7 @@ public:
 			// Bounds Top
 			if (intify(startPosition.y) - edgeOffset < getViewCoordinates(UL).y)
 			{
-				startPosition.y = getViewCoordinates(UL).y + edgeOffset;
+				startPosition.y = floatify(getViewCoordinates(UL).y + edgeOffset);
 			}
 		}
 		while (messageTileCount % maxTilesPerRow != 0)
@@ -152,8 +152,8 @@ public:
 		int messageRows{ messageTileCount / maxTilesPerRow };
 
 		const int width{ boundingWidth + box.margin * 2 };
-		// rows * 10 because text is 8 high plus 2 vertical gap. - 2 because no gap at the end.
-		const int height{ messageRows * 10 * fontScale - 2 * fontScale + box.margin * 2 };
+		// rows * 11 because text is 8 high plus 3 vertical gap. - 3 because no gap at the end.
+		const int height{ messageRows * Font::characterHeight * fontScale - 3 * fontScale + box.margin * 2 };
 		const sf::Vector2f pos(pairF(startPosition.x - box.margin, startPosition.y - box.margin));
 
 		if (background) { box.createBackground(pos, width, height); }
@@ -164,12 +164,12 @@ public:
 
 		Font::fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
 		Font::setColor(sf::Color(44, 44, 44), true);
-		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, 10), Font::currentString, messageWidthInTiles, messageRows);
+		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
 		fontContainer.push_back(Font::fontMap);
 
 		Font::fontMap.setPosition(startPosition);
 		Font::setColor(sf::Color(Font::textRed, Font::textGreen, Font::textBlue));
-		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, 10), Font::currentString, messageWidthInTiles, messageRows);
+		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
 		fontContainer.push_back(Font::fontMap);
 
 	}

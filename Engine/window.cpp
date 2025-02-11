@@ -698,18 +698,18 @@ void Window::drawText()
 		for (size_t i = 0; i < textBox.box.spriteContainerBlack.size(); i++) { this->draw(textBox.box.spriteContainerBlack[i]); }
 		this->draw(textBox.box.borderBlack);
 		this->draw(textBox.box.background);
+		for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
 		this->draw(textBox.box.border);
 		for (size_t i = 0; i < textBox.box.spriteContainer.size(); i++) { this->draw(textBox.box.spriteContainer[i]); }
-		for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
 	}
 	textBox.emptyContainers();
 
 	for (size_t i = 0; i < importantTextBox.box.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.box.spriteContainerBlack[i]); }
 	this->draw(importantTextBox.box.borderBlack);
 	this->draw(importantTextBox.box.background);
+	for (size_t i = 0; i < importantTextBox.fontContainer.size(); i++) { this->draw(importantTextBox.fontContainer[i]); }
 	this->draw(importantTextBox.box.border);
 	for (size_t i = 0; i < importantTextBox.box.spriteContainer.size(); i++) { this->draw(importantTextBox.box.spriteContainer[i]); }
-	for (size_t i = 0; i < importantTextBox.fontContainer.size(); i++) { this->draw(importantTextBox.fontContainer[i]); }
 	importantTextBox.emptyContainers();
 }
 
@@ -723,17 +723,17 @@ void Window::drawMenu()
 		for (size_t i = 0; i < menu.menuBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.menuBox.box.spriteContainerBlack[i]); }
 		this->draw(menu.menuBox.box.borderBlack);
 		this->draw(menu.menuBox.box.background);
+		for (size_t i = 0; i < menu.menuBox.fontContainer.size(); i++) { this->draw(menu.menuBox.fontContainer[i]); }
 		this->draw(menu.menuBox.box.border);
 		for (size_t i = 0; i < menu.menuBox.box.spriteContainer.size(); i++) { this->draw(menu.menuBox.box.spriteContainer[i]); }
-		for (size_t i = 0; i < menu.menuBox.fontContainer.size(); i++) { this->draw(menu.menuBox.fontContainer[i]); }
 		menu.menuBox.emptyContainers();
 
 		for (size_t i = 0; i < menu.alertBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.alertBox.box.spriteContainerBlack[i]); }
 		this->draw(menu.alertBox.box.borderBlack);
 		this->draw(menu.alertBox.box.background);
+		for (size_t i = 0; i < menu.alertBox.fontContainer.size(); i++) { this->draw(menu.alertBox.fontContainer[i]); }
 		this->draw(menu.alertBox.box.border);
 		for (size_t i = 0; i < menu.alertBox.box.spriteContainer.size(); i++) { this->draw(menu.alertBox.box.spriteContainer[i]); }
-		for (size_t i = 0; i < menu.alertBox.fontContainer.size(); i++) { this->draw(menu.alertBox.fontContainer[i]); }
 		menu.alertBox.emptyContainers();
 
 	}

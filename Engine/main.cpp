@@ -52,7 +52,7 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
     while (window.isOpen())
     {
