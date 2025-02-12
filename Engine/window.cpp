@@ -738,3 +738,14 @@ void Window::drawMenu()
 
 	}
 }
+
+// Light Functions
+void Window::drawLights()
+{
+	//sf::Vector2f pos(500.f, 500.f);
+	sf::Vector2f pos(pairF(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
+
+	sf::Vector2f worldPos(pairF(mapCoordsToPixel(pos).x, mapCoordsToPixel(pos).y));
+	light.setPosition(pos, worldPos);
+	draw(light);
+}

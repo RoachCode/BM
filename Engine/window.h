@@ -14,6 +14,7 @@
 #include "water.h"
 #include "maps.h"
 #include "textbox.h"
+#include "light.h"
 
 class Window : public sf::RenderWindow, public Noise, public View
 {
@@ -53,6 +54,7 @@ public:
 	TextBox textBox;
 	TextBox importantTextBox;
 	Menu menu;
+	Light light;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -99,4 +101,5 @@ public:
 	void moveCharacters();
 	void addDevToolsText();
 	//void initWaterTile();
+	void drawLights();
 };

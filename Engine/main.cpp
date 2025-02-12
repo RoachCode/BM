@@ -65,17 +65,19 @@ int main()
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
 
-        window.drawWaterTile();
+        //window.drawWaterTile();
         window.drawTileMapsFront();
-        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
+        //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		
-		window.addDevToolsText();
-		window.drawText();
+		//window.addDevToolsText();
+		//window.drawText();
 
-		window.drawMenu();
+		//window.drawMenu();
 		//window.drawBattle();
+
+		window.drawLights();
 
 		window.display();
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

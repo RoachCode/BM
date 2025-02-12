@@ -40,6 +40,7 @@
     <ClInclude Include="Engine\flow.h" />
     <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\imageHandler.h" />
+    <ClInclude Include="Engine\light.h" />
     <ClInclude Include="Engine\maps.h" />
     <ClInclude Include="Engine\menu.h" />
     <ClInclude Include="Engine\noise.h" />
