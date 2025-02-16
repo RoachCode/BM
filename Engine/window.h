@@ -54,7 +54,6 @@ public:
 	TextBox textBox;
 	TextBox importantTextBox;
 	Menu menu;
-	Light light;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -102,4 +101,6 @@ public:
 	void addDevToolsText();
 	//void initWaterTile();
 	void drawLights();
+	void drawTest();
+	void makeTest();
 };

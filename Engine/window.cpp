@@ -672,16 +672,16 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::addDevToolsText()
 {
-	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
-	textBox.box.setColor(sf::Color::Black);
-	textBox.box.setAlpha(150);
-	addText(longString, pairF(250, 250), 1, 800);
+	//textBox.box.setColor(sf::Color::Black);
+	//textBox.box.setAlpha(150);
+	//addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
 	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);
-	addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
+	//addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
 	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
 	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), devToolsTextSize, 0, true, true, true); }
 }
@@ -742,10 +742,19 @@ void Window::drawMenu()
 // Light Functions
 void Window::drawLights()
 {
-	//sf::Vector2f pos(500.f, 500.f);
-	sf::Vector2f pos(pairF(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y));
 
-	sf::Vector2f worldPos(pairF(mapCoordsToPixel(pos).x, mapCoordsToPixel(pos).y));
-	light.setPosition(pos, worldPos);
-	draw(light);
+}
+
+// Test Functions
+// Globals
+
+
+void Window::makeTest()
+{
+
+}
+
+void Window::drawTest()
+{
+
 }

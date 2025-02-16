@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
 #include "view.h"
-
+/*
 class Light : public sf::Drawable, public View
 {
 private:
@@ -49,18 +49,18 @@ public:
 	Light()
 	{
 		//position = pos;
-
-		circle.setRadius(100.f);
+		circle.setRadius(400.f);
 		circle.setOrigin(circle.getRadius(), circle.getRadius());
 		//circle.setPosition(this->getPosition());
 		circle.setFillColor(sf::Color::Transparent);
 
 		shader.loadFromMemory(m_vertexShader, m_radialGradient);
 		shader.setUniform("windowHeight", floatify(View::getScreenSize().y));
-		shader.setUniform("color", sf::Glsl::Vec4(1.f, 1.f, 0.85f, 1.f)); // Blue color hex, normalized
+		shader.setUniform("color", sf::Glsl::Vec4(1.f, 1.f, 0.85f, 0.4f)); // Blue color hex, normalized
 		shader.setUniform("center", circle.getPosition());
 		shader.setUniform("radius", circle.getRadius());
 		shader.setUniform("expand", 0.f);
+
 	}
 
 	void setPosition(sf::Vector2f pos, sf::Vector2f worldPos)
@@ -70,4 +70,26 @@ public:
 	}
 	//template <typename T>
 	//void setPosition(T const& x, T const& y, sf::RenderWindow &window) { setPosition(pairF(x, y), window); }
+};
+*/
+
+struct Light
+{
+	Light(
+		sf::Vector3f colorIn = sf::Vector3f(255, 0, 0), 
+		sf::Vector3f positionIn = sf::Vector3f(0, 0, 0.2), 
+		sf::Vector3f attenuationIn = sf::Vector3f(0.5, 0.5, 0.5)) 
+		:
+		color(colorIn),
+		position(positionIn),
+		attenuation(attenuationIn)
+	{
+		// clamp to [0, 1]
+		if (color.x > 1.0f) { color.x /= 255.0; }
+		if (color.y > 1.0f) { color.y /= 255.0; }
+		if (color.z > 1.0f) { color.z /= 255.0; }
+	}
+	sf::Vector3f color;
+	sf::Vector3f position;
+	sf::Vector3f attenuation;
 };
