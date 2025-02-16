@@ -55,20 +55,14 @@ int main()
 	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
 
-
 	int width{ intify(View::getScreenSize().x) };
 	int height{ intify(View::getScreenSize().y) };
 
-	std::unique_ptr<sf::RenderTexture> front, back;
-	sf::RenderTexture pass_normals, pass_diffuse;
+	sf::RenderTexture back, lightRender, pass_normals, pass_diffuse;
 	sf::Texture normal_map, diffuse_map;
 
-	front = std::unique_ptr<sf::RenderTexture>(new sf::RenderTexture());
-	back = std::unique_ptr<sf::RenderTexture>(new sf::RenderTexture());
-
-	front->create(width, height);
-	back->create(width, height);
-
+	back.create(width, height);
+	lightRender.create(width, height);
 	pass_normals.create(width, height);
 	pass_diffuse.create(width, height);
 
@@ -80,13 +74,7 @@ int main()
 	sf::Shader lights_shader;
 	sf::Shader normals_shader;
 
-	Light light
-	(
-		sf::Vector3f(255, 214, 170),
-		sf::Vector3f(0, 0, 0.2),
-		sf::Vector3f(0.5, 0.5, 0.5)
-	);
-	Light light2;
+	Light light;
 
 	const char lightFrag[] =
 		"uniform vec2 resolution;"
@@ -95,7 +83,7 @@ int main()
 		"uniform vec3 light_pos;"
 		"uniform vec3 light_color;"
 		"uniform vec3 ambient_color = vec3(0.5, 0.5, 0.5);"
-		"uniform float ambient_intensity = 0.5;"
+		"uniform float ambient_intensity;"
 		"uniform vec3 falloff;"
 		"void main()"
 		"{"
@@ -124,6 +112,9 @@ int main()
 		"}";
 
 	lights_shader.loadFromMemory(lightFrag, sf::Shader::Fragment);
+	sf::RenderStates states;
+	states.shader = &lights_shader;
+	states.blendMode = sf::BlendMultiply;
 	normals_shader.loadFromMemory(normalsFrag, sf::Shader::Fragment);
 
 	// Center Sprite
@@ -131,8 +122,7 @@ int main()
 	sprite.setPosition(View::getView().getCenter());
 
 	// Environmental variables
-	float ambient_intensity = 0.7;
-	sf::Vector3f falloff(0.5, 0.5, 0.5);
+
 
 
 	window.setMouseCursorVisible(false);
@@ -159,8 +149,8 @@ int main()
 		//window.drawBattle();
 
 		// Clear renderbuffers
-		back->clear();
-		front->clear();
+		back.clear();
+		lightRender.clear();
 		pass_diffuse.clear();
 		pass_normals.clear();
 
@@ -170,34 +160,29 @@ int main()
 
 		// Diffuse Pass, feed every sprite to draw here before display
 		pass_diffuse.draw(sprite);
-		//pass_diffuse.display();
 
 		// Normals Pass, feed every normal map which should be rendered here
 		// For more then one repeat the next 2 steps before displaying
 		normals_shader.setUniform("sampler_normal", normal_map);
 		pass_normals.draw(sprite, &normals_shader);
-		//pass_normals.display();
 
 		// Light Pass, renders every light into a rendertexture
 		lights_shader.setUniform("resolution", sf::Vector2f(width, height));
 		lights_shader.setUniform("sampler_normal", pass_normals.getTexture());
-		lights_shader.setUniform("ambient_intensity", ambient_intensity);
-		lights_shader.setUniform("falloff", falloff);
+		lights_shader.setUniform("sampler_light", lightRender.getTexture());
 
-		// For more lights put the next 6 lines into a loop
-		lights_shader.setUniform("sampler_light", front->getTexture());
+		lights_shader.setUniform("ambient_intensity", light.ambientIntensity);
+		lights_shader.setUniform("falloff", light.falloff);
 		lights_shader.setUniform("light_pos", light.position);
 		lights_shader.setUniform("light_color", light.color);
-		// draws everything in diffuse rendertexture with lights shader
-		back->draw(sf::Sprite(pass_diffuse.getTexture()), &lights_shader);
-		back->display();
-		std::swap(back, front);
+		back.draw(sf::Sprite(pass_diffuse.getTexture()), &lights_shader);
 
 		// Draw diffuse color
 		window.draw(sf::Sprite(pass_diffuse.getTexture()));
 		// Blend lighting over
-		window.draw(sf::Sprite(front->getTexture()), sf::BlendMultiply);
-		// Finally display it
+		back.display();
+		window.draw(sf::Sprite(back.getTexture()), sf::BlendMultiply);
+
 
 		window.drawText();
 		window.display();

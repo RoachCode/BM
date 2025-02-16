@@ -75,21 +75,26 @@ public:
 
 struct Light
 {
-	Light(
-		sf::Vector3f colorIn = sf::Vector3f(255, 0, 0), 
-		sf::Vector3f positionIn = sf::Vector3f(0, 0, 0.2), 
-		sf::Vector3f attenuationIn = sf::Vector3f(0.5, 0.5, 0.5)) 
+	Light
+	(
+		sf::Vector3f colorIn = sf::Vector3f(255, 205, 140),
+		sf::Vector3f positionIn = sf::Vector3f(0, 0, 0.01),
+		sf::Vector3f falloffIn = sf::Vector3f(0.5, 0.99, 0.55),
+		float ambientIntensityIn = 0.5f
+	) 
 		:
 		color(colorIn),
 		position(positionIn),
-		attenuation(attenuationIn)
+		falloff(falloffIn),
+		ambientIntensity(ambientIntensityIn)
 	{
 		// clamp to [0, 1]
-		if (color.x > 1.0f) { color.x /= 255.0; }
-		if (color.y > 1.0f) { color.y /= 255.0; }
-		if (color.z > 1.0f) { color.z /= 255.0; }
+		while (color.x > 1.0f) { color.x /= 255.0; }
+		while (color.y > 1.0f) { color.y /= 255.0; }
+		while (color.z > 1.0f) { color.z /= 255.0; }
 	}
 	sf::Vector3f color;
 	sf::Vector3f position;
-	sf::Vector3f attenuation;
+	sf::Vector3f falloff;
+	float ambientIntensity;
 };
