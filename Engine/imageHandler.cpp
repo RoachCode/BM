@@ -5,6 +5,12 @@ ImageHandler::ImageHandler()
 {
     zDepth = 10;
 
+    lights_shader.loadFromMemory(lightFrag, sf::Shader::Fragment);
+    //sf::RenderStates states;
+    //states.shader = &lights_shader;
+    //states.blendMode = sf::BlendMultiply;
+    normals_shader.loadFromMemory(normalsFrag, sf::Shader::Fragment);
+
     if (!tileImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE.bmp"))
     {
         tileImage.loadFromFile(getLocalPath() + "/ImageResources/TILE.bmp");
