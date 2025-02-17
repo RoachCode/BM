@@ -54,8 +54,21 @@ public:
     TileMap tileMapH;
     TileMap tileMapI;
     TileMap tileMapJ;
+
+	TileMap tileMapNormalA;
+	TileMap tileMapNormalB;
+	TileMap tileMapNormalC;
+	TileMap tileMapNormalD;
+	TileMap tileMapNormalE;
+	TileMap tileMapNormalF;
+	TileMap tileMapNormalG;
+	TileMap tileMapNormalH;
+	TileMap tileMapNormalI;
+	TileMap tileMapNormalJ;
+
     sf::Image tileImage;
     std::vector<TileMap*> tilemapVector;
+    std::vector<TileMap*> tilemapNormalVector;
 
     sf::RenderTexture tilemapRenderBack;//
     sf::RenderTexture tilemapRenderFront;
@@ -66,10 +79,14 @@ public:
 	sf::Shader lights_shader;
 	sf::Shader normals_shader;
 
-	sf::Texture normalMapTexture;
+	sf::Image tileNormalImage;
 	sf::RenderTexture lightRender;
 	sf::RenderTexture normalsRender;
 	sf::RenderTexture diffuseRender;
+	sf::RenderTexture back;
+
+
+	Light light;
 
     ImageHandler();
 
