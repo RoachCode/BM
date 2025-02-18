@@ -18,9 +18,8 @@ void loadLightTest(Window &window)
 	pass_normals.create(width, height);
 	pass_diffuse.create(width, height);
 
-	//normal_map.loadFromFile("C:/Users/Windows/Desktop/brickwall_normal.jpg");
-	normal_map.loadFromFile("C:/Users/Windows/Desktop/normal_mapping_normal_map.png");
-	diffuse_map.loadFromFile("C:/Users/Windows/Desktop/brickwall.jpg");
+	//normal_map.loadFromFile("C:/Users/Windows/Desktop/normal_mapping_normal_map.png");
+	//diffuse_map.loadFromFile("C:/Users/Windows/Desktop/brickwall.jpg");
 
 	normal_map = window.imageHandler.normalsRender.getTexture();
 	diffuse_map = window.imageHandler.tilemapRenderBack.getTexture();
@@ -31,7 +30,7 @@ void loadLightTest(Window &window)
 	// Center Sprite
 	spriteT.setOrigin(diffuse_map.getSize().x / 2, diffuse_map.getSize().y / 2);
 	spriteT.setPosition(View::getView().getCenter());
-	
+
 }
 void drawLightTest(Window& window)
 {
@@ -45,8 +44,8 @@ void drawLightTest(Window& window)
 	// Clear renderbuffers
 	back.clear();
 	lightRender.clear();
-	pass_diffuse.clear();
-	pass_normals.clear();
+	pass_diffuse.clear(sf::Color(128, 128, 255));
+	pass_normals.clear(sf::Color(128, 128, 255));
 
 	// Diffuse Pass, feed every sprite to draw here before display
 	pass_diffuse.draw(spriteT);
@@ -73,7 +72,6 @@ void drawLightTest(Window& window)
 	window.draw(sf::Sprite(pass_diffuse.getTexture()));
 	// Blend lighting over
 	back.display();
-	
 	window.draw(sf::Sprite(back.getTexture()), sf::BlendMultiply);
 }
 
@@ -154,7 +152,7 @@ int main()
 
 		//window.drawMenu();
 		//window.drawBattle();
-
+		loadLightTest(window);
 		drawLightTest(window);
 
 		window.drawText();

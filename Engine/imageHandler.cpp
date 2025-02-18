@@ -19,10 +19,11 @@ ImageHandler::ImageHandler()
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
 
-    if (!tileNormalImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE_NORMAL.bmp"))
+    if (!tileNormalImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE_NORMAL3.bmp"))
     {
-        tileNormalImage.loadFromFile(getLocalPath() + "../ImageResources/TILE_NORMAL.bmp");
+        tileNormalImage.loadFromFile(getLocalPath() + "../ImageResources/TILE_NORMAL3.bmp");
     }
+    tileNormalImage.createMaskFromColor(sf::Color(255, 255, 255, 255), 0);
 
     tilemapVector.push_back(&tileMapA);
     tilemapVector.push_back(&tileMapB);
@@ -66,12 +67,14 @@ ImageHandler::ImageHandler()
 
 void ImageHandler::loadWestKagar()
 {
-    tilemapRenderBack.clear(sf::Color(0, 0, 0, 255));
+    tilemapRenderBack.clear();
     tilemapRenderFront.clear(sf::Color(0, 0, 0, 0));
     normalsRender.clear();
     diffuseRender.clear();
     lightRender.clear();
     back.clear();
+    tilemapVector.clear();
+    tilemapNormalVector.clear();
 
     for (int i = 0; i < zDepth; i++)
     {
@@ -259,11 +262,11 @@ void ImageHandler::loadWestKagar()
     tilemapRenderBack.display();
     tilemapRenderFront.display();
     //tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
-    tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
+    //tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
     //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 155)); //neat, global transparency.
     int pixelSize{ getPixelSize() };
     //tilemapWindowBack.setScale(sf::Vector2f(pixelSize, pixelSize));
-    tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
+    //tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
 }
 
 // Checks the lowest map for allowable movement.
