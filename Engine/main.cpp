@@ -3,18 +3,17 @@
 
 
 // Test Globals
-sf::RenderTexture back, lightRender, pass_normals, pass_diffuse;
+sf::RenderTexture lightRender, pass_normals, pass_diffuse;
 sf::Texture normal_map, diffuse_map;
 sf::Sprite spriteT;
-sf::RenderStates renderStates;
 
 void loadLightTest(Window &window)
 {
 	int width{ intify(View::getSceneSize().x * View::getPixelSize()) };
 	int height{ intify(View::getSceneSize().y * View::getPixelSize()) };
 
-	back.create(width, height);
-	lightRender.create(width, height);
+	//back.create(width, height);
+	lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
 	pass_normals.create(width, height);
 	pass_diffuse.create(width, height);
 
@@ -27,33 +26,10 @@ void loadLightTest(Window &window)
 	spriteT.setTexture(diffuse_map);
 	spriteT.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 
-	// Center Sprite
-	//spriteT.setOrigin(diffuse_map.getSize().x / 2, diffuse_map.getSize().y / 2);
-	//spriteT.setPosition(View::getView().getCenter());
-
-}
-void drawLightTest(Window& window)
-{
-	int width{ intify(View::getSceneSize().x * View::getPixelSize()) };
-	int height{ intify(View::getSceneSize().y * View::getPixelSize()) };
-
-	// set light position, and adjust for different coordinate systems
-	window.imageHandler.light.position.x = window.mapPixelToCoords(sf::Mouse::getPosition(window)).x;
-	window.imageHandler.light.position.y = height - window.mapPixelToCoords(sf::Mouse::getPosition(window)).y;
-
-	//float offset = (32 / 2) * View::getPixelSize();
-	//window.imageHandler.light.position.x = window.getCharacterByOrder(1).sprite.getPosition().x + offset;
-	//window.imageHandler.light.position.y = height - window.getCharacterByOrder(1).sprite.getPosition().y - offset;
-
-	// Clear renderbuffers
-	back.clear();
-	lightRender.clear();
-	pass_diffuse.clear(sf::Color(128, 128, 255));
+	// Clear to neutral color
 	pass_normals.clear(sf::Color(128, 128, 255));
-
-	// Diffuse Pass, feed every sprite to draw here before display
-	pass_diffuse.draw(spriteT);
-	pass_diffuse.display();
+	pass_diffuse.clear(sf::Color(128, 128, 255));
+	lightRender.clear();
 
 	// Normals Pass, feed every normal map which should be rendered here
 	// For more then one repeat the next 2 steps before displaying
@@ -61,22 +37,30 @@ void drawLightTest(Window& window)
 	pass_normals.draw(spriteT, &window.imageHandler.normals_shader);
 	pass_normals.display();
 
+	// Diffuse Pass, feed every sprite to draw here before display
+	pass_diffuse.draw(spriteT);
+	pass_diffuse.display();
+
 	// Light Pass, renders every light into a rendertexture
-	window.imageHandler.lights_shader.setUniform("resolution", sf::Vector2f(width, height));
+	window.imageHandler.lights_shader.setUniform("resolution", sf::Vector2f(View::getScreenSize().x, View::getScreenSize().y));
 	window.imageHandler.lights_shader.setUniform("sampler_normal", pass_normals.getTexture());
 	window.imageHandler.lights_shader.setUniform("sampler_light", lightRender.getTexture());
-
 	window.imageHandler.lights_shader.setUniform("ambient_intensity", window.imageHandler.light.ambientIntensity);
 	window.imageHandler.lights_shader.setUniform("falloff", window.imageHandler.light.falloff);
-	window.imageHandler.lights_shader.setUniform("light_pos", window.imageHandler.light.position);
 	window.imageHandler.lights_shader.setUniform("light_color", window.imageHandler.light.color);
-	back.draw(sf::Sprite(pass_diffuse.getTexture()), &window.imageHandler.lights_shader);
-
-	// Draw diffuse color
-	window.draw(sf::Sprite(pass_diffuse.getTexture()));
-	// Blend lighting over
-	back.display();
-	window.draw(sf::Sprite(back.getTexture()), sf::BlendMultiply);
+}
+void drawLightTest(Window& window)
+{
+	//window.imageHandler.light.position.x = sf::Mouse::getPosition(window).x;
+	//window.imageHandler.light.position.y = View::getScreenSize().y - sf::Mouse::getPosition(window).y;
+	float offset = (TILE_SIZE / 2) * View::getPixelSize();
+	sf::Vector2f charPos = window.getCharacterByOrder(1).sprite.getPosition();
+	window.imageHandler.light.position.x = charPos.x + offset - View::getOriginOffset().x;
+	window.imageHandler.light.position.y = View::getScreenSize().y - charPos.y - offset + View::getOriginOffset().y;
+	
+	window.imageHandler.lights_shader.setUniform("light_pos", window.imageHandler.light.position);
+	window.draw(sf::Sprite(pass_diffuse.getTexture()), &window.imageHandler.lights_shader);
+	window.draw(sf::Sprite(pass_diffuse.getTexture()), sf::BlendMultiply);
 }
 
 int main()
@@ -130,11 +114,11 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
 	loadLightTest(window);
 
-	//window.setMouseCursorVisible(false);
+	window.setMouseCursorVisible(false);
     while (window.isOpen())
     {
         window.clear(sf::Color(50, 0, 50, 255));
@@ -142,7 +126,7 @@ int main()
 
         //window.drawTileMapsBack();
 		drawLightTest(window);		
-		//window.drawSprites();
+		window.drawSprites();
 		//window.drawLights();
 
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
