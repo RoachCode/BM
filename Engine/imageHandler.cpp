@@ -49,17 +49,8 @@ ImageHandler::ImageHandler()
 
     sf::Vector2u sceneSize = View::getSceneSize();
     tilemapRenderBack.create(intify(sceneSize.x), intify(sceneSize.y));
-    tilemapRenderBack.clear(sf::Color::Black);
-    tilemapWindowBack.setSize(sf::Vector2f(floatify(sceneSize.x), floatify(sceneSize.y)));
-
     tilemapRenderFront.create(intify(sceneSize.x), intify(sceneSize.y));
-    tilemapRenderFront.clear(sf::Color::Transparent);
-    tilemapWindowFront.setSize(sf::Vector2f(floatify(sceneSize.x), floatify(sceneSize.y)));
-
-    lightRender.create(intify(sceneSize.x), intify(sceneSize.y));
     normalsRender.create(intify(sceneSize.x), intify(sceneSize.y));
-    diffuseRender.create(intify(sceneSize.x), intify(sceneSize.y));
-    back.create(intify(sceneSize.x), intify(sceneSize.y));
 
     this->loadWestKagar();
 
@@ -70,9 +61,6 @@ void ImageHandler::loadWestKagar()
     tilemapRenderBack.clear();
     tilemapRenderFront.clear(sf::Color(0, 0, 0, 0));
     normalsRender.clear();
-    diffuseRender.clear();
-    lightRender.clear();
-    back.clear();
     tilemapVector.clear();
     tilemapNormalVector.clear();
 
@@ -255,18 +243,12 @@ void ImageHandler::loadWestKagar()
         else
         {
             tilemapRenderFront.draw(*tilemapVector[i]);
+            //normalsRender.draw(*tilemapNormalVector[i]);
         }
     }
     normalsRender.display();
-
     tilemapRenderBack.display();
     tilemapRenderFront.display();
-    //tilemapWindowBack.setTexture(&tilemapRenderBack.getTexture());
-    //tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
-    //tilemapWindowFront.setFillColor(sf::Color(255, 255, 255, 155)); //neat, global transparency.
-    int pixelSize{ getPixelSize() };
-    //tilemapWindowBack.setScale(sf::Vector2f(pixelSize, pixelSize));
-    //tilemapWindowFront.setScale(sf::Vector2f(pixelSize, pixelSize));
 }
 
 // Checks the lowest map for allowable movement.
