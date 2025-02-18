@@ -28,8 +28,8 @@ void loadLightTest(Window &window)
 	spriteT.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 
 	// Center Sprite
-	spriteT.setOrigin(diffuse_map.getSize().x / 2, diffuse_map.getSize().y / 2);
-	spriteT.setPosition(View::getView().getCenter());
+	//spriteT.setOrigin(diffuse_map.getSize().x / 2, diffuse_map.getSize().y / 2);
+	//spriteT.setPosition(View::getView().getCenter());
 
 }
 void drawLightTest(Window& window)
@@ -40,6 +40,10 @@ void drawLightTest(Window& window)
 	// set light position, and adjust for different coordinate systems
 	window.imageHandler.light.position.x = window.mapPixelToCoords(sf::Mouse::getPosition(window)).x;
 	window.imageHandler.light.position.y = height - window.mapPixelToCoords(sf::Mouse::getPosition(window)).y;
+
+	//float offset = (32 / 2) * View::getPixelSize();
+	//window.imageHandler.light.position.x = window.getCharacterByOrder(1).sprite.getPosition().x + offset;
+	//window.imageHandler.light.position.y = height - window.getCharacterByOrder(1).sprite.getPosition().y - offset;
 
 	// Clear renderbuffers
 	back.clear();
@@ -137,6 +141,7 @@ int main()
         window.pollEvents();
 
         //window.drawTileMapsBack();
+		drawLightTest(window);		
 		//window.drawSprites();
 		//window.drawLights();
 
@@ -152,8 +157,6 @@ int main()
 
 		//window.drawMenu();
 		//window.drawBattle();
-		loadLightTest(window);
-		drawLightTest(window);
 
 		window.drawText();
 		window.display();

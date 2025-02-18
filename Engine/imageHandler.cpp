@@ -19,9 +19,9 @@ ImageHandler::ImageHandler()
     tileImage.createMaskFromColor(sf::Color(13, 103, 148, 255), 150);
     tileImage.createMaskFromColor(sf::Color(26, 98, 138, 255), 200);
 
-    if (!tileNormalImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE_NORMAL3.bmp"))
+    if (!tileNormalImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE-NORMAL.bmp"))
     {
-        tileNormalImage.loadFromFile(getLocalPath() + "../ImageResources/TILE_NORMAL3.bmp");
+        tileNormalImage.loadFromFile(getLocalPath() + "../ImageResources/TILE-NORMAL.bmp");
     }
     tileNormalImage.createMaskFromColor(sf::Color(255, 255, 255, 255), 0);
 
