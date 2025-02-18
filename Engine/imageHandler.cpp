@@ -52,6 +52,8 @@ ImageHandler::ImageHandler()
     tilemapRenderFront.create(intify(sceneSize.x), intify(sceneSize.y));
     normalsRender.create(intify(sceneSize.x), intify(sceneSize.y));
 
+    tilemapWindowFront.setSize(sf::Vector2f(floatify(sceneSize.x), floatify(sceneSize.y)));
+
     this->loadWestKagar();
 
 }
@@ -60,6 +62,7 @@ void ImageHandler::loadWestKagar()
 {
     tilemapRenderBack.clear();
     tilemapRenderFront.clear(sf::Color(0, 0, 0, 0));
+    //tilemapRenderFront.clear();
     normalsRender.clear();
     tilemapVector.clear();
     tilemapNormalVector.clear();
@@ -249,6 +252,9 @@ void ImageHandler::loadWestKagar()
     normalsRender.display();
     tilemapRenderBack.display();
     tilemapRenderFront.display();
+
+    tilemapWindowFront.setTexture(&tilemapRenderFront.getTexture());
+    tilemapWindowFront.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 }
 
 // Checks the lowest map for allowable movement.

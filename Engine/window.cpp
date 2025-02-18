@@ -659,7 +659,7 @@ void Window::drawWaterTile()
 			if (water.westKagarWater[i + j * (TILES_PER_CHUNK_X * 4)])
 			{
 				water.noise.noise.setPosition(water.width * pixelSize * i, water.height * pixelSize * j);
-				draw(water.noise.noise);
+				draw(water.noise.noise, sf::BlendMultiply); // pretty cool with the blend multiply
 			}
 		}
 	}

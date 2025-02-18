@@ -118,22 +118,22 @@ int main()
 
 	loadLightTest(window);
 
-	window.setMouseCursorVisible(false);
+	//window.setMouseCursorVisible(false);
     while (window.isOpen())
     {
         window.clear(sf::Color(50, 0, 50, 255));
         window.pollEvents();
 
         //window.drawTileMapsBack();
-		drawLightTest(window);		
+		drawLightTest(window);
 		window.drawSprites();
 		//window.drawLights();
 
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
 
-        //window.drawWaterTile();
-        //window.drawTileMapsFront();
+        window.drawWaterTile();
+        window.drawTileMapsFront();
         //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		
 		window.addDevToolsText();
