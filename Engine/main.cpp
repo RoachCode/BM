@@ -3,64 +3,23 @@
 
 
 // Test Globals
-sf::RenderTexture lightRender, pass_normals, pass_diffuse;
-sf::Texture normal_map, diffuse_map;
-sf::Sprite spriteT;
 
-void loadLightTest(Window &window)
-{
-	int width{ intify(View::getSceneSize().x * View::getPixelSize()) };
-	int height{ intify(View::getSceneSize().y * View::getPixelSize()) };
 
-	//back.create(width, height);
-	lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
-	pass_normals.create(width, height);
-	pass_diffuse.create(width, height);
-
-	//normal_map.loadFromFile("C:/Users/Windows/Desktop/normal_mapping_normal_map.png");
-	//diffuse_map.loadFromFile("C:/Users/Windows/Desktop/brickwall.jpg");
-
-	normal_map = window.imageHandler.normalsRender.getTexture();
-	diffuse_map = window.imageHandler.tilemapRenderBack.getTexture();
-
-	spriteT.setTexture(diffuse_map);
-	spriteT.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
-
-	// Clear to neutral color
-	pass_normals.clear(sf::Color(128, 128, 255));
-	pass_diffuse.clear(sf::Color(128, 128, 255));
-	lightRender.clear();
-
-	// Normals Pass, feed every normal map which should be rendered here
-	// For more then one repeat the next 2 steps before displaying
-	window.imageHandler.normals_shader.setUniform("sampler_normal", normal_map);
-	pass_normals.draw(spriteT, &window.imageHandler.normals_shader);
-	pass_normals.display();
-
-	// Diffuse Pass, feed every sprite to draw here before display
-	pass_diffuse.draw(spriteT);
-	pass_diffuse.display();
-
-	// Light Pass, renders every light into a rendertexture
-	window.imageHandler.lights_shader.setUniform("resolution", sf::Vector2f(View::getScreenSize().x, View::getScreenSize().y));
-	window.imageHandler.lights_shader.setUniform("sampler_normal", pass_normals.getTexture());
-	window.imageHandler.lights_shader.setUniform("sampler_light", lightRender.getTexture());
-	window.imageHandler.lights_shader.setUniform("ambient_intensity", window.imageHandler.light.ambientIntensity);
-	window.imageHandler.lights_shader.setUniform("falloff", window.imageHandler.light.falloff);
-	window.imageHandler.lights_shader.setUniform("light_color", window.imageHandler.light.color);
-}
 void drawLightTest(Window& window)
 {
-	//window.imageHandler.light.position.x = sf::Mouse::getPosition(window).x;
-	//window.imageHandler.light.position.y = View::getScreenSize().y - sf::Mouse::getPosition(window).y;
-	float offset = (TILE_SIZE / 2) * View::getPixelSize();
-	sf::Vector2f charPos = window.getCharacterByOrder(1).sprite.getPosition();
-	window.imageHandler.light.position.x = charPos.x + offset - View::getOriginOffset().x;
-	window.imageHandler.light.position.y = View::getScreenSize().y - charPos.y - offset + View::getOriginOffset().y;
-	
+	window.imageHandler.light.position.x = sf::Mouse::getPosition(window).x;
+	window.imageHandler.light.position.y = View::getScreenSize().y - sf::Mouse::getPosition(window).y;
+	//float offset = (TILE_SIZE / 2) * View::getPixelSize();
+	//sf::Vector2f charPos = window.getCharacterByOrder(1).sprite.getPosition();
+	//window.imageHandler.light.position.x = charPos.x + offset - View::getOriginOffset().x;
+	//window.imageHandler.light.position.y = View::getScreenSize().y - charPos.y - offset + View::getOriginOffset().y;
 	window.imageHandler.lights_shader.setUniform("light_pos", window.imageHandler.light.position);
-	window.draw(sf::Sprite(pass_diffuse.getTexture()), &window.imageHandler.lights_shader);
-	window.draw(sf::Sprite(pass_diffuse.getTexture()), sf::BlendMultiply);
+
+	sf::RenderStates states;
+	states.blendMode = sf::BlendMultiply;
+	states.shader = &window.imageHandler.lights_shader;
+	window.draw(sf::Sprite(window.imageHandler.tilemapRenderBack.getTexture()), states);
+
 }
 
 int main()
@@ -114,28 +73,29 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
-
-	loadLightTest(window);
+	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 
 	//window.setMouseCursorVisible(false);
     while (window.isOpen())
     {
         window.clear(sf::Color(50, 0, 50, 255));
         window.pollEvents();
-
-        //window.drawTileMapsBack();
-		drawLightTest(window);
-		window.drawSprites();
-		//window.drawLights();
-
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
 
-        window.drawWaterTile();
+
+
+
+        window.drawTileMapsBack();
+		//window.drawSprites();
+        //window.drawWaterTile();
         window.drawTileMapsFront();
+		drawLightTest(window);
+
+
+
+
         //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
-		
 		window.addDevToolsText();
 		//window.drawText();
 

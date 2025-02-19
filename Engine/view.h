@@ -24,7 +24,7 @@ private:
 		else if (m_screenSize.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { m_pixelSize = 4; }
 		else { m_pixelSize = 4; }
 		// I doubt we need more.
-		m_pixelSize = 1;
+		m_pixelSize = 2;
 
 		//DEBUG(m_pixelSize);
 		m_tilePixels = TILE_SIZE * m_pixelSize;

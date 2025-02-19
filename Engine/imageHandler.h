@@ -72,24 +72,24 @@ public:
 
     sf::RenderTexture tilemapRenderBack;//
     sf::RenderTexture tilemapRenderFront;
-    
-    sf::RectangleShape tilemapWindowBack;
-    sf::RectangleShape tilemapWindowFront;
 
 	sf::Shader lights_shader;
 	sf::Shader normals_shader;
 
 	sf::Image tileNormalImage;
-	sf::RenderTexture lightRender;
 	sf::RenderTexture normalsRender;
-	sf::RenderTexture diffuseRender;
-	sf::RenderTexture back;
-
 
 	Light light;
+
+	sf::RenderTexture lightRender;
+	sf::RenderTexture pass_normals;
+	sf::Texture normal_map;
+	sf::Texture diffuse_map;
+	//sf::Sprite spriteT;
 
     ImageHandler();
 
     void loadWestKagar();
+	void loadLights();
     bool checkBounds(int direction, sf::Vector2i position);
 };

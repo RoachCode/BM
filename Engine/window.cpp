@@ -176,8 +176,8 @@ void Window::pollEvents()
 }
 
 // Tilemap Functions
-void Window::drawTileMapsBack() { this->draw(imageHandler.tilemapWindowBack); }
-void Window::drawTileMapsFront() { this->draw(imageHandler.tilemapWindowFront); }
+void Window::drawTileMapsBack() { this->draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture())); }
+void Window::drawTileMapsFront() { this->draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture())); }
 
 // Sprite Functions
 void Window::sortSpriteVectorByHeight()
