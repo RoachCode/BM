@@ -405,7 +405,7 @@ void Window::checkUnderlyingTile()
 		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (getTilePixels())) };
 		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
-		if (water.westKagarWater[arrayPos] && getCharacterByOrder(i).spriteColour != SpriteColor::Blue)
+		if (water.westKagarWater[arrayPos])
 		{
 			getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
 			getCharacterByOrder(i).textureUpdate();
