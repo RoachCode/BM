@@ -6,8 +6,8 @@ ImageHandler::ImageHandler()
     zDepth = 10;
 
     back.lightShader.loadFromMemory(lightFrag, sf::Shader::Fragment);
-    front.lightShader.loadFromMemory(lightFrag, sf::Shader::Fragment);
     back.normalShader.loadFromMemory(normalsFrag, sf::Shader::Fragment);
+    front.lightShader.loadFromMemory(lightFrag, sf::Shader::Fragment);
     front.normalShader.loadFromMemory(normalsFrag, sf::Shader::Fragment);
 
     if (!tileImage.loadFromFile("C:/Users/Windows/Documents/Github/Broken Mirror v2/BM/ImageResources/TILE.bmp"))
@@ -47,12 +47,16 @@ ImageHandler::ImageHandler()
     tilemapNormalVector.push_back(&tileMapNormalJ);
 
     sf::Vector2u sceneSize = View::getSceneSize();
+
     back.tilemapRender.create(intify(sceneSize.x), intify(sceneSize.y));
-    front.tilemapRender.create(intify(sceneSize.x), intify(sceneSize.y));
     back.normalRender.create(intify(sceneSize.x), intify(sceneSize.y));
-    front.normalRender.create(intify(sceneSize.x), intify(sceneSize.y));
     back.sceneRender.create(intify(sceneSize.x), intify(sceneSize.y));
+    front.tilemapRender.create(intify(sceneSize.x), intify(sceneSize.y));
+    front.normalRender.create(intify(sceneSize.x), intify(sceneSize.y));
     front.sceneRender.create(intify(sceneSize.x), intify(sceneSize.y));
+
+    back.lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
+    front.lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
 
     this->loadWestKagar();
 }
@@ -62,7 +66,6 @@ void ImageHandler::loadWestKagar()
     back.sceneRender.clear();
     back.tilemapRender.clear();
     back.normalRender.clear();
-
     front.sceneRender.clear(sf::Color::Transparent);
     front.tilemapRender.clear(sf::Color::Transparent);
     front.normalRender.clear();
@@ -255,7 +258,6 @@ void ImageHandler::loadWestKagar()
 
     back.normalRender.display();
     back.tilemapRender.display();
-
     front.normalRender.display();
     front.tilemapRender.display();
 
@@ -268,9 +270,7 @@ void ImageHandler::loadLights(RenderPipeline &scene)
     int width{ intify(View::getSceneSize().x * View::getPixelSize()) };
     int height{ intify(View::getSceneSize().y * View::getPixelSize()) };
 
-    // Create and clear to neutral color
-    lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
-    lightRender.clear();
+    scene.lightRender.clear();
 
     scene.pass_normals.create(width, height);
     scene.pass_normals.clear(sf::Color(128, 128, 255));
@@ -289,7 +289,7 @@ void ImageHandler::loadLights(RenderPipeline &scene)
 
     // Light Pass, renders every light into a rendertexture
     scene.lightShader.setUniform("resolution", sf::Vector2f(View::getScreenSize().x, View::getScreenSize().y));
-    scene.lightShader.setUniform("sampler_light", lightRender.getTexture());
+    scene.lightShader.setUniform("sampler_light", scene.lightRender.getTexture());
     scene.lightShader.setUniform("ambient_intensity", scene.light.ambientIntensity);
     scene.lightShader.setUniform("falloff", scene.light.falloff);
     scene.lightShader.setUniform("light_color", scene.light.color);
@@ -302,14 +302,14 @@ void ImageHandler::loadLights(RenderPipeline &scene)
 void ImageHandler::drawScene(RenderPipeline& scene)
 {
     // Clear render and draw diffuse scene
-    scene.sceneRender.clear();
+    scene.sceneRender.clear(sf::Color::Transparent);
     scene.sceneRender.draw(scene.tilemapRenderSprite);
 
     // Draw light shader over diffuse scene, blended
     sf::RenderStates renderStates;
     renderStates.blendMode = sf::BlendMultiply;
     renderStates.shader = &scene.lightShader;
-    back.sceneRender.draw(back.tilemapRenderSprite, renderStates);
+    scene.sceneRender.draw(scene.tilemapRenderSprite, renderStates);
 
     // Display scene
     scene.sceneRender.display();

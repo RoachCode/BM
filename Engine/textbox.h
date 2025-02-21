@@ -93,7 +93,7 @@ public:
 	void emptyContainers()
 	{
 		box.emptyContainers();
-		fontContainer.clear();
+		if (!fontContainer.empty()) { fontContainer.clear(); }
 	}
 	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 	{
