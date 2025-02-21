@@ -5,9 +5,30 @@
 #include "maps.h"
 #include "light.h"
 
+struct RenderPipeline
+{
+	sf::Shader lightShader;
+	sf::Shader normalShader;
+
+	Light light;
+
+	sf::RenderTexture tilemapRender;
+	sf::RenderTexture sceneRender;
+
+	sf::RenderTexture normalRender;
+	sf::RenderTexture pass_normals;
+
+	sf::Texture normal_map;
+	sf::Texture diffuse_map;
+
+	sf::Sprite tilemapRenderSprite;
+};
+
 class ImageHandler : protected View
 {
 public:
+
+#pragma region SHADERS
 	const char lightFrag[897] =
 		"uniform vec2 resolution;"
 		"uniform sampler2D sampler_normal;"
@@ -42,8 +63,9 @@ public:
 		"vec3 normal_map = texture2D(sampler_normal, gl_TexCoord[0].xy).rgb;"
 		"gl_FragColor = vec4(normal_map, 1.0);"
 		"}";
+#pragma endregion
 
-    uint8_t zDepth;
+#pragma region TILEMAPS
     TileMap tileMapA;
     TileMap tileMapB;
     TileMap tileMapC;
@@ -65,38 +87,21 @@ public:
 	TileMap tileMapNormalH;
 	TileMap tileMapNormalI;
 	TileMap tileMapNormalJ;
+#pragma endregion
 
+    uint8_t zDepth;
     sf::Image tileImage;
+	sf::Image tileNormalImage;
     std::vector<TileMap*> tilemapVector;
     std::vector<TileMap*> tilemapNormalVector;
-
-    sf::RenderTexture tilemapRenderBack;//
-    sf::RenderTexture tilemapRenderFront;
-
-	sf::Shader lights_shader;
-	sf::Shader normals_shader_back;
-	sf::Shader normals_shader_front;
-
-	sf::Image tileNormalImage;
-	sf::RenderTexture normalsRenderBack;
-	sf::RenderTexture normalsRenderFront;
-
-	Light light;
-
 	sf::RenderTexture lightRender;
-	sf::RenderTexture pass_normals_back;
-	sf::RenderTexture pass_normals_front;
-	sf::Texture normal_map_back;
-	sf::Texture normal_map_front;
-	sf::Texture diffuse_map_back;
-	sf::Texture diffuse_map_front;
-	//sf::Sprite spriteT;
-	sf::RenderTexture backSceneRender;
-	sf::RenderTexture frontSceneRender;
+	RenderPipeline back;
+	RenderPipeline front;
 
     ImageHandler();
 
     void loadWestKagar();
-	void loadLights();
+	void loadLights(RenderPipeline &scene);
+	void drawScene(RenderPipeline &scene);
     bool checkBounds(int direction, sf::Vector2i position);
 };

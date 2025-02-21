@@ -67,16 +67,16 @@ int main()
 		//window.drawLights();
         window.drawTileMapsBack();
 		window.drawSprites();
-        window.drawWaterTile();
-        window.drawTileMapsFront();
+        //window.drawWaterTile();
+        //window.drawTileMapsFront();
 
 
 
 
 
-        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
+        //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		window.addDevToolsText();
-		window.drawText();
+		//window.drawText();
 
 		//window.drawMenu();
 		//window.drawBattle();

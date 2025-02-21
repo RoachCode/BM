@@ -175,10 +175,9 @@ void Window::pollEvents()
 	if (!menu.menuEnabled()) { pollMovement(); }
 }
 
-// Tilemap Functions
-void Window::drawTileMapsBack()
+// Tilemap and Lighting Functions
+void Window::assignLightToCharacterPosition(Light &light, sf::Shader &lightShader)
 {
-
 	//imageHandler.light.position.x = sf::Mouse::getPosition().x;
 	//imageHandler.light.position.y = View::getSceneSize().y - sf::Mouse::getPosition().y;
 	float offset = (TILE_SIZE / 2);
@@ -187,52 +186,35 @@ void Window::drawTileMapsBack()
 		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
 		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
 	);
-	imageHandler.light.position.x = charPos.x;
-	imageHandler.light.position.y = charPos.y;
-	imageHandler.lights_shader.setUniform("light_pos", imageHandler.light.position);
+	light.position.x = charPos.x;
+	light.position.y = charPos.y;
+	lightShader.setUniform("light_pos", light.position);
+}
+void Window::drawTileMapsBack()
+{
+	// Assigns a light to the lead character
+	assignLightToCharacterPosition(imageHandler.back.light, imageHandler.back.lightShader);
 
-	imageHandler.lights_shader.setUniform("sampler_normal", imageHandler.pass_normals_back.getTexture());
-	imageHandler.backSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture()));
+	// Draws diffuse scene and lights, blended
+	imageHandler.drawScene(imageHandler.back);
 
-	sf::RenderStates states;
-	states.blendMode = sf::BlendMultiply;
-	states.shader = &imageHandler.lights_shader;
-	//states.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	imageHandler.backSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture()), states);
-
-	sf::RenderStates states2;
-	states2.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	imageHandler.backSceneRender.display();
-	this->draw(sf::Sprite(imageHandler.backSceneRender.getTexture()), states2);
+	// Scale the scene, display it, and draw it to the window
+	sf::RenderStates windowStates;
+	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	this->draw(sf::Sprite(imageHandler.back.sceneRender.getTexture()), windowStates);
 }
 void Window::drawTileMapsFront()
 {
+	// Assigns a light to the lead character
+	assignLightToCharacterPosition(imageHandler.front.light, imageHandler.front.lightShader);
 
-	//imageHandler.light.position.x = sf::Mouse::getPosition().x;
-	//imageHandler.light.position.y = View::getSceneSize().y - sf::Mouse::getPosition().y;
-	float offset = (TILE_SIZE / 2);
-	sf::Vector2f charPos = pairF
-	(
-		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
-		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
-	);
-	imageHandler.light.position.x = charPos.x;
-	imageHandler.light.position.y = charPos.y;
-	imageHandler.lights_shader.setUniform("light_pos", imageHandler.light.position);
+	// Draws diffuse scene and lights, blended
+	imageHandler.drawScene(imageHandler.front);
 
-	imageHandler.lights_shader.setUniform("sampler_normal", imageHandler.pass_normals_front.getTexture());
-	imageHandler.frontSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture()));
-
-	sf::RenderStates states;
-	states.blendMode = sf::BlendMultiply;
-	states.shader = &imageHandler.lights_shader;
-	//states.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	imageHandler.frontSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture()), states);
-
-	sf::RenderStates states2;
-	states2.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	imageHandler.frontSceneRender.display();
-	this->draw(sf::Sprite(imageHandler.frontSceneRender.getTexture()), states2);
+	// Scale the scene, display it, and draw it to the window
+	sf::RenderStates windowStates;
+	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	this->draw(sf::Sprite(imageHandler.front.sceneRender.getTexture()), windowStates);
 }
 
 // Sprite Functions
@@ -795,5 +777,3 @@ void Window::drawMenu()
 
 	}
 }
-
-// Light Functions

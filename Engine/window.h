@@ -65,6 +65,7 @@ public:
 	void pollMovement();
 
 	void drawTileMapsBack();
+	void assignLightToCharacterPosition(Light& light, sf::Shader &lightShader);
 	void drawFlow(FlowPreset& fp);
 	void drawFlow();
 	void drawParticles();
