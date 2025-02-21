@@ -104,11 +104,12 @@ public:
 
 	void emptyContainers()
 	{
+		if (!spriteContainer.empty()) { spriteContainer.clear(); }
+		if (!spriteContainerBlack.empty()) { spriteContainerBlack.clear(); }
+
 		borderBlack.resize(0);
 		border.resize(0);
 		background.resize(0);
-		spriteContainer.clear();
-		spriteContainerBlack.clear();
 	}
 	void createBackground(sf::Vector2f startPosition, int width, int height)
 	{

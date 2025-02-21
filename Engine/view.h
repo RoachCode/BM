@@ -9,9 +9,10 @@ private:
 	inline static sf::Vector2u m_screenSize;
 	inline static sf::Vector2i m_uniqueScreenSizeGridSize;
 	inline static sf::Vector2u m_sceneSize;
+	inline static sf::Vector2f m_originOffset;
 	inline static int m_pixelSize;
 	inline static int m_tilePixels;
-
+	
 	sf::Vector2f m_movementOffset;
 	bool m_movementAllowed;
 
@@ -23,6 +24,7 @@ private:
 		else if (m_screenSize.x < CHUNK_WIDTH_PIXELS * (factor * 4)) { m_pixelSize = 4; }
 		else { m_pixelSize = 4; }
 		// I doubt we need more.
+		m_pixelSize = 2;
 
 		//DEBUG(m_pixelSize);
 		m_tilePixels = TILE_SIZE * m_pixelSize;
@@ -38,11 +40,24 @@ private:
 
 		//new stuff to fixs bugs...
 		m_view.setSize(floatify(m_uniqueScreenSizeGridSize.x * m_tilePixels), floatify(m_uniqueScreenSizeGridSize.y * m_tilePixels));
-		m_view.setCenter(floatify(m_view.getSize().x / 2), floatify(m_view.getSize().y / 2));
+		m_view.setCenter(pairF(m_view.getSize().x / 2, m_view.getSize().y / 2));
+		m_originOffset = pairF(0.f, 0.f);
 	}
 	void m_setSceneSize()
 	{
 		m_sceneSize = sf::Vector2u(32 * TILES_PER_CHUNK_X * 3, 32 * TILES_PER_CHUNK_Y * 3);
+	}
+
+	void m_move(sf::Vector2f offset)
+	{
+		m_originOffset += offset;
+		m_view.move(offset);
+	}
+	void m_move(float offsetX, float offsetY)
+	{
+		m_originOffset.x += offsetX;
+		m_originOffset.y += offsetY;
+		m_view.move(offsetX, offsetY);
 	}
 
 public:
@@ -60,6 +75,7 @@ public:
 	static const sf::View getView() { return m_view; }
 	static const int getTilePixels() { return m_tilePixels; }
 	static const sf::Vector2u getSceneSize() { return m_sceneSize; }
+	static const sf::Vector2f getOriginOffset() { return m_originOffset; }
 	sf::Vector2f getViewCoordinates(int dir)
 	{
 		switch (dir)
@@ -111,7 +127,7 @@ public:
 		{
 			if (getViewCoordinates(UR).x < m_sceneSize.x * m_pixelSize)
 			{
-				m_view.move(floatify(stepSize * m_pixelSize), 0.f);
+				m_move(floatify(stepSize * m_pixelSize), 0.f);
 				return m_view;
 			}
 		}
@@ -119,7 +135,7 @@ public:
 		{
 			if (getViewCoordinates(UL).x > m_pixelSize)
 			{
-				m_view.move(floatify(-stepSize * m_pixelSize), 0.f);
+				m_move(floatify(-stepSize * m_pixelSize), 0.f);
 				return m_view;
 			}
 		}
@@ -127,7 +143,7 @@ public:
 		{
 			if (getViewCoordinates(DL).y < m_sceneSize.y * m_pixelSize)
 			{
-				m_view.move(0.f, floatify(stepSize * m_pixelSize));
+				m_move(0.f, floatify(stepSize * m_pixelSize));
 				return m_view;
 			}
 		}
@@ -135,7 +151,7 @@ public:
 		{
 			if (getViewCoordinates(UL).y > m_pixelSize)
 			{
-				m_view.move(0.f, floatify(-stepSize * m_pixelSize));
+				m_move(0.f, floatify(-stepSize * m_pixelSize));
 				return m_view;
 			}
 		}

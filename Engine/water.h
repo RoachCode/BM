@@ -40,8 +40,8 @@ public:
 
 	Water()
 	{
-		noise.m_simplexSizeX = 32;
-		noise.m_simplexSizeY = 32;
+		noise.m_simplexSizeX = TILE_SIZE;
+		noise.m_simplexSizeY = TILE_SIZE;
 		width = noise.m_simplexSizeX;
 		height = noise.m_simplexSizeY;
 

@@ -175,24 +175,75 @@ void Window::pollEvents()
 	if (!menu.menuEnabled()) { pollMovement(); }
 }
 
-// Tilemap Functions
-void Window::drawTileMapsBack() { this->draw(imageHandler.tilemapWindowBack); }
-void Window::drawTileMapsFront() { this->draw(imageHandler.tilemapWindowFront); }
+// Tilemap and Lighting Functions
+void Window::assignLightToCharacterPosition(Light &light, sf::Shader &lightShader)
+{
+	//imageHandler.light.position.x = sf::Mouse::getPosition().x;
+	//imageHandler.light.position.y = View::getSceneSize().y - sf::Mouse::getPosition().y;
+	float offset = (TILE_SIZE / 2);
+	sf::Vector2f charPos = pairF
+	(
+		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
+		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
+	);
+	light.position.x = charPos.x;
+	light.position.y = charPos.y;
+	lightShader.setUniform("light_pos", light.position);
+}
+void Window::drawTileMapsBack()
+{
+	// Assigns a light to the lead character
+	assignLightToCharacterPosition(imageHandler.back.light, imageHandler.back.lightShader);
+
+	// Draws diffuse scene and lights, blended
+	imageHandler.drawScene(imageHandler.back);
+
+	// Scale the scene, display it, and draw it to the window
+	sf::RenderStates windowStates;
+	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	this->draw(sf::Sprite(imageHandler.back.sceneRender.getTexture()), windowStates);
+}
+void Window::drawTileMapsFront()
+{
+	// Assigns a light to the lead character
+	assignLightToCharacterPosition(imageHandler.front.light, imageHandler.front.lightShader);
+
+	// Draws diffuse scene and lights, blended
+	imageHandler.drawScene(imageHandler.front);
+
+	// Scale the scene, display it, and draw it to the window
+	sf::RenderStates windowStates;
+	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	this->draw(sf::Sprite(imageHandler.front.sceneRender.getTexture()), windowStates);
+}
 
 // Sprite Functions
-void Window::sortSpriteVectorByHeight()
+Character& Window::getCharacterByOrder(int order)
 {
-	spriteVector.push_back(getCharacterByOrder(4).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
-	spriteVector.push_back(getCharacterByOrder(1).sprite);
-	std::sort(
-		spriteVector.begin(),
-		spriteVector.end(),
-		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
-		{
-			return sprite.getPosition().y < sprite2.getPosition().y;
-		});
+	if (arson.order == order) { return arson; }
+	else if (gaia.order == order) { return gaia; }
+	else if (cole.order == order) { return cole; }
+	else if (neko.order == order) { return neko; }
+	else { return arson; }
+}
+sf::Vector2i Window::getCharacterGridPosition()
+{
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
+		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
+	);
+}
+void Window::pollMovement()
+{
+	moveCharacters();
+	sortSpriteVectorByHeight();
+	// bottleneck ahead, fix it.
+	this->setView
+	(
+		View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), 
+			intify(getCharacterByOrder(1).sprite.getPosition().y)), 
+			getCharacterByOrder(1).movementStepSize)
+	);
 }
 void Window::moveCharacters()
 {
@@ -327,28 +378,24 @@ void Window::moveCharacters()
 	getCharacterByOrder(4).checkTimeout();
 
 }
-sf::Vector2i Window::getGridPosition()
+void Window::sortSpriteVectorByHeight()
 {
-	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
-		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
-	);
+	spriteVector.push_back(getCharacterByOrder(4).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(1).sprite);
+	std::sort(
+		spriteVector.begin(),
+		spriteVector.end(),
+		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		{
+			return sprite.getPosition().y < sprite2.getPosition().y;
+		});
 }
-void Window::pollMovement()
-{
-	moveCharacters();
-	sortSpriteVectorByHeight();
-	// bottleneck ahead, fix it.
-	this->setView(View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)), getCharacterByOrder(1).movementStepSize));
-}
-Character& Window::getCharacterByOrder(int order)
-{
-	if (arson.order == order) { return arson; }
-	else if (gaia.order == order) { return gaia; }
-	else if (cole.order == order) { return cole; }
-	else if (neko.order == order) { return neko; }
-	else { return arson; }
-}
+
+
+
+
 void Window::checkUnderlyingTile()
 {
 	for (int i = 1; i < 5; i++)
@@ -364,7 +411,7 @@ void Window::checkUnderlyingTile()
 			getCharacterByOrder(i).textureUpdate();
 			getCharacterByOrder(i).movementStepSize = 1;
 		}
-		else
+		else if (getCharacterByOrder(i).spriteColour != SpriteColor::Default)
 		{
 			getCharacterByOrder(i).spriteColour = SpriteColor::Default;
 			getCharacterByOrder(i).textureUpdate();
@@ -396,16 +443,16 @@ void Window::checkUnderlyingTile()
 		getCharacterByOrder(4).movementStepSize = 4;
 	}
 }
-void Window::drawSprites()
+void Window::drawCharacterSprites()
 {
 	// get values from View class
 	int pixelSize{ getPixelSize() };
-
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
+		sf::Vector2f spritePos(spriteVector[i].getPosition());
+		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y - (8 * pixelSize)));
 		this->draw(spriteVector[i]);
-		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y + (8 * pixelSize)));
+		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
 	}
 }
 
@@ -642,8 +689,9 @@ void Window::drawFlow()
 void Window::drawWaterTile()
 {
 	// get values from View class
-	int pixelSize{ getPixelSize() };
+	int pixelSize{ View::getPixelSize() };
 	water.noise.noise.setScale(pixelSize, pixelSize);
+
 	// Is automatic, prints on tiles 89 and 90.
 	if (!menu.menuEnabled()) { water.update(); }
 
@@ -659,7 +707,7 @@ void Window::drawWaterTile()
 			if (water.westKagarWater[i + j * (TILES_PER_CHUNK_X * 4)])
 			{
 				water.noise.noise.setPosition(water.width * pixelSize * i, water.height * pixelSize * j);
-				draw(water.noise.noise);
+				draw(water.noise.noise, sf::BlendMultiply); // pretty cool with the blend multiply
 			}
 		}
 	}
@@ -672,17 +720,21 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::addDevToolsText()
 {
-	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	textBox.emptyContainers();
+	importantTextBox.emptyContainers();
+
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
-	textBox.box.setColor(sf::Color::Black);
-	textBox.box.setAlpha(150);
-	addText(longString, pairF(250, 250), 1, 800);
+	//textBox.box.setColor(sf::Color::Black);
+	//textBox.box.setAlpha(150);
+	//addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
 	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);
-	addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
-	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
+	//addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
+	sf::Vector2i posXY(getCharacterGridPosition());
+	addText("X: " + stringify(posXY.x) + ", Y :" + stringify(posXY.y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
 	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), devToolsTextSize, 0, true, true, true); }
 }
 void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders, bool important)

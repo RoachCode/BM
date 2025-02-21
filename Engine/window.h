@@ -14,6 +14,7 @@
 #include "water.h"
 #include "maps.h"
 #include "textbox.h"
+#include "light.h"
 
 class Window : public sf::RenderWindow, public Noise, public View
 {
@@ -64,11 +65,12 @@ public:
 	void pollMovement();
 
 	void drawTileMapsBack();
+	void assignLightToCharacterPosition(Light& light, sf::Shader &lightShader);
 	void drawFlow(FlowPreset& fp);
 	void drawFlow();
 	void drawParticles();
 	void drawParticles(sf::Color color);
-	void drawSprites();
+	void drawCharacterSprites();
 	void drawWaterTile();
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
@@ -89,7 +91,7 @@ public:
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
 
-	sf::Vector2i getGridPosition();
+	sf::Vector2i getCharacterGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
 	void sortSpriteVectorByHeight();
 	void setPositionAndDraw(float x, float y);
@@ -98,5 +100,5 @@ public:
 
 	void moveCharacters();
 	void addDevToolsText();
-	//void initWaterTile();
+
 };
