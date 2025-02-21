@@ -70,7 +70,7 @@ public:
 	void drawFlow();
 	void drawParticles();
 	void drawParticles(sf::Color color);
-	void drawSprites();
+	void drawCharacterSprites();
 	void drawWaterTile();
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
@@ -91,7 +91,7 @@ public:
 	void m_groupDraw(int dirX, int dirY);
 	void m_groupDraw();
 
-	sf::Vector2i getGridPosition();
+	sf::Vector2i getCharacterGridPosition();
 	void changeFalseLastKeyState(bool& lastKeyInput);
 	void sortSpriteVectorByHeight();
 	void setPositionAndDraw(float x, float y);
@@ -100,6 +100,5 @@ public:
 
 	void moveCharacters();
 	void addDevToolsText();
-	//void initWaterTile();
-	//void drawLights();
+
 };

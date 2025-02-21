@@ -10,6 +10,7 @@ struct RenderPipeline
 	sf::Shader lightShader;
 	sf::Shader normalShader;
 
+	sf::RenderTexture lightRender;
 	Light light;
 
 	sf::RenderTexture tilemapRender;
@@ -90,11 +91,13 @@ public:
 #pragma endregion
 
     uint8_t zDepth;
+
     sf::Image tileImage;
 	sf::Image tileNormalImage;
+
     std::vector<TileMap*> tilemapVector;
     std::vector<TileMap*> tilemapNormalVector;
-	sf::RenderTexture lightRender;
+
 	RenderPipeline back;
 	RenderPipeline front;
 
