@@ -18,8 +18,6 @@ public:
 		simplexStepper = 0;
 	}
 	// Data
-	// Vector array of angles, one per cell
-	std::vector<float> angleVector;
 	std::vector<float> m_xyValues;
 	std::vector<int> m_tempContainer;
 	std::deque<sf::Uint8> m_simplexData;

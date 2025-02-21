@@ -2,99 +2,177 @@
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
 #include "view.h"
+#include "font.h"
+#include "box.h"
+#include "tilemap.h"
 
-class TextBox : public View
+class TextBox : protected View, protected Font
 {
 private:
+	void createText(std::string string, int maxTilesPerRow)
+	{
+		Font::currentString.clear();
+		for (size_t j = 0; j < string.length(); j++)
+		{
+			const char letter = string[j];
+			const int letterNumber{ Font::getRectOffset(letter) };
+			if (Font::getRectOffset(letter) < 195)
+			{
+				Font::currentString.push_back(letterNumber + 0);
+				Font::currentString.push_back(letterNumber + 1);
+				Font::currentString.push_back(letterNumber + 2);
+			}
+			else if (Font::getRectOffset(letter) < 219)
+			{
+				Font::currentString.push_back(letterNumber + 0);
+				Font::currentString.push_back(letterNumber + 1);
+				Font::currentString.push_back(letterNumber + 2);
+				Font::currentString.push_back(letterNumber + 3);
+			}
+			else if (Font::getRectOffset(letter) < 224)
+			{
+				Font::currentString.push_back(letterNumber + 0);
+			}
+			else
+			{
+				Font::currentString.push_back(letterNumber + 0);
+				Font::currentString.push_back(letterNumber + 1);
+			}
+			// kerning space (2 pixels)
+			if (j < string.length() - 1 && letter != ' ') { Font::currentString.push_back(78); }
+
+			// check to see if the word will fit on this row (including following punctuation)
+			if (string[j] == ' ' && maxTilesPerRow != 0)
+			{
+				int tilesInWord{ 4 }; //starts with a space. supposed to be 3 but this works for some reason.
+				int iterator{ 1 };
+				while (string[j + iterator] != ' ' && j + iterator < string.length())
+				{
+					if (Font::getRectOffset(letter) < 195)
+					{
+						tilesInWord += 3;
+					}
+					else if (Font::getRectOffset(letter) < 219)
+					{
+						tilesInWord += 4;
+					}
+					else if (Font::getRectOffset(letter) < 224)
+					{
+						tilesInWord += 1;
+					}
+					else
+					{
+						tilesInWord += 2;
+					}
+					//kerning if the word isn't finished
+					if (string[j + iterator + 1] != ' ')
+					{
+						tilesInWord += 1;
+					}
+					iterator += 1;
+				}
+
+				// get current position in the line
+				int tilePosition{ intify(Font::currentString.size()) };
+				while (tilePosition > maxTilesPerRow) { tilePosition -= maxTilesPerRow; }
+
+				// if the word won't fit, use kerning spaces to finish the line
+				if (tilePosition + tilesInWord > maxTilesPerRow)
+				{
+					int remainingTiles{ maxTilesPerRow - tilePosition };
+					for (int i = 0; i < remainingTiles; i++) { Font::currentString.push_back(78); }
+				}
+			}
+		}
+	}
+
 public:
-    sf::Sprite corner;
-    sf::Texture cornerTexture;
-    std::vector<bool> cornerArray
-    {
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-        1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-        1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-        0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-        0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
-        0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
-        0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-    };
-    sf::RectangleShape border;
-    sf::VertexArray background;
+	Box box;
+	std::vector<FontMap> fontContainer;
 
-    sf::Color topLeft;
-    sf::Color topRight;
-    sf::Color bottomRight;
-    sf::Color bottomLeft;
-    sf::Color borderColor;
+	void emptyContainers()
+	{
+		box.emptyContainers();
+		fontContainer.clear();
+	}
+	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
+	{
+		// get values from View class
+		int pixelSize{ getPixelSize() };
+		const int fontScale{ scale * pixelSize };
 
-    TextBox()
-    {
-        borderColor = sf::Color::White;
-        createCorner();
-        topLeft = sf::Color(0, 0, 255, 50);
-        topRight = sf::Color(0, 0, 255, 50);
-        bottomRight = sf::Color(0, 0, 255, 50);
-        bottomLeft = sf::Color(0, 0, 255, 50);
-    }
+		// tiles are two pixels wide
+		int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * fontScale) };
 
-    void createFullscreenBackground(int x, int y, int width, int height)
-    {
-        background.setPrimitiveType(sf::Quads);
-        background[0].position = pairF(x, y);
-        background[1].position = pairF(x + width, y);
-        background[2].position = pairF(x + width, y + height);
-        background[3].position = pairF(x, y + height);
+		createText(string, maxTilesPerRow);
+		
+		// add blank characters to the end to complete the tilemap or shrink to fit
+		int messageTileCount{ intify(Font::currentString.size()) };
+		int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
+		int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale }; // no longer takes in to account the shadow
+		if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
 
-        background[0].color = topLeft;
-        background[1].color = topRight;
-        background[2].color = bottomRight;
-        background[3].color = bottomLeft;
-    }
+		// If no bounding box was specified, stay in the view.
+		if (maxTilesPerRow == 0)
+		{
+			maxTilesPerRow = messageTileCount;
+			boundingWidth = messageWidthInPixels;
 
-    void createCorner()
-    {
-        // get values from View class
-        int pixelSize{ getPixelSize() };
+			const int margin{ (borders || background ) ? box.margin : 0 };
+			const int lineThickness{ (borders || background) ? box.lineThickness : 0 };
+			const int edgeOffset{ margin + lineThickness + fontScale * 2 };
 
-        int size{ 14 };
-        cornerTexture.create(size, size);
-        sf::Uint8* pixels = new sf::Uint8[size * size * 4];
+			// Bounds Right
+			if (intify(startPosition.x) + messageWidthInPixels + edgeOffset > intify(getViewCoordinates(UR).x))
+			{
+				startPosition.x = floatify(getViewCoordinates(UR).x - messageWidthInPixels - edgeOffset);
+			}
+			// Bounds Left
+			if (intify(startPosition.x) - edgeOffset < getViewCoordinates(UL).x)
+			{
+				startPosition.x = getViewCoordinates(UL).x + edgeOffset;
+			}
+			// Bounds Bottom (this is 8 because that's the height of the generic characters)
+			if (intify(startPosition.y) + 8 * fontScale + edgeOffset > intify(getViewCoordinates(DR).y))
+			{
+				startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - edgeOffset);
+			}
+			// Bounds Top
+			if (intify(startPosition.y) - edgeOffset < getViewCoordinates(UL).y)
+			{
+				startPosition.y = floatify(getViewCoordinates(UL).y + edgeOffset);
+			}
+		}
+		while (messageTileCount % maxTilesPerRow != 0)
+		{
+			Font::currentString.push_back(78);
+			messageTileCount += 1;
+		}
 
-        for (int i = 0; i < cornerArray.size(); i++)
-        {
-            if (cornerArray[i] == 0)
-            {
-                pixels[(i * 4) + 0] = borderColor.r;
-                pixels[(i * 4) + 1] = borderColor.g;
-                pixels[(i * 4) + 2] = borderColor.b;
-                pixels[(i * 4) + 3] = sf::Uint8(0);
-            }
-            else
-            {
-                pixels[(i * 4) + 0] = borderColor.r;
-                pixels[(i * 4) + 1] = borderColor.g;
-                pixels[(i * 4) + 2] = borderColor.b;
-                pixels[(i * 4) + 3] = sf::Uint8(255);
-            }
-        }
+		int messageRows{ messageTileCount / maxTilesPerRow };
 
+		const int width{ boundingWidth + box.margin * 2 };
+		// rows * 11 because text is 8 high plus 3 vertical gap. - 3 because no gap at the end.
+		const int height{ messageRows * Font::characterHeight * fontScale - 3 * fontScale + box.margin * 2 };
+		const sf::Vector2f pos(pairF(startPosition.x - box.margin, startPosition.y - box.margin));
 
-        cornerTexture.update(pixels);
-        corner.setTexture(cornerTexture);
-        delete[] pixels;
+		if (background) { box.createBackground(pos, width, height); }
+		if (borders) { box.createBorders(pos, width, height); }
 
-        corner.setScale(pixelSize, pixelSize);
-        corner.setPosition(pairF(800, 600));
-    }
+		// create font map
+		Font::fontMap.setScale(pairF(fontScale, fontScale));
 
+		Font::fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
+		Font::setColor(sf::Color(44, 44, 44), true);
+		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
+		fontContainer.push_back(Font::fontMap);
 
+		Font::fontMap.setPosition(startPosition);
+		Font::setColor(sf::Color(Font::textRed, Font::textGreen, Font::textBlue));
+		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
+		fontContainer.push_back(Font::fontMap);
+
+	}
 
 };
+

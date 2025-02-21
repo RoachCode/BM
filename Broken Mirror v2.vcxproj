@@ -33,6 +33,7 @@
     <ClCompile Include="Engine\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\box.h" />
     <ClInclude Include="Engine\constExpressions.h" />
     <ClInclude Include="Engine\devtools.h" />
     <ClInclude Include="Engine\filesys.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Engine\font.h" />
     <ClInclude Include="Engine\imageHandler.h" />
     <ClInclude Include="Engine\maps.h" />
+    <ClInclude Include="Engine\menu.h" />
     <ClInclude Include="Engine\noise.h" />
     <ClInclude Include="Engine\OpenSimplexNoise.h" />
     <ClInclude Include="Engine\particles.h" />

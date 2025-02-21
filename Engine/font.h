@@ -854,6 +854,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// B
 		1, 1, 1, 1, 1, 0,
@@ -864,6 +865,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -878,6 +880,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// D
 		1, 1, 1, 1, 1, 0,
@@ -888,6 +891,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -902,6 +906,7 @@ public:
 		1, 1, 1, 1, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// F
 		1, 1, 1, 1, 1, 1,
@@ -912,6 +917,7 @@ public:
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -926,6 +932,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// H
 		1, 1, 0, 0, 1, 1,
@@ -936,6 +943,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -950,6 +958,7 @@ public:
 		1, 1, 1, 1, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// J
 		0, 0, 0, 0, 1, 1,
@@ -960,6 +969,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -974,6 +984,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// L
 		1, 1, 0, 0, 0, 0,
@@ -984,6 +995,7 @@ public:
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
 		1, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -998,6 +1010,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// N
 		1, 1, 0, 0, 1, 1,
@@ -1008,6 +1021,7 @@ public:
 		1, 1, 0, 1, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1022,6 +1036,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// P
 		1, 1, 1, 1, 1, 0,
@@ -1032,6 +1047,7 @@ public:
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1046,6 +1062,7 @@ public:
 		0, 0, 0, 1, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// R
 		1, 1, 1, 1, 1, 0,
@@ -1056,6 +1073,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1070,6 +1088,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// T
 		1, 1, 1, 1, 1, 1,
@@ -1080,6 +1099,7 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1094,6 +1114,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// V
 		1, 1, 0, 0, 1, 1,
@@ -1104,6 +1125,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 0, 1, 0,
 		0, 0, 1, 1, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1118,6 +1140,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// X
 		1, 1, 0, 0, 1, 1,
@@ -1128,6 +1151,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1142,6 +1166,7 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// Z
 		1, 1, 1, 1, 1, 1,
@@ -1154,8 +1179,10 @@ public:
 		1, 1, 1, 1, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// sp
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
@@ -1178,6 +1205,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// 1
 		0, 0, 1, 1, 0, 0,
@@ -1188,6 +1216,7 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 0, 1, 1, 0, 0,
 		1, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1202,6 +1231,7 @@ public:
 		1, 1, 1, 1, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// 3
 		1, 1, 1, 1, 1, 1,
@@ -1212,6 +1242,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		1, 0, 0, 1, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1226,6 +1257,7 @@ public:
 		0, 0, 0, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// 5
 		1, 1, 1, 1, 1, 1,
@@ -1236,6 +1268,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1250,6 +1283,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// 7
 		1, 1, 1, 1, 1, 1,
@@ -1260,6 +1294,7 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 1, 1, 0, 0, 0,
 		0, 1, 1, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1274,6 +1309,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// 9
 		0, 1, 1, 1, 1, 0,
@@ -1284,6 +1320,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		1, 0, 0, 1, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1298,6 +1335,7 @@ public:
 		0, 1, 1, 1, 0, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// b
 		1, 1, 0, 0, 0, 0,
@@ -1308,6 +1346,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		1, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1322,6 +1361,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// d
 		0, 0, 0, 0, 1, 1,
@@ -1332,6 +1372,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1346,6 +1387,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// f
 		0, 0, 1, 1, 1, 1,
@@ -1356,6 +1398,7 @@ public:
 		0, 1, 1, 0, 0, 0,
 		0, 1, 1, 0, 0, 0,
 		0, 1, 1, 1, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1370,6 +1413,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// h
 		1, 1, 0, 0, 0, 0,
@@ -1381,17 +1425,6 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-
-		// i
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1406,6 +1439,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		1, 0, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// k
 		1, 1, 0, 0, 0, 0,
@@ -1417,17 +1451,6 @@ public:
 		1, 1, 0, 1, 1, 0,
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-
-		// l
-		0, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1442,6 +1465,7 @@ public:
 		1, 1, 0, 1, 0, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// n
 		0, 0, 0, 0, 0, 0,
@@ -1452,6 +1476,7 @@ public:
 		1, 1, 0, 0, 0, 1,
 		1, 1, 0, 0, 0, 1,
 		1, 1, 0, 0, 0, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1466,6 +1491,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// p
 		0, 0, 0, 0, 0, 0,
@@ -1478,6 +1504,7 @@ public:
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// q
 		0, 0, 0, 0, 0, 0,
@@ -1490,6 +1517,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		0, 0, 0, 0, 1, 1,
 		0, 0, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0,
 
 		// r
 		0, 0, 0, 0, 0, 0,
@@ -1500,6 +1528,7 @@ public:
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
 		1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1514,17 +1543,6 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
-
-		// t
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		1, 1, 1, 1, 1, 1,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 1, 1, 0,
-		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
 		// u
@@ -1536,6 +1554,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		1, 1, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1550,6 +1569,7 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// w
 		0, 0, 0, 0, 0, 0,
@@ -1560,6 +1580,7 @@ public:
 		1, 1, 0, 1, 0, 1,
 		1, 1, 0, 1, 0, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1574,6 +1595,7 @@ public:
 		1, 1, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// y
 		0, 0, 0, 0, 0, 0,
@@ -1586,6 +1608,7 @@ public:
 		0, 0, 0, 0, 1, 1,
 		1, 0, 0, 0, 1, 1,
 		0, 1, 1, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// z
 		0, 0, 0, 0, 0, 0,
@@ -1596,6 +1619,7 @@ public:
 		0, 1, 1, 1, 0, 0,
 		1, 1, 0, 0, 0, 1,
 		1, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1610,17 +1634,6 @@ public:
 		0, 0, 1, 1, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
-
-		// !
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
 		// @
@@ -1632,6 +1645,7 @@ public:
 		1, 0, 1, 1, 1, 0,
 		1, 1, 0, 0, 0, 0,
 		0, 1, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 
@@ -1646,6 +1660,7 @@ public:
 		0, 1, 0, 1, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// $
 		0, 1, 1, 1, 1, 0,
@@ -1658,6 +1673,7 @@ public:
 		0, 1, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0,
 
 		// ~
 		0, 0, 0, 0, 0, 0,
@@ -1665,6 +1681,7 @@ public:
 		0, 0, 0, 0, 0, 0,
 		0, 0, 1, 1, 0, 1,
 		0, 1, 0, 1, 1, 0,
+		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
@@ -1685,6 +1702,7 @@ public:
 		0, 0, 0, 0, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
 
 		// | STAFF
 		0, 0, 1, 0, 0, 0, 0, 0,
@@ -1695,6 +1713,7 @@ public:
 		0, 0, 0, 0, 1, 1, 1, 0,
 		0, 0, 0, 0, 0, 1, 1, 1,
 		0, 0, 0, 0, 0, 0, 1, 1,
+		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 
@@ -1709,6 +1728,7 @@ public:
 		0, 0, 1, 1, 1, 1, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
 
 		// < AXE
 		1, 1, 0, 0, 0, 0, 0, 0,
@@ -1719,6 +1739,7 @@ public:
 		1, 1, 1, 1, 0, 1, 1, 0,
 		0, 0, 0, 0, 0, 0, 1, 1,
 		0, 0, 0, 0, 0, 0, 0, 1,
+		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 
@@ -1733,6 +1754,7 @@ public:
 		0, 0, 0, 0, 0, 1, 0, 1,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0,
 
 		// { BOW
 		1, 1, 0, 0, 0, 0, 0, 0,
@@ -1743,6 +1765,7 @@ public:
 		0, 0, 1, 1, 0, 0, 1, 0,
 		0, 0, 0, 1, 1, 0, 0, 1,
 		0, 0, 0, 0, 1, 1, 1, 1,
+		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
@@ -1759,6 +1782,7 @@ public:
 		0, 0,
 		0, 0,
 		0, 0,
+		0, 0,
 
 		// .
 		0, 0,
@@ -1769,6 +1793,7 @@ public:
 		0, 0,
 		1, 1,
 		1, 1,
+		0, 0,
 		0, 0,
 		0, 0,
 
@@ -1783,9 +1808,76 @@ public:
 		1, 1,
 		0, 1,
 		1, 0,
+		0, 0,
+
+		// '
+		1, 1,
+		1, 1,
+		0, 1,
+		1, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+
+		// !
+		1, 1,
+		1, 1,
+		1, 1,
+		1, 1,
+		1, 1,
+		0, 0,
+		1, 1,
+		1, 1,
+		0, 0,
+		0, 0,
+		0, 0,
+	};
+	std::vector<bool> narrowCharacters
+	{		
+		// i
+		0, 1, 1, 0,
+		0, 0, 0, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		1, 1, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		
+		// l
+		1, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+
+		// t
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		1, 1, 1, 1,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 1, 1, 0,
+		0, 0, 1, 1,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
 	};
 
-	const int tileWidthUnit{ 16 };
 	sf::Image fontImage;
 	sf::Texture fontTexture;
 	sf::Uint8 textRed{ 255 };
@@ -1793,6 +1885,7 @@ public:
 	sf::Uint8 textBlue{ 255 };
 	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
 	const sf::Color alphaKey{ sf::Color(69,69,69) };
+	const int characterHeight{ 11 };
 
 	Font()
 	{
@@ -1823,26 +1916,29 @@ public:
 		fontTexture.loadFromImage(fontImage);
 	}
 
-	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(255, 120, 10)))
+	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(130, 190, 230)))
 	{
-		const int height{ 10 };
-		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size()) / height };
-		fontImage.create(fullWidth, height);
+		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size() + narrowCharacters.size()) / characterHeight };
+		fontImage.create(fullWidth, characterHeight);
 
-		const int pixPerText{ 60 };
-		const int pixPerSpec{ 80 };
-		const int pixPerPunc{ 20 };
+		const int pixPerText{ 66 };
+		const int pixPerSpec{ 88 };
+		const int pixPerPunc{ 22 };
+		const int pixPerNarr{ 44 };
 
-		const int charCountText{ 69 };
+		const int charCountText{ 65 };
 		const int charCountSpec{ 6 };
-		const int charCountPunc{ 3 };
+		const int charCountPunc{ 5 };
+		const int charCountNarr{ 3 };
 
 		const int charWidthText{ 6 };
 		const int charWidthSpec{ 8 };
 		const int charWidthPunc{ 2 };
+		const int charWidthNarr{ 4 };
 
+		// pixelCount and width are redefined for each container
 		int pixelCount{ charCountText * pixPerText };
-		int width{ pixelCount / height };
+		int width{ pixelCount / characterHeight };
 		for (int i = 0; i < charCountText; i++)
 		{
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
@@ -1864,7 +1960,7 @@ public:
 				}
 			}
 			sf::Image textImage;
-			textImage.create(charWidthText, height, pixels);
+			textImage.create(charWidthText, characterHeight, pixels);
 
 			delete[] pixels;
 			fontImage.copy(textImage, i * charWidthText, 0);
@@ -1872,7 +1968,7 @@ public:
 		}
 
 		pixelCount = charCountSpec * pixPerSpec;
-		width = pixelCount / height;
+		width = pixelCount / characterHeight;
 		for (int i = 0; i < charCountSpec; i++)
 		{
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
@@ -1894,7 +1990,7 @@ public:
 				}
 			}
 			sf::Image specImage;
-			specImage.create(charWidthSpec, height, pixels);
+			specImage.create(charWidthSpec, characterHeight, pixels);
 
 			delete[] pixels;
 			fontImage.copy(specImage, (charWidthText * charCountText) + (i * charWidthSpec), 0);
@@ -1902,7 +1998,7 @@ public:
 		}
 
 		pixelCount = charCountPunc * pixPerPunc;
-		width = pixelCount / height;
+		width = pixelCount / characterHeight;
 		for (int i = 0; i < charCountPunc; i++)
 		{
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
@@ -1924,24 +2020,55 @@ public:
 				}
 			}
 			sf::Image puncImage;
-			puncImage.create(charWidthPunc, height, pixels);
+			puncImage.create(charWidthPunc, characterHeight, pixels);
 
 			delete[] pixels;
 			fontImage.copy(puncImage, (charWidthText * charCountText) + (charWidthSpec * charCountSpec) + i * charWidthPunc, 0);
 
 		}
 
-		fontTexture.create(fullWidth, height);
+		pixelCount = charCountNarr * pixPerNarr;
+		width = pixelCount / characterHeight;
+		for (int i = 0; i < charCountNarr; i++)
+		{
+			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
+			for (int j = 0; j < pixPerNarr; j++)
+			{
+				if (narrowCharacters[j + i * pixPerNarr] == true)
+				{
+					pixels[(j * 4) + 0] = textRed;
+					pixels[(j * 4) + 1] = textGreen;
+					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 3] = sf::Uint8(255);
+				}
+				else
+				{
+					pixels[(j * 4) + 0] = alphaKey.r;
+					pixels[(j * 4) + 1] = alphaKey.g;
+					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 3] = sf::Uint8(0);
+				}
+			}
+			sf::Image narrImage;
+			narrImage.create(charWidthNarr, characterHeight, pixels);
+
+			delete[] pixels;
+			fontImage.copy(narrImage, (charWidthText * charCountText) + (charWidthSpec * charCountSpec) + (charWidthPunc * charCountPunc) + i * charWidthNarr, 0);
+
+		}
+
+		fontTexture.create(fullWidth, characterHeight);
 		fontTexture.loadFromImage(fontImage);
 		setColor(color);
 	}
 
 	std::vector<int> currentString = { 0, 1, 2, 3, 4, 5 };
+
 	int getRectOffset(char input)
 	{
 		switch (input)
 		{
-		case 'A': return 0;
+		case 'A': return 0; // +3 going forward
 		case 'B': return 3;
 		case 'C': return 6;
 		case 'D': return 9;
@@ -1986,39 +2113,40 @@ public:
 		case 'f': return 126;
 		case 'g': return 129;
 		case 'h': return 132;
-		case 'i': return 135;
-		case 'j': return 138;
-		case 'k': return 141;
-		case 'l': return 144;
-		case 'm': return 147;
-		case 'n': return 150;
-		case 'o': return 153;
-		case 'p': return 156;
-		case 'q': return 159;
-		case 'r': return 162;
-		case 's': return 165;
-		case 't': return 168;
-		case 'u': return 171;
-		case 'v': return 174;
-		case 'w': return 177;
-		case 'x': return 180;
-		case 'y': return 183;
-		case 'z': return 186;
-		case '?': return 189;
-		case '!': return 192;
-		case '@': return 195;
-		case '#': return 198;
-		case '$': return 201;
-		case '~': return 204;
-		case '^': return 207;//
-		case '|': return 211;
-		case '_': return 215;
-		case '<': return 219;
-		case '=': return 223;
-		case '{': return 227;
-		case ':': return 231;//
-		case '.': return 232;
-		case ',': return 233;
+		case 'j': return 135;
+		case 'k': return 138;
+		case 'm': return 141;
+		case 'n': return 144;
+		case 'o': return 147;
+		case 'p': return 150;
+		case 'q': return 153;
+		case 'r': return 156;
+		case 's': return 159;
+		case 'u': return 162;
+		case 'v': return 165;
+		case 'w': return 168;
+		case 'x': return 171;
+		case 'y': return 174;
+		case 'z': return 177;
+		case '?': return 180;
+		case '@': return 183;
+		case '#': return 186;
+		case '$': return 189;
+		case '~': return 192;
+		case '^': return 195;// +4 going forward
+		case '|': return 199;
+		case '_': return 203;
+		case '<': return 207;
+		case '=': return 211;
+		case '{': return 215;
+		case ':': return 219;// +1 going forward
+		case '.': return 220;
+		case ',': return 221;
+		case '\'': return 222;
+		case '!': return 223;
+		case 'i': return 224; // +2 going forward
+		case 'l': return 226;
+		case 't': return 228;
 		default:
 			std::cout << "character missing: " << input << '\n';
 			return -1;
@@ -2031,9 +2159,9 @@ public:
 	void loadTileMap()
 	{
 		//fontMap.load(fontImage, sf::Vector2u(2, 8), placeholderArray, 6, 8);
-		fontMap.setScale(pairF(2.999, 2.999));
+		fontMap.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 		// how many tiles in width, how many tiles in height - are the last two parameters
 
-		fontMap.load(fontImage, sf::Vector2u(2, 10), currentString, currentString.size(), 1);
+		fontMap.load(fontImage, sf::Vector2u(2, characterHeight), currentString, currentString.size(), 1);
 	}
 };

@@ -4,7 +4,7 @@
 #include <deque>
 #include "constExpressions.h"
 #include "view.h"
-#include "font.h"
+#include "menu.h"
 #include "devtools.h"
 #include "imageHandler.h"
 #include "character.h"
@@ -50,8 +50,9 @@ public:
 
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
-	Font font;
 	TextBox textBox;
+	TextBox importantTextBox;
+	Menu menu;
 
 	// Screenshot
 	bool onlyOnceHack{ true };
@@ -71,8 +72,18 @@ public:
 	void drawWaterTile();
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
+	void drawMenu();
 
-	void drawText(std::string string = "NOTEXT", sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), int scale = 1, int boundingWidth = 0);
+	void addText(
+		std::string string = "NOTEXT", 
+		sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), 
+		int scale = 1, 
+		int boundingWidth = 0,
+		bool background = true,
+		bool borders = true,
+		bool important = false
+	);
+	void drawText();
 
 	void m_groupDraw(sf::Vector2f direction);
 	void m_groupDraw(int dirX, int dirY);
@@ -86,6 +97,6 @@ public:
 	void setGameIcon();
 
 	void moveCharacters();
-	void drawDevToolsText();
+	void addDevToolsText();
 	//void initWaterTile();
 };
