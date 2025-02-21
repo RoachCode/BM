@@ -218,19 +218,32 @@ void Window::drawTileMapsFront()
 }
 
 // Sprite Functions
-void Window::sortSpriteVectorByHeight()
+Character& Window::getCharacterByOrder(int order)
 {
-	spriteVector.push_back(getCharacterByOrder(4).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
-	spriteVector.push_back(getCharacterByOrder(1).sprite);
-	std::sort(
-		spriteVector.begin(),
-		spriteVector.end(),
-		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
-		{
-			return sprite.getPosition().y < sprite2.getPosition().y;
-		});
+	if (arson.order == order) { return arson; }
+	else if (gaia.order == order) { return gaia; }
+	else if (cole.order == order) { return cole; }
+	else if (neko.order == order) { return neko; }
+	else { return arson; }
+}
+sf::Vector2i Window::getCharacterGridPosition()
+{
+	return sf::Vector2i(
+		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
+		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
+	);
+}
+void Window::pollMovement()
+{
+	moveCharacters();
+	sortSpriteVectorByHeight();
+	// bottleneck ahead, fix it.
+	this->setView
+	(
+		View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), 
+			intify(getCharacterByOrder(1).sprite.getPosition().y)), 
+			getCharacterByOrder(1).movementStepSize)
+	);
 }
 void Window::moveCharacters()
 {
@@ -365,28 +378,24 @@ void Window::moveCharacters()
 	getCharacterByOrder(4).checkTimeout();
 
 }
-sf::Vector2i Window::getGridPosition()
+void Window::sortSpriteVectorByHeight()
 {
-	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
-		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
-	);
+	spriteVector.push_back(getCharacterByOrder(4).sprite);
+	spriteVector.push_back(getCharacterByOrder(3).sprite);
+	spriteVector.push_back(getCharacterByOrder(2).sprite);
+	spriteVector.push_back(getCharacterByOrder(1).sprite);
+	std::sort(
+		spriteVector.begin(),
+		spriteVector.end(),
+		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		{
+			return sprite.getPosition().y < sprite2.getPosition().y;
+		});
 }
-void Window::pollMovement()
-{
-	moveCharacters();
-	sortSpriteVectorByHeight();
-	// bottleneck ahead, fix it.
-	this->setView(View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), intify(getCharacterByOrder(1).sprite.getPosition().y)), getCharacterByOrder(1).movementStepSize));
-}
-Character& Window::getCharacterByOrder(int order)
-{
-	if (arson.order == order) { return arson; }
-	else if (gaia.order == order) { return gaia; }
-	else if (cole.order == order) { return cole; }
-	else if (neko.order == order) { return neko; }
-	else { return arson; }
-}
+
+
+
+
 void Window::checkUnderlyingTile()
 {
 	for (int i = 1; i < 5; i++)
@@ -396,13 +405,13 @@ void Window::checkUnderlyingTile()
 		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (getTilePixels())) };
 		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
-		if (water.westKagarWater[arrayPos])
+		if (water.westKagarWater[arrayPos] && getCharacterByOrder(i).spriteColour != SpriteColor::Blue)
 		{
 			getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
 			getCharacterByOrder(i).textureUpdate();
 			getCharacterByOrder(i).movementStepSize = 1;
 		}
-		else
+		else if (getCharacterByOrder(i).spriteColour != SpriteColor::Default)
 		{
 			getCharacterByOrder(i).spriteColour = SpriteColor::Default;
 			getCharacterByOrder(i).textureUpdate();
@@ -434,16 +443,16 @@ void Window::checkUnderlyingTile()
 		getCharacterByOrder(4).movementStepSize = 4;
 	}
 }
-void Window::drawSprites()
+void Window::drawCharacterSprites()
 {
 	// get values from View class
 	int pixelSize{ getPixelSize() };
-
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y - (8 * pixelSize)));
+		sf::Vector2f spritePos(spriteVector[i].getPosition());
+		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y - (8 * pixelSize)));
 		this->draw(spriteVector[i]);
-		spriteVector[i].setPosition(pairF(spriteVector[i].getPosition().x, spriteVector[i].getPosition().y + (8 * pixelSize)));
+		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
 	}
 }
 
@@ -711,6 +720,9 @@ void Window::drawWaterTile()
 // Text Functions
 void Window::addDevToolsText()
 {
+	textBox.emptyContainers();
+	importantTextBox.emptyContainers();
+
 	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
@@ -721,7 +733,8 @@ void Window::addDevToolsText()
 	int devToolsTextSize{ 2 };
 	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);
 	//addText("LASTY", getViewCoordinates(DR), devToolsTextSize, 0, true, true, true);
-	addText("X: " + stringify(getGridPosition().x) + ", Y :" + stringify(getGridPosition().y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
+	sf::Vector2i posXY(getCharacterGridPosition());
+	addText("X: " + stringify(posXY.x) + ", Y :" + stringify(posXY.y), getViewCoordinates(UR), devToolsTextSize, 0, true, true, true);
 	if (this->DEV_TOOLS.wallToggleBool) { addText("NO WALLS", getViewCoordinates(DL), devToolsTextSize, 0, true, true, true); }
 }
 void Window::addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders, bool important)
