@@ -1,27 +1,6 @@
 ﻿#pragma once
 #include "window.h"
 
-
-// Test Globals
-
-
-void drawLightTest(Window& window)
-{
-	window.imageHandler.light.position.x = sf::Mouse::getPosition(window).x;
-	window.imageHandler.light.position.y = View::getScreenSize().y - sf::Mouse::getPosition(window).y;
-	//float offset = (TILE_SIZE / 2) * View::getPixelSize();
-	//sf::Vector2f charPos = window.getCharacterByOrder(1).sprite.getPosition();
-	//window.imageHandler.light.position.x = charPos.x + offset - View::getOriginOffset().x;
-	//window.imageHandler.light.position.y = View::getScreenSize().y - charPos.y - offset + View::getOriginOffset().y;
-	window.imageHandler.lights_shader.setUniform("light_pos", window.imageHandler.light.position);
-
-	sf::RenderStates states;
-	states.blendMode = sf::BlendMultiply;
-	states.shader = &window.imageHandler.lights_shader;
-	window.draw(sf::Sprite(window.imageHandler.tilemapRenderBack.getTexture()), states);
-
-}
-
 int main()
 {
     Window window;
@@ -78,26 +57,26 @@ int main()
 	//window.setMouseCursorVisible(false);
     while (window.isOpen())
     {
-        window.clear(sf::Color(50, 0, 50, 255));
+        window.clear(sf::Color(128, 128, 255, 255));
         window.pollEvents();
 		//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
         //window.drawFlow(cyanRivers);
 
 
 
-
+		//window.drawLights();
         window.drawTileMapsBack();
-		//window.drawSprites();
-        //window.drawWaterTile();
+		window.drawSprites();
+        window.drawWaterTile();
         window.drawTileMapsFront();
-		drawLightTest(window);
 
 
 
 
-        //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
+
+        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		window.addDevToolsText();
-		//window.drawText();
+		window.drawText();
 
 		//window.drawMenu();
 		//window.drawBattle();

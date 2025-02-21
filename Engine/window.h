@@ -100,7 +100,5 @@ public:
 	void moveCharacters();
 	void addDevToolsText();
 	//void initWaterTile();
-	void drawLights();
-	void drawTest();
-	void makeTest();
+	//void drawLights();
 };

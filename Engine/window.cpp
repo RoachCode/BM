@@ -176,8 +176,64 @@ void Window::pollEvents()
 }
 
 // Tilemap Functions
-void Window::drawTileMapsBack() { this->draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture())); }
-void Window::drawTileMapsFront() { this->draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture())); }
+void Window::drawTileMapsBack()
+{
+
+	//imageHandler.light.position.x = sf::Mouse::getPosition().x;
+	//imageHandler.light.position.y = View::getSceneSize().y - sf::Mouse::getPosition().y;
+	float offset = (TILE_SIZE / 2);
+	sf::Vector2f charPos = pairF
+	(
+		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
+		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
+	);
+	imageHandler.light.position.x = charPos.x;
+	imageHandler.light.position.y = charPos.y;
+	imageHandler.lights_shader.setUniform("light_pos", imageHandler.light.position);
+
+	imageHandler.lights_shader.setUniform("sampler_normal", imageHandler.pass_normals_back.getTexture());
+	imageHandler.backSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture()));
+
+	sf::RenderStates states;
+	states.blendMode = sf::BlendMultiply;
+	states.shader = &imageHandler.lights_shader;
+	//states.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	imageHandler.backSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderBack.getTexture()), states);
+
+	sf::RenderStates states2;
+	states2.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	imageHandler.backSceneRender.display();
+	this->draw(sf::Sprite(imageHandler.backSceneRender.getTexture()), states2);
+}
+void Window::drawTileMapsFront()
+{
+
+	//imageHandler.light.position.x = sf::Mouse::getPosition().x;
+	//imageHandler.light.position.y = View::getSceneSize().y - sf::Mouse::getPosition().y;
+	float offset = (TILE_SIZE / 2);
+	sf::Vector2f charPos = pairF
+	(
+		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
+		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
+	);
+	imageHandler.light.position.x = charPos.x;
+	imageHandler.light.position.y = charPos.y;
+	imageHandler.lights_shader.setUniform("light_pos", imageHandler.light.position);
+
+	imageHandler.lights_shader.setUniform("sampler_normal", imageHandler.pass_normals_front.getTexture());
+	imageHandler.frontSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture()));
+
+	sf::RenderStates states;
+	states.blendMode = sf::BlendMultiply;
+	states.shader = &imageHandler.lights_shader;
+	//states.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	imageHandler.frontSceneRender.draw(sf::Sprite(imageHandler.tilemapRenderFront.getTexture()), states);
+
+	sf::RenderStates states2;
+	states2.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
+	imageHandler.frontSceneRender.display();
+	this->draw(sf::Sprite(imageHandler.frontSceneRender.getTexture()), states2);
+}
 
 // Sprite Functions
 void Window::sortSpriteVectorByHeight()
@@ -642,8 +698,9 @@ void Window::drawFlow()
 void Window::drawWaterTile()
 {
 	// get values from View class
-	int pixelSize{ getPixelSize() };
+	int pixelSize{ View::getPixelSize() };
 	water.noise.noise.setScale(pixelSize, pixelSize);
+
 	// Is automatic, prints on tiles 89 and 90.
 	if (!menu.menuEnabled()) { water.update(); }
 
@@ -740,21 +797,3 @@ void Window::drawMenu()
 }
 
 // Light Functions
-void Window::drawLights()
-{
-
-}
-
-// Test Functions
-// Globals
-
-
-void Window::makeTest()
-{
-
-}
-
-void Window::drawTest()
-{
-
-}

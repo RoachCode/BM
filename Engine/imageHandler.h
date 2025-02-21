@@ -74,18 +74,25 @@ public:
     sf::RenderTexture tilemapRenderFront;
 
 	sf::Shader lights_shader;
-	sf::Shader normals_shader;
+	sf::Shader normals_shader_back;
+	sf::Shader normals_shader_front;
 
 	sf::Image tileNormalImage;
-	sf::RenderTexture normalsRender;
+	sf::RenderTexture normalsRenderBack;
+	sf::RenderTexture normalsRenderFront;
 
 	Light light;
 
 	sf::RenderTexture lightRender;
-	sf::RenderTexture pass_normals;
-	sf::Texture normal_map;
-	sf::Texture diffuse_map;
+	sf::RenderTexture pass_normals_back;
+	sf::RenderTexture pass_normals_front;
+	sf::Texture normal_map_back;
+	sf::Texture normal_map_front;
+	sf::Texture diffuse_map_back;
+	sf::Texture diffuse_map_front;
 	//sf::Sprite spriteT;
+	sf::RenderTexture backSceneRender;
+	sf::RenderTexture frontSceneRender;
 
     ImageHandler();
 
