@@ -54,7 +54,7 @@ private:
 		corner.setTexture(cornerTexture);
 		delete[] pixels;
 
-		corner.setScale(pixelSize, pixelSize);
+		corner.setScale(pairF(pixelSize, pixelSize));
 		//corner.setPosition(pairF(800, 600));
 	}
 	sf::Sprite corner;

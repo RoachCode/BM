@@ -6,33 +6,25 @@
 #include "../ImageResources/nekoImages.h"
 #include "constExpressions.h"
 
-class Character
+const char colorFrag[185] =
+"uniform sampler2D texture;"
+"uniform vec4 colorIn = vec4(1.0f, 1.0f, 1.0f, 1.0f);"
+"void main()"
+"{"
+// lookup the pixel in the texture
+"vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+
+// multiply it by the color
+"gl_FragColor = pixel * colorIn;"
+"}";
+
+struct ShaderSprite
 {
-private:
-    int m_id;
-    void m_clearBools();
-public:
     sf::Sprite sprite;
-    sf::Texture spriteTexture;
-    sf::Clock movementClock;
-    std::vector<uint8_t> currentTexture;
-    int spriteW;
-    int spriteH;
-    int spriteColour;
-    int order;
-    int animCode;
-    int movementStepSize;
-
-    Character(int id);
-    void textureUpdate();
-    void textureUpdate(bool& inputBool);
-    void pickArray();
-    void changeAnimationState(int x, int y, int pixelSize);
-    void swapOrder(Character& otherCharacter);
-    void follow(Character& otherCharacter, int movementStepSize);
-    void checkTimeout();
-    std::vector<int> coordVector;
-
+    sf::RenderStates renderStates;
+};
+struct AnimFlag
+{
     // Animation State Booleans
     bool downABool{ false };
     bool downBBool{ false };
@@ -68,4 +60,48 @@ public:
     bool deadLBool{ false };
     bool hitRBool{ false };
     bool hitLBool{ false };
+};
+
+class CharacterSprite
+{
+private:
+    int m_id;
+    void m_clearBools();
+
+public:
+    int width{ 0 };
+    int height{ 0 };
+    int animCode{ 0 };
+    ShaderSprite shaderSprite;
+    AnimFlag animFlag;
+    sf::Shader colorShader;
+    sf::Texture texture;
+    SpriteColor spriteColor;
+    sf::Clock movementClock;
+    std::vector<uint8_t> currentTextureVector;
+
+    CharacterSprite(int id);
+
+    void textureUpdate();
+    void textureUpdate(bool& inputBool);
+    void pickArray();
+    void changeAnimationState(int x, int y, int pixelSize);
+    void checkTimeout();
+    void setSpriteShader(SpriteColor colorEnum = SpriteColor::Default);
+};
+
+class Character
+{
+private:
+    int m_id;
+
+public:
+    int order;
+    int movementStepSize;
+    std::vector<int> coordVector;
+    CharacterSprite characterSprite;
+
+    Character(int id);
+    void swapOrder(Character& otherCharacter);
+    void follow(Character& otherCharacter, int movementStepSize);
 };

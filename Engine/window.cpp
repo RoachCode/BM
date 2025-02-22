@@ -75,6 +75,7 @@ void Window::pollEvents()
 				break;
 			case sf::Keyboard::Space:
 				menu.toggleMenu();
+				break;
 			default:
 				break;
 			}
@@ -183,8 +184,8 @@ void Window::assignLightToCharacterPosition(Light &light, sf::Shader &lightShade
 	float offset = (TILE_SIZE / 2);
 	sf::Vector2f charPos = pairF
 	(
-		getCharacterByOrder(1).sprite.getPosition().x / View::getPixelSize() + offset,
-		View::getSceneSize().y - (getCharacterByOrder(1).sprite.getPosition().y / View::getPixelSize()) - offset
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x / View::getPixelSize() + offset,
+		View::getSceneSize().y - (getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y / View::getPixelSize()) - offset
 	);
 	light.position.x = charPos.x;
 	light.position.y = charPos.y;
@@ -229,21 +230,20 @@ Character& Window::getCharacterByOrder(int order)
 sf::Vector2i Window::getCharacterGridPosition()
 {
 	return sf::Vector2i(
-		getCharacterByOrder(1).sprite.getPosition().x / (getTilePixels()),
-		getCharacterByOrder(1).sprite.getPosition().y / (getTilePixels())
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x / (getTilePixels()),
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y / (getTilePixels())
 	);
 }
 void Window::pollMovement()
 {
 	moveCharacters();
 	sortSpriteVectorByHeight();
-	// bottleneck ahead, fix it.
-	this->setView
+	sf::Vector2i charPos
 	(
-		View::moveViewByCharacter(pairI(intify(getCharacterByOrder(1).sprite.getPosition().x), 
-			intify(getCharacterByOrder(1).sprite.getPosition().y)), 
-			getCharacterByOrder(1).movementStepSize)
+		pairI(intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x), 
+			intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y))
 	);
+	this->setView(View::moveViewByCharacter(charPos, getCharacterByOrder(1).movementStepSize));
 }
 void Window::moveCharacters()
 {
@@ -256,8 +256,8 @@ void Window::moveCharacters()
 	spriteVector.clear();
 
 	sf::Vector2i pos{
-		pairI(intify(getCharacterByOrder(1).sprite.getPosition().x),
-			intify(getCharacterByOrder(1).sprite.getPosition().y))
+		pairI(intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x),
+			intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y))
 	};
 
 	int x{ 0 };
@@ -270,62 +270,62 @@ void Window::moveCharacters()
 		{
 			if (imageHandler.checkBounds(UP, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
 			}
 			else
 			{
-				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool);
-				getCharacterByOrder(1).animCode = 0;
+				getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.upBBool);
+				getCharacterByOrder(1).characterSprite.animCode = 0;
 			}
 		}
-		else if (up) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).upBBool); }
+		else if (up) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.upBBool); }
 		else if (down && pos.y < intify(sceneSize.y) * pixelSize - (tilePixels))
 		{
 			if (imageHandler.checkBounds(DOWN, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
 			}
 			else
 			{
-				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).downBBool);
-				getCharacterByOrder(1).animCode = 0;
+				getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.downBBool);
+				getCharacterByOrder(1).characterSprite.animCode = 0;
 			}
 		}
-		else if (down) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).downBBool); }
+		else if (down) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.downBBool); }
 		else if (left && pos.x > 0)
 		{
 			if (imageHandler.checkBounds(LEFT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
 			}
 			else
 			{
-				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool);
-				getCharacterByOrder(1).animCode = 0;
+				getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.leftBBool);
+				getCharacterByOrder(1).characterSprite.animCode = 0;
 			}
 		}
-		else if (left) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).leftBBool); }
+		else if (left) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.leftBBool); }
 		else if (right && pos.x < intify(sceneSize.x) * pixelSize - (tilePixels))
 		{
 			if (imageHandler.checkBounds(RIGHT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
 			}
 			else
 			{
-				getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).rightBBool);
-				getCharacterByOrder(1).animCode = 0;
+				getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.rightBBool);
+				getCharacterByOrder(1).characterSprite.animCode = 0;
 			}
 		}
-		else if (right) { getCharacterByOrder(1).textureUpdate(getCharacterByOrder(1).rightBBool); }
+		else if (right) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.rightBBool); }
 	}
 	else // auto complete movement until centered on a grid.
 	{
@@ -333,12 +333,12 @@ void Window::moveCharacters()
 		{
 			if (lastKeyRight)
 			{
-				getCharacterByOrder(1).sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				x = 1;
 			}
 			else if (lastKeyLeft)
 			{
-				getCharacterByOrder(1).sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
 				x = -1;
 			}
 		}
@@ -346,21 +346,19 @@ void Window::moveCharacters()
 		{
 			if (lastKeyUp)
 			{
-				getCharacterByOrder(1).sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
 				y = -1;
 			}
 			else if (lastKeyDown)
 			{
-				getCharacterByOrder(1).sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
 				y = 1;
 			}
 		}
 	}
 	if (x != 0 || y != 0)
 	{
-		getCharacterByOrder(1).changeAnimationState(x, y, pixelSize);
-
-		//getCharacterByOrder(1).coordVector.clear();
+		getCharacterByOrder(1).characterSprite.changeAnimationState(x, y, pixelSize);
 
 		getCharacterByOrder(1).coordVector.push_back(x);
 		getCharacterByOrder(1).coordVector.push_back(y);
@@ -372,59 +370,56 @@ void Window::moveCharacters()
 		checkUnderlyingTile();
 	}
 
-	getCharacterByOrder(1).checkTimeout();
-	getCharacterByOrder(2).checkTimeout();
-	getCharacterByOrder(3).checkTimeout();
-	getCharacterByOrder(4).checkTimeout();
+	getCharacterByOrder(1).characterSprite.checkTimeout();
+	getCharacterByOrder(2).characterSprite.checkTimeout();
+	getCharacterByOrder(3).characterSprite.checkTimeout();
+	getCharacterByOrder(4).characterSprite.checkTimeout();
 
 }
 void Window::sortSpriteVectorByHeight()
 {
-	spriteVector.push_back(getCharacterByOrder(4).sprite);
-	spriteVector.push_back(getCharacterByOrder(3).sprite);
-	spriteVector.push_back(getCharacterByOrder(2).sprite);
-	spriteVector.push_back(getCharacterByOrder(1).sprite);
+	spriteVector.push_back(getCharacterByOrder(4).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(3).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(2).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(1).characterSprite.shaderSprite);
 	std::sort(
 		spriteVector.begin(),
 		spriteVector.end(),
-		[](const sf::Sprite& sprite, const sf::Sprite& sprite2)
+		[](const ShaderSprite& shaderSprite1, const ShaderSprite& shaderSprite2)
 		{
-			return sprite.getPosition().y < sprite2.getPosition().y;
+			return shaderSprite1.sprite.getPosition().y < shaderSprite2.sprite.getPosition().y;
 		});
 }
-
-
-
 
 void Window::checkUnderlyingTile()
 {
 	for (int i = 1; i < 5; i++)
 	{
 		// Get Grid Position for each character
-		int x{ intify(getCharacterByOrder(i).sprite.getPosition().x / (getTilePixels())) };
-		int y{ intify(getCharacterByOrder(i).sprite.getPosition().y / (getTilePixels())) };
+		int x{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().x / (getTilePixels())) };
+		int y{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().y / (getTilePixels())) };
 		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
 		if (water.westKagarWater[arrayPos])
 		{
-			getCharacterByOrder(i).spriteColour = SpriteColor::Blue;
-			getCharacterByOrder(i).textureUpdate();
+			getCharacterByOrder(i).characterSprite.setSpriteShader(SpriteColor::Blue);
+			getCharacterByOrder(i).characterSprite.textureUpdate();
 			getCharacterByOrder(i).movementStepSize = 1;
 		}
-		else if (getCharacterByOrder(i).spriteColour != SpriteColor::Default)
+		else if (getCharacterByOrder(i).characterSprite.spriteColor != SpriteColor::Default)
 		{
-			getCharacterByOrder(i).spriteColour = SpriteColor::Default;
-			getCharacterByOrder(i).textureUpdate();
+			getCharacterByOrder(i).characterSprite.setSpriteShader(SpriteColor::Default);
+			getCharacterByOrder(i).characterSprite.textureUpdate();
 		}
 	}
 	// When everyone is out of the water and centered on the grid, back to fast movement.
 	
-	if (getCharacterByOrder(1).spriteColour == SpriteColor::Default &&
-		getCharacterByOrder(2).spriteColour == SpriteColor::Default &&
-		getCharacterByOrder(3).spriteColour == SpriteColor::Default &&
-		getCharacterByOrder(4).spriteColour == SpriteColor::Default &&
-		intify(getCharacterByOrder(1).sprite.getPosition().x) % (getTilePixels()) == 0 &&
-		intify(getCharacterByOrder(1).sprite.getPosition().y) % (getTilePixels()) == 0
+	if (getCharacterByOrder(1).characterSprite.spriteColor == SpriteColor::Default &&
+		getCharacterByOrder(2).characterSprite.spriteColor == SpriteColor::Default &&
+		getCharacterByOrder(3).characterSprite.spriteColor == SpriteColor::Default &&
+		getCharacterByOrder(4).characterSprite.spriteColor == SpriteColor::Default &&
+		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x) % (getTilePixels()) == 0 &&
+		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y) % (getTilePixels()) == 0
 		)
 	{
 		if (getCharacterByOrder(1).coordVector.size() > 16)
@@ -449,10 +444,10 @@ void Window::drawCharacterSprites()
 	int pixelSize{ getPixelSize() };
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
-		sf::Vector2f spritePos(spriteVector[i].getPosition());
-		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y - (8 * pixelSize)));
-		this->draw(spriteVector[i]);
-		spriteVector[i].setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
+		sf::Vector2f spritePos(spriteVector[i].sprite.getPosition());
+		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y - (8 * pixelSize)));
+		this->draw(spriteVector[i].sprite, spriteVector[i].renderStates);
+		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
 	}
 }
 

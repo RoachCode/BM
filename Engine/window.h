@@ -34,7 +34,7 @@ public:
 	bool right{};
 
 	// Holds all sprites
-	std::vector<sf::Sprite> spriteVector;
+	std::vector<ShaderSprite> spriteVector;
 
 	// Create class instances
 	Flow flow;
