@@ -12,10 +12,12 @@ CharacterSprite::CharacterSprite(int id) : m_id(id)
 
     // Load shaders
     colorShader.loadFromMemory(colorFrag, sf::Shader::Fragment);
+    outlineShader.loadFromMemory(outlineFrag, sf::Shader::Fragment);
     colorShader.setUniform("texture", sf::Shader::CurrentTexture);
+    outlineShader.setUniform("texture", sf::Shader::CurrentTexture);
 
     // Set sprite color (shader) and other renderstates
-    setSpriteShader();
+    setSpriteShader(SpriteColor::Outline);
     shaderSprite.sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 
     // Set sprite texture (with animation flag boolean)
@@ -28,13 +30,32 @@ void CharacterSprite::setSpriteShader(SpriteColor colorEnum)
     spriteColor = colorEnum;
     switch (colorEnum)
     {
-    case SpriteColor::Blue:
-        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(0, 0, 255, 255)));
-        shaderSprite.renderStates.shader = &colorShader;
-        break;
     case SpriteColor::Default:
         colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(255, 255, 255, 255)));
         shaderSprite.renderStates.shader = &colorShader;
+        break;
+    case SpriteColor::Blue:
+        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(20, 150, 255, 255)));
+        shaderSprite.renderStates.shader = &colorShader;
+        break;
+    case SpriteColor::Transparent:
+        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(255, 255, 255, 128)));
+        shaderSprite.renderStates.shader = &colorShader;
+        break;
+    case SpriteColor::Dark:
+        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(128, 128, 128, 255)));
+        shaderSprite.renderStates.shader = &colorShader;
+        break;
+    case SpriteColor::Black:
+        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(0, 0, 0, 255)));
+        shaderSprite.renderStates.shader = &colorShader;
+        break;
+    case SpriteColor::Inverted:
+        //outlineShader
+        break;
+    case SpriteColor::Outline:
+        outlineShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(0, 0, 0, 0)));
+        shaderSprite.renderStates.shader = &outlineShader;
         break;
     default:
         colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(255, 255, 255, 255)));
@@ -325,7 +346,7 @@ void CharacterSprite::pickArray()
         }
         else
         {
-            for (int i = 0; i < nekoDownA.size(); i++)
+            for (unsigned int i = 0; i < nekoDownA.size(); i++)
             {
                 if (animFlag.downABool) { currentTextureVector.push_back(nekoDownA[i]); }
                 else if (animFlag.downBBool) { currentTextureVector.push_back(nekoDownB[i]); }

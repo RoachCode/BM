@@ -41,7 +41,7 @@ public:
 		int pathCounter{ 0 }; //?
 		unsigned int dotCounter{ 0 }; //?
 		int lineCounter{ 0 }; // ?
-	ParticleSystem particles{ 30000 }; // Just for testing it out.
+	ParticleSystem particles{ 300 }; // Just for testing it out.
 	Water water;
 
 	Character arson{ intify(CharacterID::ArsonID) };

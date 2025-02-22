@@ -97,5 +97,6 @@ const enum SpriteColor
 	Black,
 	Transparent,
 	Blue,
-	Dark
+	Dark,
+	Outline
 };

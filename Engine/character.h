@@ -6,16 +6,25 @@
 #include "../ImageResources/nekoImages.h"
 #include "constExpressions.h"
 
-const char colorFrag[185] =
+const char colorFrag[170] =
 "uniform sampler2D texture;"
-"uniform vec4 colorIn = vec4(1.0f, 1.0f, 1.0f, 1.0f);"
+"uniform vec4 colorIn = vec4(1.0, 1.0, 1.0, 1.0);"
 "void main()"
 "{"
-// lookup the pixel in the texture
-"vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "gl_FragColor = pixel * colorIn;"
+"}";
 
-// multiply it by the color
-"gl_FragColor = pixel * colorIn;"
+const char outlineFrag[258] =
+"uniform sampler2D texture;"
+"uniform vec4 colorIn = vec4(1.0, 1.0, 1.0, 1.0);"
+"void main()"
+"{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "if (pixel.r < 0.1 && pixel.g < 0.1 && pixel.b < 0.1 && pixel.a > 0.5)"
+        "gl_FragColor = pixel;"
+    "else " 
+        "gl_FragColor.a = 0.0;"
 "}";
 
 struct ShaderSprite
@@ -75,6 +84,7 @@ public:
     ShaderSprite shaderSprite;
     AnimFlag animFlag;
     sf::Shader colorShader;
+    sf::Shader outlineShader;
     sf::Texture texture;
     SpriteColor spriteColor;
     sf::Clock movementClock;

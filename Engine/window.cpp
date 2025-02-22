@@ -252,9 +252,6 @@ void Window::moveCharacters()
 	int pixelSize{ getPixelSize() };
 	sf::Vector2u sceneSize{ getSceneSize() };
 
-	// clear previous configuration by clearing stack	
-	spriteVector.clear();
-
 	sf::Vector2i pos{
 		pairI(intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x),
 			intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y))
@@ -390,7 +387,6 @@ void Window::sortSpriteVectorByHeight()
 			return shaderSprite1.sprite.getPosition().y < shaderSprite2.sprite.getPosition().y;
 		});
 }
-
 void Window::checkUnderlyingTile()
 {
 	for (int i = 1; i < 5; i++)
@@ -406,7 +402,7 @@ void Window::checkUnderlyingTile()
 			getCharacterByOrder(i).characterSprite.textureUpdate();
 			getCharacterByOrder(i).movementStepSize = 1;
 		}
-		else if (getCharacterByOrder(i).characterSprite.spriteColor != SpriteColor::Default)
+		else if (getCharacterByOrder(i).characterSprite.spriteColor == SpriteColor::Blue)
 		{
 			getCharacterByOrder(i).characterSprite.setSpriteShader(SpriteColor::Default);
 			getCharacterByOrder(i).characterSprite.textureUpdate();
@@ -449,6 +445,8 @@ void Window::drawCharacterSprites()
 		this->draw(spriteVector[i].sprite, spriteVector[i].renderStates);
 		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
 	}
+	// clear previous configuration by clearing stack	
+	spriteVector.clear();
 }
 
 // Particle Functions
