@@ -6,33 +6,49 @@
 #include "../ImageResources/nekoImages.h"
 #include "constExpressions.h"
 
-class Character
+#pragma region SHADERS
+const char colorFrag[170] =
+"uniform sampler2D texture;"
+"uniform vec4 colorIn = vec4(1.0, 1.0, 1.0, 1.0);"
+"void main()"
+"{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "gl_FragColor = pixel * colorIn;"
+"}";
+
+const char outlineFrag[335] =
+"uniform sampler2D texture;"
+"uniform float blackThreshhold = 0.2;"
+"void main()"
+"{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "float grey = (pixel.r + pixel.g + pixel.b + 0.01) / 3.0;"
+    "if (grey < blackThreshhold && pixel.a > 0.5)"
+        "gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);"
+    "else "
+        "gl_FragColor = vec4(0.0, 0.0, 0.0, (1.0 - grey) / 2 * pixel.a);"
+"}";
+
+const char invertFrag[315] =
+"uniform sampler2D texture;"
+"uniform float blackThreshhold = 0.2;"
+"void main()"
+"{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "if (pixel.r < blackThreshhold && pixel.g < blackThreshhold && pixel.b < blackThreshhold)"
+        "gl_FragColor = pixel;"
+    "else "
+        "gl_FragColor = vec4(1.0 - pixel.r, 1.0 - pixel.g, 1.0 - pixel.b, pixel.a);"
+"}";
+#pragma endregion
+
+struct ShaderSprite
 {
-private:
-    int m_id;
-    void m_clearBools();
-public:
     sf::Sprite sprite;
-    sf::Texture spriteTexture;
-    sf::Clock movementClock;
-    std::vector<uint8_t> currentTexture;
-    int spriteW;
-    int spriteH;
-    int spriteColour;
-    int order;
-    int animCode;
-    int movementStepSize;
-
-    Character(int id);
-    void textureUpdate();
-    void textureUpdate(bool& inputBool);
-    void pickArray();
-    void changeAnimationState(int x, int y, int pixelSize);
-    void swapOrder(Character& otherCharacter);
-    void follow(Character& otherCharacter, int movementStepSize);
-    void checkTimeout();
-    std::vector<int> coordVector;
-
+    sf::RenderStates renderStates;
+};
+struct AnimFlag
+{
     // Animation State Booleans
     bool downABool{ false };
     bool downBBool{ false };
@@ -68,4 +84,48 @@ public:
     bool deadLBool{ false };
     bool hitRBool{ false };
     bool hitLBool{ false };
+};
+
+class CharacterSprite
+{
+private:
+    int m_id;
+    void m_clearAnimationFlags();
+    void m_setAnimationFlag(bool& inputBool);
+    const int m_getAnimationFlagIndex() const;
+
+public:
+    int width{ 0 };
+    int height{ 0 };
+    int animCode{ 0 };
+    ShaderSprite shaderSprite;
+    AnimFlag animFlag;
+    sf::Shader colorShader;
+    sf::Shader outlineShader;
+    sf::Shader invertShader;
+    sf::Texture textureAtlas;
+    SpriteColor spriteColor;
+    sf::Clock movementClock;
+
+    CharacterSprite(int id);
+    void textureUpdate();
+    void textureUpdate(bool& inputBool);
+    void changeAnimationState(int x, int y, int pixelSize);
+    void checkTimeout();
+    void setSpriteShader(SpriteColor colorEnum = SpriteColor::Default);
+    void buildTextureAtlas();
+};
+class Character
+{
+private:
+    int m_id;
+public:
+    int order;
+    int movementStepSize;
+    std::vector<int> coordVector;
+    CharacterSprite characterSprite;
+
+    Character(int id);
+    void swapOrder(Character& otherCharacter);
+    void follow(Character& otherCharacter, int movementStepSize);
 };
