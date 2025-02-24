@@ -6,40 +6,42 @@
 #include "box.h"
 #include "tilemap.h"
 
-class TextBox : protected View, protected Font
+class TextBox : protected View
 {
 private:
+	Font m_font;
+
 	void createText(std::string string, int maxTilesPerRow)
 	{
-		Font::currentString.clear();
+		m_font.currentString.clear();
 		for (size_t j = 0; j < string.length(); j++)
 		{
 			const char letter = string[j];
-			const int letterNumber{ Font::getRectOffset(letter) };
-			if (Font::getRectOffset(letter) < 195)
+			const int letterNumber{ m_font.getRectOffset(letter) };
+			if (m_font.getRectOffset(letter) < 195)
 			{
-				Font::currentString.push_back(letterNumber + 0);
-				Font::currentString.push_back(letterNumber + 1);
-				Font::currentString.push_back(letterNumber + 2);
+				m_font.currentString.push_back(letterNumber + 0);
+				m_font.currentString.push_back(letterNumber + 1);
+				m_font.currentString.push_back(letterNumber + 2);
 			}
-			else if (Font::getRectOffset(letter) < 219)
+			else if (m_font.getRectOffset(letter) < 219)
 			{
-				Font::currentString.push_back(letterNumber + 0);
-				Font::currentString.push_back(letterNumber + 1);
-				Font::currentString.push_back(letterNumber + 2);
-				Font::currentString.push_back(letterNumber + 3);
+				m_font.currentString.push_back(letterNumber + 0);
+				m_font.currentString.push_back(letterNumber + 1);
+				m_font.currentString.push_back(letterNumber + 2);
+				m_font.currentString.push_back(letterNumber + 3);
 			}
-			else if (Font::getRectOffset(letter) < 224)
+			else if (m_font.getRectOffset(letter) < 224)
 			{
-				Font::currentString.push_back(letterNumber + 0);
+				m_font.currentString.push_back(letterNumber + 0);
 			}
 			else
 			{
-				Font::currentString.push_back(letterNumber + 0);
-				Font::currentString.push_back(letterNumber + 1);
+				m_font.currentString.push_back(letterNumber + 0);
+				m_font.currentString.push_back(letterNumber + 1);
 			}
 			// kerning space (2 pixels)
-			if (j < string.length() - 1 && letter != ' ') { Font::currentString.push_back(78); }
+			if (j < string.length() - 1 && letter != ' ') { m_font.currentString.push_back(78); }
 
 			// check to see if the word will fit on this row (including following punctuation)
 			if (string[j] == ' ' && maxTilesPerRow != 0)
@@ -48,15 +50,15 @@ private:
 				int iterator{ 1 };
 				while (string[j + iterator] != ' ' && j + iterator < string.length())
 				{
-					if (Font::getRectOffset(letter) < 195)
+					if (m_font.getRectOffset(letter) < 195)
 					{
 						tilesInWord += 3;
 					}
-					else if (Font::getRectOffset(letter) < 219)
+					else if (m_font.getRectOffset(letter) < 219)
 					{
 						tilesInWord += 4;
 					}
-					else if (Font::getRectOffset(letter) < 224)
+					else if (m_font.getRectOffset(letter) < 224)
 					{
 						tilesInWord += 1;
 					}
@@ -73,19 +75,18 @@ private:
 				}
 
 				// get current position in the line
-				int tilePosition{ intify(Font::currentString.size()) };
+				int tilePosition{ intify(m_font.currentString.size()) };
 				while (tilePosition > maxTilesPerRow) { tilePosition -= maxTilesPerRow; }
 
 				// if the word won't fit, use kerning spaces to finish the line
 				if (tilePosition + tilesInWord > maxTilesPerRow)
 				{
 					int remainingTiles{ maxTilesPerRow - tilePosition };
-					for (int i = 0; i < remainingTiles; i++) { Font::currentString.push_back(78); }
+					for (int i = 0; i < remainingTiles; i++) { m_font.currentString.push_back(78); }
 				}
 			}
 		}
 	}
-
 public:
 	Box box;
 	std::vector<FontMap> fontContainer;
@@ -93,7 +94,7 @@ public:
 	void emptyContainers()
 	{
 		box.emptyContainers();
-		if (!fontContainer.empty()) { fontContainer.clear(); }
+		fontContainer.clear();
 	}
 	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 	{
@@ -107,7 +108,7 @@ public:
 		createText(string, maxTilesPerRow);
 		
 		// add blank characters to the end to complete the tilemap or shrink to fit
-		int messageTileCount{ intify(Font::currentString.size()) };
+		int messageTileCount{ intify(m_font.currentString.size()) };
 		int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
 		int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale }; // no longer takes in to account the shadow
 		if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
@@ -145,7 +146,7 @@ public:
 		}
 		while (messageTileCount % maxTilesPerRow != 0)
 		{
-			Font::currentString.push_back(78);
+			m_font.currentString.push_back(78);
 			messageTileCount += 1;
 		}
 
@@ -153,26 +154,25 @@ public:
 
 		const int width{ boundingWidth + box.margin * 2 };
 		// rows * 11 because text is 8 high plus 3 vertical gap. - 3 because no gap at the end.
-		const int height{ messageRows * Font::characterHeight * fontScale - 3 * fontScale + box.margin * 2 };
+		const int height{ messageRows * m_font.characterHeight * fontScale - 3 * fontScale + box.margin * 2 };
 		const sf::Vector2f pos(pairF(startPosition.x - box.margin, startPosition.y - box.margin));
 
 		if (background) { box.createBackground(pos, width, height); }
 		if (borders) { box.createBorders(pos, width, height); }
 
 		// create font map
-		Font::fontMap.setScale(pairF(fontScale, fontScale));
+		m_font.fontMap.setScale(pairF(fontScale, fontScale));
 
-		Font::fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
-		Font::setColor(sf::Color(44, 44, 44), true);
-		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
-		fontContainer.push_back(Font::fontMap);
+		m_font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
+		m_font.setColor(m_font.fontColorBlack, true);
+		m_font.fontMap.load(m_font.fontImage, sf::Vector2u(2, m_font.characterHeight), m_font.currentString, messageWidthInTiles, messageRows);
+		fontContainer.push_back(m_font.fontMap);
 
-		Font::fontMap.setPosition(startPosition);
-		Font::setColor(sf::Color(Font::textRed, Font::textGreen, Font::textBlue));
-		Font::fontMap.load(Font::fontImage, sf::Vector2u(2, Font::characterHeight), Font::currentString, messageWidthInTiles, messageRows);
-		fontContainer.push_back(Font::fontMap);
+		m_font.fontMap.setPosition(startPosition);
+		m_font.setColor(m_font.fontColor);
+		m_font.fontMap.load(m_font.fontImage, sf::Vector2u(2, m_font.characterHeight), m_font.currentString, messageWidthInTiles, messageRows);
+		fontContainer.push_back(m_font.fontMap);
 
 	}
-
 };
 

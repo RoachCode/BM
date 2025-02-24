@@ -3,845 +3,10 @@
 #include "constExpressions.h"
 #include "tilemap.h"
 
-/*
-class Font2
-{
-private:
-
-public:
-	sf::Uint8 textRed{ 255 };
-	sf::Uint8 textGreen{ 255 };
-	sf::Uint8 textBlue{ 255 };
-	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
-
-	// AthroughTildeData
-#pragma region
-	std::vector<bool> AthroughTildeData
-	{
-		// A
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// B
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-
-		// C
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// D
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-
-		// E
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 1,
-
-		// F
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-
-		// G
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// H
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// I
-		1, 1, 1, 1, 1, 1,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		1, 1, 1, 1, 1, 1,
-
-		// J
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// K
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 1, 1, 0, 0,
-		1, 1, 1, 1, 0, 0,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// L
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 1,
-
-		// M
-		1, 0, 0, 0, 0, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// N
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 0, 1, 1,
-		1, 1, 1, 0, 1, 1,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// O
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// P
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-
-		// Q
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-		0, 0, 0, 1, 1, 1,
-
-		// R
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// S
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 0, 0,
-		0, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 1, 0,
-		0, 0, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// T
-		1, 1, 1, 1, 1, 1,
-		1, 0, 1, 1, 0, 1,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// U
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// V
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 0, 1, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// W
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// X
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// Y
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 0, 0, 1, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// Z
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 0, 0, 1, 1, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 1,
-
-		// sp
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-
-		// 0
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 1, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// 1
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 1, 0, 0,
-		1, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		1, 1, 1, 1, 1, 1,
-
-		// 2
-		1, 1, 1, 1, 1, 0,
-		1, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 1, 1, 1,
-		0, 0, 1, 1, 1, 0,
-		0, 1, 1, 1, 0, 0,
-		1, 1, 1, 0, 0, 0,
-		1, 1, 1, 1, 1, 1,
-
-		// 3
-		1, 1, 1, 1, 1, 1,
-		1, 0, 0, 1, 1, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		1, 0, 0, 1, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// 4
-		0, 0, 0, 1, 1, 0,
-		0, 0, 1, 1, 1, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 1, 1, 1, 1,
-		0, 0, 0, 1, 1, 0,
-		0, 0, 0, 1, 1, 0,
-
-		// 5
-		1, 1, 1, 1, 1, 1,
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		0, 0, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// 6
-		0, 1, 1, 1, 1, 0,
-		1, 1, 1, 0, 0, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// 7
-		1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 1, 1,
-		0, 0, 0, 1, 1, 0,
-		1, 1, 1, 1, 1, 1,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 0,
-
-		// 8
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// 9
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		1, 0, 0, 1, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// a
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 0, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 1, 1,
-		1, 0, 0, 0, 1, 1,
-		0, 1, 1, 1, 0, 1,
-
-		// b
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-
-		// c
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// d
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-
-		// e
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// f
-		0, 0, 1, 1, 1, 1,
-		0, 1, 1, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		0, 1, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 0,
-		0, 1, 1, 1, 0, 0,
-
-		// g
-		0, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// h
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// i
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 1, 1, 1, 1, 0,
-
-		// j
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		1, 0, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// k
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 1, 1, 0, 0,
-		1, 1, 1, 0, 0, 0,
-		1, 1, 1, 1, 0, 0,
-		1, 1, 0, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-
-		// l
-		0, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 1, 0,
-
-		// m
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-
-		// n
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 0, 0, 0, 1,
-
-		// o
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// p
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-
-		// q
-		0, 1, 1, 1, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 1, 1,
-
-		// r
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 1, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 0, 0,
-
-		// s
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 0, 0, 0,
-		0, 0, 0, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// t
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		1, 1, 1, 1, 1, 1,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 1, 1, 0,
-
-		// u
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// v
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 0, 1, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// w
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		1, 1, 0, 1, 0, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// x
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-
-		// y
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 1,
-		0, 0, 0, 0, 1, 1, 
-		1, 0, 0, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// z
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 1, 1,
-		0, 0, 1, 1, 1, 0,
-		0, 1, 1, 1, 0, 0,
-		1, 1, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1,
-
-		// ?
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 1, 0, 0, 1, 1,
-		0, 0, 0, 1, 1, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// !
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 0,
-		0, 0, 1, 1, 0, 0,
-
-		// @
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 0, 1, 1,
-		1, 0, 0, 0, 0, 1,
-		1, 0, 1, 1, 0, 1,
-		1, 0, 1, 0, 1, 1,
-		1, 0, 1, 1, 1, 0,
-		1, 1, 0, 0, 0, 0,
-		0, 1, 1, 1, 1, 1,
-
-		// #
-		0, 0, 0, 1, 0, 1,
-		0, 0, 0, 1, 0, 1,
-		0, 1, 1, 1, 1, 1,
-		0, 0, 1, 0, 1, 0,
-		0, 0, 1, 0, 1, 0,
-		1, 1, 1, 1, 1, 1,
-		0, 1, 0, 1, 0, 0,
-		0, 1, 0, 1, 0, 0,
-
-		// $
-		0, 1, 1, 1, 1, 0,
-		1, 1, 0, 1, 1, 1,
-		1, 1, 0, 1, 0, 0,
-		0, 1, 1, 1, 0, 0,
-		0, 0, 1, 1, 1, 0,
-		0, 0, 1, 0, 1, 1,
-		1, 1, 1, 0, 1, 1,
-		0, 1, 1, 1, 1, 0,
-
-		// ~
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 1, 1, 0, 1,
-		0, 1, 0, 1, 1, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0
-
-
-	};
-	#pragma endregion
-	std::vector<bool> specialChars
-	{
-		// ^ SWORD
-		1, 0, 1, 1, 0, 0, 0, 0,
-		0, 1, 1, 0, 0, 0, 0, 0,
-		1, 1, 0, 1, 0, 0, 0, 0,
-		1, 0, 1, 0, 1, 0, 0, 0,
-		0, 0, 0, 1, 0, 1, 0, 0,
-		0, 0, 0, 0, 1, 0, 1, 0,
-		0, 0, 0, 0, 0, 1, 0, 1,
-		0, 0, 0, 0, 0, 0, 1, 1,
-
-		// | STAFF
-		0, 0, 1, 0, 0, 0, 0, 0,
-		0, 1, 0, 1, 0, 0, 0, 0,
-		1, 0, 0, 0, 1, 0, 0, 0,
-		0, 1, 0, 1, 1, 0, 0, 0,
-		0, 0, 1, 1, 1, 1, 0, 0,
-		0, 0, 0, 0, 1, 1, 1, 0,
-		0, 0, 0, 0, 0, 1, 1, 1,
-		0, 0, 0, 0, 0, 0, 1, 1,
-
-		// _ POTION
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 0, 0, 1, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 1, 1, 0,
-		1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1,
-		0, 1, 0, 0, 0, 0, 1, 0,
-		0, 0, 1, 1, 1, 1, 0, 0,
-
-		// < AXE
-		1, 1, 0, 0, 0, 0, 0, 0,
-		0, 1, 1, 0, 0, 0, 0, 0,
-		1, 0, 1, 1, 0, 0, 0, 0,
-		1, 0, 1, 1, 1, 0, 0, 0,
-		1, 0, 0, 0, 1, 1, 0, 0,
-		1, 1, 1, 1, 0, 1, 1, 0,
-		0, 0, 0, 0, 0, 0, 1, 1,
-		0, 0, 0, 0, 0, 0, 0, 1,
-
-		// = KEY
-		1, 0, 1, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0,
-		1, 0, 1, 0, 0, 0, 0, 0,
-		0, 0, 0, 1, 0, 0, 0, 0,
-		0, 0, 0, 0, 1, 0, 0, 0,
-		0, 0, 0, 0, 0, 1, 0, 0,
-		0, 0, 0, 0, 0, 1, 1, 0,
-		0, 0, 0, 0, 0, 1, 0, 1,
-
-		// { BOW
-		1, 1, 0, 0, 0, 0, 0, 0,
-		1, 0, 1, 0, 0, 0, 0, 0,
-		1, 0, 0, 1, 0, 0, 0, 0,
-		1, 1, 0, 0, 1, 0, 0, 0,
-		0, 1, 1, 0, 0, 1, 0, 0,
-		0, 0, 1, 1, 0, 0, 1, 0,
-		0, 0, 0, 1, 1, 0, 0, 1,
-		0, 0, 0, 0, 1, 1, 1, 1
-
-	};
-	std::vector<bool> punctuationChars
-	{
-		// :
-		0, 0,
-		0, 0,
-		1, 1,
-		1, 1,
-		0, 0,
-		1, 1,
-		1, 1,
-		0, 0,
-
-		// .
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		1, 1,
-		1, 1,
-
-		// ,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		1, 1,
-		1, 1,
-		0, 1,
-		1, 0
-	};
-	sf::Image fontImage;
-	sf::Image fontSpecialImage;
-	sf::Image fontPunctuationImage;
-	sf::Texture fontTexture;
-	sf::Texture fontSpecialTexture;
-	sf::Texture fontPunctuationTexture;
-
-	sf::Sprite charSprite;
-	// Sets character kerning
-	sf::Vector2f moveR{ sf::Vector2f(7.f, 0.f) };
-	sf::Vector2i addon{ sf::Vector2i(0, 0) };
-	Font2();
-	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(255, 120, 10)));
-	void setColor(sf::Color colorIn, bool ignoreReassign = false);
-	bool attachCharImageSubRectToSprite(char input);
-	sf::Vector2f getPos();
-	void setPos(sf::Vector2f newPos);
-	sf::Vector2f getStartPos();
-	void setStartPos(sf::Vector2f newPos = sf::Vector2f(50.f, 50.f));
-	void move(sf::Vector2f offset);
-	int getRectOffset(char input);
-	const sf::Color alphaKey{ sf::Color(69,69,69) };
-	void setCharTextureToSprite(int pixPerChar, int charCount, int width, sf::Image& image, sf::Texture& texture);
-	//virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;)
-
-	// Moving text to vertexArray
-	//sf::Vertex
-};
-*/
-
 class Font
 {
 private:
-
-public:
-	std::vector<bool> textCharacters
+	std::vector<bool> m_textCharacters
 	{
 		// A
 		0, 1, 1, 1, 1, 0,
@@ -1688,7 +853,7 @@ public:
 		0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0,
 	};
-	std::vector<bool> specialCharacters
+	std::vector<bool> m_specialCharacters
 	{
 
 		// ^ SWORD
@@ -1769,7 +934,7 @@ public:
 		0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	std::vector<bool> punctuationCharacters
+	std::vector<bool> m_punctuationCharacters
 	{
 		// :
 		0, 0,
@@ -1836,7 +1001,7 @@ public:
 		0, 0,
 		0, 0,
 	};
-	std::vector<bool> narrowCharacters
+	std::vector<bool> m_narrowCharacters
 	{		
 		// i
 		0, 1, 1, 0,
@@ -1877,48 +1042,12 @@ public:
 		0, 0, 0, 0,
 		0, 0, 0, 0,
 	};
+	sf::Texture m_fontTexture;
+	const sf::Color m_alphaKey{ sf::Color(69,69,69) };
 
-	sf::Image fontImage;
-	sf::Texture fontTexture;
-	sf::Uint8 textRed{ 255 };
-	sf::Uint8 textGreen{ 255 };
-	sf::Uint8 textBlue{ 255 };
-	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
-	const sf::Color alphaKey{ sf::Color(69,69,69) };
-	const int characterHeight{ 11 };
-
-	Font()
+	void m_createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(130, 190, 230)))
 	{
-		createFontImageAndTexture();
-		loadTileMap();
-	}
-
-	void setColor(sf::Color colorIn, bool ignoreReassign = false)
-	{
-		if (!ignoreReassign)
-		{
-			textRed = sf::Uint8(colorIn.r);
-			textGreen = sf::Uint8(colorIn.g);
-			textBlue = sf::Uint8(colorIn.b);
-		}
-
-		for (int i = 0; i < fontImage.getSize().x; i++)
-		{
-			for (int j = 0; j < fontImage.getSize().y; j++)
-			{
-				sf::Color color = fontImage.getPixel(i, j);
-				if (color.r != alphaKey.r && color.g != alphaKey.g && color.b != alphaKey.b)
-				{
-					fontImage.setPixel(i, j, colorIn);
-				}
-			}
-		}
-		fontTexture.loadFromImage(fontImage);
-	}
-
-	void createFontImageAndTexture(sf::Color color = sf::Color(sf::Color(130, 190, 230)))
-	{
-		const int fullWidth{ intify(textCharacters.size() + specialCharacters.size() + punctuationCharacters.size() + narrowCharacters.size()) / characterHeight };
+		const int fullWidth{ intify(m_textCharacters.size() + m_specialCharacters.size() + m_punctuationCharacters.size() + m_narrowCharacters.size()) / characterHeight };
 		fontImage.create(fullWidth, characterHeight);
 
 		const int pixPerText{ 66 };
@@ -1944,18 +1073,18 @@ public:
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
 			for (int j = 0; j < pixPerText; j++)
 			{
-				if (textCharacters[j + i * pixPerText] == true)
+				if (m_textCharacters[j + i * pixPerText] == true)
 				{
-					pixels[(j * 4) + 0] = textRed;
-					pixels[(j * 4) + 1] = textGreen;
-					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 0] = fontColor.r;
+					pixels[(j * 4) + 1] = fontColor.g;
+					pixels[(j * 4) + 2] = fontColor.b;
 					pixels[(j * 4) + 3] = sf::Uint8(255);
 				}
 				else
 				{
-					pixels[(j * 4) + 0] = alphaKey.r;
-					pixels[(j * 4) + 1] = alphaKey.g;
-					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 0] = m_alphaKey.r;
+					pixels[(j * 4) + 1] = m_alphaKey.g;
+					pixels[(j * 4) + 2] = m_alphaKey.b;
 					pixels[(j * 4) + 3] = sf::Uint8(0);
 				}
 			}
@@ -1974,18 +1103,18 @@ public:
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
 			for (int j = 0; j < pixPerSpec; j++)
 			{
-				if (specialCharacters[j + i * pixPerSpec] == true)
+				if (m_specialCharacters[j + i * pixPerSpec] == true)
 				{
-					pixels[(j * 4) + 0] = textRed;
-					pixels[(j * 4) + 1] = textGreen;
-					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 0] = fontColor.r;
+					pixels[(j * 4) + 1] = fontColor.g;
+					pixels[(j * 4) + 2] = fontColor.b;
 					pixels[(j * 4) + 3] = sf::Uint8(255);
 				}
 				else
 				{
-					pixels[(j * 4) + 0] = alphaKey.r;
-					pixels[(j * 4) + 1] = alphaKey.g;
-					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 0] = m_alphaKey.r;
+					pixels[(j * 4) + 1] = m_alphaKey.g;
+					pixels[(j * 4) + 2] = m_alphaKey.b;
 					pixels[(j * 4) + 3] = sf::Uint8(0);
 				}
 			}
@@ -2004,18 +1133,18 @@ public:
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
 			for (int j = 0; j < pixPerPunc; j++)
 			{
-				if (punctuationCharacters[j + i * pixPerPunc] == true)
+				if (m_punctuationCharacters[j + i * pixPerPunc] == true)
 				{
-					pixels[(j * 4) + 0] = textRed;
-					pixels[(j * 4) + 1] = textGreen;
-					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 0] = fontColor.r;
+					pixels[(j * 4) + 1] = fontColor.g;
+					pixels[(j * 4) + 2] = fontColor.b;
 					pixels[(j * 4) + 3] = sf::Uint8(255);
 				}
 				else
 				{
-					pixels[(j * 4) + 0] = alphaKey.r;
-					pixels[(j * 4) + 1] = alphaKey.g;
-					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 0] = m_alphaKey.r;
+					pixels[(j * 4) + 1] = m_alphaKey.g;
+					pixels[(j * 4) + 2] = m_alphaKey.b;
 					pixels[(j * 4) + 3] = sf::Uint8(0);
 				}
 			}
@@ -2034,18 +1163,18 @@ public:
 			sf::Uint8* pixels = new sf::Uint8[pixelCount * 4];
 			for (int j = 0; j < pixPerNarr; j++)
 			{
-				if (narrowCharacters[j + i * pixPerNarr] == true)
+				if (m_narrowCharacters[j + i * pixPerNarr] == true)
 				{
-					pixels[(j * 4) + 0] = textRed;
-					pixels[(j * 4) + 1] = textGreen;
-					pixels[(j * 4) + 2] = textBlue;
+					pixels[(j * 4) + 0] = fontColor.r;
+					pixels[(j * 4) + 1] = fontColor.g;
+					pixels[(j * 4) + 2] = fontColor.b;
 					pixels[(j * 4) + 3] = sf::Uint8(255);
 				}
 				else
 				{
-					pixels[(j * 4) + 0] = alphaKey.r;
-					pixels[(j * 4) + 1] = alphaKey.g;
-					pixels[(j * 4) + 2] = alphaKey.b;
+					pixels[(j * 4) + 0] = m_alphaKey.r;
+					pixels[(j * 4) + 1] = m_alphaKey.g;
+					pixels[(j * 4) + 2] = m_alphaKey.b;
 					pixels[(j * 4) + 3] = sf::Uint8(0);
 				}
 			}
@@ -2057,13 +1186,21 @@ public:
 
 		}
 
-		fontTexture.create(fullWidth, characterHeight);
-		fontTexture.loadFromImage(fontImage);
+		m_fontTexture.create(fullWidth, characterHeight);
+		m_fontTexture.loadFromImage(fontImage);
 		setColor(color);
 	}
 
+public:
+	const int characterHeight{ 11 };
+	sf::Color fontColor{ sf::Color::White };
+	sf::Color fontColorBlack{ sf::Color(44, 44, 44) };
+	sf::Vector2f startPos{ sf::Vector2f(50.f, 50.f) };
 	std::vector<int> currentString = { 0, 1, 2, 3, 4, 5 };
+	FontMap fontMap;
+	sf::Image fontImage;
 
+	Font() { m_createFontImageAndTexture(); }
 	int getRectOffset(char input)
 	{
 		switch (input)
@@ -2152,16 +1289,25 @@ public:
 			return -1;
 		}
 	};
-
-	FontMap fontMap;
-
-	//possibly unnecessary function?
-	void loadTileMap()
+	void setColor(sf::Color colorIn, bool ignoreReassign = false)
 	{
-		//fontMap.load(fontImage, sf::Vector2u(2, 8), placeholderArray, 6, 8);
-		fontMap.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
-		// how many tiles in width, how many tiles in height - are the last two parameters
+		if (!ignoreReassign)
+		{
+			fontColor = colorIn;
+		}
 
-		fontMap.load(fontImage, sf::Vector2u(2, characterHeight), currentString, currentString.size(), 1);
+		for (int i = 0; i < fontImage.getSize().x; i++)
+		{
+			for (int j = 0; j < fontImage.getSize().y; j++)
+			{
+				sf::Color color = fontImage.getPixel(i, j);
+				if (color.r != m_alphaKey.r && color.g != m_alphaKey.g && color.b != m_alphaKey.b)
+				{
+					fontImage.setPixel(i, j, colorIn);
+				}
+			}
+		}
+		m_fontTexture.loadFromImage(fontImage);
 	}
+
 };

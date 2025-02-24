@@ -65,12 +65,12 @@ int main()
         window.pollEvents();
 		window.addDevToolsText();
 
-        //window.drawTileMapsBack();
-        //window.drawWaterTile();
-		//window.drawCharacterSprites();
-        //window.drawTileMapsFront();
-        //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
-		//window.drawMenu();
+        window.drawTileMapsBack();
+        window.drawWaterTile();
+		window.drawCharacterSprites();
+        window.drawTileMapsFront();
+        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
+		window.drawMenu();
 		window.drawText();
 		//DEBUG(window.DEV_TOOLS.getFPS());
 		window.display();
