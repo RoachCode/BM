@@ -399,13 +399,12 @@ void Window::checkUnderlyingTile()
 		if (water.westKagarWater[arrayPos])
 		{
 			getCharacterByOrder(i).characterSprite.setSpriteShader(SpriteColor::Blue);
-			getCharacterByOrder(i).characterSprite.textureUpdate();
 			getCharacterByOrder(i).movementStepSize = 1;
 		}
 		else if (getCharacterByOrder(i).characterSprite.spriteColor == SpriteColor::Blue)
 		{
 			getCharacterByOrder(i).characterSprite.setSpriteShader(SpriteColor::Default);
-			getCharacterByOrder(i).characterSprite.textureUpdate();
+			// Movement is reset once everybody is out of the pool.
 		}
 	}
 	// When everyone is out of the water and centered on the grid, back to fast movement.

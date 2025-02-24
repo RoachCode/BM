@@ -4,6 +4,33 @@
 
 // CharacterSprite
 // Public
+CharacterSprite::CharacterSprite(int id) : m_id(id)
+{
+    // Define sprite size
+    width = TILE_SIZE;
+    height = TILE_SIZE;
+
+    // Build Texture Atlas and set to Sprite
+    buildTextureAtlas();
+    shaderSprite.sprite.setTexture(textureAtlas);
+
+    // Load shaders
+    colorShader.loadFromMemory(colorFrag, sf::Shader::Fragment);
+    outlineShader.loadFromMemory(outlineFrag, sf::Shader::Fragment);
+    invertShader.loadFromMemory(invertFrag, sf::Shader::Fragment);
+    colorShader.setUniform("texture", sf::Shader::CurrentTexture);
+    outlineShader.setUniform("texture", sf::Shader::CurrentTexture);
+    invertShader.setUniform("texture", sf::Shader::CurrentTexture);
+
+    // Set sprite color (shader) and other renderstates
+    setSpriteShader();
+    shaderSprite.sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
+
+    // Set sprite texture rect (with animation flag boolean)
+    m_clearAnimationFlags();
+    textureUpdate(animFlag.downABool);
+
+}
 void CharacterSprite::buildTextureAtlas()
 {
     //Currnet list of textures available: (bracketed means it is copied from another array)
@@ -65,32 +92,15 @@ void CharacterSprite::buildTextureAtlas()
     textureAtlas.create(TILE_SIZE * (textureArrayCount + copierOffset), TILE_SIZE);
     textureAtlas.loadFromImage(bigImage);
 }
-
-CharacterSprite::CharacterSprite(int id) : m_id(id)
+void CharacterSprite::textureUpdate()
 {
-    // Define sprite size
-    width = TILE_SIZE;
-    height = TILE_SIZE;
-
-    // Build Texture Atlas
-    buildTextureAtlas();
-
-    // Load shaders
-    colorShader.loadFromMemory(colorFrag, sf::Shader::Fragment);
-    outlineShader.loadFromMemory(outlineFrag, sf::Shader::Fragment);
-    invertShader.loadFromMemory(invertFrag, sf::Shader::Fragment);
-    colorShader.setUniform("texture", sf::Shader::CurrentTexture);
-    outlineShader.setUniform("texture", sf::Shader::CurrentTexture);
-    invertShader.setUniform("texture", sf::Shader::CurrentTexture);
-
-    // Set sprite color (shader) and other renderstates
-    setSpriteShader();
-    shaderSprite.sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
-
-    // Set sprite texture (with animation flag boolean)
-    m_clearBools();
-    textureUpdate(animFlag.downABool);
-
+    const int positionOffset{ m_getAnimationFlagIndex() };
+    shaderSprite.sprite.setTextureRect(sf::IntRect(positionOffset * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE));
+}
+void CharacterSprite::textureUpdate(bool& inputBool)
+{
+    m_setAnimationFlag(inputBool);
+    textureUpdate();
 }
 void CharacterSprite::setSpriteShader(SpriteColor colorEnum)
 {
@@ -129,310 +139,6 @@ void CharacterSprite::setSpriteShader(SpriteColor colorEnum)
         break;
     }
 }
-void CharacterSprite::textureUpdate()
-{
-    texture.create(width, height);
-    sf::Uint8* pixels = new sf::Uint8[width * height * 4];
-
-    uint8_t rw{ 255 };
-    uint8_t gw{ 0 };
-    uint8_t bw{ 0 };
-    uint8_t aw{ 255 };
-
-    for (int i = 0; i < width * height * 4; i += 4)
-    {
-        rw = currentTextureVector[0 + i];
-        gw = currentTextureVector[1 + i];
-        bw = currentTextureVector[2 + i];
-        aw = currentTextureVector[3 + i];
-
-        pixels[i + 0] = rw;
-        pixels[i + 1] = gw;
-        pixels[i + 2] = bw;
-        pixels[i + 3] = aw;
-    }
-    texture.update(pixels);
-    shaderSprite.sprite.setTexture(texture);
-
-    delete[] pixels;
-    currentTextureVector.clear();
-}
-void CharacterSprite::textureUpdate(bool& inputBool)
-{
-    m_clearBools();
-    inputBool = true;
-    pickArray();
-    textureUpdate();
-}
-void CharacterSprite::pickArray()
-{
-    // Copies the correct texture array to the currentTextureVector stack.
-    switch (m_id)
-    {
-    case 0:
-        break;
-    case 1: // Arson
-        for (unsigned int i = 0; i < arsonDownA.size(); i++)
-        { // Arson
-            if (animFlag.downABool) { currentTextureVector.push_back(arsonDownA[i]); }
-            else if (animFlag.downBBool) { currentTextureVector.push_back(arsonDownB[i]); }
-            else if (animFlag.downCBool) { currentTextureVector.push_back(arsonDownC[i]); }
-            else if (animFlag.upABool) { currentTextureVector.push_back(arsonUpA[i]); }
-            else if (animFlag.upBBool) { currentTextureVector.push_back(arsonUpB[i]); }
-            else if (animFlag.upCBool) { currentTextureVector.push_back(arsonUpC[i]); }
-            else if (animFlag.leftABool) { currentTextureVector.push_back(arsonLeftA[i]); }
-            else if (animFlag.leftBBool) { currentTextureVector.push_back(arsonLeftB[i]); }
-            else if (animFlag.leftCBool) { currentTextureVector.push_back(arsonLeftC[i]); }
-            else if (animFlag.rightABool) { currentTextureVector.push_back(arsonRightA[i]); }
-            else if (animFlag.rightBBool) { currentTextureVector.push_back(arsonRightB[i]); }
-            else if (animFlag.rightCBool) { currentTextureVector.push_back(arsonRightC[i]); }
-            else if (animFlag.frontBool) { currentTextureVector.push_back(arsonFront[i]); }
-            else if (animFlag.backBool) { currentTextureVector.push_back(arsonBack[i]); }
-            else if (animFlag.idleLBool) { currentTextureVector.push_back(arsonIdleL[i]); }
-            else if (animFlag.idleRBool) { currentTextureVector.push_back(arsonIdleR[i]); }
-            else if (animFlag.shrug1RBool) { currentTextureVector.push_back(arsonShrug1R[i]); }
-            else if (animFlag.shrug1LBool) { currentTextureVector.push_back(arsonShrug1L[i]); }
-            else if (animFlag.shrug2RBool) { currentTextureVector.push_back(arsonShrug2R[i]); }
-            else if (animFlag.shrug2LBool) { currentTextureVector.push_back(arsonShrug2L[i]); }
-            else if (animFlag.shrug2mouthRBool) { currentTextureVector.push_back(arsonShrug2mouthR[i]); }
-            else if (animFlag.shrug2mouthLBool) { currentTextureVector.push_back(arsonShrug2mouthL[i]); }
-            else if (animFlag.crawlRBool) { currentTextureVector.push_back(arsonCrawlR[i]); }
-            else if (animFlag.crawlLBool) { currentTextureVector.push_back(arsonCrawlL[i]); }
-            else if (animFlag.pointRBool) { currentTextureVector.push_back(arsonPointR[i]); }
-            else if (animFlag.pointLBool) { currentTextureVector.push_back(arsonPointL[i]); }
-            else if (animFlag.handsUpRBool) { currentTextureVector.push_back(arsonHandsUpR[i]); }
-            else if (animFlag.handsUpLBool) { currentTextureVector.push_back(arsonHandsUpL[i]); }
-            else if (animFlag.pushRBool) { currentTextureVector.push_back(arsonPushR[i]); }
-            else if (animFlag.pushLBool) { currentTextureVector.push_back(arsonPushL[i]); }
-            else if (animFlag.deadRBool) { currentTextureVector.push_back(arsonDeadR[i]); }
-            else if (animFlag.deadLBool) { currentTextureVector.push_back(arsonDeadL[i]); }
-            else if (animFlag.hitRBool) { currentTextureVector.push_back(arsonHitR[i]); }
-            else if (animFlag.hitLBool) { currentTextureVector.push_back(arsonHitL[i]); }
-        }
-        break;
-    case 2: // Gaia
-        if (animFlag.rightABool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(gaiaLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.rightBBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(gaiaLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-            break;
-        }
-        else if (animFlag.rightCBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(gaiaLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.idleRBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(gaiaIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else
-        {
-            for (unsigned int i = 0; i < gaiaDownA.size(); i++)
-            {
-                if (animFlag.downABool) { currentTextureVector.push_back(gaiaDownA[i]); }
-                else if (animFlag.downBBool) { currentTextureVector.push_back(gaiaDownB[i]); }
-                else if (animFlag.downCBool) { currentTextureVector.push_back(gaiaDownC[i]); }
-                else if (animFlag.upABool) { currentTextureVector.push_back(gaiaUpA[i]); }
-                else if (animFlag.upBBool) { currentTextureVector.push_back(gaiaUpB[i]); }
-                else if (animFlag.upCBool) { currentTextureVector.push_back(gaiaUpC[i]); }
-                else if (animFlag.leftABool) { currentTextureVector.push_back(gaiaLeftA[i]); }
-                else if (animFlag.leftBBool) { currentTextureVector.push_back(gaiaLeftB[i]); }
-                else if (animFlag.leftCBool) { currentTextureVector.push_back(gaiaLeftC[i]); }
-                else if (animFlag.frontBool) { currentTextureVector.push_back(gaiaFront[i]); }
-                else if (animFlag.backBool) { currentTextureVector.push_back(gaiaBack[i]); }
-                else if (animFlag.idleLBool) { currentTextureVector.push_back(gaiaIdleL[i]); }
-            }
-        }
-        break;
-    case 3: // Cole 
-        if (animFlag.rightABool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(coleLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.rightBBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(coleLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-            break;
-        }
-        else if (animFlag.rightCBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(coleLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.idleRBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(coleIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else
-        {
-            for (unsigned int i = 0; i < coleDownA.size(); i++)
-            {
-                if (animFlag.downABool) { currentTextureVector.push_back(coleDownA[i]); }
-                else if (animFlag.downBBool) { currentTextureVector.push_back(coleDownB[i]); }
-                else if (animFlag.downCBool) { currentTextureVector.push_back(coleDownC[i]); }
-                else if (animFlag.upABool) { currentTextureVector.push_back(coleUpA[i]); }
-                else if (animFlag.upBBool) { currentTextureVector.push_back(coleUpB[i]); }
-                else if (animFlag.upCBool) { currentTextureVector.push_back(coleUpC[i]); }
-                else if (animFlag.leftABool) { currentTextureVector.push_back(coleLeftA[i]); }
-                else if (animFlag.leftBBool) { currentTextureVector.push_back(coleLeftB[i]); }
-                else if (animFlag.leftCBool) { currentTextureVector.push_back(coleLeftC[i]); }
-                else if (animFlag.frontBool) { currentTextureVector.push_back(coleFront[i]); }
-                else if (animFlag.backBool) { currentTextureVector.push_back(coleBack[i]); }
-                else if (animFlag.idleLBool) { currentTextureVector.push_back(coleIdleL[i]); }
-            }
-        }
-        break;
-    case 4: // Neko
-        if (animFlag.rightABool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(nekoLeftA[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.rightBBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(nekoLeftB[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-            break;
-        }
-        else if (animFlag.rightCBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(nekoLeftC[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else if (animFlag.idleRBool)
-        {
-            for (int k = 0; k < TILE_SIZE; k++) // vertical count
-            {
-                for (int j = 0; j < 4 * TILE_SIZE; j += 4)
-                {
-                    currentTextureVector.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 3]);
-                    currentTextureVector.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 2]);
-                    currentTextureVector.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j - 1]);
-                    currentTextureVector.push_back(nekoIdleL[(k * TILE_SIZE * 4) + (4 * TILE_SIZE) - 1 - j]);
-                }
-            }
-        }
-        else
-        {
-            for (unsigned int i = 0; i < nekoDownA.size(); i++)
-            {
-                if (animFlag.downABool) { currentTextureVector.push_back(nekoDownA[i]); }
-                else if (animFlag.downBBool) { currentTextureVector.push_back(nekoDownB[i]); }
-                else if (animFlag.downCBool) { currentTextureVector.push_back(nekoDownC[i]); }
-                else if (animFlag.upABool) { currentTextureVector.push_back(nekoUpA[i]); }
-                else if (animFlag.upBBool) { currentTextureVector.push_back(nekoUpB[i]); }
-                else if (animFlag.upCBool) { currentTextureVector.push_back(nekoUpC[i]); }
-                else if (animFlag.leftABool) { currentTextureVector.push_back(nekoLeftA[i]); }
-                else if (animFlag.leftBBool) { currentTextureVector.push_back(nekoLeftB[i]); }
-                else if (animFlag.leftCBool) { currentTextureVector.push_back(nekoLeftC[i]); }
-                else if (animFlag.frontBool) { currentTextureVector.push_back(nekoFront[i]); }
-                else if (animFlag.backBool) { currentTextureVector.push_back(nekoBack[i]); }
-                else if (animFlag.idleLBool) { currentTextureVector.push_back(nekoIdleL[i]); }
-            }
-        }
-        break;
-    default:
-        break;
-    }
-}
 void CharacterSprite::changeAnimationState(int x, int y, int pixelSize)
 {
     const sf::Vector2f grid{
@@ -457,7 +163,6 @@ void CharacterSprite::changeAnimationState(int x, int y, int pixelSize)
             y = -1;
         }
     }
-
 
     int timeDelta{ 120 };
     sf::Time animateMovement = movementClock.getElapsedTime();
@@ -574,7 +279,6 @@ void CharacterSprite::checkTimeout()
     int time{ animateMovement.asMilliseconds() };
     if (time >= timeDelta)
     {
-
         if (animFlag.upABool || animFlag.upBBool || animFlag.upCBool)
         {
             textureUpdate(animFlag.upABool);
@@ -595,13 +299,11 @@ void CharacterSprite::checkTimeout()
             textureUpdate(animFlag.downABool);
             animCode = 0;
         }
-
-        //textureUpdate();
-
     }
 }
+
 // Private
-void CharacterSprite::m_clearBools()
+void CharacterSprite::m_clearAnimationFlags()
 {
     animFlag.downABool = false;
     animFlag.downBBool = false;
@@ -637,6 +339,32 @@ void CharacterSprite::m_clearBools()
     animFlag.deadLBool = false;
     animFlag.hitRBool = false;
     animFlag.hitLBool = false;
+}
+void CharacterSprite::m_setAnimationFlag(bool& inputBool)
+{
+    m_clearAnimationFlags();
+    inputBool = true;
+}
+const int CharacterSprite::m_getAnimationFlagIndex() const
+{
+    //UpA, UpB, UpC, DownA, DownB, DownC, LeftA, (RightA), LeftB, (RightB), LeftC, (RightC), IdleL, (IdleR), back, front
+    if (animFlag.upABool) { return 0; }
+    else if (animFlag.upBBool) { return 1; }
+    else if (animFlag.upCBool) { return 2; }
+    else if (animFlag.downABool) { return 3; }
+    else if (animFlag.downBBool) { return 4; }
+    else if (animFlag.downCBool) { return 5; }
+    else if (animFlag.leftABool) { return 6; }
+    else if (animFlag.rightABool) { return 7; }
+    else if (animFlag.leftBBool) { return 8; }
+    else if (animFlag.rightBBool) { return 9; }
+    else if (animFlag.leftCBool) { return 10; }
+    else if (animFlag.rightCBool) { return 11; }
+    else if (animFlag.idleLBool) { return 12; }
+    else if (animFlag.idleRBool) { return 13; }
+    else if (animFlag.backBool) { return 14; }
+    else if (animFlag.frontBool) { return 15; }
+    else { return 3; } //Default
 }
 
 // Character
