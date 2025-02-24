@@ -4,6 +4,11 @@
 
 // CharacterSprite
 // Public
+void CharacterSprite::buildTextureAtlas()
+{
+
+}
+
 CharacterSprite::CharacterSprite(int id) : m_id(id)
 {
     // Define sprite size
@@ -13,11 +18,13 @@ CharacterSprite::CharacterSprite(int id) : m_id(id)
     // Load shaders
     colorShader.loadFromMemory(colorFrag, sf::Shader::Fragment);
     outlineShader.loadFromMemory(outlineFrag, sf::Shader::Fragment);
+    invertShader.loadFromMemory(invertFrag, sf::Shader::Fragment);
     colorShader.setUniform("texture", sf::Shader::CurrentTexture);
     outlineShader.setUniform("texture", sf::Shader::CurrentTexture);
+    invertShader.setUniform("texture", sf::Shader::CurrentTexture);
 
     // Set sprite color (shader) and other renderstates
-    setSpriteShader(SpriteColor::Outline);
+    setSpriteShader();
     shaderSprite.sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 
     // Set sprite texture (with animation flag boolean)
@@ -43,18 +50,17 @@ void CharacterSprite::setSpriteShader(SpriteColor colorEnum)
         shaderSprite.renderStates.shader = &colorShader;
         break;
     case SpriteColor::Dark:
-        colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(128, 128, 128, 255)));
-        shaderSprite.renderStates.shader = &colorShader;
+        outlineShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(-255, -255, -255, 255)));
+        shaderSprite.renderStates.shader = &outlineShader;
         break;
     case SpriteColor::Black:
         colorShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(0, 0, 0, 255)));
         shaderSprite.renderStates.shader = &colorShader;
         break;
     case SpriteColor::Inverted:
-        //outlineShader
+        shaderSprite.renderStates.shader = &invertShader;
         break;
     case SpriteColor::Outline:
-        outlineShader.setUniform("colorIn", sf::Glsl::Vec4(sf::Color(0, 0, 0, 0)));
         shaderSprite.renderStates.shader = &outlineShader;
         break;
     default:

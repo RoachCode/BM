@@ -15,16 +15,29 @@ const char colorFrag[170] =
     "gl_FragColor = pixel * colorIn;"
 "}";
 
-const char outlineFrag[258] =
+const char outlineFrag[335] =
 "uniform sampler2D texture;"
-"uniform vec4 colorIn = vec4(1.0, 1.0, 1.0, 1.0);"
+"uniform float blackThreshhold = 0.2;"
 "void main()"
 "{"
     "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
-    "if (pixel.r < 0.1 && pixel.g < 0.1 && pixel.b < 0.1 && pixel.a > 0.5)"
+    "float grey = (pixel.r + pixel.g + pixel.b + 0.01) / 3.0;"
+    "if (grey < blackThreshhold && pixel.a > 0.5)"
+        "gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);"
+    "else "
+        "gl_FragColor = vec4(0.0, 0.0, 0.0, (1.0 - grey) / 2 * pixel.a);"
+"}";
+
+const char invertFrag[315] =
+"uniform sampler2D texture;"
+"uniform float blackThreshhold = 0.2;"
+"void main()"
+"{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "if (pixel.r < blackThreshhold && pixel.g < blackThreshhold && pixel.b < blackThreshhold)"
         "gl_FragColor = pixel;"
-    "else " 
-        "gl_FragColor.a = 0.0;"
+    "else "
+        "gl_FragColor = vec4(1.0 - pixel.r, 1.0 - pixel.g, 1.0 - pixel.b, pixel.a);"
 "}";
 
 struct ShaderSprite
@@ -85,6 +98,7 @@ public:
     AnimFlag animFlag;
     sf::Shader colorShader;
     sf::Shader outlineShader;
+    sf::Shader invertShader;
     sf::Texture texture;
     SpriteColor spriteColor;
     sf::Clock movementClock;
@@ -98,6 +112,7 @@ public:
     void changeAnimationState(int x, int y, int pixelSize);
     void checkTimeout();
     void setSpriteShader(SpriteColor colorEnum = SpriteColor::Default);
+    void buildTextureAtlas();
 };
 
 class Character
