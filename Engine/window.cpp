@@ -237,7 +237,7 @@ sf::Vector2i Window::getCharacterGridPosition()
 void Window::pollMovement()
 {
 	moveCharacters();
-	sortSpriteVectorByHeight();
+	//sortSpriteVectorByHeight();
 	sf::Vector2i charPos
 	(
 		pairI(intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x), 
@@ -375,10 +375,6 @@ void Window::moveCharacters()
 }
 void Window::sortSpriteVectorByHeight()
 {
-	spriteVector.push_back(getCharacterByOrder(4).characterSprite.shaderSprite);
-	spriteVector.push_back(getCharacterByOrder(3).characterSprite.shaderSprite);
-	spriteVector.push_back(getCharacterByOrder(2).characterSprite.shaderSprite);
-	spriteVector.push_back(getCharacterByOrder(1).characterSprite.shaderSprite);
 	std::sort(
 		spriteVector.begin(),
 		spriteVector.end(),
@@ -435,6 +431,13 @@ void Window::checkUnderlyingTile()
 }
 void Window::drawCharacterSprites()
 {
+	// populate sprites
+	spriteVector.push_back(getCharacterByOrder(4).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(3).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(2).characterSprite.shaderSprite);
+	spriteVector.push_back(getCharacterByOrder(1).characterSprite.shaderSprite);
+	sortSpriteVectorByHeight();
+
 	// get values from View class
 	int pixelSize{ getPixelSize() };
 	for (size_t i = 0; i < spriteVector.size(); i++)
