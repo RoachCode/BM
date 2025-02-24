@@ -141,6 +141,9 @@ void Window::pollEvents()
 			case sf::Keyboard::W:
 				DEV_TOOLS.wallToggle();
 				break;
+			case sf::Keyboard::F12:
+				saveScreenshot();
+				break;
 			default:
 				break;
 			}
@@ -174,6 +177,14 @@ void Window::pollEvents()
     }
 	// if the menu is closed, poll movement
 	if (!menu.menuEnabled()) { pollMovement(); }
+}
+void Window::saveScreenshot()
+{
+	Window& w = *this;
+	sf::Texture screenShotTexture;
+	screenShotTexture.create(w.getSize().x, w.getSize().y);
+	screenShotTexture.update(w);
+	screenShotTexture.copyToImage().saveToFile("screenshot.png");
 }
 
 // Tilemap and Lighting Functions
@@ -237,7 +248,6 @@ sf::Vector2i Window::getCharacterGridPosition()
 void Window::pollMovement()
 {
 	moveCharacters();
-	//sortSpriteVectorByHeight();
 	sf::Vector2i charPos
 	(
 		pairI(intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x), 
@@ -650,33 +660,14 @@ void Window::drawFullSimplex(sf::Vector2f direction)
 }
 
 // Flow Functions
-bool justOnce{ true }; // for screenshots
 void Window::drawFlow(FlowPreset& fp)
 {
 	flow.drawFlow(fp);
-
-				// screenshot
-				if (onlyOnceHack)
-				{
-
-					std::string filename = flow.currentName + ".png";
-					if (!flow.flowWindowTexture.getTexture().copyToImage().saveToFile(filename))
-					{
-						std::cout << "screenshot failed";
-					}
-					onlyOnceHack = false;
-				}
-
 	this->draw(flow.flowWindow);
-	
 }
 void Window::drawFlow()
 {
-	if (justOnce)
-	{
-		flow.drawFlow();
-		justOnce = false;
-	}
+	flow.drawFlow();
 	this->draw(flow.flowWindow);
 }
 

@@ -61,8 +61,8 @@ int main()
 
     while (window.isOpen())
     {
-        window.clear(sf::Color(128, 128, 255, 255));
         window.pollEvents();
+        window.clear(sf::Color(128, 128, 255, 255));
 		window.addDevToolsText();
 
         //window.drawTileMapsBack();
@@ -72,6 +72,7 @@ int main()
         //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
 		//window.drawMenu();
 		window.drawText();
+
 		//DEBUG(window.DEV_TOOLS.getFPS());
 		window.display();
     }

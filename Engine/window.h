@@ -37,35 +37,37 @@ public:
 	std::vector<ShaderSprite> spriteVector;
 
 	// Create class instances
-	Flow flow;
-		int pathCounter{ 0 }; //?
-		unsigned int dotCounter{ 0 }; //?
-		int lineCounter{ 0 }; // ?
-	ParticleSystem particles{ 300 }; // Just for testing it out.
-	Water water;
-
 	Character arson{ intify(CharacterID::ArsonID) };
 	Character gaia{ intify(CharacterID::GaiaID) };
 	Character cole{ intify(CharacterID::ColeID) };
 	Character neko{ intify(CharacterID::NekoID) };
 
+	Flow flow;
+	ParticleSystem particles{ 300 }; // [300] Just for testing it out.
+	Water water;
 	ImageHandler imageHandler;
 	DevTools DEV_TOOLS;
 	TextBox textBox;
 	TextBox importantTextBox;
 	Menu menu;
 
-	// Screenshot
-	bool onlyOnceHack{ true };
-
-	// Logic
+	// Events, keystates
 	void pollEvents();
+	void pollMovement();
+	void changeFalseLastKeyState(bool& lastKeyInput);
+	void saveScreenshot();
+
+	// Character
 	void refreshMovementBools();
 	Character& getCharacterByOrder(int order);
-	void pollMovement();
-
-	void drawTileMapsBack();
 	void assignLightToCharacterPosition(Light& light, sf::Shader &lightShader);
+	sf::Vector2i getCharacterGridPosition();
+	void sortSpriteVectorByHeight();
+	void checkUnderlyingTile();
+	void moveCharacters();
+
+	// Draw scenery
+	void drawTileMapsBack();
 	void drawFlow(FlowPreset& fp);
 	void drawFlow();
 	void drawParticles();
@@ -75,7 +77,16 @@ public:
 	void drawTileMapsFront();
 	void drawFullSimplex(sf::Vector2f direction = sf::Vector2f(0.f, 0.f));
 	void drawMenu();
+	void drawText();
 
+	// Cloud noise
+	void setPositionAndDraw(float x, float y);
+	void m_groupDraw(sf::Vector2f direction);
+	void m_groupDraw(int dirX, int dirY);
+	void m_groupDraw();
+
+	// Text, font
+	void addDevToolsText();
 	void addText(
 		std::string string = "NOTEXT", 
 		sf::Vector2f startPosition = sf::Vector2f(0.f, 0.f), 
@@ -85,20 +96,6 @@ public:
 		bool borders = true,
 		bool important = false
 	);
-	void drawText();
 
-	void m_groupDraw(sf::Vector2f direction);
-	void m_groupDraw(int dirX, int dirY);
-	void m_groupDraw();
-
-	sf::Vector2i getCharacterGridPosition();
-	void changeFalseLastKeyState(bool& lastKeyInput);
-	void sortSpriteVectorByHeight();
-	void setPositionAndDraw(float x, float y);
-	void checkUnderlyingTile();
 	void setGameIcon();
-
-	void moveCharacters();
-	void addDevToolsText();
-
 };
