@@ -100,6 +100,7 @@ public:
     sf::Shader outlineShader;
     sf::Shader invertShader;
     sf::Texture texture;
+    sf::Texture textureAtlas;
     SpriteColor spriteColor;
     sf::Clock movementClock;
     std::vector<uint8_t> currentTextureVector;

@@ -6,7 +6,64 @@
 // Public
 void CharacterSprite::buildTextureAtlas()
 {
+    //Currnet list of textures available: (bracketed means it is copied from another array)
+    //UpA, UpB, UpC, DownA, DownB, DownC, LeftA, (RightA), LeftB, (RightB), LeftC, (RightC), IdleL, (IdleR), back, front
+    int textureArrayCount{ 12 };
+    sf::Image bigImage;
+    // +4 is for the ones above in brackets.
+    bigImage.create(TILE_SIZE * (textureArrayCount + 4), TILE_SIZE, sf::Color::Transparent);
+    std::vector<std::vector<uint8_t>*> imageVectorsPtr;
+    // populate imageVectorsPtr with correct data (by character id)
+    switch (m_id)
+    {
+    case ArsonID:
+        imageVectorsPtr = 
+        {
+            &arsonUpA, &arsonUpB, &arsonUpC, &arsonDownA, &arsonDownB, &arsonDownC, 
+            &arsonLeftA, &arsonLeftB, &arsonLeftC, &arsonIdleL, &arsonBack, &arsonFront,
+        };
+        break;
+    case GaiaID:
+        imageVectorsPtr =
+        {
+            &gaiaUpA, &gaiaUpB, &gaiaUpC, &gaiaDownA, &gaiaDownB, &gaiaDownC,
+            &gaiaLeftA, &gaiaLeftB, &gaiaLeftC, &gaiaIdleL, &gaiaBack, &gaiaFront,
+        };
+        break;
+    case ColeID:
+        imageVectorsPtr =
+        {
+            &coleUpA, &coleUpB, &coleUpC, &coleDownA, &coleDownB, &coleDownC,
+            &coleLeftA, &coleLeftB, &coleLeftC, &coleIdleL, &coleBack, &coleFront,
+        };
+        break;
+    case NekoID:
+        imageVectorsPtr =
+        {
+            &nekoUpA, &nekoUpB, &nekoUpC, &nekoDownA, &nekoDownB, &nekoDownC,
+            &nekoLeftA, &nekoLeftB, &nekoLeftC, &nekoIdleL, &nekoBack, &nekoFront,
+        };
+        break;
+    default:
+        return;
+    }
 
+    // when copying a texture from another
+    int copierOffset{ 0 };
+
+    for (unsigned int i = 0; i < textureArrayCount; i++)
+    {
+        sf::Image image;
+        image.create(TILE_SIZE, TILE_SIZE, imageVectorsPtr[i]->data());
+        bigImage.copy(image, (i + copierOffset) * TILE_SIZE, 0);
+
+        // LeftA, LeftB, LeftC, IdleL
+        if (i == 6 || i == 7 || i == 8 || i == 9)
+        { image.flipHorizontally(); copierOffset += 1; bigImage.copy(image, (i + copierOffset) * TILE_SIZE, 0); }
+    }
+    imageVectorsPtr.clear();
+    textureAtlas.create(TILE_SIZE * (textureArrayCount + copierOffset), TILE_SIZE);
+    textureAtlas.loadFromImage(bigImage);
 }
 
 CharacterSprite::CharacterSprite(int id) : m_id(id)
@@ -14,6 +71,9 @@ CharacterSprite::CharacterSprite(int id) : m_id(id)
     // Define sprite size
     width = TILE_SIZE;
     height = TILE_SIZE;
+
+    // Build Texture Atlas
+    buildTextureAtlas();
 
     // Load shaders
     colorShader.loadFromMemory(colorFrag, sf::Shader::Fragment);
