@@ -41,6 +41,7 @@ private:
 		//new stuff to fixs bugs...
 		m_view.setSize(floatify(m_uniqueScreenSizeGridSize.x * m_tilePixels), floatify(m_uniqueScreenSizeGridSize.y * m_tilePixels));
 		m_view.setCenter(pairF(m_view.getSize().x / 2, m_view.getSize().y / 2));
+
 		m_originOffset = pairF(0.f, 0.f);
 	}
 	void m_setSceneSize()

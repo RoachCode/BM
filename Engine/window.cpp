@@ -15,7 +15,7 @@ Window::Window()
 	right = false;
 	
 	Noise::m_initSimplex(TILE_SIZE * TILES_PER_CHUNK_X, TILE_SIZE * TILES_PER_CHUNK_Y, 4);
-	importantTextBox.box.setAlpha(sf::Uint8(255));
+	importantTextBox.box.setBackgroundAlpha(sf::Uint8(255));
 }
 
 // Set Icon
@@ -712,8 +712,8 @@ void Window::addDevToolsText()
 	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
-	//textBox.box.setColor(sf::Color::Black);
-	//textBox.box.setAlpha(150);
+	//textBox.box.setBackgroundColor(sf::Color::Black);
+	//textBox.box.setBackgroundAlpha(150);
 	//addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
@@ -733,21 +733,17 @@ void Window::drawText()
 	// In this case, menu will need it's own text class, too. Or - it can use important without borders and backgrounds.
 	if (!menu.menuEnabled())
 	{
-		for (size_t i = 0; i < textBox.box.spriteContainerBlack.size(); i++) { this->draw(textBox.box.spriteContainerBlack[i]); }
-		this->draw(textBox.box.borderBlack);
+		this->draw(textBox.box.borderBlack, &textBox.box.cornerTextureBlack);
 		this->draw(textBox.box.background);
 		for (size_t i = 0; i < textBox.fontContainer.size(); i++) { this->draw(textBox.fontContainer[i]); }
-		this->draw(textBox.box.border);
-		for (size_t i = 0; i < textBox.box.spriteContainer.size(); i++) { this->draw(textBox.box.spriteContainer[i]); }
+		this->draw(textBox.box.border, &textBox.box.cornerTexture);
 	}
 	textBox.emptyContainers();
 
-	for (size_t i = 0; i < importantTextBox.box.spriteContainerBlack.size(); i++) { this->draw(importantTextBox.box.spriteContainerBlack[i]); }
-	this->draw(importantTextBox.box.borderBlack);
+	this->draw(importantTextBox.box.borderBlack, &importantTextBox.box.cornerTextureBlack);
 	this->draw(importantTextBox.box.background);
 	for (size_t i = 0; i < importantTextBox.fontContainer.size(); i++) { this->draw(importantTextBox.fontContainer[i]); }
-	this->draw(importantTextBox.box.border);
-	for (size_t i = 0; i < importantTextBox.box.spriteContainer.size(); i++) { this->draw(importantTextBox.box.spriteContainer[i]); }
+	this->draw(importantTextBox.box.border, &importantTextBox.box.cornerTexture);
 	importantTextBox.emptyContainers();
 }
 
@@ -758,21 +754,16 @@ void Window::drawMenu()
 	{
 		menu.createMenu();
 
-		for (size_t i = 0; i < menu.menuBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.menuBox.box.spriteContainerBlack[i]); }
-		this->draw(menu.menuBox.box.borderBlack);
+		this->draw(menu.menuBox.box.borderBlack, &menu.menuBox.box.cornerTextureBlack);
 		this->draw(menu.menuBox.box.background);
 		for (size_t i = 0; i < menu.menuBox.fontContainer.size(); i++) { this->draw(menu.menuBox.fontContainer[i]); }
-		this->draw(menu.menuBox.box.border);
-		for (size_t i = 0; i < menu.menuBox.box.spriteContainer.size(); i++) { this->draw(menu.menuBox.box.spriteContainer[i]); }
+		this->draw(menu.menuBox.box.border, &menu.menuBox.box.cornerTexture);
 		menu.menuBox.emptyContainers();
 
-		for (size_t i = 0; i < menu.alertBox.box.spriteContainerBlack.size(); i++) { this->draw(menu.alertBox.box.spriteContainerBlack[i]); }
-		this->draw(menu.alertBox.box.borderBlack);
+		this->draw(menu.alertBox.box.borderBlack, &menu.menuBox.box.cornerTextureBlack);
 		this->draw(menu.alertBox.box.background);
 		for (size_t i = 0; i < menu.alertBox.fontContainer.size(); i++) { this->draw(menu.alertBox.fontContainer[i]); }
-		this->draw(menu.alertBox.box.border);
-		for (size_t i = 0; i < menu.alertBox.box.spriteContainer.size(); i++) { this->draw(menu.alertBox.box.spriteContainer[i]); }
+		this->draw(menu.alertBox.box.border, &menu.menuBox.box.cornerTexture);
 		menu.alertBox.emptyContainers();
-
 	}
 }
