@@ -55,8 +55,8 @@ ImageHandler::ImageHandler()
     front.normalRender.create(intify(sceneSize.x), intify(sceneSize.y));
     front.sceneRender.create(intify(sceneSize.x), intify(sceneSize.y));
 
-    back.lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
-    front.lightRender.create(View::getScreenSize().x, View::getScreenSize().y);
+    back.lightRender.create(1, 1);
+    front.lightRender.create(1, 1);
 
     this->loadWestKagar();
 }
