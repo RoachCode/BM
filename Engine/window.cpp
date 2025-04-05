@@ -155,7 +155,7 @@ void Window::pollEvents()
 				particles.particleBool = true;
 				break;
 			case sf::Mouse::Middle:
-				View::resetZoom();
+				View::resetView();
 				break;
 			default:
 				break;
@@ -195,8 +195,8 @@ void Window::assignLightToCharacterPosition(Light &light, sf::Shader &lightShade
 	float offset = (TILE_SIZE / 2);
 	sf::Vector2f charPos = pairF
 	(
-		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x / View::getPixelSize() + offset,
-		View::getSceneSize().y - (getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y / View::getPixelSize()) - offset
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x + offset,
+		View::getSceneSize().y - getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y - offset
 	);
 	light.position.x = charPos.x;
 	light.position.y = charPos.y;
@@ -210,10 +210,7 @@ void Window::drawTileMapsBack()
 	// Draws diffuse scene and lights, blended
 	imageHandler.drawScene(imageHandler.back);
 
-	// Scale the scene, display it, and draw it to the window
-	sf::RenderStates windowStates;
-	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	this->draw(sf::Sprite(imageHandler.back.sceneRender.getTexture()), windowStates);
+	this->draw(sf::Sprite(imageHandler.back.sceneRender.getTexture()));
 }
 void Window::drawTileMapsFront()
 {
@@ -223,10 +220,7 @@ void Window::drawTileMapsFront()
 	// Draws diffuse scene and lights, blended
 	imageHandler.drawScene(imageHandler.front);
 
-	// Scale the scene, display it, and draw it to the window
-	sf::RenderStates windowStates;
-	windowStates.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
-	this->draw(sf::Sprite(imageHandler.front.sceneRender.getTexture()), windowStates);
+	this->draw(sf::Sprite(imageHandler.front.sceneRender.getTexture()));
 }
 
 // Sprite Functions
@@ -241,8 +235,8 @@ Character& Window::getCharacterByOrder(int order)
 sf::Vector2i Window::getCharacterGridPosition()
 {
 	return sf::Vector2i(
-		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x / (getTilePixels()),
-		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y / (getTilePixels())
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x / TILE_SIZE,
+		getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y / TILE_SIZE
 	);
 }
 void Window::pollMovement()
@@ -257,9 +251,6 @@ void Window::pollMovement()
 }
 void Window::moveCharacters()
 {
-	// get values from View class
-	int tilePixels{ getTilePixels() };
-	int pixelSize{ getPixelSize() };
 	sf::Vector2u sceneSize{ getSceneSize() };
 
 	sf::Vector2i pos{
@@ -271,13 +262,13 @@ void Window::moveCharacters()
 	int y{ 0 };
 
 	// If the main character is centered on a grid, accept movement input.
-	if (pos.x % (tilePixels) == 0 && pos.y % (tilePixels) == 0)
+	if (pos.x % TILE_SIZE == 0 && pos.y % TILE_SIZE == 0)
 	{
 		if (up && pos.y > 0)
 		{
-			if (imageHandler.checkBounds(UP, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(UP, pos / intify(TILE_SIZE)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize);
 				changeFalseLastKeyState(lastKeyUp);
 				y = -1;
 			}
@@ -288,11 +279,11 @@ void Window::moveCharacters()
 			}
 		}
 		else if (up) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.upBBool); }
-		else if (down && pos.y < intify(sceneSize.y) * pixelSize - (tilePixels))
+		else if (down && pos.y < intify(sceneSize.y) - TILE_SIZE)
 		{
-			if (imageHandler.checkBounds(DOWN, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(DOWN, pos / intify(TILE_SIZE)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize);
 				changeFalseLastKeyState(lastKeyDown);
 				y = 1;
 			}
@@ -305,9 +296,9 @@ void Window::moveCharacters()
 		else if (down) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.downBBool); }
 		else if (left && pos.x > 0)
 		{
-			if (imageHandler.checkBounds(LEFT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(LEFT, pos / intify(TILE_SIZE)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyLeft);
 				x = -1;
 			}
@@ -318,11 +309,11 @@ void Window::moveCharacters()
 			}
 		}
 		else if (left) { getCharacterByOrder(1).characterSprite.textureUpdate(getCharacterByOrder(1).characterSprite.animFlag.leftBBool); }
-		else if (right && pos.x < intify(sceneSize.x) * pixelSize - (tilePixels))
+		else if (right && pos.x < intify(sceneSize.x) - TILE_SIZE)
 		{
-			if (imageHandler.checkBounds(RIGHT, pos / intify(tilePixels)) || DEV_TOOLS.wallToggleBool)
+			if (imageHandler.checkBounds(RIGHT, pos / intify(TILE_SIZE)) || DEV_TOOLS.wallToggleBool)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize, 0);
 				changeFalseLastKeyState(lastKeyRight);
 				x = 1;
 			}
@@ -336,43 +327,43 @@ void Window::moveCharacters()
 	}
 	else // auto complete movement until centered on a grid.
 	{
-		if (pos.x % (tilePixels) != 0)
+		if (pos.x % TILE_SIZE != 0)
 		{
 			if (lastKeyRight)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(getCharacterByOrder(1).movementStepSize, 0);
 				x = 1;
 			}
 			else if (lastKeyLeft)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize * pixelSize, 0);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(-getCharacterByOrder(1).movementStepSize, 0);
 				x = -1;
 			}
 		}
-		else if (pos.y % (tilePixels) != 0)
+		else if (pos.y % TILE_SIZE != 0)
 		{
 			if (lastKeyUp)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, -getCharacterByOrder(1).movementStepSize);
 				y = -1;
 			}
 			else if (lastKeyDown)
 			{
-				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize * pixelSize);
+				getCharacterByOrder(1).characterSprite.shaderSprite.sprite.move(0, getCharacterByOrder(1).movementStepSize);
 				y = 1;
 			}
 		}
 	}
 	if (x != 0 || y != 0)
 	{
-		getCharacterByOrder(1).characterSprite.changeAnimationState(x, y, pixelSize);
+		getCharacterByOrder(1).characterSprite.changeAnimationState(x, y);
 
 		getCharacterByOrder(1).coordVector.push_back(x);
 		getCharacterByOrder(1).coordVector.push_back(y);
 
-		getCharacterByOrder(2).follow(getCharacterByOrder(1), pixelSize);
-		getCharacterByOrder(3).follow(getCharacterByOrder(2), pixelSize);
-		getCharacterByOrder(4).follow(getCharacterByOrder(3), pixelSize);
+		getCharacterByOrder(2).follow(getCharacterByOrder(1));
+		getCharacterByOrder(3).follow(getCharacterByOrder(2));
+		getCharacterByOrder(4).follow(getCharacterByOrder(3));
 		
 		checkUnderlyingTile();
 	}
@@ -398,8 +389,8 @@ void Window::checkUnderlyingTile()
 	for (int i = 1; i < 5; i++)
 	{
 		// Get Grid Position for each character
-		int x{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().x / (getTilePixels())) };
-		int y{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().y / (getTilePixels())) };
+		int x{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().x / TILE_SIZE) };
+		int y{ intify(getCharacterByOrder(i).characterSprite.shaderSprite.sprite.getPosition().y / TILE_SIZE) };
 		int arrayPos{ intify((TILES_PER_CHUNK_X * 4) * y + x) };
 
 		if (water.westKagarWater[arrayPos])
@@ -419,8 +410,8 @@ void Window::checkUnderlyingTile()
 		getCharacterByOrder(2).characterSprite.spriteColor == SpriteColor::Default &&
 		getCharacterByOrder(3).characterSprite.spriteColor == SpriteColor::Default &&
 		getCharacterByOrder(4).characterSprite.spriteColor == SpriteColor::Default &&
-		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x) % (getTilePixels()) == 0 &&
-		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y) % (getTilePixels()) == 0
+		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().x) % TILE_SIZE == 0 &&
+		intify(getCharacterByOrder(1).characterSprite.shaderSprite.sprite.getPosition().y) % TILE_SIZE == 0
 		)
 	{
 		if (getCharacterByOrder(1).coordVector.size() > 16)
@@ -448,14 +439,12 @@ void Window::drawCharacterSprites()
 	spriteVector.push_back(getCharacterByOrder(1).characterSprite.shaderSprite);
 	sortSpriteVectorByHeight();
 
-	// get values from View class
-	int pixelSize{ getPixelSize() };
 	for (size_t i = 0; i < spriteVector.size(); i++)
 	{
 		sf::Vector2f spritePos(spriteVector[i].sprite.getPosition());
-		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y - (8 * pixelSize)));
+		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y - 8));
 		this->draw(spriteVector[i].sprite, spriteVector[i].renderStates);
-		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y + (8 * pixelSize)));
+		spriteVector[i].sprite.setPosition(pairF(spritePos.x, spritePos.y + 8));
 	}
 	// clear previous configuration by clearing stack	
 	spriteVector.clear();
@@ -480,122 +469,43 @@ void Window::drawParticles(sf::Color color)
 // Noise Functions
 void Window::setPositionAndDraw(float x, float y)
 {
-	// get values from View class
-	int pixelSize{ getPixelSize() };
 	sf::Vector2f noiseOrigin = pairF(x, y);
 
-	// Row 0
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 0), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y + (noise.getSize().y * pixelSize * -1)));
-	this->draw(noise);
-
-	// Row 1
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y));
-	this->draw(noise);
-	// Drawn in previous function
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y));
-	this->draw(noise);
-
-	// Row 2
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 0), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y + (noise.getSize().y * pixelSize * 1)));
-	this->draw(noise);
-
-	// Row 3
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 0), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y + (noise.getSize().y * pixelSize * 2)));
-	this->draw(noise);
-
-	// Row 4
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 0), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y + (noise.getSize().y * pixelSize * 3)));
-	this->draw(noise);
-
-	// Row 5
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * -1), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 0), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 1), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 2), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 3), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
-	noise.setPosition(sf::Vector2f(x + (noise.getSize().x * pixelSize * 4), y + (noise.getSize().y * pixelSize * 4)));
-	this->draw(noise);
+	for (int i = -1; i < 5; i++)
+	{
+		for (int j = -1; j < 5; j++)
+		{
+			noise.setPosition(sf::Vector2f(x + (noise.getSize().x * i), y + (noise.getSize().y * j)));
+			this->draw(noise);
+		}
+	}
 }
 void Window::m_groupDraw(sf::Vector2f direction)
 {
-	// get values from View class
-	int pixelSize{ getPixelSize() };
-
 	noise.move(direction);
 	sf::Vector2f noiseOrigin = noise.getPosition();
 
-	if (noise.getPosition().x < noise.getSize().x * -pixelSize)
+	if (noise.getPosition().x < -noise.getSize().x)
 	{
 		noise.setPosition(direction.x, noise.getPosition().y);
 		noiseOrigin = noise.getPosition();
 	}
-	else if (noise.getPosition().x > noise.getSize().x * pixelSize)
+	else if (noise.getPosition().x > noise.getSize().x)
 	{
 		noise.setPosition(-direction.x, noise.getPosition().y);
 		noiseOrigin = noise.getPosition();
 	}
-	if (noise.getPosition().y < noise.getSize().y * -pixelSize)
+	if (noise.getPosition().y < -noise.getSize().y)
 	{
 		noise.setPosition(noise.getPosition().x, direction.y);
 		noiseOrigin = noise.getPosition();
 	}
-	else if (noise.getPosition().y > noise.getSize().y * pixelSize)
+	else if (noise.getPosition().y > noise.getSize().y)
 	{
 		noise.setPosition(noise.getPosition().x, -direction.y);
 		noiseOrigin = noise.getPosition();
 	}
-	this->draw(noise);
+
 	setPositionAndDraw(noiseOrigin.x, noiseOrigin.y);
 	noise.setPosition(noiseOrigin);
 }
@@ -613,49 +523,8 @@ void Window::drawFullSimplex(sf::Vector2f direction)
 {
 	if (menu.menuEnabled()) { direction = pairF(0, 0); }
 
-	// get values from View class
-	int pixelSize{ getPixelSize() };
 
-	noise.setScale(sf::Vector2f(pixelSize, pixelSize));
-
-	simplexMovementCollector.x = simplexMovementCollector.x + direction.x;
-	simplexMovementCollector.y = simplexMovementCollector.y + direction.y;
-	if ((simplexMovementCollector.x >= pixelSize) && (simplexMovementCollector.y >= pixelSize))
-	{
-		simplexMovementCollector.x = 0.f;
-		simplexMovementCollector.y = 0.f;
-		m_groupDraw(sf::Vector2f(pixelSize, pixelSize));
-	}
-	else if (simplexMovementCollector.x >= pixelSize)
-	{
-		simplexMovementCollector.x = 0.f;
-		m_groupDraw(sf::Vector2f(pixelSize, 0));
-	}
-	else if (simplexMovementCollector.y >= pixelSize)
-	{
-		simplexMovementCollector.y = 0.f;
-		m_groupDraw(sf::Vector2f(0, pixelSize));
-	}
-	else if ((simplexMovementCollector.x <= -pixelSize) && (simplexMovementCollector.y <= -pixelSize))
-	{
-		simplexMovementCollector.x = 0.f;
-		simplexMovementCollector.y = 0.f;
-		m_groupDraw(sf::Vector2f(-pixelSize, -pixelSize));
-	}
-	else if (simplexMovementCollector.x <= -pixelSize)
-	{
-		simplexMovementCollector.x = 0.f;
-		m_groupDraw(sf::Vector2f(-pixelSize, 0));
-	}
-	else if (simplexMovementCollector.y <= -pixelSize)
-	{
-		simplexMovementCollector.y = 0.f;
-		m_groupDraw(sf::Vector2f(0, -pixelSize));
-	}
-	else
-	{
-		m_groupDraw();
-	}
+	m_groupDraw(direction);
 
 }
 
@@ -674,25 +543,17 @@ void Window::drawFlow()
 // Water Functions
 void Window::drawWaterTile()
 {
-	// get values from View class
-	int pixelSize{ View::getPixelSize() };
-	water.noise.noise.setScale(pixelSize, pixelSize);
-
 	// Is automatic, prints on tiles 89 and 90.
 	if (!menu.menuEnabled()) { water.update(); }
-
-	//FontMap waterTileMap;
-	//waterTileMap.load(water.waterAnimationFrames, sf::Vector2u(32, 32), water.westKagarWater, TILES_PER_CHUNK_X * 4, TILES_PER_CHUNK_Y * 4);
-	//draw(waterTileMap);
 	
-	// change to vertexbuffer ?
+	// todo change to vertexbuffer ?
 	for (int i = 0; i < TILES_PER_CHUNK_X * 4; i++)
 	{
 		for (int j = 0; j < TILES_PER_CHUNK_Y * 4; j++)
 		{
 			if (water.westKagarWater[i + j * (TILES_PER_CHUNK_X * 4)])
 			{
-				water.noise.noise.setPosition(water.width * pixelSize * i, water.height * pixelSize * j);
+				water.noise.noise.setPosition(water.width * i, water.height * j);
 				draw(water.noise.noise, sf::BlendMultiply); // pretty cool with the blend multiply
 			}
 		}
@@ -700,7 +561,6 @@ void Window::drawWaterTile()
 
 	//reset
 	water.noise.noise.setPosition(0, 0);
-
 }
 
 // Text Functions
@@ -709,12 +569,12 @@ void Window::addDevToolsText()
 	textBox.emptyContainers();
 	importantTextBox.emptyContainers();
 
-	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
-	//textBox.box.setBackgroundColor(sf::Color::Black);
-	//textBox.box.setBackgroundAlpha(150);
-	//addText(longString, pairF(250, 250), 1, 800);
+	textBox.box.setBackgroundColor(sf::Color::Black);
+	textBox.box.setBackgroundAlpha(150);
+	addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
 	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);

@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
-#include "view.h"
+
 /*
 class Light : public sf::Drawable, public View
 {

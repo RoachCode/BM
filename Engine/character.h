@@ -110,7 +110,7 @@ public:
     CharacterSprite(int id);
     void textureUpdate();
     void textureUpdate(bool& inputBool);
-    void changeAnimationState(int x, int y, int pixelSize);
+    void changeAnimationState(int x, int y);
     void checkTimeout();
     void setSpriteShader(SpriteColor colorEnum = SpriteColor::Default);
     void buildTextureAtlas();
@@ -127,5 +127,5 @@ public:
 
     Character(int id);
     void swapOrder(Character& otherCharacter);
-    void follow(Character& otherCharacter, int movementStepSize);
+    void follow(Character& otherCharacter);
 };

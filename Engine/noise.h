@@ -3,7 +3,6 @@
 #include "OpenSimplexNoise.h"
 #include "constExpressions.h"
 
-
 class Noise
 {
 public:
@@ -29,7 +28,7 @@ public:
 
 	// For fullscreen cloud noise
 	int simplexStepper;
-	sf::Vector2f simplexMovementCollector;
+	//sf::Vector2f simplexMovementCollector;
 
 	sf::RectangleShape noise;
 	sf::Texture noiseTexture;

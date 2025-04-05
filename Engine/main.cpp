@@ -44,7 +44,7 @@ int main()
 		0,          // blue  ----------- [125, 255]
 		40,         // alpha ----------- [0, 255]
 		200,        // line length ----- [1, 1000000] BIG NUMBERS MAKE LINES LONG AND RENDERING SLOW.
-		floatify(window.getPixelSize() * 4),   // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
+		4.f,   // step size ------- [0.001, 10] OUTSIDE OF THESE BOUNDS WILL LOOK WEIRD. SMALLER IS BETTER RESOLUTION, AND SLOWER.
 		4,          // num of lines wide [0, 300] BIG NUMBER MAKES IT SLOW
 		8,          // num of lines high [0, 300] BIG NUMBER MAKES IT SLOW
 		4
@@ -52,8 +52,8 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
-	//window.setMouseCursorVisible(false);
+	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	window.setMouseCursorVisible(false);
 
 	//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
     //window.drawFlow(cyanRivers);

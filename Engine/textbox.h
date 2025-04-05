@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "constExpressions.h"
-#include "view.h"
 #include "font.h"
+#include "view.h"
 #include "box.h"
 #include "tilemap.h"
 
@@ -98,19 +98,15 @@ public:
 	}
 	void addText(std::string string, sf::Vector2f startPosition, int scale, int boundingWidth, bool background, bool borders)
 	{
-		// get values from View class
-		int pixelSize{ getPixelSize() };
-		const int fontScale{ scale * pixelSize };
-
 		// tiles are two pixels wide
-		int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * fontScale) };
+		int maxTilesPerRow{ (boundingWidth == 0) ? 0 : boundingWidth / (2 * scale) };
 
 		createText(string, maxTilesPerRow);
 		
 		// add blank characters to the end to complete the tilemap or shrink to fit
 		int messageTileCount{ intify(m_font.currentString.size()) };
 		int messageWidthInTiles{ messageTileCount > maxTilesPerRow && maxTilesPerRow != 0 ? maxTilesPerRow : messageTileCount };
-		int messageWidthInPixels{ messageWidthInTiles * 2 * fontScale }; // no longer takes in to account the shadow
+		int messageWidthInPixels{ messageWidthInTiles * 2 * scale }; // no longer takes in to account the shadow
 		if (messageWidthInPixels < boundingWidth) { boundingWidth = messageWidthInPixels; }
 
 		// If no bounding box was specified, stay in the view.
@@ -121,7 +117,7 @@ public:
 
 			const int margin{ (borders || background ) ? box.margin : 0 };
 			const int lineThickness{ (borders || background) ? box.lineThickness : 0 };
-			const int edgeOffset{ margin + lineThickness + fontScale * 2 };
+			const int edgeOffset{ margin + lineThickness + scale * 2 };
 
 			// Bounds Right
 			if (intify(startPosition.x) + messageWidthInPixels + edgeOffset > intify(getViewCoordinates(UR).x))
@@ -134,9 +130,9 @@ public:
 				startPosition.x = getViewCoordinates(UL).x + edgeOffset;
 			}
 			// Bounds Bottom (this is 8 because that's the height of the generic characters)
-			if (intify(startPosition.y) + 8 * fontScale + edgeOffset > intify(getViewCoordinates(DR).y))
+			if (intify(startPosition.y) + 8 * scale + edgeOffset > intify(getViewCoordinates(DR).y))
 			{
-				startPosition.y = floatify(getViewCoordinates(DR).y - (8 * fontScale) - edgeOffset);
+				startPosition.y = floatify(getViewCoordinates(DR).y - (8 * scale) - edgeOffset);
 			}
 			// Bounds Top
 			if (intify(startPosition.y) - edgeOffset < getViewCoordinates(UL).y)
@@ -154,16 +150,16 @@ public:
 
 		const int width{ boundingWidth + box.margin * 2 };
 		// rows * 11 because text is 8 high plus 3 vertical gap. - 3 because no gap at the end.
-		const int height{ messageRows * m_font.characterHeight * fontScale - 3 * fontScale + box.margin * 2 };
+		const int height{ messageRows * m_font.characterHeight * scale - 3 * scale + box.margin * 2 };
 		const sf::Vector2f pos(pairF(startPosition.x - box.margin, startPosition.y - box.margin));
 
 		if (background) { box.createBackground(pos, width, height); }
 		if (borders) { box.createBorders(pos, width, height); }
 
 		// create font map
-		m_font.fontMap.setScale(pairF(fontScale, fontScale));
+		m_font.fontMap.setScale(pairF(scale, scale));
 
-		m_font.fontMap.setPosition(pairF(startPosition.x + fontScale, startPosition.y + fontScale));
+		m_font.fontMap.setPosition(pairF(startPosition.x + scale, startPosition.y + scale));
 		m_font.setColor(m_font.fontColorBlack, true);
 		m_font.fontMap.load(m_font.fontImage, sf::Vector2u(2, m_font.characterHeight), m_font.currentString, messageWidthInTiles, messageRows);
 		fontContainer.push_back(m_font.fontMap);

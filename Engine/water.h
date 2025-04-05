@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
 #include <deque>
 #include "constExpressions.h"
 #include "maps.h"
@@ -58,7 +57,6 @@ public:
 		createWaterAnimations();
 
 	}
-
 
 	void update()
 	{
@@ -124,12 +122,7 @@ public:
 			delete[] pixels;
 			waterAnimationFrames.copy(image, i * width, 0);
 		}
-
-		//
-		//sf::Image image;
-		//image.create(width, height);
-		//waterAnimationFrames.copy(image, 0, 0);
-		//
+		
 		noise.noiseTexture.create(waterAnimationFrames.getSize().x, height);
 		noise.noiseTexture.loadFromImage(waterAnimationFrames);
 		noise.noise.setTexture(&noise.noiseTexture);

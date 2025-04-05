@@ -267,8 +267,8 @@ void ImageHandler::loadWestKagar()
 
 void ImageHandler::loadLights(RenderPipeline &scene)
 {
-    int width{ intify(View::getSceneSize().x * View::getPixelSize()) };
-    int height{ intify(View::getSceneSize().y * View::getPixelSize()) };
+    int width{ intify(View::getSceneSize().x) };
+    int height{ intify(View::getSceneSize().y) };
 
     scene.lightRender.clear();
 
@@ -281,7 +281,6 @@ void ImageHandler::loadLights(RenderPipeline &scene)
 
     // Draw diffuse map to normals pass with normals shader
     sf::RenderStates states;
-    states.transform.scale(pairF(View::getPixelSize(), View::getPixelSize()));
     states.shader = &scene.normalShader;
     scene.normalShader.setUniform("sampler_normal", scene.normal_map);
     scene.pass_normals.draw(sf::Sprite(scene.diffuse_map), states);

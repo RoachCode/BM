@@ -1,8 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "view.h"
 
-class Box : protected View
+class Box
 {
 private:
 	std::vector<bool> m_cornerArray
@@ -24,9 +23,6 @@ private:
 	};
 	void m_initCorner()
 	{
-		// get values from View class
-		int pixelSize{ getPixelSize() };
-
 		int size{ 14 };
 		cornerTexture.create(size, size);
 		cornerTextureBlack.create(size, size);
@@ -100,11 +96,10 @@ public:
 		bottomRight = sf::Color(255, 0, 0, 55);
 		bottomLeft = sf::Color(0, 0, 0, 55);
 
-		int pixelSize{ getPixelSize() };
-		borderOffset = 8 * pixelSize;
-		margin = 7 * pixelSize;
-		lineThickness = 6 * pixelSize;
-		cornerSize = 14 * pixelSize;
+		borderOffset = 8;
+		margin = 7;
+		lineThickness = 6;
+		cornerSize = 14;
 	}
 
 	void emptyContainers()
@@ -137,9 +132,6 @@ public:
 	}
 	void createBorders(sf::Vector2f startPosition, int width, int height)
 	{
-		// get values from View class
-		int pixelSize{ getPixelSize() };
-
 		#pragma region CORNERS
 		sf::Vertex TLa;
 		sf::Vertex TLb;
@@ -162,10 +154,10 @@ public:
 		sf::Vertex TRb;
 		sf::Vertex TRc;
 		sf::Vertex TRd;
-		TRa.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize), startPosition.y - lineThickness);
-		TRb.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize) + cornerSize, startPosition.y - lineThickness);
-		TRc.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize) + cornerSize, startPosition.y + cornerSize - lineThickness);
-		TRd.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize), startPosition.y + cornerSize - lineThickness);
+		TRa.position = pairF(startPosition.x - lineThickness + width - 2, startPosition.y - lineThickness);
+		TRb.position = pairF(startPosition.x - lineThickness + width - 2 + cornerSize, startPosition.y - lineThickness);
+		TRc.position = pairF(startPosition.x - lineThickness + width - 2 + cornerSize, startPosition.y + cornerSize - lineThickness);
+		TRd.position = pairF(startPosition.x - lineThickness + width - 2, startPosition.y + cornerSize - lineThickness);
 		TRa.texCoords = pairF(0.f, 0.f);
 		TRb.texCoords = pairF(14.f, 0.f);
 		TRc.texCoords = pairF(14.f, 14.f);
@@ -179,10 +171,10 @@ public:
 		sf::Vertex BRb;
 		sf::Vertex BRc;
 		sf::Vertex BRd;
-		BRa.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize), startPosition.y - lineThickness + height - (2 * pixelSize));
-		BRb.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize) + cornerSize, startPosition.y - lineThickness + height - (2 * pixelSize));
-		BRc.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize) + cornerSize, startPosition.y + cornerSize - lineThickness + height - (2 * pixelSize));
-		BRd.position = pairF(startPosition.x - lineThickness + width - (2 * pixelSize), startPosition.y + cornerSize - lineThickness + height - (2 * pixelSize));
+		BRa.position = pairF(startPosition.x - lineThickness + width - 2, startPosition.y - lineThickness + height - 2);
+		BRb.position = pairF(startPosition.x - lineThickness + width - 2 + cornerSize, startPosition.y - lineThickness + height - 2);
+		BRc.position = pairF(startPosition.x - lineThickness + width - 2 + cornerSize, startPosition.y + cornerSize - lineThickness + height - 2);
+		BRd.position = pairF(startPosition.x - lineThickness + width - 2, startPosition.y + cornerSize - lineThickness + height - 2);
 		BRb.texCoords = pairF(0.f, 0.f);
 		BRc.texCoords = pairF(14.f, 0.f);
 		BRd.texCoords = pairF(14.f, 14.f);
@@ -196,10 +188,10 @@ public:
 		sf::Vertex BLb;
 		sf::Vertex BLc;
 		sf::Vertex BLd;
-		BLa.position = pairF(startPosition.x - lineThickness, startPosition.y - lineThickness + height - (2 * pixelSize));
-		BLb.position = pairF(startPosition.x - lineThickness + cornerSize, startPosition.y - lineThickness + height - (2 * pixelSize));
-		BLc.position = pairF(startPosition.x - lineThickness + cornerSize, startPosition.y + cornerSize - lineThickness + height - (2 * pixelSize));
-		BLd.position = pairF(startPosition.x - lineThickness, startPosition.y + cornerSize - lineThickness + height - (2 * pixelSize));
+		BLa.position = pairF(startPosition.x - lineThickness, startPosition.y - lineThickness + height - 2);
+		BLb.position = pairF(startPosition.x - lineThickness + cornerSize, startPosition.y - lineThickness + height - 2);
+		BLc.position = pairF(startPosition.x - lineThickness + cornerSize, startPosition.y + cornerSize - lineThickness + height - 2);
+		BLd.position = pairF(startPosition.x - lineThickness, startPosition.y + cornerSize - lineThickness + height - 2);
 		BLc.texCoords = pairF(0.f, 0.f);
 		BLd.texCoords = pairF(14.f, 0.f);
 		BLa.texCoords = pairF(14.f, 14.f);
@@ -214,7 +206,7 @@ public:
 		{
 			sf::Vertex tempVertex;
 			tempVertex = border[i];
-			tempVertex.position = pairF(border[i].position.x + pixelSize, border[i].position.y + pixelSize);
+			tempVertex.position = pairF(border[i].position.x + 1, border[i].position.y + 1);
 			borderBlack.append(tempVertex);
 		}
 #pragma endregion
@@ -293,10 +285,10 @@ public:
 		sf::Vertex TBb;
 		sf::Vertex TBc;
 		sf::Vertex TBd;
-		TBa.position = pairF(startPosition.x + borderOffset + pixelSize, startPosition.y - lineThickness + pixelSize);
-		TBb.position = pairF(startPosition.x + width - borderOffset + pixelSize, startPosition.y - lineThickness + pixelSize);
-		TBc.position = pairF(startPosition.x + width - borderOffset + pixelSize, startPosition.y + pixelSize);
-		TBd.position = pairF(startPosition.x + borderOffset + pixelSize, startPosition.y + pixelSize);
+		TBa.position = pairF(startPosition.x + borderOffset + 1, startPosition.y - lineThickness + 1);
+		TBb.position = pairF(startPosition.x + width - borderOffset + 1, startPosition.y - lineThickness + 1);
+		TBc.position = pairF(startPosition.x + width - borderOffset + 1, startPosition.y + 1);
+		TBd.position = pairF(startPosition.x + borderOffset + 1, startPosition.y + 1);
 		TBa.color = borderColorBlack;
 		TBb.color = borderColorBlack;
 		TBc.color = borderColorBlack;
@@ -310,10 +302,10 @@ public:
 		sf::Vertex RBb;
 		sf::Vertex RBc;
 		sf::Vertex RBd;
-		RBa.position = pairF(startPosition.x + width + pixelSize, startPosition.y + borderOffset + pixelSize);
-		RBb.position = pairF(startPosition.x + width + lineThickness + pixelSize, startPosition.y + borderOffset + pixelSize);
-		RBc.position = pairF(startPosition.x + width + lineThickness + pixelSize, startPosition.y + height - borderOffset + pixelSize);
-		RBd.position = pairF(startPosition.x + width + pixelSize, startPosition.y + height - borderOffset + pixelSize);
+		RBa.position = pairF(startPosition.x + width + 1, startPosition.y + borderOffset + 1);
+		RBb.position = pairF(startPosition.x + width + lineThickness + 1, startPosition.y + borderOffset + 1);
+		RBc.position = pairF(startPosition.x + width + lineThickness + 1, startPosition.y + height - borderOffset + 1);
+		RBd.position = pairF(startPosition.x + width + 1, startPosition.y + height - borderOffset + 1);
 		RBa.color = borderColorBlack;
 		RBb.color = borderColorBlack;
 		RBc.color = borderColorBlack;
@@ -327,10 +319,10 @@ public:
 		sf::Vertex BBb;
 		sf::Vertex BBc;
 		sf::Vertex BBd;
-		BBa.position = pairF(startPosition.x + borderOffset + pixelSize, startPosition.y + height + pixelSize);
-		BBb.position = pairF(startPosition.x + width - borderOffset + pixelSize, startPosition.y + height + pixelSize);
-		BBc.position = pairF(startPosition.x + width - borderOffset + pixelSize, startPosition.y + height + lineThickness + pixelSize);
-		BBd.position = pairF(startPosition.x + borderOffset + pixelSize, startPosition.y + height + lineThickness + pixelSize);
+		BBa.position = pairF(startPosition.x + borderOffset + 1, startPosition.y + height + 1);
+		BBb.position = pairF(startPosition.x + width - borderOffset + 1, startPosition.y + height + 1);
+		BBc.position = pairF(startPosition.x + width - borderOffset + 1, startPosition.y + height + lineThickness + 1);
+		BBd.position = pairF(startPosition.x + borderOffset + 1, startPosition.y + height + lineThickness + 1);
 		BBa.color = borderColorBlack;
 		BBb.color = borderColorBlack;
 		BBc.color = borderColorBlack;
@@ -344,10 +336,10 @@ public:
 		sf::Vertex LBb;
 		sf::Vertex LBc;
 		sf::Vertex LBd;
-		LBa.position = pairF(startPosition.x - lineThickness + pixelSize, startPosition.y + borderOffset + pixelSize);
-		LBb.position = pairF(startPosition.x + pixelSize, startPosition.y + borderOffset + pixelSize);
-		LBc.position = pairF(startPosition.x + pixelSize, startPosition.y + height - borderOffset + pixelSize);
-		LBd.position = pairF(startPosition.x - lineThickness + pixelSize, startPosition.y + height - borderOffset + pixelSize);
+		LBa.position = pairF(startPosition.x - lineThickness + 1, startPosition.y + borderOffset + 1);
+		LBb.position = pairF(startPosition.x + 1, startPosition.y + borderOffset + 1);
+		LBc.position = pairF(startPosition.x + 1, startPosition.y + height - borderOffset + 1);
+		LBd.position = pairF(startPosition.x - lineThickness + 1, startPosition.y + height - borderOffset + 1);
 		LBa.color = borderColorBlack;
 		LBb.color = borderColorBlack;
 		LBc.color = borderColorBlack;

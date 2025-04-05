@@ -24,7 +24,6 @@ CharacterSprite::CharacterSprite(int id) : m_id(id)
 
     // Set sprite color (shader) and other renderstates
     setSpriteShader();
-    shaderSprite.sprite.setScale(pairF(View::getPixelSize(), View::getPixelSize()));
 
     // Set sprite texture rect (with animation flag boolean)
     m_clearAnimationFlags();
@@ -139,11 +138,11 @@ void CharacterSprite::setSpriteShader(SpriteColor colorEnum)
         break;
     }
 }
-void CharacterSprite::changeAnimationState(int x, int y, int pixelSize)
+void CharacterSprite::changeAnimationState(int x, int y)
 {
     const sf::Vector2f grid{
-        shaderSprite.sprite.getPosition().x / (TILE_SIZE * pixelSize),
-        shaderSprite.sprite.getPosition().y / (TILE_SIZE * pixelSize)
+        shaderSprite.sprite.getPosition().x / TILE_SIZE,
+        shaderSprite.sprite.getPosition().y / TILE_SIZE
     };
     //std::cout << std::to_string(sprite.getGlobalBounds().height * sprite.getScale().x) << '\n';
     // West Kagar Ladders
@@ -377,14 +376,14 @@ Character::Character(int id) : m_id(id), characterSprite(id)
     coordVector.push_back(0);
     coordVector.push_back(0);
 }
-void Character::follow(Character& leadingCharacter, int pixelSize)
+void Character::follow(Character& leadingCharacter)
 {
     int x{ leadingCharacter.coordVector.front() };
     int y{ leadingCharacter.coordVector[1] };
 
     if (intify(leadingCharacter.coordVector.size()) > 64 / leadingCharacter.movementStepSize)
     {
-        characterSprite.shaderSprite.sprite.move(pairF(x * movementStepSize * pixelSize, y * movementStepSize * pixelSize));
+        characterSprite.shaderSprite.sprite.move(pairF(x * movementStepSize, y * movementStepSize));
 
         leadingCharacter.coordVector.erase(leadingCharacter.coordVector.begin());
         leadingCharacter.coordVector.erase(leadingCharacter.coordVector.begin());
@@ -392,7 +391,7 @@ void Character::follow(Character& leadingCharacter, int pixelSize)
         coordVector.push_back(x);
         coordVector.push_back(y);
         
-        characterSprite.changeAnimationState(x, y, pixelSize);
+        characterSprite.changeAnimationState(x, y);
     }
 }
 void Character::swapOrder(Character& otherCharacter)
