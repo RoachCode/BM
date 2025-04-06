@@ -1,7 +1,6 @@
 #pragma once
 #pragma warning( disable : 4018 ) // signed/unsigned mismatch in conditionals is OK.
 #include <SFML/Graphics.hpp>
-#include <deque>
 #include "constExpressions.h"
 #include "view.h"
 #include "menu.h"
@@ -16,7 +15,7 @@
 #include "textbox.h"
 #include "light.h"
 
-class Window : public sf::RenderWindow, public Noise, public View
+class Window : public sf::RenderWindow, public Noise, protected View
 {
 public:
 	// Call constructor, which calls inherited constructor from sf::RenderWindow

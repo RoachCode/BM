@@ -52,7 +52,7 @@ int main()
 	};
 #pragma endregion
 	//window.DEV_TOOLS.toggleFreeMovement();
-	window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
+	//window.setVerticalSyncEnabled(true); // disable to see true, unhindered loop time in ms
 	window.setMouseCursorVisible(false);
 
 	//window.drawParticles(sf::Color(255, 255, 255, 30)); // quite slow, even when not drawing. fixit.
@@ -65,12 +65,12 @@ int main()
         window.clear(sf::Color(128, 128, 255, 255));
 		window.addDevToolsText();
 
-        window.drawTileMapsBack();
+        //window.drawTileMapsBack();
         window.drawWaterTile();
-		window.drawCharacterSprites();
-        window.drawTileMapsFront();
-        window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
-		window.drawMenu();
+		//window.drawCharacterSprites();
+        //window.drawTileMapsFront();
+        //window.drawFullSimplex(sf::Vector2f(-1.f, -0.35f));
+		//window.drawMenu();
 		window.drawText();
 
 		//DEBUG(window.DEV_TOOLS.getFPS());

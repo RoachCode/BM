@@ -2,6 +2,7 @@
 #pragma warning( disable : 4244 ) // Line 111. I want to perform a narrowing conversion.
 #include "OpenSimplexNoise.h"
 #include "constExpressions.h"
+#include <deque>
 
 class Noise
 {

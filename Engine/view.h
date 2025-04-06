@@ -38,7 +38,7 @@ private:
 	void m_setSceneSize()
 	{
 		//todo: add more scenes
-		m_sceneSize = sf::Vector2u(32 * TILES_PER_CHUNK_X * 3, 32 * TILES_PER_CHUNK_Y * 3);
+		m_sceneSize = sf::Vector2u(TILE_SIZE * TILES_PER_CHUNK_X * 4, TILE_SIZE * TILES_PER_CHUNK_Y * 4);
 	}
 
 	void m_move(sf::Vector2f offset)

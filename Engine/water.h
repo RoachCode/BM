@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <deque>
 #include "constExpressions.h"
 #include "maps.h"
 #include "noise.h"
@@ -19,6 +18,26 @@ public:
 	int width;
 	int height;
 
+	Water()
+	{
+		width = TILE_SIZE;
+		height = TILE_SIZE;
+
+		noise.m_simplexSizeX = TILE_SIZE;
+		noise.m_simplexSizeY = TILE_SIZE;
+		noise.noise.setSize(pairF(TILE_SIZE, TILE_SIZE));
+
+		noise.isWater = true;
+		animationDepth = 300;
+		noise.stepSize = 0.03f;
+		noise.startOctave = 1;
+
+		waterAnimationFrames.create(TILE_SIZE * animationDepth, TILE_SIZE);
+		noise.noiseTexture.create(TILE_SIZE * animationDepth, TILE_SIZE);
+
+		createWaterTileMapArray();
+		createWaterAnimations();
+	}
 	void createWaterTileMapArray()
 	{
 		if (!westKagarWater.size())
@@ -36,28 +55,39 @@ public:
 			}
 		}
 	}
-
-	Water()
+	void createWaterAnimations()
 	{
-		noise.m_simplexSizeX = TILE_SIZE;
-		noise.m_simplexSizeY = TILE_SIZE;
-		width = noise.m_simplexSizeX;
-		height = noise.m_simplexSizeY;
+		for (int i = 0; i < animationDepth; i++)
+		{
+			noise.qdMod = noise.stepSize * i;
+			noise.m_initSimplex(width, height, 4);
 
-		noise.noise.setSize(pairF(width, height));
-		noise.isWater = true;
-		animationDepth = 300;
-		noise.stepSize = 0.03f;
-		noise.startOctave = 1;
+			const int x{ intify(noise.m_simplexSizeX) };
+			const int y{ intify(noise.m_simplexSizeY) };
+			noise.noise.setSize(pairF(x, y));
 
-		waterAnimationFrames.create(width * animationDepth, height);
-		//noise.m_initSimplex(width, height, 2);
+			sf::Uint8* pixels = new sf::Uint8[width * height * 4];
+			for (int j = 0; j < width * height; j++)
+			{
+				// invert
+				noise.m_simplexData[j] = 255 - noise.m_simplexData[j];
+				// clamp
+				pixels[j * 4 + 0] = noise.m_simplexData[j] / 5;
+				pixels[j * 4 + 1] = noise.m_simplexData[j] / 3;
+				pixels[j * 4 + 2] = noise.m_simplexData[j] / 2;
+				pixels[j * 4 + 3] = noise.m_simplexData[j] / 1.75;
 
-		createWaterTileMapArray();//
-		createWaterAnimations();
-
+			}
+			sf::Image image;
+			image.create(width, height, pixels);
+			delete[] pixels;
+			waterAnimationFrames.copy(image, i * width, 0);
+		}
+		
+		noise.noiseTexture.create(waterAnimationFrames.getSize().x, height);
+		noise.noiseTexture.loadFromImage(waterAnimationFrames);
+		noise.noise.setTexture(&noise.noiseTexture);
 	}
-
 	void update()
 	{
 		sf::Time elapsed = clock.getElapsedTime();
@@ -92,39 +122,5 @@ public:
 				animationTime = 0;
 			}
 		}
-	}
-
-	void createWaterAnimations()
-	{
-		for (int i = 0; i < animationDepth; i++)
-		{
-			noise.qdMod = noise.stepSize * i;
-			noise.m_initSimplex(width, height, 4);
-
-			const int x{ intify(noise.m_simplexSizeX) };
-			const int y{ intify(noise.m_simplexSizeY) };
-			noise.noise.setSize(pairF(x, y));
-
-			sf::Uint8* pixels = new sf::Uint8[width * height * 4];
-			for (int j = 0; j < width * height; j++)
-			{
-				// invert
-				noise.m_simplexData[j] = 255 - noise.m_simplexData[j];
-				// clamp
-				pixels[j * 4 + 0] = noise.m_simplexData[j] / 5;
-				pixels[j * 4 + 1] = noise.m_simplexData[j] / 3;
-				pixels[j * 4 + 2] = noise.m_simplexData[j] / 2;
-				pixels[j * 4 + 3] = noise.m_simplexData[j] / 1.75;
-
-			}
-			sf::Image image;
-			image.create(width, height, pixels);
-			delete[] pixels;
-			waterAnimationFrames.copy(image, i * width, 0);
-		}
-		
-		noise.noiseTexture.create(waterAnimationFrames.getSize().x, height);
-		noise.noiseTexture.loadFromImage(waterAnimationFrames);
-		noise.noise.setTexture(&noise.noiseTexture);
 	}
 };

@@ -469,8 +469,6 @@ void Window::drawParticles(sf::Color color)
 // Noise Functions
 void Window::setPositionAndDraw(float x, float y)
 {
-	sf::Vector2f noiseOrigin = pairF(x, y);
-
 	for (int i = -1; i < 5; i++)
 	{
 		for (int j = -1; j < 5; j++)
@@ -569,12 +567,12 @@ void Window::addDevToolsText()
 	textBox.emptyContainers();
 	importantTextBox.emptyContainers();
 
-	std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
+	//std::string longString{ "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the masterbuilder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful." }; 
 	//std::string longString{ "I want nachos. They will be made. I will put cheese on them because that's what makes nachos nachos. NACHOS. What else do you want on them? Onions? No onions. No veggies. Only quiche, yams, and meaty nachos." };
 	//std::string longString{ "Hey! How's it going? Let's test these chars! Oh yeah! Hello, allowed, initiate..." };
-	textBox.box.setBackgroundColor(sf::Color::Black);
-	textBox.box.setBackgroundAlpha(150);
-	addText(longString, pairF(250, 250), 1, 800);
+	//textBox.box.setBackgroundColor(sf::Color::Black);
+	//textBox.box.setBackgroundAlpha(150);
+	//addText(longString, pairF(250, 250), 1, 800);
 
 	int devToolsTextSize{ 2 };
 	addText("FPS: " + this->DEV_TOOLS.getFPS(), getViewCoordinates(UL), devToolsTextSize, 0, true, true, true);
